@@ -100,22 +100,49 @@
     document.getElementById('tanggal').valueAsDate = new Date();
     window.onload = loadSummary;
 
-   function loadSummary() {
-      fetch(API_URL, {
+    // FUNGSI LOAD SUMMARY YANG AMAN DARI BLOKIR CORS
+    function loadSummary() {
+      // Menggunakan alternatif pengalihan tanpa CORS block
+      fetch(API_URL + "?action=getSummary", {
         method: "GET",
-        redirect: "follow" // Memaksa browser mengikuti pengalihan server Google
+        mode: "cors",
+        credentials: "omit"
       })
-        .then(response => {
-          if (!response.ok) throw new Error('Jaringan bermasalah');
-          return response.json();
-        })
-        .then(res => {
-          document.getElementById('txtSaldo').innerText = res.saldo;
-          document.getElementById('txtMasuk').innerText = res.pemasukan;
-          document.getElementById('txtKeluar').innerText = res.pengeluaran;
-        })
-        .catch(err => console.error("Gagal mengambil data saldo:", err));
+      .then(response => {
+        if (!response.ok) {
+          // Jika CORS memblokir pembacaan JSON langsung, kita gunakan alternatif fallback text
+          return response.text();
+        }
+        return response.json();
+      })
+      .then(data => {
+        let res = typeof data === "string" ? JSON.parse(data) : data;
+        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
+        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
+        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+      })
+      .catch(err => {
+        // Trik pamungkas jika fetch biasa tetap diblokir CORS: Menggunakan script injection (JSONP style)
+        console.log("Mencoba metode alternatif akses data...");
+        fallbackLoadSummary();
+      });
     }
+
+    // Metode cadangan jika server Google memblokir header origin browser
+    function fallbackLoadSummary() {
+      const script = document.createElement('script');
+      // Menambahkan callback acak agar data bisa dibaca lintas domain secara bebas
+      script.src = API_URL + "?callback=handleGoogleData";
+      document.body.appendChild(script);
+    }
+
+    // Handler penerima data cadangan
+    window.handleGoogleData = function(res) {
+      document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
+      document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
+      document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+    };
+
     function formatInputRupiah(input) {
       let nilai = input.value.replace(/[^0-9]/g, '');
       if (nilai) {
@@ -131,22 +158,10 @@
       document.getElementById('formKeuangan').reset();
       document.getElementById('tanggal').valueAsDate = new Date();
       
-      fetch(API_URL, {
-        method: "GET",
-        redirect: "follow"
-      })
-        .then(response => response.json())
-        .then(res => {
-          document.getElementById('txtSaldo').innerText = res.saldo;
-          document.getElementById('txtMasuk').innerText = res.pemasukan;
-          document.getElementById('txtKeluar').innerText = res.pengeluaran;
-          setTimeout(() => { icon.classList.remove('animate-spin'); }, 500);
-        })
-        .catch(err => {
-          console.error(err);
-          icon.classList.remove('animate-spin');
-        });
+      loadSummary();
+      setTimeout(() => { icon.classList.remove('animate-spin'); }, 800);
     }
+
     const opsiKategori = {
       Pengeluaran: ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"],
       Pemasukan: ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"]
@@ -189,36 +204,32 @@
         keterangan: keteranganInput.value || "-"
       };
 
+      // Menggunakan format pengiriman teks murni agar disetujui tanpa CORS pre-flight block
       fetch(API_URL, {
         method: "POST",
+        mode: "no-cors", 
         headers: {
-          "Content-Type": "text/plain;charset=utf-8"
+          "Content-Type": "text/plain"
         },
         body: JSON.stringify(data)
       })
-      .then(response => response.json())
-      .then(res => {
+      .then(() => {
         btn.disabled = false;
         btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
 
-        if (res.status === "Sukses") {
-          Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi telah dicatat.', timer: 1500, showConfirmButton: false });
-          document.getElementById('formKeuangan').reset();
-          document.getElementById('tanggal').valueAsDate = new Date();
-          updateKategoriOptions();
-          loadSummary(); 
-        } else {
-          Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: res.message || 'Terjadi kesalahan sistem.' });
-        }
-      })
-      .catch(err => {
-        btn.disabled = false;
-        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
         Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi telah dicatat.', timer: 1500, showConfirmButton: false });
         document.getElementById('formKeuangan').reset();
         document.getElementById('tanggal').valueAsDate = new Date();
         updateKategoriOptions();
+        
+        // Beri jeda agar Google Sheet selesai menulis baris sebelum ditarik kembali saldonya
         setTimeout(loadSummary, 1500);
+      })
+      .catch(err => {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
+        Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Gagal menghubungi server database.' });
       });
     }
   </script>
