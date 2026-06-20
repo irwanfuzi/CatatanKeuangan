@@ -100,9 +100,15 @@
     document.getElementById('tanggal').valueAsDate = new Date();
     window.onload = loadSummary;
 
-    function loadSummary() {
-      fetch(API_URL)
-        .then(response => response.json())
+   function loadSummary() {
+      fetch(API_URL, {
+        method: "GET",
+        redirect: "follow" // Memaksa browser mengikuti pengalihan server Google
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Jaringan bermasalah');
+          return response.json();
+        })
         .then(res => {
           document.getElementById('txtSaldo').innerText = res.saldo;
           document.getElementById('txtMasuk').innerText = res.pemasukan;
@@ -110,7 +116,6 @@
         })
         .catch(err => console.error("Gagal mengambil data saldo:", err));
     }
-
     function formatInputRupiah(input) {
       let nilai = input.value.replace(/[^0-9]/g, '');
       if (nilai) {
@@ -126,7 +131,10 @@
       document.getElementById('formKeuangan').reset();
       document.getElementById('tanggal').valueAsDate = new Date();
       
-      fetch(API_URL)
+      fetch(API_URL, {
+        method: "GET",
+        redirect: "follow"
+      })
         .then(response => response.json())
         .then(res => {
           document.getElementById('txtSaldo').innerText = res.saldo;
@@ -139,7 +147,6 @@
           icon.classList.remove('animate-spin');
         });
     }
-
     const opsiKategori = {
       Pengeluaran: ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"],
       Pemasukan: ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"]
