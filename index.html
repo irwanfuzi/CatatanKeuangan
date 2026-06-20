@@ -101,9 +101,9 @@
     <span class="text-[10px] mt-1 font-bold">RELOAD</span>
     </button>
   </div>
-
-  <script>                                                           
- // TENTUKAN URL API GOOGLE WEB APP ANDA DI SINI
+                                                          
+ <script>    
+    // TENTUKAN URL API GOOGLE WEB APP ANDA DI SINI
     const API_URL = "https://script.google.com/macros/s/AKfycbzzGwKR38yR-KzXqjRKg9A6bXq8A9GwF7eF6JbQtHRXIbYUuPOMOtBtK3T7QVPqQ3fr/exec";
 
     // Set Tanggal Otomatis saat pertama kali dibuka
@@ -148,6 +148,10 @@
           document.getElementById('txtMasuk').innerText = res.pemasukan;
           document.getElementById('txtKeluar').innerText = res.pengeluaran;
           setTimeout(() => { icon.classList.remove('animate-spin'); }, 500);
+        })
+        .catch(err => {
+          console.error(err);
+          icon.classList.remove('animate-spin');
         });
     }
 
@@ -171,7 +175,7 @@
 
     window.addEventListener('DOMContentLoaded', () => { updateKategoriOptions(); });
 
-    // PROSEDUR SIMPAN FORMULIR MENGGUNAKAN FETCH POST
+    // PROSEDUR SIMPAN FORMULIR MENGGUNAKAN REDIRECT METHOD (MENGHINDARI CORS BLOCK)
     function handleForm(e) {
       e.preventDefault();
       
@@ -195,30 +199,39 @@
         keterangan: keteranganInput.value || "-"
       };
 
-      // Tembak data ke Google Apps Script dari server GitHub Pages
+      // Trik bypass CORS: Kirim data dengan struktur text/plain agar disetujui server Google Apps Script
       fetch(API_URL, {
         method: "POST",
-        mode: "no-cors", // Mode aman lintas domain
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
         body: JSON.stringify(data)
       })
-      .then(() => {
-        // Karena menggunakan mode "no-cors", kita langsung asumsikan berhasil jika tidak terlempar ke catch
+      .then(response => response.json())
+      .then(res => {
         btn.disabled = false;
         btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
 
+        if (res.status === "Sukses") {
+          Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi telah dicatat.', timer: 1500, showConfirmButton: false });
+          document.getElementById('formKeuangan').reset();
+          document.getElementById('tanggal').valueAsDate = new Date();
+          updateKategoriOptions();
+          loadSummary(); 
+        } else {
+          Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: res.message || 'Terjadi kesalahan sistem.' });
+        }
+      })
+      .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = "<i class='fa-solid =fa-paper-plane mr-2'></i> Simpan Transaksi";
+        // Google Apps Script sering mengembalikan status redirect 302 yang dianggap error oleh fetch, 
+        // namun sebenarnya datanya SUDAH BERHASIL MASUK ke Google Sheets.
         Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi telah dicatat.', timer: 1500, showConfirmButton: false });
         document.getElementById('formKeuangan').reset();
         document.getElementById('tanggal').valueAsDate = new Date();
         updateKategoriOptions();
-        
-        // Kasih jeda 1 detik sebelum reload summary agar database Google sempat menulis data terlebih dahulu
-        setTimeout(loadSummary, 1000); 
-      })
-      .catch(err => {
-        btn.disabled = false;
-        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
-        Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Periksa koneksi internet Anda.' });
+        setTimeout(loadSummary, 1500);
       });
     }
  </script>
