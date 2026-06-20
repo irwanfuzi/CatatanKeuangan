@@ -93,54 +93,39 @@
       <span class="text-[10px] mt-1 font-bold">RELOAD</span>
     </button>
   </div>
-
-  <script>                                                                           
+<script>                                                                           
     const API_URL = "https://script.google.com/macros/s/AKfycbzzGwKR38yR-KzXqjRKg9A6bXq8A9GwF7eF6JbQtHRXIbYUuPOMOtBtK3T7QVPqQ3fr/exec";
 
     document.getElementById('tanggal').valueAsDate = new Date();
+    
+    // Langsung jalankan fungsi penarikan data saldo saat halaman terbuka
     window.onload = loadSummary;
 
-    // FUNGSI LOAD SUMMARY YANG AMAN DARI BLOKIR CORS
+    // 1. FUNGSI AMBIL DATA SALDO (Menggunakan Metode JSONP agar Kebal CORS)
     function loadSummary() {
-      // Menggunakan alternatif pengalihan tanpa CORS block
-      fetch(API_URL + "?action=getSummary", {
-        method: "GET",
-        mode: "cors",
-        credentials: "omit"
-      })
-      .then(response => {
-        if (!response.ok) {
-          // Jika CORS memblokir pembacaan JSON langsung, kita gunakan alternatif fallback text
-          return response.text();
-        }
-        return response.json();
-      })
-      .then(data => {
-        let res = typeof data === "string" ? JSON.parse(data) : data;
-        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
-        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
-        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
-      })
-      .catch(err => {
-        // Trik pamungkas jika fetch biasa tetap diblokir CORS: Menggunakan script injection (JSONP style)
-        console.log("Mencoba metode alternatif akses data...");
-        fallbackLoadSummary();
-      });
-    }
+      // Menghapus skrip lama jika ada agar tidak menumpuk di memori browser
+      const oldScript = document.getElementById('google-jsonp-script');
+      if (oldScript) oldScript.remove();
 
-    // Metode cadangan jika server Google memblokir header origin browser
-    function fallbackLoadSummary() {
+      // Membuat elemen skrip baru untuk menembak server Google
       const script = document.createElement('script');
-      // Menambahkan callback acak agar data bisa dibaca lintas domain secara bebas
-      script.src = API_URL + "?callback=handleGoogleData";
+      script.id = 'google-jsonp-script';
+      // Kita kirimkan parameter callback otomatis ke Google Script
+      script.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
       document.body.appendChild(script);
     }
 
-    // Handler penerima data cadangan
+    // 2. FUNGSI MENAMPILKAN DATA (Dipanggil otomatis setelah Google merespons)
     window.handleGoogleData = function(res) {
-      document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
-      document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
-      document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+      if (res) {
+        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
+        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
+        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+      }
+      
+      // Hentikan putaran animasi tombol reload jika sedang aktif
+      const icon = document.getElementById('iconReload');
+      if (icon) icon.classList.remove('animate-spin');
     };
 
     function formatInputRupiah(input) {
@@ -158,8 +143,8 @@
       document.getElementById('formKeuangan').reset();
       document.getElementById('tanggal').valueAsDate = new Date();
       
+      // Panggil ulang penarikan data
       loadSummary();
-      setTimeout(() => { icon.classList.remove('animate-spin'); }, 800);
     }
 
     const opsiKategori = {
@@ -181,6 +166,7 @@
 
     window.addEventListener('DOMContentLoaded', () => { updateKategoriOptions(); });
 
+    // 3. FUNGSI KIRIM DATA TRANSAKSI
     function handleForm(e) {
       e.preventDefault();
       
@@ -204,7 +190,7 @@
         keterangan: keteranganInput.value || "-"
       };
 
-      // Menggunakan format pengiriman teks murni agar disetujui tanpa CORS pre-flight block
+      // Gunakan mode no-cors untuk POST agar data lolos masuk ke Google Sheets tanpa hambatan preflight
       fetch(API_URL, {
         method: "POST",
         mode: "no-cors", 
@@ -222,7 +208,7 @@
         document.getElementById('tanggal').valueAsDate = new Date();
         updateKategoriOptions();
         
-        // Beri jeda agar Google Sheet selesai menulis baris sebelum ditarik kembali saldonya
+        // Kasih jeda 1.5 detik agar Google Sheets selesai menulis sel baru sebelum ditarik saldonya kembali
         setTimeout(loadSummary, 1500);
       })
       .catch(err => {
@@ -233,6 +219,6 @@
       });
     }
   </script>
-</body>
+  </body>
 
 </html>
