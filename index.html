@@ -45,7 +45,7 @@
 
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <div id="pageHome" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6 active-page">
+    <div id="pageHome" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
       <h3 class="text-lg font-bold text-slate-800 mb-4">Tambah Transaksi</h3>
 
       <form id="formKeuangan" onsubmit="handleForm(event)">
@@ -77,9 +77,15 @@
           <input type="text" id="keterangan" placeholder="Contoh: Beli nasi goreng " class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required>
         </div>
 
-        <button type="submit" id="btnSimpan" class="w-full bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-emerald-200 shadow-lg hover:bg-emerald-700 transition-all">
-          <i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi
-        </button>
+        <div class="flex gap-3 w-full">
+          <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-emerald-200 shadow-lg hover:bg-emerald-700 transition-all active:scale-95">
+            <i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi
+          </button>
+          
+          <button type="button" onclick="tombolReloadPintar()" class="bg-slate-100 text-slate-600 font-bold px-5 rounded-2xl border border-slate-200 shadow-sm hover:bg-slate-200 transition-all active:scale-95 focus:outline-none flex items-center justify-center">
+            <i id="iconReload" class="fa-solid fa-rotate text-lg"></i>
+          </button>
+        </div>
       </form>
     </div>
 
@@ -94,21 +100,16 @@
 
   </div>
 
-  <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-6 flex justify-around z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
+  <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-16 flex justify-around z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
     
-    <button id="navHome" onclick="tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[60px] active:scale-95 transition-transform focus:outline-none">
+    <button id="navHome" onclick="tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">HOME</span>
     </button>
     
-    <button id="navRiwayat" onclick="tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[60px] active:scale-95 transition-transform focus:outline-none">
+    <button id="navRiwayat" onclick="tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">RIWAYAT</span>
-    </button>
-    
-    <button onclick="tombolReloadPintar()" class="text-slate-400 flex flex-col items-center min-w-[60px] active:scale-95 transition-transform focus:outline-none">
-      <i id="iconReload" class="fa-solid fa-rotate text-xl mb-1"></i>
-      <span class="text-[10px] font-bold tracking-wider">RELOAD</span>
     </button>
 
   </div>
@@ -119,7 +120,6 @@
     document.getElementById('tanggal').valueAsDate = new Date();
     window.onload = loadSummary;
 
-    // FUNGSI UTAMA TUKAR HALAMAN (TAB SYSTEM)
     function tukarHalaman(menu) {
       const pageHome = document.getElementById('pageHome');
       const pageRiwayat = document.getElementById('pageRiwayat');
@@ -129,19 +129,13 @@
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
-        
-        // Tukar warna aktif ikon navigasi
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
         navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
         pageRiwayat.classList.remove('hidden');
-        
-        // Tukar warna aktif ikon navigasi
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
-        
-        // Muat semula data riwayat memastikan data paling terkini dipaparkan
         loadSummary();
       }
     }
@@ -223,9 +217,6 @@
       document.getElementById('formKeuangan').reset();
       document.getElementById('tanggal').valueAsDate = new Date();
       loadSummary();
-      
-      // Kembalikan paparan ke halaman home selepas reload ditindas
-      tukarHalaman('home');
     }
 
     const opsiKategori = {
@@ -287,7 +278,6 @@
         document.getElementById('tanggal').valueAsDate = new Date();
         updateKategoriOptions();
         
-        // Pindah automatik ke halaman Riwayat selepas berjaya simpan untuk melihat hasilnya
         tukarHalaman('riwayat');
       })
       .catch(err => {
