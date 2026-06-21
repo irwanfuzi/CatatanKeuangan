@@ -146,10 +146,12 @@
 
       <div class="w-full flex flex-col gap-4">
         <h3 class="text-lg font-bold text-slate-800 px-1">Daftar Transaksi</h3>
+        
         <div id="loadingRiwayat" class="text-slate-400 text-sm py-8 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
           <i class="fa-solid fa-spinner animate-spin mr-2 text-emerald-600 text-base"></i>Memuat riwayat...
         </div>
-        <div id="listRiwayat" class="space-y-6 hidden">
+        
+        <div id="listRiwayat" class="space-y-4 max-h-[420px] overflow-y-auto hidden pr-1">
         </div>
       </div>
       
@@ -199,7 +201,7 @@
         pageRiwayat.classList.add('hidden');
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
         navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
-        window.loadSummary(); // Tetap update summary info saat kembali ke home
+        window.loadSummary(); 
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
         pageRiwayat.classList.remove('hidden');
@@ -292,7 +294,7 @@
           });
 
           listContainer.insertAdjacentHTML('beforeend', `
-            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col">
+            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-4">
               <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
                 <span>${formatTanggalIndo(tgl)}</span>
                 <span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span>
