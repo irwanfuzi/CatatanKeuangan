@@ -126,12 +126,15 @@
     }
 
     window.handleGoogleData = function(res) {
+      // Pastikan putaran ikon reload berhenti terlebih dahulu apa pun yang terjadi
+      const icon = document.getElementById('iconReload');
+      if (icon) icon.classList.remove('animate-spin');
+
       if (res) {
         document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
         document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
         document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
         
-        // PROSES MENAMPILKAN RIWAYAT
         const listContainer = document.getElementById('listRiwayat');
         listContainer.innerHTML = "";
         
@@ -140,20 +143,20 @@
             const isMasuk = item.jenis === "Pemasukan";
             const warnaTeks = isMasuk ? "text-emerald-600" : "text-rose-600";
             const simbol = isMasuk ? "+" : "-";
-            const iconBulat = isMasuk ? "fa-arrow-trend-up text-emerald-600 bg-emerald-50" : "fa-arrow-trend-down text-rose-600 bg-rose-50";
+            const iconFontAwesome = isMasuk ? "fa-arrow-trend-up" : "fa-arrow-trend-down";
+            const bgWarnaIcon = isMasuk ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50";
             
-            // Format nominal rupiah untuk list
-            const nomFormatted = "Rp " + item.nominal.toLocaleString('id-ID');
+            const nomFormatted = "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
 
             const itemHTML = `
               <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 flex items-center justify-center rounded-xl text-sm ${iconBulat}">
-                    <i class="fa-solid"></i>
+                  <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs ${bgWarnaIcon}">
+                    <i class="fa-solid ${iconFontAwesome}"></i>
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-slate-800">${item.keterangan}</h4>
-                    <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${item.tanggal}</p>
+                    <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${item.tanggal}</p>
                   </div>
                 </div>
                 <div class="text-right">
@@ -170,8 +173,6 @@
           document.getElementById('loadingRiwayat').innerHTML = "<div class='text-slate-400 py-2'>Belum ada transaksi dicatat.</div>";
         }
       }
-      const icon = document.getElementById('iconReload');
-      if (icon) icon.classList.remove('animate-spin');
     };
 
     function formatInputRupiah(input) {
@@ -185,7 +186,7 @@
 
     function tombolReloadPintar() {
       const icon = document.getElementById('iconReload');
-      icon.classList.add('animate-spin'); 
+      if (icon) icon.classList.add('animate-spin'); 
       document.getElementById('formKeuangan').reset();
       document.getElementById('tanggal').valueAsDate = new Date();
       loadSummary();
