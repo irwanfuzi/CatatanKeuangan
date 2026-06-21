@@ -103,45 +103,45 @@
 
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
-      <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-base font-bold text-slate-800 mb-3"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor Laporan</h3>
-        <div class="grid grid-cols-2 gap-3 mb-4">
+      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor Laporan</h3>
+        <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">DARI</label>
-            <input type="date" id="filterMulai" onchange="window.prosesFilterData()" class="w-full p-2.5 bg-slate-50 text-sm rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-700">
+            <label class="block text-[13px] font-bold text-slate-400 mb-1.5 tracking-wide">DARI TANGGAL</label>
+            <input type="date" id="filterMulai" onchange="window.prosesFilterData()" class="w-full p-3 bg-slate-50 text-base rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700">
           </div>
           <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">SAMPAI</label>
-            <input type="date" id="filterSelesai" onchange="window.prosesFilterData()" class="w-full p-2.5 bg-slate-50 text-sm rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-700">
+            <label class="block text-[13px] font-bold text-slate-400 mb-1.5 tracking-wide">SAMPAI TANGGAL</label>
+            <input type="date" id="filterSelesai" onchange="window.prosesFilterData()" class="w-full p-3 bg-slate-50 text-base rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700">
           </div>
         </div>
         
-        <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-3">
-          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-200 text-rose-600 font-bold text-sm p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
-            <i class="fa-solid fa-file-pdf text-base"></i> Unduh PDF
+        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100 text-rose-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+            <i class="fa-solid fa-file-pdf text-lg"></i> Unduh PDF
           </button>
-          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold text-sm p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
-            <i class="fa-solid fa-file-excel text-base"></i> Unduh Excel
+          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-100 text-emerald-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+            <i class="fa-solid fa-file-excel text-lg"></i> Unduh Excel
           </button>
         </div>
       </div>
 
-      <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-lg font-bold text-slate-800 mb-1">Analisis Pengeluaran</h3>
-        <p class="text-[12px] text-slate-400 mb-4 font-semibold">Proporsi persentase pembagian pos pengeluaran Anda</p>
+      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-xl font-bold text-slate-800 mb-1">Analisis Pengeluaran</h3>
+        <p class="text-[13px] text-slate-400 mb-5 font-semibold">Proporsi persentase pembagian pos pengeluaran Anda</p>
         
         <div class="w-full flex flex-col md:flex-row items-center justify-center gap-6 py-2">
-          <div class="relative w-[160px] h-[160px] flex-shrink-0 flex items-center justify-center">
+          <div class="relative w-[170px] h-[170px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-2">
-              <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Total Pos</span>
-              <span id="chartCenterTotal" class="text-sm font-bold text-slate-800 truncate px-2 max-w-[120px]">Rp 0</span>
+              <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase">Total Pos</span>
+              <span id="chartCenterTotal" class="text-base font-bold text-slate-800 truncate px-2 max-w-[130px]">Rp 0</span>
             </div>
           </div>
-          <div id="customLegendContainer" class="w-full flex flex-col gap-2 text-[13px] font-semibold text-slate-600 max-h-[180px] overflow-y-auto pr-1">
+          <div id="customLegendContainer" class="w-full flex flex-col gap-2.5 text-[14px] font-semibold text-slate-600 max-h-[200px] overflow-y-auto pr-1">
           </div>
         </div>
-        <div id="noChartData" class="text-center text-sm text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
+        <div id="noChartData" class="text-center text-base text-slate-400 py-6 font-semibold hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
       </div>
 
       <div class="w-full flex flex-col gap-4">
@@ -344,16 +344,17 @@
       document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
+      // Memperbesar ukuran teks informasi di dalam box legenda samping (text-[13px] & text-[12px])
       labels.forEach((kat, i) => {
         if (values[i] > 0) {
           const persen = ((values[i] / total) * 100).toFixed(1);
           legendContainer.insertAdjacentHTML('beforeend', `
-            <div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
-              <div class="flex items-center gap-2 truncate max-w-[60%]">
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
+              <div class="flex items-center gap-2 truncate max-w-[55%]">
                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:${daftarWarna[i%6]}"></span>
-                <span class="text-slate-700 font-bold text-[12px] truncate">${kat}</span>
+                <span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span>
               </div>
-              <div class="text-right flex-shrink-0 font-bold text-[12px]">
+              <div class="text-right flex-shrink-0 font-bold text-[13px]">
                 <span class="text-slate-800">Rp ${values[i].toLocaleString('id-ID')}</span>
                 <span class="text-slate-400 ml-1 text-[11px] font-semibold">(${persen}%)</span>
               </div>
