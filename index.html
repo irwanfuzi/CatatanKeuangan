@@ -49,9 +49,8 @@
         <div class="mb-4"><label class="block text-xs font-semibold text-slate-500 mb-1">KATEGORI</label><select id="kategori" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none"></select></div>
         <div class="mb-4"><label class="block text-xs font-semibold text-slate-500 mb-1">NOMINAL (Rp)</label><input type="text" id="nominal" placeholder="Contoh: 50.000" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required></div>
         <div class="mb-4"><label class="block text-xs font-semibold text-slate-500 mb-1">KETERANGAN</label><input type="text" id="keterangan" placeholder="Contoh: Beli nasi goreng " class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required></div>
-        
         <div class="flex gap-3 w-full">
-          <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-lg hover:bg-emerald-700 transition-all active:scale-95"><i class="fa-solid fa-paper-plane mr-2"></i> Simpan</button>
+          <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-lg hover:bg-emerald-700 transition-all active:scale-95"><i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi</button>
           <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100 text-slate-600 font-bold px-5 rounded-2xl border border-slate-200 shadow-sm transition-all active:scale-95"><i id="iconReload" class="fa-solid fa-rotate"></i></button>
         </div>
       </form>
@@ -60,7 +59,7 @@
 
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-base font-bold text-slate-800 mb-3"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor</h3>
+        <h3 class="text-base font-bold text-slate-800 mb-3"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor Laporan</h3>
         <div class="grid grid-cols-2 gap-3 mb-4"><input type="date" id="filterMulai" onchange="window.prosesFilterData()" class="w-full p-2.5 bg-slate-50 text-sm rounded-xl border-none outline-none font-semibold text-slate-700"><input type="date" id="filterSelesai" onchange="window.prosesFilterData()" class="w-full p-2.5 bg-slate-50 text-sm rounded-xl border-none outline-none font-semibold text-slate-700"></div>
         <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-3"><button onclick="window.unduhPDF()" class="bg-rose-50 text-rose-600 font-bold text-sm p-3 rounded-xl">Unduh PDF</button><button onclick="window.unduhExcel()" class="bg-emerald-50 text-emerald-600 font-bold text-sm p-3 rounded-xl">Unduh Excel</button></div>
       </div>
@@ -71,15 +70,15 @@
       </div>
       <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
         <h3 class="text-xl font-bold text-slate-800 mb-4">Daftar Transaksi</h3>
-        <div id="loadingRiwayat" class="text-slate-400 text-sm py-4 text-center hidden"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat...</div>
+        <div id="loadingRiwayat" class="text-slate-400 text-sm py-4 text-center hidden"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...</div>
         <div id="listRiwayat" class="space-y-3"></div>
       </div>
     </div>
   </div>
 
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 py-3 px-16 flex justify-around z-50">
-    <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600"><i class="fa-solid fa-house text-xl"></i></button>
-    <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400"><i class="fa-solid fa-clock-rotate-left text-xl"></i></button>
+    <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px]"><i class="fa-solid fa-house text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wider">HOME</span></button>
+    <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px]"><i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i><span class="text-[10px] font-bold tracking-wider">RIWAYAT</span></button>
   </div>
 
   <script>
@@ -106,27 +105,6 @@
       if (m === 'riwayat') window.loadSummary();
     };
 
-    window.loadSummary = () => {
-      document.getElementById('loadingRiwayat').classList.remove('hidden');
-      const old = document.getElementById('google-jsonp-script');
-      if (old) old.remove();
-      const s = document.createElement('script');
-      s.id = 'google-jsonp-script';
-      s.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
-      document.body.appendChild(s);
-    };
-
-    window.handleGoogleData = (res) => {
-      document.getElementById('loadingRiwayat').classList.add('hidden');
-      if (res) {
-        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
-        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
-        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
-        databaseRiwayatRaw = res.riwayat || [];
-        window.prosesFilterData();
-      }
-    };
-
     window.prosesFilterData = () => {
       const list = document.getElementById('listRiwayat');
       const filtered = databaseRiwayatRaw.filter(i => i.tanggal >= document.getElementById('filterMulai').value && i.tanggal <= document.getElementById('filterSelesai').value);
@@ -134,9 +112,33 @@
       list.innerHTML = "";
       filtered.forEach(i => {
         if (i.jenis === 'Pengeluaran') grafik[i.kategori] = (grafik[i.kategori] || 0) + parseInt(i.nominal);
-        list.innerHTML += `<div class="flex justify-between border-b p-2 text-sm"><span>${i.keterangan}</span><span class="font-bold">${parseInt(i.nominal).toLocaleString()}</span></div>`;
+        list.insertAdjacentHTML('beforeend', `<div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 flex items-center justify-center rounded-xl text-sm ${i.jenis === 'Pemasukan' ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                <i class="fa-solid ${i.jenis === 'Pemasukan' ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+              </div>
+              <div><h4 class="text-sm font-bold text-slate-800">${i.keterangan}</h4><p class="text-[10px] text-slate-400 font-semibold uppercase">${i.kategori}</p></div>
+            </div>
+            <span class="text-sm font-bold ${i.jenis === 'Pemasukan' ? 'text-emerald-600' : 'text-rose-600'}">${i.jenis === 'Pemasukan' ? '+' : '-'} Rp ${parseInt(i.nominal).toLocaleString()}</span>
+          </div>`);
       });
       window.renderGrafik(grafik);
+    };
+
+    window.loadSummary = () => {
+      const s = document.createElement('script');
+      s.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
+      document.body.appendChild(s);
+    };
+
+    window.handleGoogleData = (res) => {
+      if (res) {
+        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
+        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
+        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+        databaseRiwayatRaw = res.riwayat || [];
+        window.prosesFilterData();
+      }
     };
 
     window.renderGrafik = (data) => {
@@ -156,8 +158,8 @@
     };
 
     window.resetData = () => {
-        Swal.fire({ title: 'Yakin hapus semua data?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya' }).then((r) => {
-            if (r.isConfirmed) fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" }).then(() => { Swal.fire('Dihapus'); window.loadSummary(); });
+        Swal.fire({ title: 'Yakin hapus semua data?', icon: 'warning', showCancelButton: true }).then((r) => {
+            if (r.isConfirmed) fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" }).then(() => { Swal.fire('Data Dihapus'); window.loadSummary(); });
         });
     };
 
