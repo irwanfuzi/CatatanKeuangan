@@ -166,6 +166,8 @@
 
   <script>                                                                                                    
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
+    const daftarKategoriPengeluaran = ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"];
+    const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
     let myChartInstance = null;
     let databaseRiwayatRaw = []; 
     let dataTerfilterGlobal = []; 
@@ -237,13 +239,15 @@
       if (!listContainer || !tglMulai || !tglSelesai) return;
       listContainer.innerHTML = "";
       dataTerfilterGlobal = databaseRiwayatRaw.filter(item => item.tanggal >= tglMulai && item.tanggal <= tglSelesai);
+      
       const dataKategoriGrafik = {};
+      daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
       if (dataTerfilterGlobal.length > 0) {
         dataTerfilterGlobal.forEach(item => {
           const isMasuk = item.jenis === "Pemasukan";
           if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
-           
+          
           listContainer.insertAdjacentHTML('beforeend', `
             <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
               <div class="flex items-center gap-3">
@@ -275,21 +279,28 @@
       const labels = Object.keys(dataKategori), values = Object.values(dataKategori);
       if (!legendContainer) return;
       legendContainer.innerHTML = "";
-      if (labels.length === 0) { canvasCtx.style.display = 'none'; document.getElementById('noChartData').classList.remove('hidden'); return; }
+      
+      const total = values.reduce((a, b) => a + b, 0);
+
+      if (total === 0) { 
+        canvasCtx.style.display = 'none'; 
+        document.getElementById('noChartData').classList.remove('hidden'); 
+        return; 
+      }
+      
       canvasCtx.style.display = 'block';
       document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
-      const total = values.reduce((a, b) => a + b, 0);
-      const colors = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
-
       labels.forEach((kat, i) => {
-        legendContainer.insertAdjacentHTML('beforeend', `<div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full" style="background-color:${colors[i%6]}"></span><span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span></div>`);
+        if (values[i] > 0) {
+          legendContainer.insertAdjacentHTML('beforeend', `<div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full" style="background-color:${daftarWarna[i%6]}"></span><span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span></div>`);
+        }
       });
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'pie',
-        data: { labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#ffffff' }] },
+        data: { labels, datasets: [{ data: values, backgroundColor: daftarWarna, borderWidth: 2, borderColor: '#ffffff' }] },
         options: {
           plugins: {
             legend: { display: false },
@@ -299,7 +310,7 @@
               font: { family: 'Urbanist', weight: 'bold', size: 14 },
               textShadowColor: 'rgba(0,0,0,0.5)',
               textShadowBlur: 4,
-              formatter: (v) => ((v / total) * 100).toFixed(1) + '%'
+              formatter: (v) => v > 0 ? ((v / total) * 100).toFixed(1) + '%' : ""
             }
           }
         }
@@ -308,39 +319,74 @@
 
     window.resetSemuaData = function() {
       Swal.fire({
-        title: 'Apakah Anda yakin?',
-        text: "Semua data saldo, pemasukan, pengeluaran, dan riwayat transaksi akan dihapus permanen dari sistem!",
+        title: 'Reset Semua Data?',
+        text: "Tindakan ini akan menghapus seluruh saldo, laporan, dan riwayat transaksi secara permanen.",
         icon: 'warning',
+        iconColor: '#f43f5e',
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#64748b',
-        confirmButtonText: 'Ya, Reset Semua!',
-        cancelButtonText: 'Batal'
+        background: '#ffffff',
+        confirmButtonColor: '#f43f5e', 
+        cancelButtonColor: '#f1f5f9',  
+        confirmButtonText: 'Ya, Hapus Semua',
+        cancelButtonText: 'Batal',
+        customClass: {
+          popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100',
+          title: 'font-bold text-xl text-slate-800 family-urbanist pt-2',
+          htmlContainer: 'text-sm text-slate-500 family-urbanist px-2',
+          confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-sm transition-all active:scale-95 focus:ring-0',
+          cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-sm text-slate-600 transition-all active:scale-95 focus:ring-0'
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({
-            title: 'Memproses...',
-            text: 'Sedang menghapus data di server',
+            title: 'Membersihkan Data',
+            text: 'Sedang menghapus data dari server...',
             allowOutsideClick: false,
-            didOpen: () => { Swal.showLoading(); }
+            background: '#ffffff',
+            customClass: {
+              popup: 'rounded-[2rem] p-8 shadow-xl',
+              title: 'font-bold text-lg text-slate-800 family-urbanist',
+              htmlContainer: 'text-sm text-slate-400 family-urbanist'
+            },
+            didOpen: () => { 
+              Swal.showLoading();
+              const loader = Swal.getPopup().querySelector('.swal2-loader');
+              if (loader) loader.style.borderColor = '#10b981 transparent #10b981 transparent';
+            }
           });
           
           fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" })
           .then(() => {
             Swal.fire({
               icon: 'success',
-              title: 'Berhasil di-Reset!',
-              text: 'Semua data keuangan telah dibersihkan.',
+              iconColor: '#10b981',
+              title: 'Selesai!',
+              text: 'Semua data keuangan Anda telah bersih.',
+              background: '#ffffff',
               timer: 2000,
-              showConfirmButton: false
+              showConfirmButton: false,
+              customClass: {
+                popup: 'rounded-[2rem] p-6 shadow-xl',
+                title: 'font-bold text-xl text-slate-800 family-urbanist',
+                htmlContainer: 'text-sm text-slate-500 family-urbanist'
+              }
             });
             window.loadSummary();
           })
           .catch(() => {
             Swal.fire({
               icon: 'error',
-              title: 'Gagal!',
-              text: 'Terjadi masalah saat menghubungi server.'
+              iconColor: '#f43f5e',
+              title: 'Gagal Mereset',
+              text: 'Terjadi masalah koneksi dengan server.',
+              background: '#ffffff',
+              confirmButtonColor: '#059669',
+              customClass: {
+                popup: 'rounded-[2rem] p-6 shadow-xl',
+                title: 'font-bold text-xl text-slate-800 family-urbanist',
+                htmlContainer: 'text-sm text-slate-500 family-urbanist',
+                confirmButton: 'rounded-2xl font-bold px-6 py-3'
+              }
             });
           });
         }
@@ -352,7 +398,7 @@
     
     window.updateKategoriOptions = () => {
       const jenis = document.getElementById('jenis').value;
-      const opsi = { "Pengeluaran": ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"], "Pemasukan": ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"] };
+      const opsi = { "Pengeluaran": daftarKategoriPengeluaran, "Pemasukan": ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"] };
       document.getElementById('kategori').innerHTML = opsi[jenis].map(kat => `<option value="${kat}">${kat}</option>`).join('');
     };
 
