@@ -407,7 +407,7 @@
         `);
       });
 
-      myChartInstance = new Chart(canvasCtx, {
+     myChartInstance = new Chart(canvasCtx, {
         type: 'pie',
         data: {
           labels: labels,
@@ -420,19 +420,11 @@
         },
         options: {
           plugins: {
-            legend: {
-              display: false 
-            },
-            tooltip: {enabled: false
-              callbacks: {
-                label: function(context) {
-                  return ' ' + context.label + ': Rp ' + context.raw.toLocaleString('id-ID');
-                }
-              }
-            },
+            legend: { display: false },
+            // MENGHILANGKAN TOOLTIP SAAT DISENTUH
+            tooltip: { enabled: false }, 
             datalabels: {
               color: '#ffffff',
-              // PERBAIKAN TEKS: Angka persentase di dalam potongan kue naik ke ukuran 10 agar terbaca jelas
               font: { family: 'Urbanist', weight: 'bold', size: 10 },
               formatter: (value) => {
                 return ((value / totalPengeluaran) * 100).toFixed(1) + '%';
