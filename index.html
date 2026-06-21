@@ -13,9 +13,11 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
+  <!-- Library Grafik Chart.js & Plugin Persentase Datalabels -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   
+  <!-- Library Unduh Laporan PDF & Excel -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -34,6 +36,7 @@
 
 <body class="w-full min-h-screen bg-slate-50 flex flex-col pb-[90px]">
 
+  <!-- KARTU SALDO UTAMA -->
   <div class="w-full bg-emerald-600 p-6 text-white rounded-b-[2.5rem] shadow-md">
     <h1 class="text-lg opacity-80">Halo, Pengguna!</h1>
     <p class="text-sm opacity-70 mb-2">Total Saldo Kamu:</p>
@@ -51,8 +54,10 @@
     </div>
   </div>
 
+  <!-- CONTAINER UTAMA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
+    <!-- TAB 1: FORM TRANSAKSI (HALAMAN HOME) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
       <h3 class="text-lg font-bold text-slate-800 mb-4">Tambah Transaksi</h3>
 
@@ -97,58 +102,72 @@
       </form>
     </div>
 
+    <!-- TAB 2: HALAMAN RIWAYAT TRANSAKSI -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
+      <!-- BOX FILTER TANGGAL + TOMBOL EKSPOR -->
       <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-sm font-bold text-slate-700 mb-3"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor Laporan</h3>
+        <!-- PERBAIKAN TEKS: Ukuran judul box dinaikkan jadi text-base -->
+        <h3 class="text-base font-bold text-slate-800 mb-3"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor Laporan</h3>
         <div class="grid grid-cols-2 gap-3 mb-4">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 mb-1">DARI</label>
-            <input type="date" id="filterMulai" onchange="window.prosesFilterData()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
+            <!-- PERBAIKAN TEKS: Label DARI dinaikkan jadi text-[11px] -->
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">DARI</label>
+            <input type="date" id="filterMulai" onchange="window.prosesFilterData()" class="w-full p-2.5 bg-slate-50 text-sm rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-700">
           </div>
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 mb-1">SAMPAI</label>
-            <input type="date" id="filterSelesai" onchange="window.prosesFilterData()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
+            <!-- PERBAIKAN TEKS: Label SAMPAI dinaikkan jadi text-[11px] -->
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">SAMPAI</label>
+            <input type="date" id="filterSelesai" onchange="window.prosesFilterData()" class="w-full p-2.5 bg-slate-50 text-sm rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-semibold text-slate-700">
           </div>
         </div>
         
         <div class="grid grid-cols-2 gap-3 border-t border-slate-100 pt-3">
-          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-200 text-rose-600 font-bold text-xs p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
-            <i class="fa-solid fa-file-pdf text-sm"></i> Unduh PDF
+          <!-- PERBAIKAN TEKS: Ukuran huruf tombol ekspor disetel jadi text-sm -->
+          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-200 text-rose-600 font-bold text-sm p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+            <i class="fa-solid fa-file-pdf text-base"></i> Unduh PDF
           </button>
-          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold text-xs p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
-            <i class="fa-solid fa-file-excel text-sm"></i> Unduh Excel
+          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold text-sm p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+            <i class="fa-solid fa-file-excel text-base"></i> Unduh Excel
           </button>
         </div>
       </div>
 
+      <!-- BOX GRAFIK PENGELUARAN -->
       <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-md font-bold text-slate-800 mb-1">Grafik Pengeluaran</h3>
-        <p class="text-[11px] text-slate-400 mb-4 font-semibold">Proporsi akumulasi pengeluaran dan total nominal per kategori</p>
+        <!-- PERBAIKAN TEKS: Judul Grafik dinaikkan jadi text-lg -->
+        <h3 class="text-lg font-bold text-slate-800 mb-1">Grafik Pengeluaran</h3>
+        <p class="text-[12px] text-slate-400 mb-4 font-semibold">Proporsi akumulasi pengeluaran dan total nominal per kategori</p>
         
         <div class="w-full flex flex-row items-center justify-between gap-2 overflow-x-auto py-2">
           <div class="w-[45%] max-w-[150px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
           </div>
-          <div id="customLegendContainer" class="w-[55%] flex flex-col gap-1.5 pl-2 text-[10px] font-bold text-slate-600 max-h-[160px] overflow-y-auto">
-            </div>
+          <!-- PERBAIKAN TEKS: Font ukuran legenda kustom dinaikkan jadi text-[12px] dan pratinjau nominal jadi text-[10.5px] -->
+          <div id="customLegendContainer" class="w-[55%] flex flex-col gap-2 pl-2 text-[12px] font-bold text-slate-700 max-h-[170px] overflow-y-auto">
+            <!-- Disuntik via JS -->
+          </div>
         </div>
-        <div id="noChartData" class="text-center text-xs text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
+        <div id="noChartData" class="text-center text-sm text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
       </div>
 
+      <!-- BOX RINCIAN LIST DATA -->
       <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-lg font-bold text-slate-800 mb-3">Daftar Transaksi</h3>
-        <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center">
+        <!-- PERBAIKAN TEKS: Judul Daftar Transaksi dinaikkan jadi text-xl -->
+        <h3 class="text-xl font-bold text-slate-800 mb-4">Daftar Transaksi</h3>
+        <div id="loadingRiwayat" class="text-slate-400 text-sm py-4 text-center">
           <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
         </div>
         <div id="listRiwayat" class="space-y-3 hidden">
-          </div>
+          <!-- Data disuntik via JS -->
+        </div>
       </div>
       
     </div>
 
   </div>
 
+  <!-- BARIS NAVIGASI BAWAH -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-16 flex justify-around z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -256,6 +275,7 @@
           const iconFontAwesome = isMasuk ? "fa-arrow-trend-up" : "fa-arrow-trend-down";
           const bgWarnaIcon = isMasuk ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50";
           
+          // PERBAIKAN TEKS: Teks nominal uang dan deskripsi riwayat transaksi diperbesar ukurannya
           const nomFormatted = "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
           const tanggalTerformat = formatTanggalIndo(item.tanggal);
 
@@ -264,18 +284,18 @@
           }
 
           const itemHTML = `
-            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
+            <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
               <div class="flex items-center gap-3">
-                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs ${bgWarnaIcon}">
+                <div class="w-10 h-10 flex items-center justify-center rounded-xl text-sm ${bgWarnaIcon}">
                   <i class="fa-solid ${iconFontAwesome}"></i>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-800">${item.keterangan}</h4>
-                  <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${tanggalTerformat}</p>
+                  <h4 class="text-sm font-bold text-slate-800">${item.keterangan}</h4>
+                  <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">${item.kategori} &bull; ${tanggalTerformat}</p>
                 </div>
               </div>
               <div class="text-right">
-                <span class="text-xs font-bold ${warnaTeks}">${simbol} ${nomFormatted}</span>
+                <span class="text-sm font-bold ${warnaTeks}">${simbol} ${nomFormatted}</span>
               </div>
             </div>
           `;
@@ -288,7 +308,7 @@
       } else {
         window.renderGrafik({});
         document.getElementById('loadingRiwayat').classList.add('hidden');
-        listContainer.innerHTML = "<div class='text-slate-400 py-4 text-center text-xs'>Tidak ada riwayat transaksi pada rentang tanggal ini.</div>";
+        listContainer.innerHTML = "<div class='text-slate-400 py-4 text-center text-sm'>Tidak ada riwayat transaksi pada rentang tanggal ini.</div>";
         listContainer.classList.remove('hidden');
       }
     };
@@ -376,15 +396,15 @@
       const totalPengeluaran = values.reduce((a, b) => a + b, 0);
       const warnaPalet = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
 
-      // SUNTIKKAN LEGENDA KUSTOM KE SEBELAH KANAN SECARA OTOMATIS
       labels.forEach((kat, i) => {
         const nominalStr = "Rp " + values[i].toLocaleString('id-ID');
+        // PERBAIKAN TEKS: Teks nama kategori legenda naik ke text-[12px] dan nominal ke text-[10.5px]
         const legendItemHTML = `
-          <div class="flex items-start gap-1.5 leading-tight">
-            <span class="w-2.5 h-2.5 rounded-sm flex-shrink-0 mt-0.5" style="background-color: ${warnaPalet[i % warnaPalet.length]}"></span>
+          <div class="flex items-start gap-1.5 leading-tight mb-0.5">
+            <span class="w-3 h-3 rounded-sm flex-shrink-0 mt-0.5" style="background-color: ${warnaPalet[i % warnaPalet.length]}"></span>
             <div class="flex flex-col">
-              <span class="text-slate-700 truncate max-w-[110px]">${kat}</span>
-              <span class="text-slate-400 font-semibold text-[9px]">${nominalStr}</span>
+              <span class="text-slate-800 truncate max-w-[120px] font-bold text-[12px]">${kat}</span>
+              <span class="text-slate-500 font-bold text-[10.5px] mt-0.5">${nominalStr}</span>
             </div>
           </div>
         `;
@@ -404,7 +424,6 @@
         },
         options: {
           plugins: {
-            // Sembunyikan legenda bawaan Chart.js agar digantikan oleh kolom kustom kanan kita
             legend: {
               display: false 
             },
@@ -417,7 +436,8 @@
             },
             datalabels: {
               color: '#ffffff',
-              font: { family: 'Urbanist', weight: 'bold', size: 9 },
+              // PERBAIKAN TEKS: Angka persentase di dalam potongan kue naik ke ukuran 10 agar terbaca jelas
+              font: { family: 'Urbanist', weight: 'bold', size: 10 },
               formatter: (value) => {
                 return ((value / totalPengeluaran) * 100).toFixed(1) + '%';
               }
