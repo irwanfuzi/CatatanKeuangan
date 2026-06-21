@@ -421,16 +421,16 @@
         options: {
           plugins: {
             legend: { display: false },
-            // MENGHILANGKAN TOOLTIP SAAT DISENTUH
-            tooltip: { enabled: false }, 
-            datalabels: {
-              color: '#ffffff',
-              font: { family: 'Urbanist', weight: 'bold', size: 10 },
-              formatter: (value) => {
-                return ((value / totalPengeluaran) * 100).toFixed(1) + '%';
-              }
-            }
-          }
+         // Ganti bagian tooltip di dalam fungsi window.renderGrafik menjadi:
+tooltip: {
+  enabled: true, // Pastikan diaktifkan agar tetap bisa disentuh
+  callbacks: {
+    // Hanya menampilkan label (nama kategori) saja
+    label: function(context) {
+      return ' ' + context.label;
+    }
+  }
+},
         }
       });
     };
