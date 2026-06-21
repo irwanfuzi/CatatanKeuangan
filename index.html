@@ -29,6 +29,15 @@
     body::-webkit-scrollbar {
       display: none;
     }
+    /* Menghapus ikon panah bawaan (default arrow) select di Android & iOS agar super clean dan modern */
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    select::-ms-expand {
+      display: none;
+    }
   </style>
 </head>
 
@@ -175,14 +184,11 @@
         <span id="txtTotalDataModal" class="bg-emerald-50 text-emerald-700 font-bold text-xs px-3 py-1.5 rounded-full uppercase tracking-wide">0 Data</span>
       </div>
 
-      <div class="w-full bg-white px-6 pb-4 border-b border-slate-100 flex-shrink-0">
-        <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Saring Bulan & Tahun</label>
-        <div class="relative">
-          <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="w-full p-3 bg-slate-50 text-sm font-bold text-slate-700 rounded-xl border-none outline-none appearance-none focus:ring-2 focus:ring-emerald-500">
+      <div class="w-full bg-white px-6 pb-5 border-b border-slate-100 flex-shrink-0">
+        <label class="block text-[12px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Pilih Periode Bulan & Tahun</label>
+        <div class="w-full">
+          <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="w-full p-3.5 bg-slate-50 hover:bg-slate-100/80 transition-colors text-base font-bold text-slate-700 rounded-2xl border border-slate-200/50 outline-none text-left px-4 cursor-pointer focus:ring-2 focus:ring-emerald-500/20">
             </select>
-          <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-slate-400">
-            <i class="fa-solid fa-chevron-down text-xs"></i>
-          </div>
         </div>
       </div>
 
