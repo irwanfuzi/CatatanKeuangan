@@ -283,24 +283,20 @@
         legendContainer.insertAdjacentHTML('beforeend', `<div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full" style="background-color:${colors[i%6]}"></span><span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span></div>`);
       });
 
-      myChartInstance = new Chart(canvas, {
+      myChartInstance = new Chart(canvasCtx, {
         type: 'pie',
-        data: { labels, datasets: [{ data: vals, backgroundColor: colors, borderWidth: 2, borderColor: '#ffffff' }] },
+        data: { labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#ffffff' }] },
         options: {
           plugins: {
             legend: { display: false },
-            tooltip: { displayColors: false, callbacks: { label: () => "", title: (t) => t[0].label } },
+            tooltip: { enabled: true, displayColors: false, callbacks: { label: () => "", title: (t) => t[0].label } },
             datalabels: {
-              color: '#475569',
-              font: { weight: 'bold', size: 12 },
-              anchor: 'end',
-              align: 'end',
-              offset: 4,
+              color: '#ffffff',
+              font: { family: 'Urbanist', weight: 'bold', size: 14 },
+              textShadowColor: 'rgba(0,0,0,0.5)',
+              textShadowBlur: 4,
               formatter: (v) => ((v / total) * 100).toFixed(1) + '%'
             }
-          },
-          layout: {
-            padding: 20 // Memberikan ruang ekstra di pinggir canvas agar teks penunjuk tidak terpotong
           }
         }
       });
