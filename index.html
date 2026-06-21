@@ -744,124 +744,71 @@
 
 
 
-    window.renderGrafik = function(dataKategori) {
+  window.renderGrafik = function(dataKategori) {
+  const canvasCtx = document.getElementById('chartPengeluaran');
+  const legendContainer = document.getElementById('customLegendContainer');
+  const labels = Object.keys(dataKategori);
+  const values = Object.values(dataKategori);
 
-      const canvasCtx = document.getElementById('chartPengeluaran');
+  if (!legendContainer) return;
+  legendContainer.innerHTML = "";
 
-      const legendContainer = document.getElementById('customLegendContainer');
+  if (labels.length === 0) {
+    canvasCtx.style.display = 'none';
+    document.getElementById('noChartData').classList.remove('hidden');
+    return;
+  }
 
-      
+  canvasCtx.style.display = 'block';
+  document.getElementById('noChartData').classList.add('hidden');
 
-      const labels = Object.keys(dataKategori);
+  if (myChartInstance !== null) {
+    myChartInstance.destroy();
+  }
 
-      const values = Object.values(dataKategori);
+  const totalPengeluaran = values.reduce((a, b) => a + b, 0);
+  const warnaPalet = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
 
+  labels.forEach((kat, i) => {
+    legendContainer.insertAdjacentHTML('beforeend', `
+      <div class="flex items-center gap-2 mb-1">
+        <span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${warnaPalet[i % warnaPalet.length]}"></span>
+        <span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span>
+      </div>
+    `);
+  });
 
-
-      if (!legendContainer) return;
-
-      legendContainer.innerHTML = "";
-
-
-
-      if (labels.length === 0) {
-
-        canvasCtx.style.display = 'none';
-
-        document.getElementById('noChartData').classList.remove('hidden');
-
-        return;
-
-      }
-
-
-
-      canvasCtx.style.display = 'block';
-
-      document.getElementById('noChartData').classList.add('hidden');
-
-
-
-      if (myChartInstance !== null) {
-
-        myChartInstance.destroy();
-
-      }
-
-
-
-      const totalPengeluaran = values.reduce((a, b) => a + b, 0);
-
-      const warnaPalet = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
-
-
-
-     labels.forEach((kat, i) => {
-
-        // Hapus bagian nominalStr agar nominal tidak muncul
-
-        legendContainer.insertAdjacentHTML('beforeend', `
-
-          <div class="flex items-center gap-2 mb-1">
-
-            <span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${warnaPalet[i % warnaPalet.length]}"></span>
-
-            <span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span>
-
-          </div>
-
-        `);
-
-      });
-
-
-
-      myChartInstance = new Chart(canvasCtx, {
-
-        type: 'pie',
-
-        data: {
-
-          labels: labels,
-
-          datasets: [{
-
-            data: values,
-
-            backgroundColor: warnaPalet,
-
-            borderWidth: 2,
-
-            borderColor: '#ffffff'
-
-          }]
-
+  myChartInstance = new Chart(canvasCtx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: warnaPalet,
+        borderWidth: 2,
+        borderColor: '#ffffff'
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: true,
+          displayColors: false,
+          callbacks: {
+            label: function(context) { return null; },
+            title: function(tooltipItems) { return tooltipItems[0].label; }
+          }
         },
-
-        options: {
-  plugins: {
-    legend: { display: false },
-    tooltip: {
-      enabled: true,
-      // Mengatur agar hanya menampilkan title (baris pertama) saja
-      callbacks: {
-        label: function(context) {
-          // Mengembalikan string kosong untuk baris kedua agar tidak muncul teks ganda
-          return ""; 
-        },
-        title: function(tooltipItems) {
-          // Hanya menampilkan judul (nama kategori)
-          return tooltipItems[0].label;
+        datalabels: {
+          color: '#ffffff',
+          font: { family: 'Urbanist', weight: 'bold', size: 10 },
+          formatter: (value) => ((value / totalPengeluaran) * 100).toFixed(1) + '%'
         }
       }
-    },
-    datalabels: {
-      color: '#ffffff',
-      font: { family: 'Urbanist', weight: 'bold', size: 10 },
-      formatter: (value) => ((value / totalPengeluaran) * 100).toFixed(1) + '%'
     }
-  }
-}
+  });
+}; // <--- INI ADALAH PENUTUP FUNGSI renderGrafik
 
        
     window.formatInputRupiah = function(input) {
