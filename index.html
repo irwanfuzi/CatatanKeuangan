@@ -467,11 +467,12 @@
       });
     };
 
+    // PERBAIKAN: Membuat opsi bulan berdasarkan seluruh database mentah agar pilihan tidak kosong saat dibuka
     window.buatOpsiFilterBulanModal = function() {
       const select = document.getElementById('filterBulanModal');
       if (!select) return;
       const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      const keys = [...new Set(dataTerfilterGlobal.map(i => i.tanggal.substring(0, 7)))];
+      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal.substring(0, 7)))];
       
       let html = '<option value="ALL">Tampilkan Semua</option>';
       keys.sort().reverse().forEach(k => {
@@ -487,9 +488,9 @@
       if (!listModalContainer) return;
       listModalContainer.innerHTML = "";
 
-      let dataHasilFilterBulan = dataTerfilterGlobal;
+      let dataHasilFilterBulan = databaseRiwayatRaw;
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilterBulan = dataTerfilterGlobal.filter(item => item.tanggal.startsWith(bulanTerpilih));
+        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal.startsWith(bulanTerpilih));
       }
 
       document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi";
@@ -529,7 +530,7 @@
         });
 
         listModalContainer.insertAdjacentHTML('beforeend', `
-          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.01)] flex flex-col">
+          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.01)] flex flex-col mb-4">
             <div class="text-[12px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
               <span>${formatTanggalIndo(tgl)}</span>
               <span class="text-[11px] font-semibold lowercase text-slate-300">${tgl}</span>
