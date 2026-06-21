@@ -291,12 +291,23 @@
             legend: { display: false },
             tooltip: { enabled: true, displayColors: false, callbacks: { label: () => "", title: (t) => t[0].label } },
             datalabels: {
-              color: '#ffffff',
-              font: { family: 'Urbanist', weight: 'bold', size: 14 },
-              textShadowColor: 'rgba(0,0,0,0.5)',
-              textShadowBlur: 4,
-              formatter: (v) => ((v / total) * 100).toFixed(1) + '%'
-            }
+  color: '#475569', // Mengubah warna teks menjadi abu-abu gelap agar lebih elegan
+  font: { family: 'Urbanist', weight: 'bold', size: 12 },
+  
+  // Mengatur agar teks keluar dari grafik jika ruang terlalu sempit
+  anchor: 'end',      // Menjangkar teks ke ujung luar irisan
+  align: 'end',       // Mengarahkan teks ke luar
+  offset: 4,          // Jarak teks dari grafik
+  
+  // Menambahkan garis penunjuk (Callout)
+  connector: {
+    enabled: true,
+    color: '#94a3b8',
+    width: 1
+  },
+  
+  formatter: (v) => ((v / total) * 100).toFixed(1) + '%'
+}
           }
         }
       });
