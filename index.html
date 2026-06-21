@@ -101,4 +101,28 @@
           </div>
           <div>
             <label class="block text-[10px] font-bold text-slate-400 mb-1">SAMPAI</label>
-            <input type="date" id="filterS
+            <input type="date" id="filterSelesai" onchange="window.filterDataRiwayatDanGrafik()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-md font-bold text-slate-800 mb-2">Grafik Pengeluaran</h3>
+        <p class="text-[11px] text-slate-400 mb-4 font-semibold">Proporsi pengeluaran berdasarkan kategori pilihan tanggal</p>
+        <div class="w-full max-w-[220px] mx-auto flex items-center justify-center">
+          <canvas id="chartPengeluaran"></canvas>
+        </div>
+        <div id="noChartData" class="text-center text-xs text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada tanggal ini</div>
+      </div>
+
+      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-md font-bold text-slate-800 mb-4">Rincian Transaksi</h3>
+        <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center">
+          <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
+        </div>
+        <div id="listRiwayatGrouped" class="space-y-6 hidden"></div>
+      </div>
+      
+    </div>
+
+  </div>
