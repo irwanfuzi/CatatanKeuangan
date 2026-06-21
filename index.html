@@ -295,15 +295,7 @@
               font: { family: 'Urbanist', weight: 'bold', size: 14 },
               textShadowColor: 'rgba(0,0,0,0.5)',
               textShadowBlur: 4,
-           // LOGIKA UNTUK MENGATUR POSISI TEKS
-            anchor: 'end',      // Menjangkar teks ke ujung irisan
-            align: 'start',     // Mengatur posisi teks
-            offset: 2,          // Jarak teks dari titik tengah
-            clamp: true,        // Mencegah teks keluar dari area canvas
-            formatter: (value, context) => {
-              // Jika irisan terlalu kecil (misal < 5%), jangan tampilkan teks agar tidak berantakan
-              const percentage = ((value / total) * 100).toFixed(1);
-              return percentage < 5 ? "" : percentage + '%';
+              formatter: (v) => ((v / total) * 100).toFixed(1) + '%'
             }
           }
         }
