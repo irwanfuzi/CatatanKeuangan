@@ -480,7 +480,8 @@
       let html = '<option value="ALL">Tampilkan Semua</option>';
       keys.sort().reverse().forEach(k => {
         const p = k.split('-');
-        html += `<option value="${k}">${bulan[parseInt(p[1])-1]} ${p[0]}</option>`;
+        const namaBulan = bulan[parseInt(p[1])-1];
+        html += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
       });
       select.innerHTML = html;
     };
@@ -644,15 +645,41 @@
       });
     };
     
-    // PERBAIKAN: Memastikan modal putih utama bergeser naik sempurna dengan menghapus translate-y-full ketika modal dibuka
+    // PERBAIKAN UTAMA: Mengatur nilai dropdown otomatis ke Bulan & Tahun aktif saat ini ketika modal dibuka
     window.bukaModalDetailSemua = () => { 
       const modal = document.getElementById('modalDetailTransaksi'); 
       const box = modal.querySelector('div');
       
-      // Sinkronisasi data dropdown & list sebelum modal dibuka agar isinya langsung muncul
+      // 1. Siapkan opsi filter periode terlebih dahulu
       window.buatOpsiFilterBulanModal();
+      
+      // 2. Deteksi Bulan & Tahun Berjalan (Format: YYYY-MM)
+      const hariIni = new Date();
+      const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
+      
+      const select = document.getElementById('filterBulanModal');
+      const triggerLabel = document.getElementById('labelPeriodeTerpilih');
+      
+      if (select) {
+        // Cek apakah data bulan berjalan ada dalam daftar opsi pilihan
+        const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
+        
+        if (opsiTersedia) {
+          select.value = formatKunciBulanIni;
+          // Cari nama teks bulan (Misal: Juni 2026) untuk ditampilkan pada label tombol trigger
+          const opsiDitemukan = Array.from(select.options).find(option => option.value === formatKunciBulanIni);
+          if (triggerLabel && opsiDitemukan) triggerLabel.innerText = opsiDitemukan.text;
+        } else {
+          // Jika data bulan berjalan kosong/belum ada transaksi, fallback tampilkan seluruh data
+          select.value = "ALL";
+          if (triggerLabel) triggerLabel.innerText = "Tampilkan Semua";
+        }
+      }
+      
+      // 3. Render daftar transaksi sesuai periode yang diset di atas
       window.renderListModalSesuaiBulan();
       
+      // 4. Jalankan animasi pemicu bottom sheet pembukaan modal
       modal.classList.remove('hidden'); 
       setTimeout(() => { 
         modal.classList.remove('opacity-0'); 
