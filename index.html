@@ -12,6 +12,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -89,19 +90,45 @@
       </form>
     </div>
 
-    <div id="pageRiwayat" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6 hidden">
-      <h3 class="text-lg font-bold text-slate-800 mb-3">Riwayat Transaksi</h3>
-      <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center">
-        <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
-      </div>
-      <div id="listRiwayat" class="space-y-3 hidden">
+    <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
+      
+      <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-sm font-bold text-slate-700 mb-3"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter Tanggal Riwayat</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 mb-1">DARI</label>
+            <input type="date" id="filterMulai" onchange="filterDataRiwayatDanGrafik()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 mb-1">SAMPAI</label>
+            <input type="date" id="filterSelesai" onchange="filterDataRiwayatDanGrafik()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
         </div>
+      </div>
+
+      <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-md font-bold text-slate-800 mb-2">Grafik Pengeluaran</h3>
+        <p class="text-[11px] text-slate-400 mb-4 font-semibold">Proporsi pengeluaran berdasarkan kategori pilihan tanggal</p>
+        <div class="w-full max-w-[220px] mx-auto flex items-center justify-center">
+          <canvas id="chartPengeluaran"></canvas>
+        </div>
+        <div id="noChartData" class="text-center text-xs text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada tanggal ini</div>
+      </div>
+
+      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-md font-bold text-slate-800 mb-4">Rincian Transaksi</h3>
+        <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center">
+          <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
+        </div>
+        <div id="listRiwayatGrouped" class="space-y-6 hidden">
+          </div>
+      </div>
+      
     </div>
 
   </div>
 
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-16 flex justify-around z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
-    
     <button id="navHome" onclick="tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">HOME</span>
@@ -111,13 +138,22 @@
       <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">RIWAYAT</span>
     </button>
-
   </div>
 
   <script>                                                                           
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
+    
+    let databaseRiwayatRaw = []; 
+    let myChartInstance = null;
 
-    document.getElementById('tanggal').valueAsDate = new Date();
+    // Set tanggal default filter (Awal bulan ini s/d Hari ini)
+    const hariIni = new Date();
+    const awalBulan = new Date(hariIni.getFullYear(), hariIni.getMonth(), 1);
+    
+    document.getElementById('tanggal').valueAsDate = hariIni;
+    document.getElementById('filterMulai').value = awalBulan.toISOString().split('T')[0];
+    document.getElementById('filterSelesai').value = hariIni.toISOString().split('T')[0];
+
     window.onload = loadSummary;
 
     function tukarHalaman(menu) {
@@ -142,7 +178,7 @@
 
     function loadSummary() {
       document.getElementById('loadingRiwayat').classList.remove('hidden');
-      document.getElementById('listRiwayat').classList.add('hidden');
+      document.getElementById('listRiwayatGrouped').classList.add('hidden');
 
       const oldScript = document.getElementById('google-jsonp-script');
       if (oldScript) oldScript.remove();
@@ -162,20 +198,70 @@
         document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
         document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
         
-        const listContainer = document.getElementById('listRiwayat');
-        listContainer.innerHTML = "";
-        
-        if (res.riwayat && res.riwayat.length > 0) {
-          res.riwayat.forEach(item => {
+        // Simpan data mentah global untuk difilter lokal secara instant
+        databaseRiwayatRaw = res.riwayat || [];
+        filterDataRiwayatDanGrafik();
+      }
+    };
+
+    // PROSES UTAMA FILTER DAN PENGELOMPOKAN DATA PER HARI
+    function filterDataRiwayatDanGrafik() {
+      const tglMulai = document.getElementById('filterMulai').value;
+      const tglSelesai = document.getElementById('filterSelesai').value;
+
+      if (!tglMulai || !tglSelesai) return;
+
+      // 1. Filter data berdasarkan range tanggal terpilih
+      const dataTerfilter = databaseRiwayatRaw.filter(item => {
+        return item.tanggal >= tglMulai && item.tanggal <= tglSelesai;
+      });
+
+      // 2. Olah Data untuk Grafik Pengeluaran (Hanya Jenis Pengeluaran)
+      const dataKategoriGrafik = {};
+      dataTerfilter.forEach(item => {
+        if (item.jenis === "Pengeluaran") {
+          dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + item.nominal;
+        }
+      });
+
+      renderGrafik(dataKategoriGrafik);
+
+      // 3. Kelompokkan riwayat Transaksi per Hari
+      const kelompokPerHari = {};
+      dataTerfilter.forEach(item => {
+        if (!kelompokPerHari[item.tanggal]) {
+          kelompokPerHari[item.tanggal] = [];
+        }
+        kelompokPerHari[item.tanggal].push(item);
+      });
+
+      // Urutkan tanggal dari paling baru ke lama
+      const tanggalTerurut = Object.keys(kelompokPerHari).sort((a, b) => new Date(b) - new Date(a));
+
+      const listContainer = document.getElementById('listRiwayatGrouped');
+      listContainer.innerHTML = "";
+
+      if (tanggalTerurut.length > 0) {
+        tanggalTerurut.forEach(tgl => {
+          // Format penulisan tanggal grup yang rapi
+          const opsiFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          const namaHariIndo = new Date(tgl).toLocaleDateString('id-ID', opsiFormat);
+
+          let htmlGrupHari = `
+            <div class="space-y-2">
+              <div class="text-xs font-bold text-slate-400 tracking-wide sticky top-0 bg-white py-1 uppercase">${namaHariIndo}</div>
+              <div class="space-y-2">
+          `;
+
+          kelompokPerHari[tgl].forEach(item => {
             const isMasuk = item.jenis === "Pemasukan";
             const warnaTeks = isMasuk ? "text-emerald-600" : "text-rose-600";
             const simbol = isMasuk ? "+" : "-";
             const iconFontAwesome = isMasuk ? "fa-arrow-trend-up" : "fa-arrow-trend-down";
             const bgWarnaIcon = isMasuk ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50";
-            
             const nomFormatted = "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
 
-            const itemHTML = `
+            htmlGrupHari += `
               <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
                 <div class="flex items-center gap-3">
                   <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs ${bgWarnaIcon}">
@@ -183,7 +269,7 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-slate-800">${item.keterangan}</h4>
-                    <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${item.tanggal}</p>
+                    <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori}</p>
                   </div>
                 </div>
                 <div class="text-right">
@@ -191,103 +277,14 @@
                 </div>
               </div>
             `;
-            listContainer.insertAdjacentHTML('beforeend', itemHTML);
           });
-          
-          document.getElementById('loadingRiwayat').classList.add('hidden');
-          listContainer.classList.remove('hidden');
-        } else {
-          document.getElementById('loadingRiwayat').innerHTML = "<div class='text-slate-400 py-2'>Belum ada transaksi dicatat.</div>";
-        }
-      }
-    };
 
-    function formatInputRupiah(input) {
-      let nilai = input.value.replace(/[^0-9]/g, '');
-      if (nilai) {
-        input.value = parseInt(nilai).toLocaleString('id-ID');
+          htmlGrupHari += `</div></div>`;
+          listContainer.insertAdjacentHTML('beforeend', htmlGrupHari);
+        });
+
+        document.getElementById('loadingRiwayat').classList.add('hidden');
+        listContainer.classList.remove('hidden');
       } else {
-        input.value = '';
-      }
-    }
-
-    function tombolReloadPintar() {
-      const icon = document.getElementById('iconReload');
-      if (icon) icon.classList.add('animate-spin'); 
-      document.getElementById('formKeuangan').reset();
-      document.getElementById('tanggal').valueAsDate = new Date();
-      loadSummary();
-    }
-
-    const opsiKategori = {
-      Pengeluaran: ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"],
-      Pemasukan: ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"]
-    };
-
-    function updateKategoriOptions() {
-      const jenis = document.getElementById('jenis').value;
-      const kategoriSelect = document.getElementById('kategori');
-      kategoriSelect.innerHTML = ""; 
-      opsiKategori[jenis].forEach(kat => {
-        let option = document.createElement('option');
-        option.value = kat;
-        option.innerText = kat;
-        kategoriSelect.appendChild(option);
-      });
-    }
-
-    window.addEventListener('DOMContentLoaded', () => { updateKategoriOptions(); });
-
-    function handleForm(e) {
-      e.preventDefault();
-      
-      const btn = document.getElementById('btnSimpan');
-      const nominalInput = document.getElementById('nominal');
-      const keteranganInput = document.getElementById('keterangan');
-      const tanggalInput = document.getElementById('tanggal');
-      const jenisInput = document.getElementById('jenis');
-      const kategoriInput = document.getElementById('kategori');
-
-      btn.disabled = true;
-      btn.innerHTML = "<i class='fa-solid fa-spinner animate-spin'></i> Memproses...";
-
-      const nominalBersih = nominalInput.value.replace(/\./g, '');
-
-      const data = {
-        tanggal: tanggalInput.value,
-        jenis: jenisInput.value,
-        kategori: kategoriInput.value, 
-        nominal: nominalBersih,
-        keterangan: keteranganInput.value || "-"
-      };
-
-      fetch(API_URL, {
-        method: "POST",
-        mode: "no-cors", 
-        headers: {
-          "Content-Type": "text/plain"
-        },
-        body: JSON.stringify(data)
-      })
-      .then(() => {
-        btn.disabled = false;
-        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
-
-        Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi telah dicatat.', timer: 1500, showConfirmButton: false });
-        document.getElementById('formKeuangan').reset();
-        document.getElementById('tanggal').valueAsDate = new Date();
-        updateKategoriOptions();
-        
-        tukarHalaman('riwayat');
-      })
-      .catch(err => {
-        console.error(err);
-        btn.disabled = false;
-        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
-        Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Gagal menghubungi server database.' });
-      });
-    }
-  </script>
-</body>
-
-</html>
+        document.getElementById('loadingRiwayat').classList.add('hidden');
+        listContainer.innerHTML = "<div class='text-slate-400 py-4 text-center text-xs'>Tidak ada riwayat transaksi pada rentang tanggal ini.
