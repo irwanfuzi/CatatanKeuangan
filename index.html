@@ -18,14 +18,13 @@
       font-family: 'Urbanist', sans-serif;
       background-color: #ffffff;
     }
-    /* Menghilangkan scrollbar vertikal yang tidak perlu */
     body::-webkit-scrollbar {
       display: none;
     }
   </style>
 </head>
 
-<body class="w-full min-h-screen bg-slate-50 flex flex-col pb-[76px]">
+<body class="w-full min-h-screen bg-slate-50 flex flex-col pb-[90px]">
 
   <div class="w-full bg-emerald-600 p-6 text-white rounded-b-[2.5rem] shadow-md">
     <h1 class="text-lg opacity-80">Halo, Pengguna!</h1>
@@ -44,7 +43,8 @@
     </div>
   </div>
 
-  <div class="w-full px-4 mt-6 flex-grow" id="formSection">
+  <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
+    
     <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
       <h3 class="text-lg font-bold text-slate-800 mb-4">Tambah Transaksi</h3>
 
@@ -82,10 +82,19 @@
         </button>
       </form>
     </div>
+
+    <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
+      <h3 class="text-lg font-bold text-slate-800 mb-3">Riwayat Transaksi</h3>
+      <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center">
+        <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
+      </div>
+      <div id="listRiwayat" class="space-y-3 hidden">
+        </div>
+    </div>
+
   </div>
 
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-12 flex justify-center gap-24 z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
-    
     <button onclick="tombolReloadPintar()" class="text-emerald-600 flex flex-col items-center min-w-[50px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">HOME</span>
@@ -95,7 +104,6 @@
       <i id="iconReload" class="fa-solid fa-rotate text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">RELOAD</span>
     </button>
-
   </div>
 
   <script>                                                                           
@@ -105,6 +113,9 @@
     window.onload = loadSummary;
 
     function loadSummary() {
+      document.getElementById('loadingRiwayat').classList.remove('hidden');
+      document.getElementById('listRiwayat').classList.add('hidden');
+
       const oldScript = document.getElementById('google-jsonp-script');
       if (oldScript) oldScript.remove();
 
@@ -119,6 +130,45 @@
         document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
         document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
         document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+        
+        // PROSES MENAMPILKAN RIWAYAT
+        const listContainer = document.getElementById('listRiwayat');
+        listContainer.innerHTML = "";
+        
+        if (res.riwayat && res.riwayat.length > 0) {
+          res.riwayat.forEach(item => {
+            const isMasuk = item.jenis === "Pemasukan";
+            const warnaTeks = isMasuk ? "text-emerald-600" : "text-rose-600";
+            const simbol = isMasuk ? "+" : "-";
+            const iconBulat = isMasuk ? "fa-arrow-trend-up text-emerald-600 bg-emerald-50" : "fa-arrow-trend-down text-rose-600 bg-rose-50";
+            
+            // Format nominal rupiah untuk list
+            const nomFormatted = "Rp " + item.nominal.toLocaleString('id-ID');
+
+            const itemHTML = `
+              <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 flex items-center justify-center rounded-xl text-sm ${iconBulat}">
+                    <i class="fa-solid"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-slate-800">${item.keterangan}</h4>
+                    <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${item.tanggal}</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-xs font-bold ${warnaTeks}">${simbol} ${nomFormatted}</span>
+                </div>
+              </div>
+            `;
+            listContainer.insertAdjacentHTML('beforeend', itemHTML);
+          });
+          
+          document.getElementById('loadingRiwayat').classList.add('hidden');
+          listContainer.classList.remove('hidden');
+        } else {
+          document.getElementById('loadingRiwayat').innerHTML = "<div class='text-slate-400 py-2'>Belum ada transaksi dicatat.</div>";
+        }
       }
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
@@ -210,6 +260,5 @@
     }
   </script>
 </body>
-
 
 </html>
