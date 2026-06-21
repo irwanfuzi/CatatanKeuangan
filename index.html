@@ -117,10 +117,10 @@
         </div>
         
         <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
-          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100 text-rose-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-200 text-rose-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
             <i class="fa-solid fa-file-pdf text-lg"></i> Unduh PDF
           </button>
-          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-100 text-emerald-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
             <i class="fa-solid fa-file-excel text-lg"></i> Unduh Excel
           </button>
         </div>
@@ -229,8 +229,7 @@
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
-        pageRiwayat.remove('hidden'); // Fallback safe handling
-        pageRiwayat.classList.remove('hidden');
+        pageRiwayat.classList.remove('hidden'); // PERBAIKAN: Berfungsi normal kembali tanpa merusak DOM
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary();
@@ -290,13 +289,11 @@
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
       if (dataTerfilterGlobal.length > 0) {
-        // 1. BUAT AKUMULASI STRUKTUR DATA UTK KANVAS GRAFIK
         dataTerfilterGlobal.forEach(item => {
           const isMasuk = item.jenis === "Pemasukan";
           if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
         });
 
-        // 2. AMBIL 3 TRANSAKSI TERAKHIR SECARA FLATTEN UTK HALAMAN UTAMA TAB RIWAYAT
         const dataTerbatasHalamanUtama = dataTerfilterGlobal.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
@@ -326,7 +323,6 @@
             <div class="divide-y divide-slate-50">${susunanHTMLItemRingkas}</div>
           </div>`);
 
-        // 3. CETAK GROUPING DATA FULL DI DALAM MODAL
         const grupTransaksiModal = {};
         dataTerfilterGlobal.forEach(item => {
           if (!grupTransaksiModal[item.tanggal]) grupTransaksiModal[item.tanggal] = [];
