@@ -405,11 +405,81 @@
     window.handleForm = function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSimpan');
-      btn.disabled = true; btn.innerHTML = "Memproses...";
-      const data = { tanggal: document.getElementById('tanggal').value, jenis: document.getElementById('jenis').value, kategori: document.getElementById('kategori').value, nominal: document.getElementById('nominal').value.replace(/\./g, ''), keterangan: document.getElementById('keterangan').value || "-" };
+      btn.disabled = true; 
+      
+      // 1. Pop-up Loading Menyimpan Modern
+      Swal.fire({
+        title: 'Menyimpan Transaksi',
+        text: 'Sedang mengirim data keuangan Anda ke server...',
+        allowOutsideClick: false,
+        background: '#ffffff',
+        customClass: {
+          popup: 'rounded-[2rem] p-8 shadow-xl',
+          title: 'font-bold text-lg text-slate-800 family-urbanist',
+          htmlContainer: 'text-sm text-slate-400 family-urbanist'
+        },
+        didOpen: () => { 
+          Swal.showLoading();
+          const loader = Swal.getPopup().querySelector('.swal2-loader');
+          if (loader) loader.style.borderColor = '#059669 transparent #059669 transparent';
+        }
+      });
+
+      const data = { 
+        tanggal: document.getElementById('tanggal').value, 
+        jenis: document.getElementById('jenis').value, 
+        kategori: document.getElementById('kategori').value, 
+        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
+        keterangan: document.getElementById('keterangan').value || "-" 
+      };
+
       fetch(API_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(data) })
-      .then(() => { btn.disabled = false; btn.innerHTML = "Simpan Transaksi"; Swal.fire({ icon: 'success', title: 'Berhasil!', timer: 1500 }); document.getElementById('formKeuangan').reset(); window.tukarHalaman('riwayat'); })
-      .catch(() => { btn.disabled = false; btn.innerHTML = "Simpan Transaksi"; Swal.fire({ icon: 'error', title: 'Gagal' }); });
+      .then(() => { 
+        btn.disabled = false; 
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
+        document.getElementById('formKeuangan').reset();
+        
+        // Atur ulang tanggal hari ini setelah reset form
+        document.getElementById('tanggal').valueAsDate = new Date();
+
+        // 2. Pop-up Sukses Menyimpan Modern
+        Swal.fire({
+          icon: 'success',
+          iconColor: '#10b981',
+          title: 'Berhasil Disimpan!',
+          text: 'Transaksi Anda telah aman tercatat di sistem.',
+          background: '#ffffff',
+          timer: 1800,
+          showConfirmButton: false,
+          customClass: {
+            popup: 'rounded-[2rem] p-6 shadow-xl',
+            title: 'font-bold text-xl text-slate-800 family-urbanist',
+            htmlContainer: 'text-sm text-slate-500 family-urbanist'
+          }
+        });
+        
+        window.tukarHalaman('riwayat'); 
+      })
+      .catch(() => { 
+        btn.disabled = false; 
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
+        
+        // 3. Pop-up Gagal Menyimpan Modern
+        Swal.fire({
+          icon: 'error',
+          iconColor: '#f43f5e',
+          title: 'Gagal Menyimpan',
+          text: 'Gagal terhubung ke server. Silakan coba beberapa saat lagi.',
+          background: '#ffffff',
+          confirmButtonColor: '#059669',
+          customClass: {
+            popup: 'rounded-[2rem] p-6 shadow-xl',
+            title: 'font-bold text-xl text-slate-800 family-urbanist',
+            htmlContainer: 'text-sm text-slate-500 family-urbanist',
+            confirmButton: 'rounded-2xl font-bold px-6 py-3'
+          }
+        });
+      });
     };
     
     window.unduhPDF = () => {}; window.unduhExcel = () => {};
