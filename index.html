@@ -188,7 +188,7 @@
   </div>
 
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
-    <div class="w-full h-[88vh] bg-slate-50 rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+    <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0">
         <div class="flex items-center gap-3">
@@ -211,7 +211,7 @@
         </div>
       </div>
 
-      <div class="w-full flex-grow p-4 overflow-y-auto pb-12">
+      <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
 
@@ -299,9 +299,14 @@
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
       if (res) {
-        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
-        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
-        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+        const elSaldo = document.getElementById('txtSaldo');
+        const elMasuk = document.getElementById('txtMasuk');
+        const elKeluar = document.getElementById('txtKeluar');
+        
+        if(elSaldo) elSaldo.innerText = res.saldo || "Rp 0";
+        if(elMasuk) elMasuk.innerText = res.pemasukan || "Rp 0";
+        if(elKeluar) elKeluar.innerText = res.pengeluaran || "Rp 0";
+        
         databaseRiwayatRaw = res.riwayat || [];
         window.prosesFilterData();
       }
@@ -456,8 +461,7 @@
           confirmButton: 'w-full bg-emerald-600 text-white font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 focus:ring-0 order-1',
           cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 border border-slate-200 mt-2 focus:ring-0 order-2',
           actions: 'flex flex-col w-full gap-1 mt-2'
-        },
-        showClass: { popup: 'animate__animated animate__slideInUp' } 
+        }
       }).then((r) => {
         if (r.isConfirmed) {
           select.value = r.value;
@@ -467,7 +471,6 @@
       });
     };
 
-    // PERBAIKAN: Membuat opsi bulan berdasarkan seluruh database mentah agar pilihan tidak kosong saat dibuka
     window.buatOpsiFilterBulanModal = function() {
       const select = document.getElementById('filterBulanModal');
       if (!select) return;
@@ -641,8 +644,31 @@
       });
     };
     
-    window.bukaModalDetailSemua = () => { document.getElementById('modalDetailTransaksi').classList.remove('hidden'); setTimeout(() => document.getElementById('modalDetailTransaksi').classList.remove('opacity-0'), 10); };
-    window.tutupModalDetailSemua = () => { document.getElementById('modalDetailTransaksi').classList.add('opacity-0'); setTimeout(() => document.getElementById('modalDetailTransaksi').classList.add('hidden'), 300); };
+    // PERBAIKAN: Memastikan modal putih utama bergeser naik sempurna dengan menghapus translate-y-full ketika modal dibuka
+    window.bukaModalDetailSemua = () => { 
+      const modal = document.getElementById('modalDetailTransaksi'); 
+      const box = modal.querySelector('div');
+      
+      // Sinkronisasi data dropdown & list sebelum modal dibuka agar isinya langsung muncul
+      window.buatOpsiFilterBulanModal();
+      window.renderListModalSesuaiBulan();
+      
+      modal.classList.remove('hidden'); 
+      setTimeout(() => { 
+        modal.classList.remove('opacity-0'); 
+        if(box) box.classList.remove('translate-y-full');
+      }, 20); 
+    };
+
+    window.tutupModalDetailSemua = () => { 
+      const modal = document.getElementById('modalDetailTransaksi'); 
+      const box = modal.querySelector('div');
+      
+      modal.classList.add('opacity-0'); 
+      if(box) box.classList.add('translate-y-full');
+      setTimeout(() => { modal.classList.add('hidden'); }, 300); 
+    };
+    
     window.unduhPDF = () => {}; window.unduhExcel = () => {};
   </script>
 </body>
