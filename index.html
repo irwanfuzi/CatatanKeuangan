@@ -397,16 +397,14 @@
       const totalPengeluaran = values.reduce((a, b) => a + b, 0);
       const warnaPalet = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
 
-      labels.forEach((kat, i) => {
-        const nominalStr = "Rp " + values[i].toLocaleString('id-ID');
-        // PERBAIKAN TEKS: Teks nama kategori legenda naik ke text-[12px] dan nominal ke text-[10.5px]
-        const legendItemHTML = `
-          <div class="flex items-start gap-2 leading-tight mb-1">
+     labels.forEach((kat, i) => {
+        // Hapus bagian nominalStr agar nominal tidak muncul
+        legendContainer.insertAdjacentHTML('beforeend', `
+          <div class="flex items-center gap-2 mb-1">
             <span class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${warnaPalet[i % warnaPalet.length]}"></span>
-                     <span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span>
-                   </div>
-        `;
-        legendContainer.insertAdjacentHTML('beforeend', legendItemHTML);
+            <span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span>
+          </div>
+        `);
       });
 
       myChartInstance = new Chart(canvasCtx, {
