@@ -839,46 +839,29 @@
         },
 
         options: {
-
-          plugins: {
-
-            legend: { 
-
-              display: false 
-
-            },
-
-            tooltip: {
-
-              callbacks: {
-
-                label: function(context) {
-
-                  return ' ' + context.label + ': Rp ' + context.raw.toLocaleString('id-ID');
-
-                }
-
-              }
-
-            },
-
-            datalabels: {
-
-              color: '#ffffff',
-
-              // PERBAIKAN TEKS: Angka persentase di dalam potongan kue naik ke ukuran 10 agar terbaca jelas
-
-              font: { family: 'Urbanist', weight: 'bold', size: 10 },
-
-              formatter: (value) => {
-
-                return ((value / totalPengeluaran) * 100).toFixed(1) + '%';
-
-              }
-
-            }
-
-          }
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      enabled: true,
+      // Mengatur agar hanya menampilkan title (baris pertama) saja
+      callbacks: {
+        label: function(context) {
+          // Mengembalikan string kosong untuk baris kedua agar tidak muncul teks ganda
+          return ""; 
+        },
+        title: function(tooltipItems) {
+          // Hanya menampilkan judul (nama kategori)
+          return tooltipItems[0].label;
+        }
+      }
+    },
+    datalabels: {
+      color: '#ffffff',
+      font: { family: 'Urbanist', weight: 'bold', size: 10 },
+      formatter: (value) => ((value / totalPengeluaran) * 100).toFixed(1) + '%'
+    }
+  }
+}
 
         }
 
