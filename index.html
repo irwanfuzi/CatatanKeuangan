@@ -12,7 +12,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -122,7 +124,7 @@
 
       <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
         <h3 class="text-md font-bold text-slate-800 mb-1">Grafik Pengeluaran</h3>
-        <p class="text-[11px] text-slate-400 mb-4 font-semibold">Proporsi akumulasi pengeluaran berdasarkan kategori</p>
+        <p class="text-[11px] text-slate-400 mb-4 font-semibold">Proporsi persentase pengeluaran berdasarkan kategori</p>
         <div class="w-full max-w-[210px] mx-auto flex items-center justify-center">
           <canvas id="chartPengeluaran"></canvas>
         </div>
@@ -158,7 +160,10 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     let myChartInstance = null;
     let databaseRiwayatRaw = []; 
-    let dataTerfilterGlobal = []; // Wadah untuk ekspor laporan data terfilter secara real-time
+    let dataTerfilterGlobal = []; 
+
+    // Daftarkan plugin datalabels secara global ke sistem Chart.js
+    Chart.register(ChartDataLabels);
 
     document.addEventListener('DOMContentLoaded', () => {
       const hariIni = new Date();
@@ -284,37 +289,26 @@
       }
     };
 
-    // FUNGSI BARU: UNDUH LAPORAN DALAM BENTUK PDF TABLE
     window.unduhPDF = function() {
       if (dataTerfilterGlobal.length === 0) {
         Swal.fire({ icon: 'warning', title: 'Data Kosong', text: 'Tidak ada data transaksi untuk diekspor.' });
         return;
       }
-      
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      
       const tglMulai = document.getElementById('filterMulai').value;
       const tglSelesai = document.getElementById('filterSelesai').value;
 
       doc.setFont("Helvetica", "bold");
       doc.setFontSize(16);
       doc.text("LAPORAN CATATAN KEUANGAN", 14, 20);
-      
       doc.setFont("Helvetica", "normal");
       doc.setFontSize(10);
       doc.text(`Periode Laporan: ${formatTanggalIndo(tglMulai)} s/d ${formatTanggalIndo(tglSelesai)}`, 14, 28);
       
       const rows = [];
       dataTerfilterGlobal.forEach((item, index) => {
-        rows.push([
-          index + 1,
-          formatTanggalIndo(item.tanggal),
-          item.jenis,
-          item.kategori,
-          item.keterangan,
-          `Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`
-        ]);
+        rows.push([index + 1, formatTanggalIndo(item.tanggal), item.jenis, item.kategori, item.keterangan, `Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`]);
       });
 
       doc.autoTable({
@@ -325,17 +319,14 @@
         headStyles: { fillColor: [16, 185, 129], fontStyle: 'bold' },
         styles: { font: 'Helvetica', fontSize: 9 }
       });
-
       doc.save(`Laporan_Keuangan_${tglMulai}_ke_${tglSelesai}.pdf`);
     };
 
-    // FUNGSI BARU: UNDUH LAPORAN DALAM BENTUK EXCEL (.XLSX)
     window.unduhExcel = function() {
       if (dataTerfilterGlobal.length === 0) {
         Swal.fire({ icon: 'warning', title: 'Data Kosong', text: 'Tidak ada data transaksi untuk diekspor.' });
         return;
       }
-
       const tglMulai = document.getElementById('filterMulai').value;
       const tglSelesai = document.getElementById('filterSelesai').value;
 
@@ -351,11 +342,7 @@
       const worksheet = XLSX.utils.json_to_sheet(sheetData);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Keuangan");
-
-      // Auto-fit lebar kolom Excel agar rapi tidak terpotong
-      const maxProps = [{wch: 5}, {wch: 18}, {wch: 12}, {wch: 22}, {wch: 30}, {wch: 15}];
-      worksheet['!cols'] = maxProps;
-
+      worksheet['!cols'] = [{wch: 5}, {wch: 18}, {wch: 12}, {wch: 22}, {wch: 30}, {wch: 15}];
       XLSX.writeFile(workbook, `Laporan_Keuangan_${tglMulai}_ke_${tglSelesai}.xlsx`);
     };
 
@@ -376,6 +363,9 @@
       if (myChartInstance !== null) {
         myChartInstance.destroy();
       }
+
+      // Hitung total pengeluaran untuk pembagi persentase
+      const totalPengeluaran = values.reduce((a, b) => a + b, 0);
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'pie',
@@ -403,6 +393,15 @@
                 label: function(context) {
                   return ' ' + context.label + ': Rp ' + context.raw.toLocaleString('id-ID');
                 }
+              }
+            },
+            // PEMBARUAN UTAMA: Memunculkan teks angka persentase di atas potongan warna grafik
+            datalabels: {
+              color: '#ffffff',
+              font: { family: 'Urbanist', weight: 'bold', size: 10 },
+              formatter: (value) => {
+                let persentase = ((value / totalPengeluaran) * 100).toFixed(1) + '%';
+                return persentase;
               }
             }
           }
