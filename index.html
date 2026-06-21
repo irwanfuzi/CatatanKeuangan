@@ -138,7 +138,7 @@
               <span id="chartCenterTotal" class="text-sm font-bold text-slate-800 truncate px-2 max-w-[120px]">Rp 0</span>
             </div>
           </div>
-          <div id="customLegendContainer" class="w-full flex flex-col gap-2 text-[12px] font-semibold text-slate-600 max-h-[180px] overflow-y-auto pr-1">
+          <div id="customLegendContainer" class="w-full flex flex-col gap-2 text-[13px] font-semibold text-slate-600 max-h-[180px] overflow-y-auto pr-1">
           </div>
         </div>
         <div id="noChartData" class="text-center text-sm text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
@@ -277,17 +277,17 @@
             susunanHTMLItem += `
               <div class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
                 <div class="flex items-center gap-3.5 min-w-[70%]">
-                  <div class="w-10 h-10 flex items-center justify-center rounded-2xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
-                    <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-sm' : 'fa-arrow-trend-down text-sm'}"></i>
+                  <div class="w-11 h-11 flex items-center justify-center rounded-2xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                    <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-base' : 'fa-arrow-trend-down text-base'}"></i>
                   </div>
                   <div class="truncate">
-                    <h4 class="text-sm font-bold text-slate-800 truncate mb-0.5">${item.keterangan}</h4>
-                    <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500 bg-slate-100'}">
+                    <h4 class="text-base font-bold text-slate-800 truncate mb-1">${item.keterangan}</h4>
+                    <span class="inline-block text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-600 bg-slate-100'}">
                       ${item.kategori}
                     </span>
                   </div>
                 </div>
-                <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                <span class="text-base font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
                   ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
                 </span>
               </div>`;
@@ -295,9 +295,9 @@
 
           listContainer.insertAdjacentHTML('beforeend', `
             <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-4">
-              <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
+              <div class="text-[12px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
                 <span>${formatTanggalIndo(tgl)}</span>
-                <span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span>
+                <span class="text-[11px] font-semibold lowercase text-slate-300">${tgl}</span>
               </div>
               <div class="divide-y divide-slate-50">
                 ${susunanHTMLItem}
@@ -351,11 +351,11 @@
             <div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
               <div class="flex items-center gap-2 truncate max-w-[60%]">
                 <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:${daftarWarna[i%6]}"></span>
-                <span class="text-slate-700 font-bold text-[11px] truncate">${kat}</span>
+                <span class="text-slate-700 font-bold text-[12px] truncate">${kat}</span>
               </div>
-              <div class="text-right flex-shrink-0 font-bold text-[11px]">
+              <div class="text-right flex-shrink-0 font-bold text-[12px]">
                 <span class="text-slate-800">Rp ${values[i].toLocaleString('id-ID')}</span>
-                <span class="text-slate-400 ml-1 text-[10px] font-semibold">(${persen}%)</span>
+                <span class="text-slate-400 ml-1 text-[11px] font-semibold">(${persen}%)</span>
               </div>
             </div>`);
         }
