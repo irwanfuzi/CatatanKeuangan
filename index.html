@@ -120,7 +120,7 @@
           <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100 text-rose-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
             <i class="fa-solid fa-file-pdf text-lg"></i> Unduh PDF
           </button>
-          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-100 text-emerald-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
             <i class="fa-solid fa-file-excel text-lg"></i> Unduh Excel
           </button>
         </div>
@@ -177,7 +177,7 @@
 
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12">
         <div id="listRiwayatPenuhModal" class="space-y-4">
-          </div>
+        </div>
       </div>
 
     </div>
@@ -229,6 +229,7 @@
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
+        pageRiwayat.remove('hidden'); // Fallback safe handling
         pageRiwayat.classList.remove('hidden');
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
@@ -289,58 +290,52 @@
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
       if (dataTerfilterGlobal.length > 0) {
-        const grupTransaksi = {};
+        // 1. BUAT AKUMULASI STRUKTUR DATA UTK KANVAS GRAFIK
         dataTerfilterGlobal.forEach(item => {
-          if (!grupTransaksi[item.tanggal]) grupTransaksi[item.tanggal] = [];
-          grupTransaksi[item.tanggal].push(item);
-          
           const isMasuk = item.jenis === "Pemasukan";
           if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
         });
 
-        const urutanTanggalSorted = Object.keys(grupTransaksi).sort((a,b) => new Date(b) - new Date(a));
+        // 2. AMBIL 3 TRANSAKSI TERAKHIR SECARA FLATTEN UTK HALAMAN UTAMA TAB RIWAYAT
+        const dataTerbatasHalamanUtama = dataTerfilterGlobal.slice(0, 3);
+        let susunanHTMLItemRingkas = '';
         
-        // Aturan Batas: Di halaman utama Tab Riwayat kita batasi cetak maksimal 2 grup tanggal saja
-        const tanggalTerbatasHalamanUtama = urutanTanggalSorted.slice(0, 2);
-
-        // 1. CETAK STRUKTUR DI HALAMAN UTAMA TAB RIWAYAT (RINGKASAN DATA TERBARU)
-        tanggalTerbatasHalamanUtama.forEach(tgl => {
-          let susunanHTMLItem = '';
-          grupTransaksi[tgl].forEach(item => {
-            const isMasuk = item.jenis === "Pemasukan";
-            susunanHTMLItem += `
-              <div class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
-                <div class="flex items-center gap-3.5 min-w-[70%]">
-                  <div class="w-11 h-11 flex items-center justify-center rounded-2xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
-                    <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-base' : 'fa-arrow-trend-down text-base'}"></i>
-                  </div>
-                  <div class="truncate">
-                    <h4 class="text-base font-bold text-slate-800 truncate mb-1">${item.keterangan}</h4>
-                    <span class="inline-block text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-600 bg-slate-100'}">
-                      ${item.kategori}
-                    </span>
-                  </div>
+        dataTerbatasHalamanUtama.forEach(item => {
+          const isMasuk = item.jenis === "Pemasukan";
+          susunanHTMLItemRingkas += `
+            <div class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
+              <div class="flex items-center gap-3.5 min-w-[70%]">
+                <div class="w-11 h-11 flex items-center justify-center rounded-2xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                  <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-base' : 'fa-arrow-trend-down text-base'}"></i>
                 </div>
-                <span class="text-base font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
-                  ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
-                </span>
-              </div>`;
-          });
-
-          listContainer.insertAdjacentHTML('beforeend', `
-            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-1">
-              <div class="text-[12px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
-                <span>${formatTanggalIndo(tgl)}</span>
-                <span class="text-[11px] font-semibold lowercase text-slate-300">${tgl}</span>
+                <div class="truncate">
+                  <h4 class="text-base font-bold text-slate-800 truncate mb-1">${item.keterangan}</h4>
+                  <span class="inline-block text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-600 bg-slate-100'}">
+                    ${item.kategori} &bull; ${formatTanggalIndo(item.tanggal)}
+                  </span>
+                </div>
               </div>
-              <div class="divide-y divide-slate-50">${susunanHTMLItem}</div>
-            </div>`);
+              <span class="text-base font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
+              </span>
+            </div>`;
         });
 
-        // 2. CETAK SELURUH DATA UTUH TANPA BATAS DI DALAM TAMPILAN MODAL BARU
-        urutanTanggalSorted.forEach(tgl => {
+        listContainer.insertAdjacentHTML('beforeend', `
+          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-1">
+            <div class="divide-y divide-slate-50">${susunanHTMLItemRingkas}</div>
+          </div>`);
+
+        // 3. CETAK GROUPING DATA FULL DI DALAM MODAL
+        const grupTransaksiModal = {};
+        dataTerfilterGlobal.forEach(item => {
+          if (!grupTransaksiModal[item.tanggal]) grupTransaksiModal[item.tanggal] = [];
+          grupTransaksiModal[item.tanggal].push(item);
+        });
+
+        Object.keys(grupTransaksiModal).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
           let susunanHTMLItemModal = '';
-          grupTransaksi[tgl].forEach(item => {
+          grupTransaksiModal[tgl].forEach(item => {
             const isMasuk = item.jenis === "Pemasukan";
             susunanHTMLItemModal += `
               <div class="flex items-center justify-between py-3.5 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
@@ -390,7 +385,6 @@
       }
     };
 
-    // FUNGSI ANIMASI POP-UP MODAL DETAIL
     window.bukaModalDetailSemua = function() {
       const modal = document.getElementById('modalDetailTransaksi');
       const box = modal.querySelector('div');
