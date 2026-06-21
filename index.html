@@ -29,7 +29,7 @@
     body::-webkit-scrollbar {
       display: none;
     }
-    /* Style Custom untuk Bottom Sheet Filter Periode di dalam Modal */
+    /* Style Custom untuk Bottom Sheet Premium */
     .premium-bottom-sheet {
       position: fixed !important;
       bottom: 0 !important;
@@ -41,18 +41,6 @@
       border-radius: 2rem 2rem 0 0 !important;
       padding: 1.5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom)) 1.5rem !important;
       box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1) !important;
-    }
-    .premium-bottom-sheet .swal2-select {
-      width: 100% !important;
-      margin: 1.5rem 0 !important;
-      padding: 1rem !important;
-      background-color: #f8fafc !important;
-      border: 1px solid #e2e8f0 !important;
-      border-radius: 1rem !important;
-      font-size: 1rem !important;
-      font-weight: 700 !important;
-      color: #334155 !important;
-      font-family: 'Urbanist', sans-serif !important;
     }
   </style>
 </head>
@@ -439,34 +427,55 @@
       });
     };
 
+    // FUNGSI BARU: Custom UI List Periode Tanpa Trigger Dropdown Sistem Mobile
+    window.pilihPeriodeListCustom = function(nilaiKunci, labelTeks) {
+      const select = document.getElementById('filterBulanModal');
+      if (select) {
+        select.value = nilaiKunci;
+        document.getElementById('labelPeriodeTerpilih').innerText = labelTeks;
+        window.renderListModalSesuaiBulan();
+        Swal.close();
+      }
+    };
+
+    // MEROMBAK TOTAL TAMPILAN POP UP PERIODE MENJADI FINTECH NATIVE LIST ITEMS
     window.bukaPilihanPeriode = function() {
       const select = document.getElementById('filterBulanModal');
-      const opsi = {};
-      for(let i=0; i<select.options.length; i++) opsi[select.options[i].value] = select.options[i].text;
+      const nilaiSekarang = select.value;
+      
+      // Membuat element daftar list kustom
+      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1">`;
+      
+      for (let i = 0; i < select.options.length; i++) {
+        const val = select.options[i].value;
+        const txt = select.options[i].text;
+        const isSelected = val === nilaiSekarang;
+        
+        listHTML += `
+          <button onclick="window.pilihPeriodeListCustom('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected 
+            ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' 
+            : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          }">
+            <span class="text-base">${txt}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-5 h-5 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>
+        `;
+      }
+      listHTML += `</div>`;
       
       Swal.fire({
         title: 'Pilih Periode Laporan',
-        input: 'select',
-        inputOptions: opsi,
-        inputValue: select.value,
-        confirmButtonText: 'Terapkan Periode',
-        confirmButtonColor: '#10b981', 
-        background: '#ffffff',
+        html: listHTML,
+        showConfirmButton: false, // Menghilangkan tombol konfirmasi kaku bawaan SweetAlert
         showCancelButton: true,
-        cancelButtonText: 'Batal',
+        cancelButtonText: 'Tutup',
         cancelButtonColor: '#f1f5f9',
+        background: '#ffffff',
         customClass: { 
           popup: 'premium-bottom-sheet', 
-          title: 'font-bold text-xl text-slate-800 pt-2',
-          confirmButton: 'w-full bg-emerald-600 text-white font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 focus:ring-0 order-1',
-          cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 border border-slate-200 mt-2 focus:ring-0 order-2',
-          actions: 'flex flex-col w-full gap-1 mt-2'
-        }
-      }).then((r) => {
-        if (r.isConfirmed) {
-          select.value = r.value;
-          document.getElementById('labelPeriodeTerpilih').innerText = opsi[r.value];
-          window.renderListModalSesuaiBulan();
+          title: 'font-bold text-xl text-slate-800 pt-1 border-b border-slate-100 pb-3',
+          cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 border border-slate-200 mt-2 focus:ring-0'
         }
       });
     };
@@ -641,19 +650,16 @@
       .catch(() => { 
         btn.disabled = false; 
         btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
-        Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: 'Gagal terhubung ke server.' });
+        Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: 'Terjadi masalah koneksi.' });
       });
     };
     
-    // PERBAIKAN UTAMA: Mengatur nilai dropdown otomatis ke Bulan & Tahun aktif saat ini ketika modal dibuka
     window.bukaModalDetailSemua = () => { 
       const modal = document.getElementById('modalDetailTransaksi'); 
       const box = modal.querySelector('div');
       
-      // 1. Siapkan opsi filter periode terlebih dahulu
       window.buatOpsiFilterBulanModal();
       
-      // 2. Deteksi Bulan & Tahun Berjalan (Format: YYYY-MM)
       const hariIni = new Date();
       const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
       
@@ -661,25 +667,20 @@
       const triggerLabel = document.getElementById('labelPeriodeTerpilih');
       
       if (select) {
-        // Cek apakah data bulan berjalan ada dalam daftar opsi pilihan
         const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
         
         if (opsiTersedia) {
           select.value = formatKunciBulanIni;
-          // Cari nama teks bulan (Misal: Juni 2026) untuk ditampilkan pada label tombol trigger
           const opsiDitemukan = Array.from(select.options).find(option => option.value === formatKunciBulanIni);
           if (triggerLabel && opsiDitemukan) triggerLabel.innerText = opsiDitemukan.text;
         } else {
-          // Jika data bulan berjalan kosong/belum ada transaksi, fallback tampilkan seluruh data
           select.value = "ALL";
           if (triggerLabel) triggerLabel.innerText = "Tampilkan Semua";
         }
       }
       
-      // 3. Render daftar transaksi sesuai periode yang diset di atas
       window.renderListModalSesuaiBulan();
       
-      // 4. Jalankan animasi pemicu bottom sheet pembukaan modal
       modal.classList.remove('hidden'); 
       setTimeout(() => { 
         modal.classList.remove('opacity-0'); 
