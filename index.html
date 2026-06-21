@@ -12,6 +12,34 @@
   <style>
     body { font-family: 'Urbanist', sans-serif; background-color: #f8fafc; }
     body::-webkit-scrollbar { display: none; }
+    
+    /* MODIFIKASI UI: Mengubah Box SweetAlert Standard Menjadi Modern Bottom Sheet Mobile */
+    .premium-bottom-sheet {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      border-radius: 2rem 2rem 0 0 !important;
+      padding: 1.5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom)) 1.5rem !important;
+      box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1), 0 -8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    /* Menyelaraskan element select di dalam modal SweetAlert agar modern & user friendly */
+    .premium-bottom-sheet .swal2-select {
+      width: 100% !important;
+      margin: 1.5rem 0 !important;
+      padding: 1rem !important;
+      background-color: #f8fafc !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 1rem !important;
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      color: #334155 !important;
+      font-family: 'Urbanist', sans-serif !important;
+    }
   </style>
 </head>
 
@@ -83,7 +111,7 @@
       <div class="w-full bg-white px-6 pb-5 border-b border-slate-100 flex-shrink-0">
         <label class="block text-[12px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Filter Periode</label>
         <div class="w-full">
-          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriode()" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 flex justify-between items-center transition-all active:scale-[0.99]">
+          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriode()" class="w-full p-4 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
             <span id="labelPeriodeTerpilih">Tampilkan Semua</span>
             <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
           </button>
@@ -237,19 +265,31 @@
       });
     };
 
+    // PERBAIKAN UTAMA: Mengubah Tampilan Menjadi Bottom Sheet FinTech Premium & Efek Slide Up Halus
     window.bukaPilihanPeriode = function() {
       const select = document.getElementById('filterBulanModal');
       const opsi = {};
       for(let i=0; i<select.options.length; i++) opsi[select.options[i].value] = select.options[i].text;
       
       Swal.fire({
-        title: 'Pilih Periode',
+        title: 'Pilih Periode Laporan',
         input: 'select',
         inputOptions: opsi,
         inputValue: select.value,
-        confirmButtonText: 'Terapkan',
-        confirmButtonColor: '#10b981',
-        customClass: { popup: 'rounded-[2rem]' }
+        confirmButtonText: 'Terapkan Periode',
+        confirmButtonColor: '#10b981', 
+        background: '#ffffff',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        cancelButtonColor: '#f1f5f9',
+        customClass: { 
+          popup: 'premium-bottom-sheet', 
+          title: 'font-bold text-xl text-slate-800 pt-2',
+          confirmButton: 'w-full bg-emerald-600 text-white font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 focus:ring-0 order-1',
+          cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-base transition-all active:scale-95 border border-slate-200 mt-2 focus:ring-0 order-2',
+          actions: 'flex flex-col w-full gap-1 mt-2'
+        },
+        showClass: { popup: 'animate__animated animate__slideInUp' } 
       }).then((r) => {
         if (r.isConfirmed) {
           select.value = r.value;
