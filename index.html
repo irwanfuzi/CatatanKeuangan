@@ -127,13 +127,11 @@
         </div>
       </div>
 
-      <!-- KARTU GRAFIK MODERN (DOUGHNUT) -->
       <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
         <h3 class="text-lg font-bold text-slate-800 mb-1">Analisis Pengeluaran</h3>
         <p class="text-[12px] text-slate-400 mb-4 font-semibold">Proporsi persentase pembagian pos pengeluaran Anda</p>
         
         <div class="w-full flex flex-col md:flex-row items-center justify-center gap-6 py-2">
-          <!-- Area Donat dengan Text Center -->
           <div class="relative w-[160px] h-[160px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-2">
@@ -141,19 +139,19 @@
               <span id="chartCenterTotal" class="text-sm font-bold text-slate-800 truncate px-2 max-w-[120px]">Rp 0</span>
             </div>
           </div>
-          <!-- Keterangan Legenda di Samping -->
           <div id="customLegendContainer" class="w-full flex flex-col gap-2 text-[12px] font-semibold text-slate-600 max-h-[180px] overflow-y-auto pr-1">
           </div>
         </div>
         <div id="noChartData" class="text-center text-sm text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
       </div>
 
-      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-xl font-bold text-slate-800 mb-4">Daftar Transaksi</h3>
-        <div id="loadingRiwayat" class="text-slate-400 text-sm py-4 text-center">
-          <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
+      <!-- DAFTAR TRANSAKSI MODERN -->
+      <div class="w-full flex flex-col gap-4">
+        <h3 class="text-lg font-bold text-slate-800 px-1">Daftar Transaksi</h3>
+        <div id="loadingRiwayat" class="text-slate-400 text-sm py-8 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
+          <i class="fa-solid fa-spinner animate-spin mr-2 text-emerald-600 text-base"></i>Memuat riwayat...
         </div>
-        <div id="listRiwayat" class="space-y-3 hidden">
+        <div id="listRiwayat" class="space-y-6 hidden">
         </div>
       </div>
       
@@ -199,6 +197,7 @@
       const navRiwayat = document.getElementById('navRiwayat');
 
       if (menu === 'home') {
+        pageHome.remove('hidden'); // Jalankan fallback jika toggle bermasalah
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
@@ -225,7 +224,18 @@
 
     function formatTanggalIndo(tglString) {
       if(!tglString) return "-";
-      return new Date(tglString).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
+      const tanggalObj = new Date(tglString);
+      
+      // Deteksi Hari Ini atau Kemarin secara cerdas
+      const hariIni = new Date();
+      const kemarin = new Date();
+      kemarin.setDate(hariIni.getDate() - 1);
+      
+      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
+      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
+      
+      return tanggalObj.toLocaleDateString('id-ID', opsi);
     }
 
     window.handleGoogleData = function(res) {
@@ -246,37 +256,73 @@
       const listContainer = document.getElementById('listRiwayat');
       if (!listContainer || !tglMulai || !tglSelesai) return;
       listContainer.innerHTML = "";
+      
       dataTerfilterGlobal = databaseRiwayatRaw.filter(item => item.tanggal >= tglMulai && item.tanggal <= tglSelesai);
       
       const dataKategoriGrafik = {};
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
       if (dataTerfilterGlobal.length > 0) {
+        // Mengelompokkan Transaksi berdasarkan Tanggal agar User-Friendly
+        const grupTransaksi = {};
         dataTerfilterGlobal.forEach(item => {
+          if (!grupTransaksi[item.tanggal]) grupTransaksi[item.tanggal] = [];
+          grupTransaksi[item.tanggal].push(item);
+          
           const isMasuk = item.jenis === "Pemasukan";
           if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
+        });
+
+        // Looping cetak struktur transaksi terkelompok (Grouped UI)
+        Object.keys(grupTransaksi).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
+          let susunanHTMLItem = '';
           
+          grupTransaksi[tgl].forEach(item => {
+            const isMasuk = item.jenis === "Pemasukan";
+            susunanHTMLItem += `
+              <div class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
+                <div class="flex items-center gap-3.5 min-w-[70%]">
+                  <div class="w-10 h-10 flex items-center justify-center rounded-2xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                    <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-sm' : 'fa-arrow-trend-down text-sm'}"></i>
+                  </div>
+                  <div class="truncate">
+                    <h4 class="text-sm font-bold text-slate-800 truncate mb-0.5">${item.keterangan}</h4>
+                    <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-slate-500 bg-slate-100'}">
+                      ${item.kategori}
+                    </span>
+                  </div>
+                </div>
+                <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                  ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
+                </span>
+              </div>`;
+          });
+
           listContainer.insertAdjacentHTML('beforeend', `
-            <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 flex items-center justify-center rounded-xl text-sm ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
-                  <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-slate-800">${item.keterangan}</h4>
-                  <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">${item.kategori} &bull; ${formatTanggalIndo(item.tanggal)}</p>
-                </div>
+            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col">
+              <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
+                <span>${formatTanggalIndo(tgl)}</span>
+                <span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span>
               </div>
-              <span class="text-sm font-bold ${isMasuk ? 'text-emerald-600' : 'text-rose-600'}">${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}</span>
+              <div class="divide-y divide-slate-50">
+                ${susunanHTMLItem}
+              </div>
             </div>`);
         });
+
         window.renderGrafik(dataKategoriGrafik);
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
       } else {
         window.renderGrafik({});
         document.getElementById('loadingRiwayat').classList.add('hidden');
-        listContainer.innerHTML = "<div class='text-slate-400 py-4 text-center text-sm'>Tidak ada riwayat.</div>";
+        listContainer.innerHTML = `
+          <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-sm text-center">
+            <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+              <i class="fa-solid fa-folder-open text-lg"></i>
+            </div>
+            <p class="text-slate-400 text-sm font-semibold">Tidak ada riwayat transaksi pada rentang tanggal ini.</p>
+          </div>`;
         listContainer.classList.remove('hidden');
       }
     };
@@ -303,7 +349,6 @@
       document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
-      // Membentuk Item Legenda Premium dengan Info Angka + Persen
       labels.forEach((kat, i) => {
         if (values[i] > 0) {
           const persen = ((values[i] / total) * 100).toFixed(1);
@@ -321,16 +366,15 @@
         }
       });
 
-      // Konfigurasi Doughnut Chart Modern
       myChartInstance = new Chart(canvasCtx, {
         type: 'doughnut',
         data: { labels, datasets: [{ data: values, backgroundColor: daftarWarna, borderWidth: 3, borderColor: '#ffffff' }] },
         options: {
-          cutout: '72%', // Membuat lubang donat lebih tipis & luas agar modern
+          cutout: '72%', 
           plugins: {
             legend: { display: false },
             tooltip: { enabled: true, displayColors: false, callbacks: { label: (ctx) => " Rp " + ctx.raw.toLocaleString('id-ID'), title: (t) => t[0].label } },
-            datalabels: { display: false } // Mematikan teks di dalam donat agar bersih
+            datalabels: { display: false } 
           }
         }
       });
