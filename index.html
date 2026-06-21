@@ -45,7 +45,7 @@
 
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
+    <div id="pageHome" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6 active-page">
       <h3 class="text-lg font-bold text-slate-800 mb-4">Tambah Transaksi</h3>
 
       <form id="formKeuangan" onsubmit="handleForm(event)">
@@ -83,7 +83,7 @@
       </form>
     </div>
 
-    <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
+    <div id="pageRiwayat" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6 hidden">
       <h3 class="text-lg font-bold text-slate-800 mb-3">Riwayat Transaksi</h3>
       <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center">
         <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
@@ -94,16 +94,23 @@
 
   </div>
 
-  <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-12 flex justify-center gap-24 z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
-    <button onclick="tombolReloadPintar()" class="text-emerald-600 flex flex-col items-center min-w-[50px] active:scale-95 transition-transform focus:outline-none">
+  <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-6 flex justify-around z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
+    
+    <button id="navHome" onclick="tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[60px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">HOME</span>
     </button>
     
-    <button onclick="tombolReloadPintar()" class="text-slate-500 flex flex-col items-center min-w-[50px] active:scale-95 transition-transform focus:outline-none">
+    <button id="navRiwayat" onclick="tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[60px] active:scale-95 transition-transform focus:outline-none">
+      <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
+      <span class="text-[10px] font-bold tracking-wider">RIWAYAT</span>
+    </button>
+    
+    <button onclick="tombolReloadPintar()" class="text-slate-400 flex flex-col items-center min-w-[60px] active:scale-95 transition-transform focus:outline-none">
       <i id="iconReload" class="fa-solid fa-rotate text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">RELOAD</span>
     </button>
+
   </div>
 
   <script>                                                                           
@@ -111,6 +118,33 @@
 
     document.getElementById('tanggal').valueAsDate = new Date();
     window.onload = loadSummary;
+
+    // FUNGSI UTAMA TUKAR HALAMAN (TAB SYSTEM)
+    function tukarHalaman(menu) {
+      const pageHome = document.getElementById('pageHome');
+      const pageRiwayat = document.getElementById('pageRiwayat');
+      const navHome = document.getElementById('navHome');
+      const navRiwayat = document.getElementById('navRiwayat');
+
+      if (menu === 'home') {
+        pageHome.classList.remove('hidden');
+        pageRiwayat.classList.add('hidden');
+        
+        // Tukar warna aktif ikon navigasi
+        navHome.classList.replace('text-slate-400', 'text-emerald-600');
+        navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
+      } else if (menu === 'riwayat') {
+        pageHome.classList.add('hidden');
+        pageRiwayat.classList.remove('hidden');
+        
+        // Tukar warna aktif ikon navigasi
+        navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
+        navHome.classList.replace('text-emerald-600', 'text-slate-400');
+        
+        // Muat semula data riwayat memastikan data paling terkini dipaparkan
+        loadSummary();
+      }
+    }
 
     function loadSummary() {
       document.getElementById('loadingRiwayat').classList.remove('hidden');
@@ -126,7 +160,6 @@
     }
 
     window.handleGoogleData = function(res) {
-      // Pastikan putaran ikon reload berhenti terlebih dahulu apa pun yang terjadi
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
 
@@ -190,6 +223,9 @@
       document.getElementById('formKeuangan').reset();
       document.getElementById('tanggal').valueAsDate = new Date();
       loadSummary();
+      
+      // Kembalikan paparan ke halaman home selepas reload ditindas
+      tukarHalaman('home');
     }
 
     const opsiKategori = {
@@ -250,7 +286,9 @@
         document.getElementById('formKeuangan').reset();
         document.getElementById('tanggal').valueAsDate = new Date();
         updateKategoriOptions();
-        setTimeout(loadSummary, 1500);
+        
+        // Pindah automatik ke halaman Riwayat selepas berjaya simpan untuk melihat hasilnya
+        tukarHalaman('riwayat');
       })
       .catch(err => {
         console.error(err);
