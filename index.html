@@ -96,6 +96,7 @@
         </div>
       </form>
 
+      <!-- TOMBOL RESET DATA -->
       <button type="button" onclick="window.resetSemuaData()" class="w-full mt-4 bg-red-50 hover:bg-red-100 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100 active:scale-95 transition-all focus:outline-none flex items-center justify-center gap-2 text-sm">
         <i class="fa-solid fa-trash-can"></i> Reset Semua Data
       </button>
@@ -126,15 +127,22 @@
         </div>
       </div>
 
+      <!-- KARTU GRAFIK MODERN (DOUGHNUT) -->
       <div class="w-full bg-white p-5 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-lg font-bold text-slate-800 mb-1">Grafik Pengeluaran</h3>
-        <p class="text-[12px] text-slate-400 mb-4 font-semibold">Proporsi akumulasi pengeluaran dan total nominal per kategori</p>
+        <h3 class="text-lg font-bold text-slate-800 mb-1">Analisis Pengeluaran</h3>
+        <p class="text-[12px] text-slate-400 mb-4 font-semibold">Proporsi persentase pembagian pos pengeluaran Anda</p>
         
-        <div class="w-full flex flex-row items-center justify-between gap-2 overflow-x-auto py-2">
-          <div class="w-[45%] max-w-[150px] flex-shrink-0 flex items-center justify-center">
+        <div class="w-full flex flex-col md:flex-row items-center justify-center gap-6 py-2">
+          <!-- Area Donat dengan Text Center -->
+          <div class="relative w-[160px] h-[160px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-2">
+              <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Total Pos</span>
+              <span id="chartCenterTotal" class="text-sm font-bold text-slate-800 truncate px-2 max-w-[120px]">Rp 0</span>
+            </div>
           </div>
-          <div id="customLegendContainer" class="w-[55%] flex flex-col gap-2 pl-2 text-[12px] font-bold text-slate-700 max-h-[170px] overflow-y-auto">
+          <!-- Keterangan Legenda di Samping -->
+          <div id="customLegendContainer" class="w-full flex flex-col gap-2 text-[12px] font-semibold text-slate-600 max-h-[180px] overflow-y-auto pr-1">
           </div>
         </div>
         <div id="noChartData" class="text-center text-sm text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
@@ -276,11 +284,14 @@
     window.renderGrafik = function(dataKategori) {
       const canvasCtx = document.getElementById('chartPengeluaran');
       const legendContainer = document.getElementById('customLegendContainer');
+      const textCenterTotal = document.getElementById('chartCenterTotal');
+      
       const labels = Object.keys(dataKategori), values = Object.values(dataKategori);
       if (!legendContainer) return;
       legendContainer.innerHTML = "";
       
       const total = values.reduce((a, b) => a + b, 0);
+      textCenterTotal.innerText = "Rp " + total.toLocaleString('id-ID');
 
       if (total === 0) { 
         canvasCtx.style.display = 'none'; 
@@ -292,26 +303,34 @@
       document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
+      // Membentuk Item Legenda Premium dengan Info Angka + Persen
       labels.forEach((kat, i) => {
         if (values[i] > 0) {
-          legendContainer.insertAdjacentHTML('beforeend', `<div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full" style="background-color:${daftarWarna[i%6]}"></span><span class="text-slate-700 font-bold text-[13px] truncate">${kat}</span></div>`);
+          const persen = ((values[i] / total) * 100).toFixed(1);
+          legendContainer.insertAdjacentHTML('beforeend', `
+            <div class="flex items-center justify-between p-2 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
+              <div class="flex items-center gap-2 truncate max-w-[60%]">
+                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:${daftarWarna[i%6]}"></span>
+                <span class="text-slate-700 font-bold text-[11px] truncate">${kat}</span>
+              </div>
+              <div class="text-right flex-shrink-0 font-bold text-[11px]">
+                <span class="text-slate-800">Rp ${values[i].toLocaleString('id-ID')}</span>
+                <span class="text-slate-400 ml-1 text-[10px] font-semibold">(${persen}%)</span>
+              </div>
+            </div>`);
         }
       });
 
+      // Konfigurasi Doughnut Chart Modern
       myChartInstance = new Chart(canvasCtx, {
-        type: 'pie',
-        data: { labels, datasets: [{ data: values, backgroundColor: daftarWarna, borderWidth: 2, borderColor: '#ffffff' }] },
+        type: 'doughnut',
+        data: { labels, datasets: [{ data: values, backgroundColor: daftarWarna, borderWidth: 3, borderColor: '#ffffff' }] },
         options: {
+          cutout: '72%', // Membuat lubang donat lebih tipis & luas agar modern
           plugins: {
             legend: { display: false },
-            tooltip: { enabled: true, displayColors: false, callbacks: { label: () => "", title: (t) => t[0].label } },
-            datalabels: {
-              color: '#ffffff',
-              font: { family: 'Urbanist', weight: 'bold', size: 14 },
-              textShadowColor: 'rgba(0,0,0,0.5)',
-              textShadowBlur: 4,
-              formatter: (v) => v > 0 ? ((v / total) * 100).toFixed(1) + '%' : ""
-            }
+            tooltip: { enabled: true, displayColors: false, callbacks: { label: (ctx) => " Rp " + ctx.raw.toLocaleString('id-ID'), title: (t) => t[0].label } },
+            datalabels: { display: false } // Mematikan teks di dalam donat agar bersih
           }
         }
       });
@@ -407,7 +426,6 @@
       const btn = document.getElementById('btnSimpan');
       btn.disabled = true; 
       
-      // 1. Pop-up Loading Menyimpan Modern
       Swal.fire({
         title: 'Menyimpan Transaksi',
         text: 'Sedang mengirim data keuangan Anda ke server...',
@@ -438,11 +456,8 @@
         btn.disabled = false; 
         btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
         document.getElementById('formKeuangan').reset();
-        
-        // Atur ulang tanggal hari ini setelah reset form
         document.getElementById('tanggal').valueAsDate = new Date();
 
-        // 2. Pop-up Sukses Menyimpan Modern
         Swal.fire({
           icon: 'success',
           iconColor: '#10b981',
@@ -464,7 +479,6 @@
         btn.disabled = false; 
         btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
         
-        // 3. Pop-up Gagal Menyimpan Modern
         Swal.fire({
           icon: 'error',
           iconColor: '#f43f5e',
