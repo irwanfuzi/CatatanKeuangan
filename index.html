@@ -83,4 +83,93 @@
   </div>
 
   <script>
-    const API_URL = "
+    const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
+    let myChartInstance = null, databaseRiwayatRaw = [];
+    Chart.register(ChartDataLabels);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const h = new Date();
+      document.getElementById('tanggal').valueAsDate = h;
+      document.getElementById('filterMulai').value = new Date(h.getFullYear(), h.getMonth(), 1).toISOString().split('T')[0];
+      document.getElementById('filterSelesai').value = h.toISOString().split('T')[0];
+      window.updateKategoriOptions();
+      window.loadSummary();
+    });
+
+    window.tukarHalaman = (m) => {
+      document.getElementById('pageHome').classList.toggle('hidden', m !== 'home');
+      document.getElementById('pageRiwayat').classList.toggle('hidden', m !== 'riwayat');
+      document.getElementById('navHome').classList.toggle('text-emerald-600', m === 'home');
+      document.getElementById('navHome').classList.toggle('text-slate-400', m !== 'home');
+      document.getElementById('navRiwayat').classList.toggle('text-emerald-600', m === 'riwayat');
+      document.getElementById('navRiwayat').classList.toggle('text-slate-400', m !== 'riwayat');
+      if (m === 'riwayat') window.loadSummary();
+    };
+
+    window.loadSummary = () => {
+      document.getElementById('loadingRiwayat').classList.remove('hidden');
+      const old = document.getElementById('google-jsonp-script');
+      if (old) old.remove();
+      const s = document.createElement('script');
+      s.id = 'google-jsonp-script';
+      s.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
+      document.body.appendChild(s);
+    };
+
+    window.handleGoogleData = (res) => {
+      document.getElementById('loadingRiwayat').classList.add('hidden');
+      if (res) {
+        document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
+        document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
+        document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+        databaseRiwayatRaw = res.riwayat || [];
+        window.prosesFilterData();
+      }
+    };
+
+    window.prosesFilterData = () => {
+      const list = document.getElementById('listRiwayat');
+      const filtered = databaseRiwayatRaw.filter(i => i.tanggal >= document.getElementById('filterMulai').value && i.tanggal <= document.getElementById('filterSelesai').value);
+      const grafik = {};
+      list.innerHTML = "";
+      filtered.forEach(i => {
+        if (i.jenis === 'Pengeluaran') grafik[i.kategori] = (grafik[i.kategori] || 0) + parseInt(i.nominal);
+        list.innerHTML += `<div class="flex justify-between border-b p-2 text-sm"><span>${i.keterangan}</span><span class="font-bold">${parseInt(i.nominal).toLocaleString()}</span></div>`;
+      });
+      window.renderGrafik(grafik);
+    };
+
+    window.renderGrafik = (data) => {
+      const canvas = document.getElementById('chartPengeluaran');
+      const legend = document.getElementById('customLegendContainer');
+      legend.innerHTML = "";
+      const labels = Object.keys(data), vals = Object.values(data);
+      if (myChartInstance) myChartInstance.destroy();
+      const total = vals.reduce((a, b) => a + b, 0);
+      const colors = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
+      labels.forEach((kat, i) => legend.innerHTML += `<div class="flex items-center gap-2 mb-1"><span class="w-3 h-3 rounded-full" style="background:${colors[i%6]}"></span><span class="text-xs font-bold truncate">${kat}</span></div>`);
+      myChartInstance = new Chart(canvas, {
+        type: 'pie',
+        data: { labels, datasets: [{ data: vals, backgroundColor: colors }] },
+        options: { plugins: { legend: { display: false }, datalabels: { color: '#334155', font: { weight: 'bold', size: 12 }, formatter: (v) => ((v / total) * 100).toFixed(1) + '%' } } }
+      });
+    };
+
+    window.resetData = () => {
+        Swal.fire({ title: 'Yakin hapus semua data?', icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya' }).then((r) => {
+            if (r.isConfirmed) fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" }).then(() => { Swal.fire('Dihapus'); window.loadSummary(); });
+        });
+    };
+
+    window.updateKategoriOptions = () => {
+      const ops = { "Pengeluaran": ["Makanan", "Transport", "WiFi", "Hiburan", "Obat", "Lainnya"], "Pemasukan": ["Gaji", "Freelance", "Hadiah"] };
+      document.getElementById('kategori').innerHTML = ops[document.getElementById('jenis').value].map(o => `<option value="${o}">${o}</option>`).join('');
+    };
+
+    window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
+    window.tombolReloadPintar = () => { document.getElementById('iconReload').classList.add('animate-spin'); window.loadSummary(); };
+    window.handleForm = (e) => { e.preventDefault(); Swal.fire('Berhasil', 'Tersimpan', 'success'); window.tukarHalaman('riwayat'); };
+    window.unduhPDF = () => {}; window.unduhExcel = () => {};
+  </script>
+</body>
+</html>
