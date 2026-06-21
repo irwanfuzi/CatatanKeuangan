@@ -117,29 +117,6 @@
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
       <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-        <h3 class="text-lg font-bold text-slate-800 mb-4"><i class="fa-solid fa-filter mr-2 text-emerald-600"></i>Filter & Ekspor Laporan</h3>
-        <div class="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <label class="block text-[13px] font-bold text-slate-400 mb-1.5 tracking-wide">DARI TANGGAL</label>
-            <input type="date" id="filterMulai" onchange="window.prosesFilterData()" class="w-full p-3 bg-slate-50 text-base rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700">
-          </div>
-          <div>
-            <label class="block text-[13px] font-bold text-slate-400 mb-1.5 tracking-wide">SAMPAI TANGGAL</label>
-            <input type="date" id="filterSelesai" onchange="window.prosesFilterData()" class="w-full p-3 bg-slate-50 text-base rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700">
-          </div>
-        </div>
-        
-        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
-          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-200 text-rose-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
-            <i class="fa-solid fa-file-pdf text-lg"></i> Unduh PDF
-          </button>
-          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold text-base p-3.5 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
-            <i class="fa-solid fa-file-excel text-lg"></i> Unduh Excel
-          </button>
-        </div>
-      </div>
-
-      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
         <h3 class="text-xl font-bold text-slate-800 mb-1">Analisis Pengeluaran</h3>
         <p class="text-[13px] text-slate-400 mb-5 font-semibold">Proporsi persentase pembagian pos pengeluaran Anda</p>
         
@@ -188,14 +165,23 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-xs uppercase tracking-wider">0 Transaksi</span>
       </div>
 
-      <div class="w-full bg-white px-6 pb-5 border-b border-slate-100 flex-shrink-0">
-        <label class="block text-[12px] font-bold text-slate-400 mb-2 uppercase tracking-wider">Filter Periode</label>
-        <div class="w-full">
-          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriode()" class="w-full p-4 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
+      <div class="w-full bg-white px-6 pb-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode</label>
+          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriode()" class="w-full p-3.5 bg-slate-50 hover:bg-slate-100/70 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
             <span id="labelPeriodeTerpilih">Tampilkan Semua</span>
             <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
           </button>
           <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="hidden"></select>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 pt-1">
+          <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100 text-rose-600 font-bold text-sm p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+            <i class="fa-solid fa-file-pdf"></i> Unduh PDF
+          </button>
+          <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-100 text-emerald-600 font-bold text-sm p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform focus:outline-none">
+            <i class="fa-solid fa-file-excel"></i> Unduh Excel
+          </button>
         </div>
       </div>
 
@@ -224,16 +210,11 @@
     const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
     let myChartInstance = null;
     let databaseRiwayatRaw = []; 
-    let dataTerfilterGlobal = []; 
 
     Chart.register(ChartDataLabels);
 
     document.addEventListener('DOMContentLoaded', () => {
-      const hariIni = new Date();
-      const awalBulan = new Date(hariIni.getFullYear(), hariIni.getMonth(), 1);
-      document.getElementById('tanggal').valueAsDate = hariIni;
-      document.getElementById('filterMulai').value = awalBulan.toISOString().split('T')[0];
-      document.getElementById('filterSelesai').value = hariIni.toISOString().split('T')[0];
+      document.getElementById('tanggal').valueAsDate = new Date();
       window.updateKategoriOptions();
       window.loadSummary();
     });
@@ -296,30 +277,26 @@
         if(elKeluar) elKeluar.innerText = res.pengeluaran || "Rp 0";
         
         databaseRiwayatRaw = res.riwayat || [];
-        window.prosesFilterData();
+        window.renderHalamanRiwayatUtama();
       }
     };
 
-    window.prosesFilterData = function() {
-      const tglMulai = document.getElementById('filterMulai').value;
-      const tglSelesai = document.getElementById('filterSelesai').value;
+    window.renderHalamanRiwayatUtama = function() {
       const listContainer = document.getElementById('listRiwayat');
-      
-      if (!listContainer || !tglMulai || !tglSelesai) return;
+      if (!listContainer) return;
       listContainer.innerHTML = "";
       
-      dataTerfilterGlobal = databaseRiwayatRaw.filter(item => item.tanggal >= tglMulai && item.tanggal <= tglSelesai);
-
       const dataKategoriGrafik = {};
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
-      if (dataTerfilterGlobal.length > 0) {
-        dataTerfilterGlobal.forEach(item => {
-          const isMasuk = item.jenis === "Pemasukan";
-          if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
+      if (databaseRiwayatRaw.length > 0) {
+        databaseRiwayatRaw.forEach(item => {
+          if (item.jenis !== "Pemasukan") {
+            dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
+          }
         });
 
-        const dataTerbatasHalamanUtama = dataTerfilterGlobal.slice(0, 3);
+        const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
         dataTerbatasHalamanUtama.forEach(item => {
@@ -343,13 +320,10 @@
             </div>`;
         });
 
-        listContainer.insertAdjacentHTML('beforeend', `
+        listContainer.innerHTML = `
           <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-1">
             <div class="divide-y divide-slate-50">${susunanHTMLItemRingkas}</div>
-          </div>`);
-
-        window.buatOpsiFilterBulanModal();
-        window.renderListModalSesuaiBulan();
+          </div>`;
 
         window.renderGrafik(dataKategoriGrafik);
         document.getElementById('loadingRiwayat').classList.add('hidden');
@@ -364,7 +338,7 @@
             <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
               <i class="fa-solid fa-folder-open text-lg"></i>
             </div>
-            <p class="text-slate-400 text-sm font-semibold">Tidak ada riwayat transaksi pada rentang tanggal ini.</p>
+            <p class="text-slate-400 text-sm font-semibold">Belum ada data transaksi keuangan tercatat.</p>
           </div>`;
         listContainer.classList.remove('hidden');
       }
@@ -427,7 +401,6 @@
       });
     };
 
-    // FUNGSI BARU: Custom UI List Periode Tanpa Trigger Dropdown Sistem Mobile
     window.pilihPeriodeListCustom = function(nilaiKunci, labelTeks) {
       const select = document.getElementById('filterBulanModal');
       if (select) {
@@ -438,12 +411,9 @@
       }
     };
 
-    // MEROMBAK TOTAL TAMPILAN POP UP PERIODE MENJADI FINTECH NATIVE LIST ITEMS
     window.bukaPilihanPeriode = function() {
       const select = document.getElementById('filterBulanModal');
       const nilaiSekarang = select.value;
-      
-      // Membuat element daftar list kustom
       let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1">`;
       
       for (let i = 0; i < select.options.length; i++) {
@@ -467,7 +437,7 @@
       Swal.fire({
         title: 'Pilih Periode Laporan',
         html: listHTML,
-        showConfirmButton: false, // Menghilangkan tombol konfirmasi kaku bawaan SweetAlert
+        showConfirmButton: false,
         showCancelButton: true,
         cancelButtonText: 'Tutup',
         cancelButtonColor: '#f1f5f9',
@@ -581,18 +551,9 @@
             background: '#ffffff',
             didOpen: () => Swal.showLoading()
           });
-          
           fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" })
           .then(() => {
-            Swal.fire({
-              icon: 'success',
-              iconColor: '#10b981',
-              title: 'Selesai!',
-              text: 'Semua data keuangan Anda telah bersih.',
-              background: '#ffffff',
-              timer: 2000,
-              showConfirmButton: false
-            });
+            Swal.fire({ icon: 'success', title: 'Selesai!', text: 'Semua data keuangan Anda telah bersih.', timer: 2000, showConfirmButton: false });
             window.loadSummary();
           });
         }
@@ -613,44 +574,20 @@
       const btn = document.getElementById('btnSimpan');
       btn.disabled = true; 
       
-      Swal.fire({
-        title: 'Menyimpan Transaksi',
-        text: 'Sedang mengirim data keuangan Anda ke server...',
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading()
-      });
+      Swal.fire({ title: 'Menyimpan Transaksi', text: 'Sedang mengirim data...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      const data = { tanggal: document.getElementById('tanggal').value, jenis: document.getElementById('jenis').value, kategori: document.getElementById('kategori').value, nominal: document.getElementById('nominal').value.replace(/\./g, ''), keterangan: document.getElementById('keterangan').value || "-" };
 
-      const data = { 
-        tanggal: document.getElementById('tanggal').value, 
-        jenis: document.getElementById('jenis').value, 
-        kategori: document.getElementById('kategori').value, 
-        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
-        keterangan: document.getElementById('keterangan').value || "-" 
-      };
-
-      fetch(API_URL, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(data) })
+      fetch(API_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(data) })
       .then(() => { 
         btn.disabled = false; 
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
         document.getElementById('formKeuangan').reset();
         document.getElementById('tanggal').valueAsDate = new Date();
-
-        Swal.fire({
-          icon: 'success',
-          iconColor: '#10b981',
-          title: 'Berhasil Disimpan!',
-          text: 'Transaksi Anda telah aman tercatat di sistem.',
-          background: '#ffffff',
-          timer: 1800,
-          showConfirmButton: false
-        });
-        
-        window.tukarHalaman('riwayat'); 
+        Swal.fire({ icon: 'success', title: 'Berhasil Disimpan!', timer: 1800, showConfirmButton: false });
+        window.loadSummary();
       })
       .catch(() => { 
         btn.disabled = false; 
-        btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi`;
-        Swal.fire({ icon: 'error', title: 'Gagal Menyimpan', text: 'Terjadi masalah koneksi.' });
+        Swal.fire({ icon: 'error', title: 'Gagal Menyimpan' });
       });
     };
     
@@ -662,13 +599,11 @@
       
       const hariIni = new Date();
       const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
-      
       const select = document.getElementById('filterBulanModal');
       const triggerLabel = document.getElementById('labelPeriodeTerpilih');
       
       if (select) {
         const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
-        
         if (opsiTersedia) {
           select.value = formatKunciBulanIni;
           const opsiDitemukan = Array.from(select.options).find(option => option.value === formatKunciBulanIni);
@@ -680,7 +615,6 @@
       }
       
       window.renderListModalSesuaiBulan();
-      
       modal.classList.remove('hidden'); 
       setTimeout(() => { 
         modal.classList.remove('opacity-0'); 
@@ -691,7 +625,6 @@
     window.tutupModalDetailSemua = () => { 
       const modal = document.getElementById('modalDetailTransaksi'); 
       const box = modal.querySelector('div');
-      
       modal.classList.add('opacity-0'); 
       if(box) box.classList.add('translate-y-full');
       setTimeout(() => { modal.classList.add('hidden'); }, 300); 
