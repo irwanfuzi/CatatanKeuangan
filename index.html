@@ -49,7 +49,7 @@
     <div id="pageHome" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
       <h3 class="text-lg font-bold text-slate-800 mb-4">Tambah Transaksi</h3>
 
-      <form id="formKeuangan" onsubmit="handleForm(event)">
+      <form id="formKeuangan" onsubmit="window.handleForm(event)">
         <div class="mb-4">
           <label class="block text-xs font-semibold text-slate-500 mb-1">TANGGAL</label>
           <input type="date" id="tanggal" class="w-full p-3 bg-slate-50 rounded-xl border-none focus:ring-2 focus:ring-emerald-500 outline-none" required>
@@ -57,7 +57,7 @@
 
         <div class="mb-4">
           <label class="block text-xs font-semibold text-slate-500 mb-1">JENIS TRANSAKSI</label>
-          <select id="jenis" onchange="updateKategoriOptions()" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none">
+          <select id="jenis" onchange="window.updateKategoriOptions()" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none">
             <option value="Pengeluaran">💸 Pengeluaran</option>
             <option value="Pemasukan">💰 Pemasukan</option>
           </select>
@@ -70,7 +70,7 @@
 
         <div class="mb-4">
           <label class="block text-xs font-semibold text-slate-500 mb-1">NOMINAL (Rp)</label>
-          <input type="text" id="nominal" placeholder="Contoh: 50.000" oninput="formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required>
+          <input type="text" id="nominal" placeholder="Contoh: 50.000" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required>
         </div>
 
         <div class="mb-4">
@@ -83,7 +83,7 @@
             <i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi
           </button>
           
-          <button type="button" onclick="tombolReloadPintar()" class="bg-slate-100 text-slate-600 font-bold px-5 rounded-2xl border border-slate-200 shadow-sm hover:bg-slate-200 transition-all active:scale-95 focus:outline-none flex items-center justify-center">
+          <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100 text-slate-600 font-bold px-5 rounded-2xl border border-slate-200 shadow-sm hover:bg-slate-200 transition-all active:scale-95 focus:outline-none flex items-center justify-center">
             <i id="iconReload" class="fa-solid fa-rotate text-lg"></i>
           </button>
         </div>
@@ -97,7 +97,8 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 mb-1">DARI</label>
-            <input type="date" id="filterMulai" onchange="filterDataRiwayatDanGrafik()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
+            <input type="date" id="filterMulai" onchange="window.filterDataRiwayatDanGrafik()" class="w-full p-2 bg-slate-50 text-xs rounded-xl border-none outline-none focus:ring-2 focus:ring-emerald-500">
           </div>
           <div>
-            <label class="block text-[10px] font-
+            <label class="block text-[10px] font-bold text-slate-400 mb-1">SAMPAI</label>
+            <input type="date" id="filterS
