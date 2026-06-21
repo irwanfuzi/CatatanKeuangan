@@ -145,16 +145,41 @@
       </div>
 
       <div class="w-full flex flex-col gap-4">
-        <h3 class="text-lg font-bold text-slate-800 px-1">Daftar Transaksi</h3>
+        <h3 class="text-lg font-bold text-slate-800 px-1">Transaksi Terakhir</h3>
         
         <div id="loadingRiwayat" class="text-slate-400 text-sm py-8 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
           <i class="fa-solid fa-spinner animate-spin mr-2 text-emerald-600 text-base"></i>Memuat riwayat...
         </div>
         
-        <div id="listRiwayat" class="space-y-4 max-h-[420px] overflow-y-auto hidden pr-1">
+        <div id="listRiwayat" class="space-y-4 hidden">
         </div>
+
+        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-4 rounded-2xl shadow-sm text-base transition-all active:scale-95 flex items-center justify-center gap-2">
+          <span>Lihat Semua Transaksi</span> <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
+        </button>
       </div>
       
+    </div>
+  </div>
+
+  <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
+    <div class="w-full h-[88vh] bg-slate-50 rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+      
+      <div class="w-full bg-white px-6 py-5 border-b border-slate-100 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-transform">
+            <i class="fa-solid fa-chevron-down text-lg"></i>
+          </button>
+          <h3 class="text-lg font-bold text-slate-800">Detail Semua Transaksi</h3>
+        </div>
+        <span id="txtTotalDataModal" class="bg-emerald-50 text-emerald-700 font-bold text-xs px-3 py-1.5 rounded-full uppercase tracking-wide">0 Data</span>
+      </div>
+
+      <div class="w-full flex-grow p-4 overflow-y-auto pb-12">
+        <div id="listRiwayatPenuhModal" class="space-y-4">
+          </div>
+      </div>
+
     </div>
   </div>
 
@@ -251,11 +276,15 @@
       const tglMulai = document.getElementById('filterMulai').value;
       const tglSelesai = document.getElementById('filterSelesai').value;
       const listContainer = document.getElementById('listRiwayat');
+      const listModalContainer = document.getElementById('listRiwayatPenuhModal');
+      
       if (!listContainer || !tglMulai || !tglSelesai) return;
       listContainer.innerHTML = "";
+      listModalContainer.innerHTML = "";
       
       dataTerfilterGlobal = databaseRiwayatRaw.filter(item => item.tanggal >= tglMulai && item.tanggal <= tglSelesai);
-      
+      document.getElementById('txtTotalDataModal').innerText = dataTerfilterGlobal.length + " Transaksi";
+
       const dataKategoriGrafik = {};
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
@@ -269,9 +298,14 @@
           if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
         });
 
-        Object.keys(grupTransaksi).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
+        const urutanTanggalSorted = Object.keys(grupTransaksi).sort((a,b) => new Date(b) - new Date(a));
+        
+        // Aturan Batas: Di halaman utama Tab Riwayat kita batasi cetak maksimal 2 grup tanggal saja
+        const tanggalTerbatasHalamanUtama = urutanTanggalSorted.slice(0, 2);
+
+        // 1. CETAK STRUKTUR DI HALAMAN UTAMA TAB RIWAYAT (RINGKASAN DATA TERBARU)
+        tanggalTerbatasHalamanUtama.forEach(tgl => {
           let susunanHTMLItem = '';
-          
           grupTransaksi[tgl].forEach(item => {
             const isMasuk = item.jenis === "Pemasukan";
             susunanHTMLItem += `
@@ -294,23 +328,57 @@
           });
 
           listContainer.insertAdjacentHTML('beforeend', `
-            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-4">
+            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col mb-1">
               <div class="text-[12px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
                 <span>${formatTanggalIndo(tgl)}</span>
                 <span class="text-[11px] font-semibold lowercase text-slate-300">${tgl}</span>
               </div>
-              <div class="divide-y divide-slate-50">
-                ${susunanHTMLItem}
+              <div class="divide-y divide-slate-50">${susunanHTMLItem}</div>
+            </div>`);
+        });
+
+        // 2. CETAK SELURUH DATA UTUH TANPA BATAS DI DALAM TAMPILAN MODAL BARU
+        urutanTanggalSorted.forEach(tgl => {
+          let susunanHTMLItemModal = '';
+          grupTransaksi[tgl].forEach(item => {
+            const isMasuk = item.jenis === "Pemasukan";
+            susunanHTMLItemModal += `
+              <div class="flex items-center justify-between py-3.5 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
+                <div class="flex items-center gap-3.5 min-w-[70%]">
+                  <div class="w-11 h-11 flex items-center justify-center rounded-2xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                    <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-base' : 'fa-arrow-trend-down text-base'}"></i>
+                  </div>
+                  <div class="truncate">
+                    <h4 class="text-base font-bold text-slate-800 truncate mb-1">${item.keterangan}</h4>
+                    <span class="inline-block text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-600 bg-slate-100'}">
+                      ${item.kategori}
+                    </span>
+                  </div>
+                </div>
+                <span class="text-base font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                  ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
+                </span>
+              </div>`;
+          });
+
+          listModalContainer.insertAdjacentHTML('beforeend', `
+            <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.01)] flex flex-col">
+              <div class="text-[12px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-2 mb-1 flex justify-between items-center">
+                <span>${formatTanggalIndo(tgl)}</span>
+                <span class="text-[11px] font-semibold lowercase text-slate-300">${tgl}</span>
               </div>
+              <div class="divide-y divide-slate-50">${susunanHTMLItemModal}</div>
             </div>`);
         });
 
         window.renderGrafik(dataKategoriGrafik);
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
+        document.getElementById('btnBukaDetail').classList.remove('hidden');
       } else {
         window.renderGrafik({});
         document.getElementById('loadingRiwayat').classList.add('hidden');
+        document.getElementById('btnBukaDetail').classList.add('hidden');
         listContainer.innerHTML = `
           <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-sm text-center">
             <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
@@ -320,6 +388,25 @@
           </div>`;
         listContainer.classList.remove('hidden');
       }
+    };
+
+    // FUNGSI ANIMASI POP-UP MODAL DETAIL
+    window.bukaModalDetailSemua = function() {
+      const modal = document.getElementById('modalDetailTransaksi');
+      const box = modal.querySelector('div');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        box.classList.remove('translate-y-full');
+      }, 10);
+    };
+
+    window.tutupModalDetailSemua = function() {
+      const modal = document.getElementById('modalDetailTransaksi');
+      const box = modal.querySelector('div');
+      modal.classList.add('opacity-0');
+      box.classList.add('translate-y-full');
+      setTimeout(() => { modal.classList.add('hidden'); }, 300);
     };
 
     window.renderGrafik = function(dataKategori) {
@@ -340,19 +427,16 @@
         return; 
       }
       
-      // Diatur 'flex' agar donat di kiri dan kontainer legenda di kanan selalu berdampingan
       document.getElementById('chartPengeluaran').parentNode.style.display = 'flex'; 
       document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
-      // FIXED: Menyusun teks bertumpuk di sebelah kanan grafik donat
       labels.forEach((kat, i) => {
         if (values[i] > 0) {
           const persen = ((values[i] / total) * 100).toFixed(1);
           legendContainer.insertAdjacentHTML('beforeend', `
             <div class="flex items-start gap-2.5 p-2 bg-slate-50 rounded-xl border border-slate-100 shadow-sm w-full">
               <span class="w-2.5 h-2.5 rounded-full flex-shrink-0 mt-1.5" style="background-color:${daftarWarna[i%6]}"></span>
-              
               <div class="flex flex-col truncate w-full">
                 <span class="text-slate-700 font-bold text-[13px] truncate mb-0.5">${kat}</span>
                 <div class="text-[12px] font-semibold text-slate-500">
