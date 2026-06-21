@@ -95,6 +95,10 @@
           </button>
         </div>
       </form>
+
+      <button type="button" onclick="window.resetSemuaData()" class="w-full mt-4 bg-red-50 hover:bg-red-100 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100 active:scale-95 transition-all focus:outline-none flex items-center justify-center gap-2 text-sm">
+        <i class="fa-solid fa-trash-can"></i> Reset Semua Data
+      </button>
     </div>
 
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
@@ -131,7 +135,7 @@
             <canvas id="chartPengeluaran"></canvas>
           </div>
           <div id="customLegendContainer" class="w-[55%] flex flex-col gap-2 pl-2 text-[12px] font-bold text-slate-700 max-h-[170px] overflow-y-auto">
-            </div>
+          </div>
         </div>
         <div id="noChartData" class="text-center text-sm text-slate-400 py-6 hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
       </div>
@@ -142,7 +146,7 @@
           <i class="fa-solid fa-spinner animate-spin mr-2"></i>Memuat riwayat...
         </div>
         <div id="listRiwayat" class="space-y-3 hidden">
-          </div>
+        </div>
       </div>
       
     </div>
@@ -239,7 +243,7 @@
         dataTerfilterGlobal.forEach(item => {
           const isMasuk = item.jenis === "Pemasukan";
           if (!isMasuk) dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
-          
+           
           listContainer.insertAdjacentHTML('beforeend', `
             <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-2xl border border-slate-100">
               <div class="flex items-center gap-3">
@@ -302,13 +306,56 @@
       });
     };
 
+    window.resetSemuaData = function() {
+      Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Semua data saldo, pemasukan, pengeluaran, dan riwayat transaksi akan dihapus permanen dari sistem!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#64748b',
+        confirmButtonText: 'Ya, Reset Semua!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Memproses...',
+            text: 'Sedang menghapus data di server',
+            allowOutsideClick: false,
+            didOpen: () => { Swal.showLoading(); }
+          });
+          
+          fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" })
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Berhasil di-Reset!',
+              text: 'Semua data keuangan telah dibersihkan.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+            window.loadSummary();
+          })
+          .catch(() => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Gagal!',
+              text: 'Terjadi masalah saat menghubungi server.'
+            });
+          });
+        }
+      });
+    };
+
     window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
     window.tombolReloadPintar = () => { document.getElementById('iconReload').classList.add('animate-spin'); window.loadSummary(); window.tukarHalaman('home'); };
+    
     window.updateKategoriOptions = () => {
       const jenis = document.getElementById('jenis').value;
       const opsi = { "Pengeluaran": ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"], "Pemasukan": ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"] };
       document.getElementById('kategori').innerHTML = opsi[jenis].map(kat => `<option value="${kat}">${kat}</option>`).join('');
     };
+
     window.handleForm = function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSimpan');
@@ -318,7 +365,9 @@
       .then(() => { btn.disabled = false; btn.innerHTML = "Simpan Transaksi"; Swal.fire({ icon: 'success', title: 'Berhasil!', timer: 1500 }); document.getElementById('formKeuangan').reset(); window.tukarHalaman('riwayat'); })
       .catch(() => { btn.disabled = false; btn.innerHTML = "Simpan Transaksi"; Swal.fire({ icon: 'error', title: 'Gagal' }); });
     };
+    
     window.unduhPDF = () => {}; window.unduhExcel = () => {};
   </script>
 </body>
+
 </html>
