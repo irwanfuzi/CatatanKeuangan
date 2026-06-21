@@ -48,7 +48,7 @@
     <div id="pageHome" class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-6">
       <h3 class="text-lg font-bold text-slate-800 mb-4">Tambah Transaksi</h3>
 
-      <form id="formKeuangan" onsubmit="window.handleForm(event)">
+      <form id="formKeuangan" onsubmit="handleForm(event)">
         <div class="mb-4">
           <label class="block text-xs font-semibold text-slate-500 mb-1">TANGGAL</label>
           <input type="date" id="tanggal" class="w-full p-3 bg-slate-50 rounded-xl border-none focus:ring-2 focus:ring-emerald-500 outline-none" required>
@@ -56,7 +56,7 @@
 
         <div class="mb-4">
           <label class="block text-xs font-semibold text-slate-500 mb-1">JENIS TRANSAKSI</label>
-          <select id="jenis" onchange="window.updateKategoriOptions()" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none">
+          <select id="jenis" onchange="updateKategoriOptions()" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none">
             <option value="Pengeluaran">💸 Pengeluaran</option>
             <option value="Pemasukan">💰 Pemasukan</option>
           </select>
@@ -69,7 +69,7 @@
 
         <div class="mb-4">
           <label class="block text-xs font-semibold text-slate-500 mb-1">NOMINAL (Rp)</label>
-          <input type="text" id="nominal" placeholder="Contoh: 50.000" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required>
+          <input type="text" id="nominal" placeholder="Contoh: 50.000" oninput="formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-xl border-none outline-none" required>
         </div>
 
         <div class="mb-4">
@@ -82,7 +82,7 @@
             <i class="fa-solid fa-paper-plane mr-2"></i> Simpan Transaksi
           </button>
           
-          <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100 text-slate-600 font-bold px-5 rounded-2xl border border-slate-200 shadow-sm hover:bg-slate-200 transition-all active:scale-95 focus:outline-none flex items-center justify-center">
+          <button type="button" onclick="tombolReloadPintar()" class="bg-slate-100 text-slate-600 font-bold px-5 rounded-2xl border border-slate-200 shadow-sm hover:bg-slate-200 transition-all active:scale-95 focus:outline-none flex items-center justify-center">
             <i id="iconReload" class="fa-solid fa-rotate text-lg"></i>
           </button>
         </div>
@@ -101,28 +101,26 @@
   </div>
 
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] py-3 px-16 flex justify-around z-50 pb-[calc(12px+env(safe-area-inset-bottom))]">
-    <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
+    
+    <button id="navHome" onclick="tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">HOME</span>
     </button>
     
-    <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
+    <button id="navRiwayat" onclick="tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
       <span class="text-[10px] font-bold tracking-wider">RIWAYAT</span>
     </button>
+
   </div>
 
   <script>                                                                           
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
 
-    // Inisialisasi awal saat DOM siap
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('tanggal').valueAsDate = new Date();
-      window.updateKategoriOptions();
-      window.loadSummary();
-    });
+    document.getElementById('tanggal').valueAsDate = new Date();
+    window.onload = loadSummary;
 
-    window.tukarHalaman = function(menu) {
+    function tukarHalaman(menu) {
       const pageHome = document.getElementById('pageHome');
       const pageRiwayat = document.getElementById('pageRiwayat');
       const navHome = document.getElementById('navHome');
@@ -138,11 +136,11 @@
         pageRiwayat.classList.remove('hidden');
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
-        window.loadSummary();
+        loadSummary();
       }
-    };
+    }
 
-    window.loadSummary = function() {
+    function loadSummary() {
       document.getElementById('loadingRiwayat').classList.remove('hidden');
       document.getElementById('listRiwayat').classList.add('hidden');
 
@@ -153,12 +151,6 @@
       script.id = 'google-jsonp-script';
       script.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
       document.body.appendChild(script);
-    };
-
-    function formatTanggalIndo(tglString) {
-      if(!tglString) return "-";
-      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
-      return new Date(tglString).toLocaleDateString('id-ID', opsi);
     }
 
     window.handleGoogleData = function(res) {
@@ -171,7 +163,6 @@
         document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
         
         const listContainer = document.getElementById('listRiwayat');
-        if (!listContainer) return;
         listContainer.innerHTML = "";
         
         if (res.riwayat && res.riwayat.length > 0) {
@@ -183,7 +174,6 @@
             const bgWarnaIcon = isMasuk ? "text-emerald-600 bg-emerald-50" : "text-rose-600 bg-rose-50";
             
             const nomFormatted = "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
-            const tanggalTerformat = formatTanggalIndo(item.tanggal);
 
             const itemHTML = `
               <div class="flex items-center justify-between p-3 bg-slate-50 rounded-2xl border border-slate-100">
@@ -193,7 +183,7 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-slate-800">${item.keterangan}</h4>
-                    <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${tanggalTerformat}</p>
+                    <p class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">${item.kategori} &bull; ${item.tanggal}</p>
                   </div>
                 </div>
                 <div class="text-right">
@@ -208,3 +198,96 @@
           listContainer.classList.remove('hidden');
         } else {
           document.getElementById('loadingRiwayat').innerHTML = "<div class='text-slate-400 py-2'>Belum ada transaksi dicatat.</div>";
+        }
+      }
+    };
+
+    function formatInputRupiah(input) {
+      let nilai = input.value.replace(/[^0-9]/g, '');
+      if (nilai) {
+        input.value = parseInt(nilai).toLocaleString('id-ID');
+      } else {
+        input.value = '';
+      }
+    }
+
+    function tombolReloadPintar() {
+      const icon = document.getElementById('iconReload');
+      if (icon) icon.classList.add('animate-spin'); 
+      document.getElementById('formKeuangan').reset();
+      document.getElementById('tanggal').valueAsDate = new Date();
+      loadSummary();
+    }
+
+    const opsiKategori = {
+      Pengeluaran: ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"],
+      Pemasukan: ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"]
+    };
+
+    function updateKategoriOptions() {
+      const jenis = document.getElementById('jenis').value;
+      const kategoriSelect = document.getElementById('kategori');
+      kategoriSelect.innerHTML = ""; 
+      opsiKategori[jenis].forEach(kat => {
+        let option = document.createElement('option');
+        option.value = kat;
+        option.innerText = kat;
+        kategoriSelect.appendChild(option);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { updateKategoriOptions(); });
+
+    function handleForm(e) {
+      e.preventDefault();
+      
+      const btn = document.getElementById('btnSimpan');
+      const nominalInput = document.getElementById('nominal');
+      const keteranganInput = document.getElementById('keterangan');
+      const tanggalInput = document.getElementById('tanggal');
+      const jenisInput = document.getElementById('jenis');
+      const kategoriInput = document.getElementById('kategori');
+
+      btn.disabled = true;
+      btn.innerHTML = "<i class='fa-solid fa-spinner animate-spin'></i> Memproses...";
+
+      const nominalBersih = nominalInput.value.replace(/\./g, '');
+
+      const data = {
+        tanggal: tanggalInput.value,
+        jenis: jenisInput.value,
+        kategori: kategoriInput.value, 
+        nominal: nominalBersih,
+        keterangan: keteranganInput.value || "-"
+      };
+
+      fetch(API_URL, {
+        method: "POST",
+        mode: "no-cors", 
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        btn.disabled = false;
+        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
+
+        Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Transaksi telah dicatat.', timer: 1500, showConfirmButton: false });
+        document.getElementById('formKeuangan').reset();
+        document.getElementById('tanggal').valueAsDate = new Date();
+        updateKategoriOptions();
+        
+        tukarHalaman('riwayat');
+      })
+      .catch(err => {
+        console.error(err);
+        btn.disabled = false;
+        btn.innerHTML = "<i class='fa-solid fa-paper-plane mr-2'></i> Simpan Transaksi";
+        Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Gagal menghubungi server database.' });
+      });
+    }
+  </script>
+</body>
+
+</html>
