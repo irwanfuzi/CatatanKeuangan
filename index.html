@@ -134,6 +134,14 @@
         <div id="noChartData" class="text-center text-base text-slate-400 py-6 font-semibold hidden">Tidak ada data pengeluaran pada rentang tanggal ini</div>
       </div>
 
+      <div class="w-full bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+        <h3 class="text-xl font-bold text-slate-800 mb-1">Tren Keuangan Bulanan</h3>
+        <p class="text-[13px] text-slate-400 mb-5 font-semibold">Perbandingan arus masuk vs keluar beberapa bulan terakhir</p>
+        <div class="w-full h-[220px]">
+          <canvas id="chartTrenBulanan"></canvas>
+        </div>
+      </div>
+
       <div class="w-full flex flex-col gap-4">
         <h3 class="text-lg font-bold text-slate-800 px-1">Transaksi Terakhir</h3>
         
@@ -208,6 +216,7 @@
     const daftarKategoriPengeluaran = ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"];
     const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
     let myChartInstance = null;
+    let myBarChartInstance = null; // Menampung instance Bar Chart tren bulanan
     let databaseRiwayatRaw = []; 
 
     Chart.register(ChartDataLabels);
@@ -225,6 +234,7 @@
       const navRiwayat = document.getElementById('navRiwayat');
 
       if (menu === 'home') {
+        pageHome.remove('hidden'); // Menjamin element toggle rapi
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
@@ -277,6 +287,9 @@
         
         databaseRiwayatRaw = res.riwayat || [];
         window.renderHalamanRiwayatUtama();
+        
+        // Render grafik tren bulanan dari gabungan data response backend
+        window.renderGrafikTrenBulanan(res.trenBulananRaw || {});
       }
     };
 
@@ -295,13 +308,11 @@
           }
         });
 
-        // Halaman Utama menampilkan 3 data teratas (Bisa di klik edit/hapus juga)
         const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
         dataTerbatasHalamanUtama.forEach((item, indexTerbatas) => {
           const isMasuk = item.jenis === "Pemasukan";
-          // Mencari index asli di database mentah agar sinkron saat di klik edit
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemRingkas += `
@@ -404,7 +415,49 @@
       });
     };
 
-    // LOGIKA INTEGRASI: MENU INTERAKTIF EDIT & HAPUS DATA TRANSAKSI
+    // FUNGSI BARU: Render Bar Chart Tren Bulanan untuk Perbandingan
+    window.renderGrafikTrenBulanan = function(dataTrenObj) {
+      const canvasCtx = document.getElementById('chartTrenBulanan');
+      if (!canvasCtx) return;
+
+      const keysBulan = Object.keys(dataTrenObj).sort(); // Urutkan kronologis bulan YYYY-MM
+      const namaBulanIndo = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+      
+      const labels = keysBulan.map(k => {
+        const parts = k.split('-');
+        return namaBulanIndo[parseInt(parts[1]) - 1] + " " + parts[0].substring(2);
+      });
+
+      const dataMasuk = keysBulan.map(k => dataTrenObj[k].masuk);
+      const dataKeluar = keysBulan.map(k => dataTrenObj[k].keluar);
+
+      if (myBarChartInstance !== null) myBarChartInstance.destroy();
+
+      myBarChartInstance = new Chart(canvasCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Masuk', data: dataMasuk, backgroundColor: '#10b981', borderRadius: 6 },
+            { label: 'Keluar', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { ticks: { callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
+          },
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, font: { weight: 'bold' } } },
+            datalabels: { display: false },
+            tooltip: { callbacks: { label: (ctx) => " " + ctx.dataset.label + ": Rp " + ctx.raw.toLocaleString('id-ID') } }
+          }
+        }
+      });
+    };
+
     window.bukaOpsiAksiTransaksi = function(indexDataAsli) {
       const item = databaseRiwayatRaw[indexDataAsli];
       if (!item) return;
@@ -476,7 +529,6 @@
         if (result.isConfirmed) {
           Swal.fire({ title: 'Memperbarui Data', text: 'Mengirim perubahan ke server...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
           
-          // Membalik urutan index kiriman: Karena array frontend di-reverse dari database Sheets, baris asli = (total baris - 1 - index array)
           const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexAsli;
           
           fetch(API_URL + "?action=update&index=" + indexBalikBarisSheet, {
