@@ -54,12 +54,35 @@
       border-radius: 10px;
     }
     
+    /* FIX STYLING: Kalender Premium Flatpickr & Solusi Hari Minggu Terpotong */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
       box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
-      padding: 10px !important;
+      padding: 12px !important;
+      width: 315px !important; /* Memastikan lebar kalender proporsional */
+      box-sizing: border-box !important;
+    }
+    .flatpickr-innerContainer {
+      width: 100% !important;
+    }
+    .flatpickr-rwd {
+      width: 100% !important;
+    }
+    .flatpickr-days {
+      width: 100% !important;
+    }
+    .dayContainer {
+      width: 100% !important;
+      min-width: 100% !important;
+      max-width: 100% !important;
+    }
+    .flatpickr-day {
+      max-width: 38px !important;
+      height: 38px !important;
+      line-height: 38px !important;
+      margin: 1px !important;
     }
     .flatpickr-day.selected, .flatpickr-day.selected:hover {
       background: #059669 !important;
@@ -481,21 +504,6 @@
       document.body.appendChild(script);
     };
 
-    function formatTanggalIndo(tglString) {
-      if(!tglString) return "-";
-      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
-      const tanggalObj = new Date(tglString);
-      
-      const hariIni = new Date();
-      const kemarin = new Date();
-      kemarin.setDate(hariIni.getDate() - 1);
-      
-      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
-      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
-      
-      return tanggalObj.toLocaleDateString('id-ID', opsi);
-    }
-
     window.handleGoogleData = function(res) {
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
@@ -535,6 +543,12 @@
       if (!listContainer) return;
       listContainer.innerHTML = "";
 
+      // MODIFIKASI FIX: Memaksa tombol detail kustom tampil tanpa terpengaruh filter data kosong
+      const btnBukaDetail = document.getElementById('btnBukaDetail');
+      if (btnBukaDetail) {
+        btnBukaDetail.classList.remove('hidden');
+      }
+
       if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
         const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
@@ -569,14 +583,10 @@
 
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
-        
-        // AMAN: Memastikan tombol kustom riwayat lengkap selalu tampil ke halaman utama aplikasi
-        document.getElementById('btnBukaDetail').classList.remove('hidden'); 
       } else {
         document.getElementById('loadingRiwayat').classList.add('hidden');
-        document.getElementById('btnBukaDetail').classList.add('hidden');
         listContainer.innerHTML = `
-          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
+          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center mb-1">
             <p class="text-slate-400 text-xs font-semibold">Belum ada data transaksi kas tercatat.</p>
           </div>`;
         listContainer.classList.remove('hidden');
@@ -792,7 +802,7 @@
         const p = k.split('-');
         const namaBulan = bulan[parseInt(p[1])-1];
         htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>';
       });
       
       selectUtama.innerHTML = htmlUtama;
