@@ -331,7 +331,6 @@
 
     Chart.register(ChartDataLabels);
 
-    // FUNGSI UTAMA UNTUK MENGATUR FORMAT TANGGAL ISO SECARA AMAN
     function sinkronisasiNilaiTanggalMentah(dateObj) {
       if (dateObj instanceof Date && !isNaN(dateObj)) {
         const yyyy = dateObj.getFullYear();
@@ -348,7 +347,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Inisialisasi Kalender Flatpickr Premium
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
         dateFormat: "d F Y",
@@ -463,21 +461,6 @@
       script.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
       document.body.appendChild(script);
     };
-
-    function formatTanggalIndo(tglString) {
-      if(!tglString) return "-";
-      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
-      const tanggalObj = new Date(tglString);
-      
-      const hariIni = new Date();
-      const kemarin = new Date();
-      kemarin.setDate(hariIni.getDate() - 1);
-      
-      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
-      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
-      
-      return tanggalObj.toLocaleDateString('id-ID', opsi);
-    }
 
     window.handleGoogleData = function(res) {
       const icon = document.getElementById('iconReload');
@@ -687,6 +670,7 @@
       });
     };
 
+    // PERBAIKAN FATAL BUG: Sinkronisasi nama variabel parameter index data yang selaras anti-freeze
     window.bukaOpsiAksiTransaksi = function(indexDataAsli) {
       const item = databaseRiwayatRaw[indexDataAsli];
       if (!item) return;
@@ -703,8 +687,8 @@
         confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e', cancelButtonColor: '#94a3b8',
         customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist border border-slate-100', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
       }).then((result) => {
-        if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexAsli); } 
-        else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexAsli); }
+        if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexDataAsli); } 
+        else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexDataAsli); }
       });
     };
 
@@ -935,7 +919,6 @@
           btn.disabled = false; 
           document.getElementById('formKeuangan').reset(); 
           
-          // Reset tanggal secara terisolasi dan aman tanpa merusak Flatpickr instance
           const hariIni = new Date();
           if (instanceFlatpickr) {
             instanceFlatpickr.setDate(hariIni, false); 
