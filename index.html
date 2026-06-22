@@ -53,6 +53,7 @@
 
 <body class="w-full min-h-screen flex flex-col pb-[95px]">
 
+  <!-- TOP TOTAL WALLET BALANCE CARD -->
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -77,8 +78,10 @@
     </div>
   </div>
 
+  <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
+    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100/80 mb-6">
       <div class="flex items-center gap-2 mb-5">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -130,8 +133,10 @@
       </button>
     </div>
 
+    <!-- HALAMAN RIWAYAT -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
+      <!-- 1. ANALISIS PENGELUARAN (TAMPILAN MAKSIMAL PROPORSIONAL) -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4">
           <div class="flex flex-col">
@@ -147,20 +152,23 @@
           <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
         </div>
         
-        <div class="w-full flex flex-row items-center justify-between gap-2 py-1">
-          <div class="relative w-[115px] h-[115px] flex-shrink-0 flex items-center justify-center ml-1">
+        <!-- Kombinasi Sempurna: Ukuran Grafik Besar dan Legenda Sebelah Kanan Terbaca Utuh -->
+        <div class="w-full flex flex-row items-center justify-between gap-1 py-1">
+          <div class="relative w-[125px] h-[125px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-1">
               <span class="text-[7px] font-bold text-slate-400 tracking-wider uppercase">Total</span>
-              <span id="chartCenterTotal" class="text-[11px] font-bold text-slate-800 text-center truncate max-w-[90px]">Rp 0</span>
+              <span id="chartCenterTotal" class="text-[12px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
             </div>
           </div>
-          <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[125px] overflow-y-auto pl-2 custom-scrollbar border-l border-slate-100">
+          <!-- Kolom Legenda Sisi Kanan Dengan Nama Satu Kata Dijamin Muat Sempurna -->
+          <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[130px] overflow-y-auto pl-3 custom-scrollbar border-l border-slate-100">
           </div>
         </div>
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
+      <!-- 2. GRAFIK TREN KEUNGAN BULANAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex flex-col mb-4">
           <div class="flex items-center gap-2">
@@ -173,6 +181,7 @@
         </div>
       </div>
 
+      <!-- 3. TRANSAKSI TERAKHIR -->
       <div class="w-full flex flex-col gap-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
@@ -194,9 +203,11 @@
     </div>
   </div>
 
+  <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
+      <!-- Header Modal -->
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
           <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
@@ -207,6 +218,7 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
+      <!-- Filter Periode & Ekspor Di Dalam Modal -->
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -227,6 +239,7 @@
         </div>
       </div>
 
+      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -234,6 +247,7 @@
     </div>
   </div>
 
+  <!-- TAB NAVIGATION MENUS -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -248,7 +262,9 @@
 
   <script>                                                                                                    
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
-    const daftarKategoriPengeluaran = ["Makanan & Minuman", "Transportasi & Bensin", "Kebutuhan Rumah & WiFi", "Hiburan & Self Reward", "Kesehatan & Obat", "Lain-lain"];
+    
+    // PEMBARUAN: Gunakan daftar satu kata dengan ikon emoji bawaan
+    const daftarKategoriPengeluaran = ["🍔 Makanan", "🚗 Transport", "🏠 Tagihan", "🎬 Hiburan", "🏥 Kesehatan", "📦 Lainnya"];
     const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
     let myChartInstance = null;
     let myBarChartInstance = null; 
@@ -386,7 +402,7 @@
         document.getElementById('btnBukaDetail').classList.add('hidden');
         listContainer.innerHTML = `
           <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
-            <p class="text-slate-400 text-xs font-semibold">Belum ada transaksi kas tercatat.</p>
+            <p class="text-slate-400 text-xs font-semibold">Belum ada data transaksi kas tercatat.</p>
           </div>`;
         listContainer.classList.remove('hidden');
       }
@@ -404,14 +420,20 @@
 
       dataHasilFilter.forEach(item => {
         if (item.jenis !== "Pemasukan") {
-          dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
+          // Cari kecocokan parsial jika data sheet lama masih menggunakan teks panjang
+          const kategoriCocok = daftarKategoriPengeluaran.find(kat => kat.includes(item.kategori) || item.kategori.includes(kat.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim()));
+          if (kategoriCocok) {
+            dataKategoriGrafik[kategoriCocok] = (dataKategoriGrafik[kategoriCocok] || 0) + parseInt(item.nominal);
+          } else {
+            // Fallback masukkan ke Lainnya jika tidak ada yang cocok
+            dataKategoriGrafik["📦 Lainnya"] = (dataKategoriGrafik["📦 Lainnya"] || 0) + parseInt(item.nominal);
+          }
         }
       });
 
       window.renderGrafik(dataKategoriGrafik);
     };
 
-    // TAMPILAN COMPACT NEW BARU: DATA LEGENDA LEBIH RAMPING DAN DI SEBELAH KANAN
     window.renderGrafik = function(dataKategori) {
       const canvasCtx = document.getElementById('chartPengeluaran');
       const legendContainer = document.getElementById('customLegendContainer');
@@ -441,13 +463,13 @@
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
           legendContainer.insertAdjacentHTML('beforeend', `
-            <div class="flex items-center justify-between w-full text-[11px] py-0.5">
-              <div class="flex items-center gap-1.5 truncate max-w-[65%]">
+            <div class="flex items-center justify-between w-full text-[12px] py-0.5 font-semibold">
+              <div class="flex items-center gap-1.5 min-w-[55%]">
                 <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
-                <span class="text-slate-600 font-bold truncate">${kat}</span>
+                <span class="text-slate-600 font-bold tracking-tight">${kat}</span>
               </div>
-              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0">
-                ${persen}% <span class="text-[9px] text-slate-400 font-semibold">(${Math.round(valuesAktif[i]/1000)}k)</span>
+              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[10px]">
+                ${persen}% <span class="text-[9px] text-slate-400 font-medium">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </span>
             </div>`);
       });
@@ -498,7 +520,6 @@
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            // FORMAT STRATEGI: Mengubah juta menjadi 'M' (Million) agar hemat pixel
             y: { ticks: { font: { family: 'Urbanist', size: 9, weight: 'bold' }, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: '#f8fafc' } },
             x: { ticks: { font: { family: 'Urbanist', size: 10, weight: '700' } }, grid: { display: false } }
           },
@@ -737,7 +758,7 @@
     
     window.updateKategoriOptions = () => {
       const jenis = document.getElementById('jenis').value;
-      const opsi = { "Pengeluaran": daftarKategoriPengeluaran, "Pemasukan": ["Gaji Utama", "Work Sampingan / Freelance", "Investasi & Dividen", "Hadiah / Lain-lain"] };
+      const opsi = { "Pengeluaran": daftarKategoriPengeluaran, "Pemasukan": ["💼 Gaji", "🚀 Freelance", "📈 Investasi", "🎁 Lainnya"] };
       document.getElementById('kategori').innerHTML = opsi[jenis].map(kat => `<option value="${kat}">${kat}</option>`).join('');
     };
 
