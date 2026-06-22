@@ -61,7 +61,7 @@
       box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
       padding: 12px !important;
-      width: 315px !important; /* Memastikan lebar kalender proporsional */
+      width: 315px !important; 
       box-sizing: border-box !important;
     }
     .flatpickr-innerContainer {
@@ -543,7 +543,7 @@
       if (!listContainer) return;
       listContainer.innerHTML = "";
 
-      // MODIFIKASI FIX: Memaksa tombol detail kustom tampil tanpa terpengaruh filter data kosong
+      // PERBAIKAN UTAMA: Memaksa tombol detail kustom tampil stabil ke halaman utama aplikasi
       const btnBukaDetail = document.getElementById('btnBukaDetail');
       if (btnBukaDetail) {
         btnBukaDetail.classList.remove('hidden');
@@ -802,7 +802,7 @@
         const p = k.split('-');
         const namaBulan = bulan[parseInt(p[1])-1];
         htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>';
+        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
       });
       
       selectUtama.innerHTML = htmlUtama;
