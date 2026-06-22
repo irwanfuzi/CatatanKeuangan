@@ -124,7 +124,7 @@
           <div class="relative w-[140px] h-[140px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-2">
-              <span class="text-[9px] font-bold text-slate-400 tracking-wider uppercase">Total Pos</span>
+              <span class="text-[9px] font-bold text-slate-400 tracking-wider font-urbanist uppercase">Total Pos</span>
               <span id="chartCenterTotal" class="text-[13px] font-bold text-slate-800 truncate px-1 max-w-[100px]">Rp 0</span>
             </div>
           </div>
@@ -141,8 +141,7 @@
           <i class="fa-solid fa-spinner animate-spin mr-2 text-emerald-600 text-base"></i>Memuat riwayat...
         </div>
         
-        <div id="listRiwayat" class="space-y-4 hidden">
-        </div>
+        <div id="listRiwayat" class="space-y-4 hidden"></div>
 
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-4 rounded-2xl shadow-sm text-base transition-all active:scale-95 flex items-center justify-center gap-2">
           <span>Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
@@ -296,13 +295,17 @@
           }
         });
 
+        // Halaman Utama menampilkan 3 data teratas (Bisa di klik edit/hapus juga)
         const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
-        dataTerbatasHalamanUtama.forEach(item => {
+        dataTerbatasHalamanUtama.forEach((item, indexTerbatas) => {
           const isMasuk = item.jenis === "Pemasukan";
+          // Mencari index asli di database mentah agar sinkron saat di klik edit
+          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
+          
           susunanHTMLItemRingkas += `
-            <div class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-100/60 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3.5 min-w-[70%]">
                 <div class="w-11 h-11 flex items-center justify-center rounded-2xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-base' : 'fa-arrow-trend-down text-base'}"></i>
@@ -401,6 +404,127 @@
       });
     };
 
+    // LOGIKA INTEGRASI: MENU INTERAKTIF EDIT & HAPUS DATA TRANSAKSI
+    window.bukaOpsiAksiTransaksi = function(indexDataAsli) {
+      const item = databaseRiwayatRaw[indexDataAsli];
+      if (!item) return;
+
+      Swal.fire({
+        title: 'Kelola Transaksi',
+        text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`,
+        icon: 'question',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa-solid fa-pen-to-square mr-1"></i> Edit Data',
+        denyButtonText: '<i class="fa-solid fa-trash-can mr-1"></i> Hapus',
+        cancelButtonText: 'Batal',
+        confirmButtonColor: '#10b981',
+        denyButtonColor: '#f43f5e',
+        cancelButtonColor: '#94a3b8',
+        customClass: {
+          popup: 'rounded-[2rem] p-5 shadow-xl border border-slate-100 font-urbanist',
+          confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm transition-all active:scale-95 focus:ring-0',
+          denyButton: 'rounded-xl font-bold px-4 py-3 text-sm transition-all active:scale-95 focus:ring-0',
+          cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm transition-all active:scale-95 focus:ring-0'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.prosesModalEditTransaksiForm(indexDataAsli);
+        } else if (result.isDenied) {
+          window.prosesHapusTransaksiKirimServer(indexDataAsli);
+        }
+      });
+    };
+
+    window.prosesModalEditTransaksiForm = function(indexAsli) {
+      const item = databaseRiwayatRaw[indexAsli];
+      
+      Swal.fire({
+        title: 'Edit Data Keuangan',
+        html: `
+          <div class="flex flex-col gap-4 text-left font-urbanist p-1">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Keterangan Baru</label>
+              <input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Nominal Baru (Rp)</label>
+              <input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 font-bold text-slate-700">
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Simpan Perubahan',
+        confirmButtonColor: '#10b981',
+        cancelButtonText: 'Batal',
+        cancelButtonColor: '#94a3b8',
+        customClass: {
+          popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100',
+          confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95',
+          cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95'
+        },
+        preConfirm: () => {
+          const ketInput = document.getElementById('swalEditKeterangan').value.trim();
+          const nomInput = document.getElementById('swalEditNominal').value.replace(/[^0-9]/g, '');
+          
+          if (!ketInput) { Swal.showValidationMessage('Keterangan tidak boleh kosong!'); return false; }
+          if (!nomInput || parseInt(nomInput) <= 0) { Swal.showValidationMessage('Nominal harus lebih dari 0!'); return false; }
+          
+          return { keterangan: ketInput, nominal: nomInput };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Memperbarui Data', text: 'Mengirim perubahan ke server...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          
+          // Membalik urutan index kiriman: Karena array frontend di-reverse dari database Sheets, baris asli = (total baris - 1 - index array)
+          const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexAsli;
+          
+          fetch(API_URL + "?action=update&index=" + indexBalikBarisSheet, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain" },
+            body: JSON.stringify(result.value)
+          }).then(() => {
+            Swal.fire({ icon: 'success', title: 'Berhasil Diubah!', text: 'Data transaksi telah diperbarui.', background: '#ffffff', timer: 1500, showConfirmButton: false });
+            window.loadSummary();
+          }).catch(() => {
+            Swal.fire({ icon: 'error', title: 'Gagal Mengubah', text: 'Terjadi masalah jaringan.' });
+          });
+        }
+      });
+    };
+
+    window.prosesHapusTransaksiKirimServer = function(indexAsli) {
+      Swal.fire({
+        title: 'Hapus Transaksi?',
+        text: 'Data yang dihapus dari server tidak bisa dikembalikan.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus Data',
+        confirmButtonColor: '#f43f5e',
+        cancelButtonText: 'Batal',
+        cancelButtonColor: '#94a3b8',
+        customClass: {
+          popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100',
+          confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95',
+          cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Menghapus Data', text: 'Sedang memproses penghapusan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          
+          const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexAsli;
+          
+          fetch(API_URL + "?action=delete&index=" + indexBalikBarisSheet, { method: "POST" })
+          .then(() => {
+            Swal.fire({ icon: 'success', title: 'Terhapus!', text: 'Transaksi berhasil dieliminasi.', background: '#ffffff', timer: 1500, showConfirmButton: false });
+            window.loadSummary();
+          }).catch(() => {
+            Swal.fire({ icon: 'error', title: 'Gagal Menghapus', text: 'Gagal terhubung ke Google Server.' });
+          });
+        }
+      });
+    };
+
     window.pilihPeriodeListCustom = function(nilaiKunci, labelTeks) {
       const select = document.getElementById('filterBulanModal');
       if (select) {
@@ -493,8 +617,10 @@
         let susunanHTMLItemModal = '';
         grupTransaksiModal[tgl].forEach(item => {
           const isMasuk = item.jenis === "Pemasukan";
+          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
+          
           susunanHTMLItemModal += `
-            <div class="flex items-center justify-between py-3.5 px-1 hover:bg-slate-50/50 transition-all rounded-xl">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-1 hover:bg-slate-100/50 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3.5 min-w-[70%]">
                 <div class="w-11 h-11 flex items-center justify-center rounded-2xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up text-base' : 'fa-arrow-trend-down text-base'}"></i>
@@ -544,13 +670,7 @@
         }
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
-            title: 'Membersihkan Data',
-            text: 'Sedang menghapus data dari server...',
-            allowOutsideClick: false,
-            background: '#ffffff',
-            didOpen: () => Swal.showLoading()
-          });
+          Swal.fire({ title: 'Membersihkan Data', text: 'Sedang menghapus data dari server...', allowOutsideClick: false, background: '#ffffff', didOpen: () => Swal.showLoading() });
           fetch(API_URL + "?action=reset", { method: "POST", mode: "no-cors" })
           .then(() => {
             Swal.fire({ icon: 'success', title: 'Selesai!', text: 'Semua data keuangan Anda telah bersih.', timer: 2000, showConfirmButton: false });
