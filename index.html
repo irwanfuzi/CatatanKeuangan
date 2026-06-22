@@ -20,6 +20,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+  <!-- Library Kalender Modern Flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
@@ -34,7 +35,6 @@
       display: none;
     }
     
-    /* SOLUSI MUTLAK LAYER TERTUTUP: Paksa Bottom Sheet Selalu Berada di Paling Depan */
     .swal2-container {
       z-index: 999999 !important;
     }
@@ -59,7 +59,6 @@
       border-radius: 10px;
     }
     
-    /* FIX STYLING: Kalender Premium Flatpickr & Solusi Hari Minggu Terpotong Laporan */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
@@ -109,7 +108,6 @@
       height: 42px !important;
     }
 
-    /* KUSTOMISASI TOMBOL KAPSUL DI ATAS KALENDER */
     .flatpickr-current-month {
       display: flex !important;
       align-items: center !important;
@@ -121,7 +119,6 @@
       padding: 0 !important;
     }
     
-    /* Tombol Pemicu Kapsul Custom (Lebar Aman Proporsional) */
     .btn-pemicu-bulan, .btn-pemicu-tahun {
       font-family: 'Urbanist', sans-serif !important;
       font-weight: 700 !important;
@@ -143,12 +140,10 @@
       background: #e2e8f0 !important;
     }
     
-    /* Sembunyikan element bawaan flatpickr secara permanen */
     .flatpickr-monthDropdown-months, .flatpickr-current-month .numInputWrapper {
       display: none !important;
     }
     
-    /* Tombol Navigasi Panah Kiri-Kanan Kalender */
     .flatpickr-months .flatpickr-prev-month, 
     .flatpickr-months .flatpickr-next-month {
       top: 4px !important;
@@ -165,6 +160,7 @@
 
 <body class="w-full min-h-screen flex flex-col pb-[95px]">
 
+  <!-- TOP TOTAL WALLET BALANCE CARD -->
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -189,8 +185,10 @@
     </div>
   </div>
 
+  <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
+    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
       <div class="flex items-center gap-2 mb-6">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -198,6 +196,7 @@
       </div>
 
       <form id="formKeuangan" onsubmit="window.handleForm(event)">
+        <!-- 1. INPUT TANGGAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
@@ -209,6 +208,7 @@
           </div>
         </div>
 
+        <!-- 2. JENIS ALIRAN DANA -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
           <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
@@ -222,6 +222,7 @@
           </div>
         </div>
 
+        <!-- 3. POS KATEGORI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
@@ -236,6 +237,7 @@
           </div>
         </div>
 
+        <!-- 4. INPUT NOMINAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
@@ -246,6 +248,7 @@
           </div>
         </div>
 
+        <!-- 5. INPUT KETERANGAN -->
         <div class="mb-6">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
@@ -267,13 +270,16 @@
         </div>
       </form>
 
+      <!-- FIX TYPO BUTTON: Memperbaiki nama fungsi pemanggil agar tombol berfungsi normal kembali -->
       <button type="button" onclick="window.resetSemuaData()" class="w-full mt-4 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
         <i class="fa-solid fa-trash-can"></i> Reset Semua Data
       </button>
     </div>
 
+    <!-- HALAMAN RIWAYAT -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
+      <!-- 1. ANALISIS PENGELUARAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4">
           <div class="flex flex-col">
@@ -303,6 +309,7 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
+      <!-- 2. GRAFIK TREN KEUNGAN BULANAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex flex-col mb-4">
           <div class="flex items-center gap-2">
@@ -315,6 +322,7 @@
         </div>
       </div>
 
+      <!-- 3. TRANSAKSI TERAKHIR -->
       <div class="w-full flex flex-col gap-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
@@ -328,6 +336,7 @@
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
         
+        <!-- Tombol Utama Buka Riwayat Lengkap -->
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
@@ -335,9 +344,11 @@
     </div>
   </div>
 
+  <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
+      <!-- Header Modal -->
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
           <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
@@ -348,6 +359,7 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
+      <!-- Filter Periode & Ekspor Di Dalam Modal -->
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -368,6 +380,7 @@
         </div>
       </div>
 
+      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -375,6 +388,7 @@
     </div>
   </div>
 
+  <!-- TAB NAVIGATION MENUS -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -403,7 +417,7 @@
 
     Chart.register(ChartDataLabels);
 
-    // FIX GLOBAL SCOPE: Paksa jspdf agar langsung nempel ke window.jsPDF sebelum dipanggil oleh autotable
+    // FIX GLOBAL SCOPE: Pengaman penyesuaian instansiasi Library jsPDF global
     if (window.jspdf && window.jspdf.jsPDF) {
       window.jsPDF = window.jspdf.jsPDF;
     }
@@ -446,7 +460,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Re-sinkronisasi ulang sesaat setelah DOM siap sempurna
       if (window.jspdf && window.jspdf.jsPDF) {
         window.jsPDF = window.jspdf.jsPDF;
       }
@@ -510,8 +523,9 @@
       
       namaBulanIndoFull.forEach((namaBulan, indeks) => {
         const isSelected = indeks === instance.currentMonth;
+        // FIX: Perbaikan bug variabel indeks spasi yang sempat memicu SyntaxError fatal di browser
         htmlListBulan += `
-          <button type="button" onclick="window.setBulanKalenderDariSheet(${indeksIndeks Indeks Indeks Indeks Indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+          <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
             isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
           }">
             <span class="text-sm">${namaBulan}</span>
@@ -519,9 +533,6 @@
           </button>`;
       });
       htmlListBulan += `</div>`;
-      
-      // Mengoreksi typo parsing indeks fungsi dinamik bulan kalender
-      htmlListBulan = htmlListBulan.replace(/setBulanKalenderDariSheet\(.*?\)/g, (m) => m.replace(/Indeks Indeks Indeks Indeks Indeks Indeks/g, ""));
       
       Swal.fire({
         title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
@@ -1173,10 +1184,8 @@
       return teksRaw.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
     }
 
-    // FIX LOGIKA UNDUH PDF: Diperkuat dengan safety net global bridge & normalisasi parameter teks warna
     window.unduhPDF = function() {
       try {
-        // Hubungkan paksa instance internal jika jspdf-autotable kehilangan pelacak prototipe
         if (window.jspdf && window.jspdf.jsPDF) {
           window.jsPDF = window.jspdf.jsPDF;
         }
@@ -1235,7 +1244,6 @@
         doc.setTextColor(244, 63, 94); 
         doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
         
-        // FIX: Normalisasi parameter warna non-array agar tidak crash di Safari/Webview tertentu
         if (netSaldoBersih >= 0) {
           doc.setTextColor(30, 41, 59);
         } else {
@@ -1299,13 +1307,11 @@
         doc.save(`Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.pdf`);
       } catch (error) {
         Swal.close();
-        // Memunculkan detail pesan internal asli agar langsung terlacak jika browser memblokir sistem unduhan
-        Swal.fire({ icon: 'error', title: 'Gagal Ekspor PDF', text: 'Detail Kendala: ' + error.message + '. Pastikan tidak membukanya di dalam browser chat internal (seperti webview WA/IG).', confirmButtonColor: '#f43f5e' });
+        Swal.fire({ icon: 'error', title: 'Gagal Ekspor PDF', text: 'Detail Kendala: ' + error.message + '. Pastikan tidak membukanya di dalam browser internal aplikasi chat seperti WhatsApp.', confirmButtonColor: '#f43f5e' });
         console.error(error);
       }
     };
 
-    // FIX LOGIKA UNDUH EXCEL: Penambahan kriteria isolasi pengaman try...catch anti freeze
     window.unduhExcel = function() {
       try {
         const { data, periodeText } = dapatkanDataTerfilterModal();
