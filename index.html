@@ -737,3 +737,202 @@
     };
 
     window.buatOpsiFilterBulanSemuaElemen = function() {
+      const selectUtama = document.getElementById('filterBulanUtamaHidden');
+      const selectModal = document.getElementById('filterBulanModal');
+      if (!selectUtama || !selectModal) return;
+      
+      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal.substring(0, 7)))];
+      
+      let htmlUtama = '<option value="ALL">Semua Periode</option>';
+      let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
+      
+      keys.sort().reverse().forEach(k => {
+        const p = k.split('-');
+        const namaBulan = bulan[parseInt(p[1])-1];
+        htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+      });
+      
+      selectUtama.innerHTML = htmlUtama;
+      selectModal.innerHTML = htmlModal;
+    };
+
+    window.bukaPilihanPeriodeHalamanUtama = function() {
+      const select = document.getElementById('filterBulanUtamaHidden');
+      const nilaiSekarang = select.value;
+      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      for (let i = 0; i < select.options.length; i++) {
+        const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
+        listHTML += `
+          <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          }">
+            <span class="text-sm">${txt}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      }
+      listHTML += `</div>`;
+      Swal.fire({
+        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setPeriodeHalamanUtamaDariList = function(val, txt) {
+      document.getElementById('filterBulanUtamaHidden').value = val;
+      document.getElementById('labelPeriodeUtama').innerText = txt;
+      window.prosesFilterKategoriBulanUtama();
+      Swal.close();
+    };
+
+    window.bukaPilihanPeriodeModal = function() {
+      const select = document.getElementById('filterBulanModal');
+      const nilaiSekarang = select.value;
+      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      for (let i = 0; i < select.options.length; i++) {
+        const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
+        listHTML += `
+          <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          }">
+            <span class="text-sm">${txt}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      }
+      listHTML += `</div>`;
+      Swal.fire({
+        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setPeriodeModalDariList = function(val, txt) {
+      document.getElementById('filterBulanModal').value = val;
+      document.getElementById('labelPeriodeTerpilih').innerText = txt;
+      window.renderListModalSesuaiBulan();
+      Swal.close();
+    };
+
+    window.renderListModalSesuaiBulan = function() {
+      const listModalContainer = document.getElementById('listRiwayatPenuhModal');
+      const bulanTerpilih = document.getElementById('filterBulanModal').value;
+      if (!listModalContainer) return;
+      listModalContainer.innerHTML = "";
+
+      let dataHasilFilterBulan = databaseRiwayatRaw;
+      if (bulanTerpilih !== "ALL") {
+        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal.startsWith(bulanTerpilih));
+      }
+
+      document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi";
+
+      if(dataHasilFilterBulan.length === 0) {
+        listModalContainer.innerHTML = "<div class='text-slate-400 py-6 text-center text-xs font-semibold'>Tidak ada transaksi di periode ini.</div>";
+        return;
+      }
+
+      const grupTransactionsModal = {};
+      dataHasilFilterBulan.forEach(item => {
+        if (!grupTransactionsModal[item.tanggal]) grupTransactionsModal[item.tanggal] = [];
+        grupTransactionsModal[item.tanggal].push(item);
+      });
+
+      Object.keys(grupTransactionsModal).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
+        let susunanHTMLItemModal = '';
+        grupTransactionsModal[tgl].forEach(item => {
+          const isMasuk = item.jenis === "Pemasukan";
+          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
+          
+          susunanHTMLItemModal += `
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+              <div class="flex items-center gap-3 min-w-[70%]">
+                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                  <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+                </div>
+                <div class="truncate">
+                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan}</h4>
+                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
+                    ${item.kategori}
+                  </span>
+                </div>
+              </div>
+              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
+              </span>
+            </div>`;
+        });
+
+        listModalContainer.insertAdjacentHTML('beforeend', `
+          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
+            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 pb-2 mb-1 flex justify-between items-center">
+              <span>${formatTanggalIndo(tgl)}</span>
+              <span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span>
+            </div>
+            <div class="divide-y divide-slate-100/60">${susunanHTMLItemModal}</div>
+          </div>`);
+      });
+    };
+
+    window.resetSemuaData = function() {
+      Swal.fire({
+        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs text-slate-600 transition-all active:scale-95 focus:ring-0' }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Cleaning...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          fetch(API_URL + "?action=reset", { method: "POST" }).then(() => { window.loadSummary(); });
+        }
+      });
+    };
+
+    window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
+    window.tombolReloadPintar = () => { document.getElementById('iconReload').classList.add('animate-spin'); window.loadSummary(); window.tukarHalaman('home'); };
+
+    window.handleForm = function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSimpan'); btn.disabled = true; 
+      Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      
+      const data = { 
+        tanggal: document.getElementById('tanggal_mentah').value, // Ambil nilai tanggal murni ISO YYYY-MM-DD
+        jenis: document.getElementById('jenis').value, 
+        kategori: document.getElementById('kategori').value, 
+        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
+        keterangan: document.getElementById('keterangan').value || "-" 
+      };
+      
+      fetch(API_URL, { method: "POST", body: JSON.stringify(data) }).then(() => { 
+        btn.disabled = false; 
+        document.getElementById('formKeuangan').reset(); 
+        if (instanceFlatpickr) instanceFlatpickr.setDate(new Date()); 
+        window.pilihJenisTab('Pengeluaran'); 
+        window.loadSummary();
+      });
+    };
+    
+    window.bukaModalDetailSemua = () => { 
+      const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
+      window.buatOpsiFilterBulanModal();
+      const hariIni = new Date(); const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
+      const select = document.getElementById('filterBulanModal'); const triggerLabel = document.getElementById('labelPeriodeTerpilih');
+      if (select) {
+        const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
+        if (opsiTersedia) { select.value = formatKunciBulanIni; if (triggerLabel) triggerLabel.innerText = Array.from(select.options).find(option => option.value === formatKunciBulanIni).text; } 
+        else { select.value = "ALL"; if (triggerLabel) triggerLabel.innerText = "Tampilkan Semua"; }
+      }
+      window.renderListModalSesuaiBulan(); modal.classList.remove('hidden'); 
+      setTimeout(() => { modal.classList.remove('opacity-0'); if(box) box.classList.remove('translate-y-full'); }, 20); 
+    };
+
+    window.tutupModalDetailSemua = () => { 
+      const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
+      modal.classList.add('opacity-0'); if(box) box.classList.add('translate-y-full');
+      setTimeout(() => { modal.classList.add('hidden'); }, 300); 
+    };
+    
+    window.unduhPDF = () => {}; window.unduhExcel = () => {};
+  </script>
+</body>
+
+</html>
