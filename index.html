@@ -293,14 +293,14 @@
         </div>
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
-
-        <!-- Tombol Utama Riwayat Lengkap -->
-        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 hidden">
-          <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-        </button>
       </div>
-      
     </div>
+
+    <!-- PERBAIKAN STRUKTUR: Tombol ditaruh di luar halaman penjelajah agar bisa diakses global -->
+    <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
+      <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+    </button>
+    
   </div>
 
   <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
@@ -373,7 +373,6 @@
 
     Chart.register(ChartDataLabels);
 
-    // KEMBALI DISEDIAKAN: Fungsi utilitas format tanggal lokal agar browser tidak crash membaca data
     function formatTanggalIndo(tglString) {
       if(!tglString) return "-";
       const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -559,7 +558,7 @@
       if (!listContainer) return;
       listContainer.innerHTML = "";
 
-      // MEMASTIKAN: Tombol buka riwayat lengkap dipaksa tampil dan siap dipencet
+      // FIX LOGIC: Tombol dipaksa aktif terlepas dari filter data kosong/penjelajah halaman
       const btnBukaDetail = document.getElementById('btnBukaDetail');
       if (btnBukaDetail) {
         btnBukaDetail.classList.remove('hidden');
