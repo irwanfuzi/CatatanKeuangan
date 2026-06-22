@@ -373,6 +373,22 @@
 
     Chart.register(ChartDataLabels);
 
+    // KEMBALI DISEDIAKAN: Fungsi utilitas format tanggal lokal agar browser tidak crash membaca data
+    function formatTanggalIndo(tglString) {
+      if(!tglString) return "-";
+      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
+      const tanggalObj = new Date(tglString);
+      
+      const hariIni = new Date();
+      const kemarin = new Date();
+      kemarin.setDate(hariIni.getDate() - 1);
+      
+      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
+      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
+      
+      return tanggalObj.toLocaleDateString('id-ID', opsi);
+    }
+
     function sinkronisasiNilaiTanggalMentah(dateObj) {
       if (dateObj instanceof Date && !isNaN(dateObj)) {
         const yyyy = dateObj.getFullYear();
@@ -543,7 +559,7 @@
       if (!listContainer) return;
       listContainer.innerHTML = "";
 
-      // PERBAIKAN UTAMA: Memaksa tombol detail kustom tampil stabil ke halaman utama aplikasi
+      // MEMASTIKAN: Tombol buka riwayat lengkap dipaksa tampil dan siap dipencet
       const btnBukaDetail = document.getElementById('btnBukaDetail');
       if (btnBukaDetail) {
         btnBukaDetail.classList.remove('hidden');
