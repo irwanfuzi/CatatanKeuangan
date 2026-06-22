@@ -271,6 +271,7 @@
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
 
+        <!-- Tombol Utama Riwayat Lengkap -->
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
@@ -568,6 +569,8 @@
 
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
+        
+        // AMAN: Memastikan tombol kustom riwayat lengkap selalu tampil ke halaman utama aplikasi
         document.getElementById('btnBukaDetail').classList.remove('hidden'); 
       } else {
         document.getElementById('loadingRiwayat').classList.add('hidden');
@@ -703,7 +706,6 @@
       });
     };
 
-    // FIX LOGIC: Menyelaraskan seluruh nama variabel parameter dari penampung utama 'indexDataAsli'
     window.bukaOpsiAksiTransaksi = function(indexDataAsli) {
       const item = databaseRiwayatRaw[indexDataAsli];
       if (!item) return;
