@@ -53,7 +53,7 @@
       border-radius: 10px;
     }
     
-    /* FIX STYLING: Kalender Premium Flatpickr & Solusi Hari Minggu Terpotong */
+    /* FIX STYLING: Kalender Premium Flatpickr & Solusi Hari Minggu Terpotong Laporan */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
@@ -103,7 +103,7 @@
       height: 42px !important;
     }
 
-    /* BARU & UPGRADE: Navigasi Pemilihan Bulan & Tahun Super Modern Pills */
+    /* NAVIGASI PEMILIHAN BULAN & TAHUN SUPER MODERN PILLS LAYOUT */
     .flatpickr-current-month {
       display: flex !important;
       align-items: center !important;
@@ -130,34 +130,43 @@
     .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
       background: #e2e8f0 !important;
     }
+    
+    /* MODERNISED TAHUN DROPDOWN PILL ELEMENT */
     .flatpickr-current-month .numInputWrapper {
       background: #f1f5f9 !important;
       border-radius: 0.85rem !important;
-      padding: 6px 2px !important;
-      width: 72px !important;
-      display: inline-block !important;
+      padding: 6px 8px !important;
+      width: 78px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       transition: all 0.2s !important;
     }
     .flatpickr-current-month .numInputWrapper:hover {
       background: #e2e8f0 !important;
     }
     .flatpickr-current-month .numInputWrapper span {
-      display: none !important; /* Hilangkan panah spin vertikal bawaan HTML yang kaku */
+      display: none !important; /* Buang panah spin vertikal kecil yang merusak visual */
     }
-    .flatpickr-current-month input.numInput.cur-year {
+
+    /* Kustomisasi Tampilan Elemen List `<select>` Tahun yang Baru */
+    .custom-year-select {
       font-family: 'Urbanist', sans-serif !important;
       font-weight: 700 !important;
       font-size: 14px !important;
       color: #1e293b !important;
       background: transparent !important;
-      text-align: center !important;
-      padding: 0 !important;
-      width: 100% !important;
-      outline: none !important;
       border: none !important;
+      outline: none !important;
+      cursor: pointer !important;
+      width: 100% !important;
+      text-align: center !important;
+      -webkit-appearance: none !important; /* Sembunyikan panah default browser agar bersih melengkung murni */
+      -moz-appearance: none !important;
+      appearance: none !important;
     }
     
-    /* Tombol Navigasi Kiri Kanan Bulan */
+    /* Tombol Navigasi Panah Kalender */
     .flatpickr-months .flatpickr-prev-month, 
     .flatpickr-months .flatpickr-next-month {
       top: 4px !important;
@@ -447,8 +456,46 @@
         changeMonth: true,
         changeYear: true,
         disableMobile: "true",
-        onReady: function(selectedDates) {
+        onReady: function(selectedDates, dateStr, instance) {
           sinkronisasiNilaiTanggalMentah(selectedDates[0]);
+          
+          // UPGRADE LOGIC: Transformasi Input Angka Menjadi List Dropdown Pilihan Tahun Premium
+          const container = instance.calendarContainer.querySelector('.numInputWrapper');
+          if (container && !container.querySelector('.custom-year-select')) {
+            const yearInput = container.querySelector('.cur-year');
+            if (yearInput) {
+              yearInput.style.display = 'none'; // Sembunyikan input manual lama bawaan flatpickr
+              
+              const selectYear = document.createElement('select');
+              selectYear.className = 'custom-year-select';
+              
+              // Membuat list pilihan tahun (rentang 10 tahun ke belakang dan 10 tahun ke depan)
+              const tahunSekarang = new Date().getFullYear();
+              for (let y = tahunSekarang - 10; y <= tahunSekarang + 10; y++) {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = y;
+                if (y === instance.currentYear) opt.selected = true;
+                selectYear.appendChild(opt);
+              }
+              
+              container.appendChild(selectYear);
+              
+              // Kirim instruksi perubahan tahun ke inti Flatpickr kalender saat dipilih
+              selectYear.addEventListener('change', function() {
+                yearInput.value = this.value;
+                yearInput.dispatchEvent(new Event('input', { bubbles: true }));
+              });
+              
+              // Pastikan dropdown ikut berputar otomatis jika pengguna menekan tombol panah bulan maju-mundur
+              instance.config.onYearChange.push(function(dates, dataStr, inst) {
+                selectYear.value = inst.currentYear;
+              });
+              instance.config.onMonthChange.push(function(dates, dataStr, inst) {
+                selectYear.value = inst.currentYear;
+              });
+            }
+          }
         },
         onChange: function(selectedDates) {
           sinkronisasiNilaiTanggalMentah(selectedDates[0]);
