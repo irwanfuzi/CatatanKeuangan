@@ -915,7 +915,8 @@
         if (result.isConfirmed) {
           Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
           const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexDataAsli;
-          fetch(API_URL + "?action=delete&index=" + indexBal HaroldSheet, { method: "POST" }).then(() => {
+          // FIX FIX: Logika diperbaiki murni kembali ke indexBalikBarisSheet yang benar
+          fetch(API_URL + "?action=delete&index=" + indexBalikBarisSheet, { method: "POST" }).then(() => {
             Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false }); window.loadSummary();
           });
         }
@@ -1136,7 +1137,6 @@
       setTimeout(() => { modal.classList.add('hidden'); }, 300); 
     };
     
-    // Fungsi Pembantu untuk Mendapatkan Data Terfilter di Modal
     function dapatkanDataTerfilterModal() {
       const bulanTerpilih = document.getElementById('filterBulanModal').value;
       let dataHasilFilter = databaseRiwayatRaw || [];
@@ -1149,7 +1149,6 @@
       };
     }
 
-    // 1. AKTIVASI UNDUH PDF PREMIUM (Dengan AutoTable & Tema Emerald)
     window.unduhPDF = function() {
       const { data, periodeText } = dapatkanDataTerfilterModal();
       
@@ -1163,23 +1162,20 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('p', 'mm', 'a4');
       
-      // Header Laporan
       doc.setFont("Helvetica", "bold");
       doc.setFontSize(18);
-      doc.setTextColor(16, 185, 129); // Warna Emerald
+      doc.setTextColor(16, 185, 129); 
       doc.text("LAPORAN KEUANGAN DOMPET DIGITAL", 14, 20);
       
       doc.setFont("Helvetica", "normal");
       doc.setFontSize(10);
-      doc.setTextColor(100, 116, 139); // Warna Slate
+      doc.setTextColor(100, 116, 139); 
       doc.text(`Periode: ${periodeText}`, 14, 26);
       doc.text(`Tanggal Unduh: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 31);
       
-      // Garis Pembatas
       doc.setDrawColor(226, 232, 240);
       doc.line(14, 35, 196, 35);
 
-      // Transformasi Data ke Format Tabel
       const barisTabel = data.map((item, indeks) => {
         const isMasuk = item.jenis === "Pemasukan";
         const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
@@ -1193,7 +1189,6 @@
         ];
       });
 
-      // Render Tabel Premium
       doc.autoTable({
         startY: 40,
         head: [['No', 'Tanggal', 'Keterangan / Nota', 'Kategori', 'Jenis', 'Nominal']],
@@ -1207,13 +1202,12 @@
           5: { halign: 'right', fontStyle: 'bold' }
         },
         didParseCell: function(cellData) {
-          // Warnai teks nominal hijau jika pemasukan, abu-abu gelap jika pengeluaran
           if (cellData.section === 'body' && cellData.column.index === 5) {
             const text = cellData.cell.raw;
             if (text.startsWith("+")) {
-              cellData.cell.styles.textColor = [5, 150, 105]; // Emerald tua
+              cellData.cell.styles.textColor = [5, 150, 105]; 
             } else {
-              cellData.cell.styles.textColor = [30, 41, 59]; // Slate tua
+              cellData.cell.styles.textColor = [30, 41, 59]; 
             }
           }
         }
@@ -1223,7 +1217,6 @@
       doc.save(`Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.pdf`);
     };
 
-    // 2. AKTIVASI UNDUH EXCEL RAPID
     window.unduhExcel = function() {
       const { data, periodeText } = dapatkanDataTerfilterModal();
 
@@ -1234,7 +1227,6 @@
 
       Swal.fire({ title: 'Membangun Spreadsheet...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-      // Mapping ke struktur kolom Excel yang rapi
       const dataExcel = data.map((item, indeks) => ({
         "No": indeks + 1,
         "Tanggal Transaksi": item.tanggal,
@@ -1248,7 +1240,6 @@
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Keuangan");
 
-      // Atur lebar kolom otomatis agar tidak terpotong di Excel
       const maxW = dataExcel.reduce((w, row) => Math.max(w, (row["Keterangan / Nota"] ? row["Keterangan / Nota"].length : 10)), 15);
       worksheet["!cols"] = [{ wch: 6 }, { wch: 18 }, { wch: maxW + 2 }, { wch: 15 }, { wch: 15 }, { wch: 18 }];
 
