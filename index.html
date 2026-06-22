@@ -20,7 +20,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-  <!-- PEMBARUAN: Library Kalender Modern Flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
@@ -54,16 +53,16 @@
       border-radius: 10px;
     }
     
-    /* KUSTOMISASI PRESTIGE FLATPICKR KALENDER (EMERALD FINTECH THEMING) */
+    /* FINTECH EMERALD KALENDER STYLING OLEH FLATPICKR */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
-      border-radius: 1.5rem !important;
-      box-shadow: 0 10px 25px -5px rgba(51, 65, 85, 0.12) !important;
+      border-radius: 1.75rem !important;
+      box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
-      padding: 6px !important;
+      padding: 10px !important;
     }
     .flatpickr-day.selected, .flatpickr-day.selected:hover {
-      background: #059669 !important; /* Hijau Emerald */
+      background: #059669 !important;
       border-color: #059669 !important;
       font-weight: bold !important;
       border-radius: 0.75rem !important;
@@ -79,17 +78,26 @@
     }
     .flatpickr-months .flatpickr-month {
       color: #1e293b !important;
-      font-weight: bold !important;
+      height: 35px !important;
     }
-    .flatpickr-current-month .flatpickr-monthDropdown-months {
+    /* Styling Dropdown Bulan & Tahun di Dalam Kalender */
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .numInputWrapper minical{
       font-weight: 700 !important;
+      color: #1e293b !important;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+    }
+    .flatpickr-current-month input.numInput.cur-year {
+      font-weight: 700 !important;
+      color: #1e293b !important;
     }
   </style>
 </head>
 
 <body class="w-full min-h-screen flex flex-col pb-[95px]">
 
-  <!-- TOP TOTAL WALLET BALANCE CARD -->
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -114,10 +122,8 @@
     </div>
   </div>
 
-  <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI - PREMIUM COMPONENT) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
       <div class="flex items-center gap-2 mb-6">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -125,19 +131,17 @@
       </div>
 
       <form id="formKeuangan" onsubmit="window.handleForm(event)">
-        <!-- 1. INPUT TANGGAL TRANSAKSI (INTEGRASI KALENDER PREMIUM) -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
-            <!-- Diubah menjadi type="text" agar memicu Flatpickr kustom dengan sempurna -->
-            <input type="text" id="tanggal" placeholder="Pilih tanggal" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11 cursor-pointer" required>
+            <input type="hidden" id="tanggal_mentah" value="">
+            <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11 cursor-pointer" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-regular fa-calendar-days"></i>
             </div>
           </div>
         </div>
 
-        <!-- 2. JENIS ALIRAN DANA -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
           <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
@@ -151,7 +155,6 @@
           </div>
         </div>
 
-        <!-- 3. POS KATEGORI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
@@ -166,7 +169,6 @@
           </div>
         </div>
 
-        <!-- 4. INPUT NOMINAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
@@ -177,7 +179,6 @@
           </div>
         </div>
 
-        <!-- 5. INPUT KETERANGAN -->
         <div class="mb-6">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
@@ -204,10 +205,8 @@
       </button>
     </div>
 
-    <!-- HALAMAN RIWAYAT -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
-      <!-- 1. ANALISIS PENGELUARAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4">
           <div class="flex flex-col">
@@ -237,7 +236,6 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
-      <!-- 2. GRAFIK TREN KEUNGAN BULANAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex flex-col mb-4">
           <div class="flex items-center gap-2">
@@ -250,7 +248,6 @@
         </div>
       </div>
 
-      <!-- 3. TRANSAKSI TERAKHIR -->
       <div class="w-full flex flex-col gap-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
@@ -264,7 +261,7 @@
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
 
-        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
       </div>
@@ -272,11 +269,9 @@
     </div>
   </div>
 
-  <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
-      <!-- Header Modal -->
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
           <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
@@ -287,7 +282,6 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
-      <!-- Filter Periode & Ekspor Di Dalam Modal -->
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -308,7 +302,6 @@
         </div>
       </div>
 
-      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -316,7 +309,6 @@
     </div>
   </div>
 
-  <!-- TAB NAVIGATION MENUS -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -338,17 +330,32 @@
     let myChartInstance = null;
     let myBarChartInstance = null; 
     let databaseRiwayatRaw = []; 
-    let instanceFlatpickr = null; // Variabel penampung objek kalender
+    let instanceFlatpickr = null;
 
     Chart.register(ChartDataLabels);
 
     document.addEventListener('DOMContentLoaded', () => {
-      // INITIALIZE kalender kustom premium dengan bahasa Indonesia
+      // INITIALIZE KALENDER: Format Teks Indonesia + Fitur Dropdown Bulan & List Tahun Terintegrasi
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
-        dateFormat: "Y-m-d",
+        dateFormat: "d F Y", // Menampilkan Nama Bulan Utuh (Contoh: 22 Juni 2026)
         defaultDate: new Date(),
-        disableMobile: "true" // Memaksa browser HP menggunakan UI kalender flatpickr kustom, bukan native browser
+        changeMonth: true,   // Pilihan Dropdown Bulan
+        changeYear: true,    // Pilihan List Navigasi Tahun
+        disableMobile: "true",
+        onReady: function(selectedDates, dateStr, instance) {
+          // Menyimpan tanggal default berformat ISO YYYY-MM-DD ke elemen input hidden
+          if(selectedDates[0]) {
+            const d = selectedDates[0];
+            document.getElementById('tanggal_mentah').value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, '0') + "-" + String(d.getDate()).padStart(2, '0');
+          }
+        },
+        onChange: function(selectedDates, dateStr, instance) {
+          if(selectedDates[0]) {
+            const d = selectedDates[0];
+            document.getElementById('tanggal_mentah').value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, '0') + "-" + String(d.getDate()).padStart(2, '0');
+          }
+        }
       });
       
       window.updateKategoriOptions();
@@ -451,21 +458,6 @@
       document.body.appendChild(script);
     };
 
-    function formatTanggalIndo(tglString) {
-      if(!tglString) return "-";
-      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
-      const tanggalObj = new Date(tglString);
-      
-      const hariIni = new Date();
-      const kemarin = new Date();
-      kemarin.setDate(hariIni.getDate() - 1);
-      
-      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
-      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
-      
-      return tanggalObj.toLocaleDateString('id-ID', opsi);
-    }
-
     window.handleGoogleData = function(res) {
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
@@ -539,7 +531,7 @@
 
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
-        document.getElementById('btnBukaDetail').classList.remove('hidden');
+        document.getElementById('btnBukaDetail').classList.remove('hidden'); // PERBAIKAN: Menampilkan tombol riwayat penuh dengan stabil
       } else {
         document.getElementById('loadingRiwayat').classList.add('hidden');
         document.getElementById('btnBukaDetail').classList.add('hidden');
@@ -745,207 +737,3 @@
     };
 
     window.buatOpsiFilterBulanSemuaElemen = function() {
-      const selectUtama = document.getElementById('filterBulanUtamaHidden');
-      const selectModal = document.getElementById('filterBulanModal');
-      if (!selectUtama || !selectModal) return;
-      
-      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal.substring(0, 7)))];
-      
-      let htmlUtama = '<option value="ALL">Semua Periode</option>';
-      let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
-      
-      keys.sort().reverse().forEach(k => {
-        const p = k.split('-');
-        const namaBulan = bulan[parseInt(p[1])-1];
-        htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-      });
-      
-      selectUtama.innerHTML = htmlUtama;
-      selectModal.innerHTML = htmlModal;
-    };
-
-    window.bukaPilihanPeriodeHalamanUtama = function() {
-      const select = document.getElementById('filterBulanUtamaHidden');
-      const nilaiSekarang = select.value;
-      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1">`;
-      for (let i = 0; i < select.options.length; i++) {
-        const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
-        listHTML += `
-          <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
-          }">
-            <span class="text-sm">${txt}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
-          </button>`;
-      }
-      listHTML += `</div>`;
-      Swal.fire({
-        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
-      });
-    };
-
-    window.setPeriodeHalamanUtamaDariList = function(val, txt) {
-      document.getElementById('filterBulanUtamaHidden').value = val;
-      document.getElementById('labelPeriodeUtama').innerText = txt;
-      window.prosesFilterKategoriBulanUtama();
-      Swal.close();
-    };
-
-    window.bukaPilihanPeriodeModal = function() {
-      const select = document.getElementById('filterBulanModal');
-      const nilaiSekarang = select.value;
-      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1">`;
-      for (let i = 0; i < select.options.length; i++) {
-        const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
-        listHTML += `
-          <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
-          }">
-            <span class="text-sm">${txt}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
-          </button>`;
-      }
-      listHTML += `</div>`;
-      Swal.fire({
-        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
-      });
-    };
-
-    window.setPeriodeModalDariList = function(val, txt) {
-      document.getElementById('filterBulanModal').value = val;
-      document.getElementById('labelPeriodeTerpilih').innerText = txt;
-      window.renderListModalSesuaiBulan();
-      Swal.close();
-    };
-
-    window.renderListModalSesuaiBulan = function() {
-      const listModalContainer = document.getElementById('listRiwayatPenuhModal');
-      const bulanTerpilih = document.getElementById('filterBulanModal').value;
-      if (!listModalContainer) return;
-      listModalContainer.innerHTML = "";
-
-      let dataHasilFilterBulan = databaseRiwayatRaw;
-      if (bulanTerpilih !== "ALL") {
-        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal.startsWith(bulanTerpilih));
-      }
-
-      document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi";
-
-      if(dataHasilFilterBulan.length === 0) {
-        listModalContainer.innerHTML = "<div class='text-slate-400 py-6 text-center text-xs font-semibold'>Tidak ada transaksi di periode ini.</div>";
-        return;
-      }
-
-      const grupTransaksiModal = {};
-      dataHasilFilterBulan.forEach(item => {
-        if (!grupTransaksiModal[item.tanggal]) grupTransaksiModal[item.tanggal] = [];
-        grupTransaksiModal[item.tanggal].push(item);
-      });
-
-      Object.keys(grupTransaksiModal).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
-        let susunanHTMLItemModal = '';
-        grupTransaksiModal[tgl].forEach(item => {
-          const isMasuk = item.jenis === "Pemasukan";
-          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
-          
-          susunanHTMLItemModal += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
-              <div class="flex items-center gap-3 min-w-[70%]">
-                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
-                  <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
-                </div>
-                <div class="truncate">
-                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan}</h4>
-                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
-                    ${item.kategori}
-                  </span>
-                </div>
-              </div>
-              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
-                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
-              </span>
-            </div>`;
-        });
-
-        listModalContainer.insertAdjacentHTML('beforeend', `
-          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
-            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 pb-2 mb-1 flex justify-between items-center">
-              <span>${formatTanggalIndo(tgl)}</span>
-              <span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span>
-            </div>
-            <div class="divide-y divide-slate-100/60">${susunanHTMLItemModal}</div>
-          </div>`);
-      });
-    };
-
-    window.resetSemuaData = function() {
-      Swal.fire({
-        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
-        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs text-slate-600 transition-all active:scale-95 focus:ring-0' }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({ title: 'Cleaning...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-          fetch(API_URL + "?action=reset", { method: "POST" }).then(() => { window.loadSummary(); });
-        }
-      });
-    };
-
-    window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
-    
-    window.tombolReloadPintar = () => { 
-      document.getElementById('iconReload').classList.add('animate-spin'); 
-      window.loadSummary(); 
-      window.tukarHalaman('home'); 
-    };
-
-    window.handleForm = function(e) {
-      e.preventDefault();
-      const btn = document.getElementById('btnSimpan'); btn.disabled = true; 
-      Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-      
-      const data = { 
-        tanggal: document.getElementById('tanggal').value, 
-        jenis: document.getElementById('jenis').value, 
-        kategori: document.getElementById('kategori').value, 
-        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
-        keterangan: document.getElementById('keterangan').value || "-" 
-      };
-      
-      fetch(API_URL, { method: "POST", body: JSON.stringify(data) }).then(() => { 
-        btn.disabled = false; 
-        document.getElementById('formKeuangan').reset(); 
-        if (instanceFlatpickr) instanceFlatpickr.setDate(new Date()); // Atur ulang kalender kustom ke hari ini
-        window.pilihJenisTab('Pengeluaran'); 
-        window.loadSummary();
-      });
-    };
-    
-    window.bukaModalDetailSemua = () => { 
-      const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
-      window.buatOpsiFilterBulanModal();
-      const hariIni = new Date(); const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
-      const select = document.getElementById('filterBulanModal'); const triggerLabel = document.getElementById('labelPeriodeTerpilih');
-      if (select) {
-        const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
-        if (opsiTersedia) { select.value = formatKunciBulanIni; if (triggerLabel) triggerLabel.innerText = Array.from(select.options).find(option => option.value === formatKunciBulanIni).text; } 
-        else { select.value = "ALL"; if (triggerLabel) triggerLabel.innerText = "Tampilkan Semua"; }
-      }
-      window.renderListModalSesuaiBulan(); modal.classList.remove('hidden'); 
-      setTimeout(() => { modal.classList.remove('opacity-0'); if(box) box.classList.remove('translate-y-full'); }, 20); 
-    };
-
-    window.tutupModalDetailSemua = () => { 
-      const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
-      modal.classList.add('opacity-0'); if(box) box.classList.add('translate-y-full');
-      setTimeout(() => { modal.classList.add('hidden'); }, 300); 
-    };
-    
-    window.unduhPDF = () => {}; window.unduhExcel = () => {};
-  </script>
-</body>
-
-</html>
