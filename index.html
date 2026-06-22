@@ -276,7 +276,7 @@
         </div>
       </form>
 
-      <button type="button" onclick="window.resetSemuaData()" class="w-full mt-4 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+      <button type="button" onclick="window.resetSemualData()" class="w-full mt-4 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
         <i class="fa-solid fa-trash-can"></i> Reset Semua Data
       </button>
     </div>
@@ -376,11 +376,12 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3 pt-1">
+          <!-- FIX TEXT TOMBOL: Diubah menjadi ringkas "PDF" & "Excel" -->
           <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100/80 text-rose-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
-            <i class="fa-solid fa-file-pdf"></i> PDF Premium
+            <i class="fa-solid fa-file-pdf"></i> PDF
           </button>
           <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-100/80 text-emerald-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
-            <i class="fa-solid fa-file-excel"></i> Excel Dashboard
+            <i class="fa-solid fa-file-excel"></i> Excel
           </button>
         </div>
       </div>
@@ -1179,198 +1180,196 @@
       return teksRaw.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
     }
 
-    // 1. RE-DESIGN UNDUH PDF PREMIUM (Lebih Estetik dengan Widget Akumulasi Saldo & Grid Minimalis)
+    // 1. RE-DESIGN UNDUH PDF PREMIUM + SAFETY NET ANTI FREEZE
     window.unduhPDF = function() {
-      const { data, periodeText } = dapatkanDataTerfilterModal();
-      
-      if (data.length === 0) {
-        Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' });
-        return;
-      }
-
-      Swal.fire({ title: 'Menyiapkan PDF Premium...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-
-      // Kalkulasi akumulasi data finasial untuk widget atas
-      let akumulasiMasuk = 0;
-      let akumulasiKeluar = 0;
-      data.forEach(item => {
-        const nominalInt = parseInt(item.nominal) || 0;
-        if (item.jenis === "Pemasukan") akumulasiMasuk += nominalInt;
-        else akumulasiKeluar += nominalInt;
-      });
-      const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF('p', 'mm', 'a4');
-      
-      // Header Desain
-      doc.setFont("Helvetica", "bold");
-      doc.setFontSize(20);
-      doc.setTextColor(5, 150, 105); 
-      doc.text("LAPORAN KEUANGAN", 14, 20);
-      
-      doc.setFont("Helvetica", "normal");
-      doc.setFontSize(10);
-      doc.setTextColor(100, 116, 139); 
-      doc.text(`Periode Laporan: ${periodeText}`, 14, 27);
-      doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 32);
-      
-      // Garis Pembatas Atas Minimalis
-      doc.setDrawColor(241, 245, 249);
-      doc.setLineWidth(0.4);
-      doc.line(14, 37, 196, 37);
-
-      // --- MENGGAMBAR STAT CARDS / WIDGET RINGKASAN ESTETIK ---
-      doc.setFillColor(248, 250, 252); // Background abu-abu lembut premium
-      doc.roundedRect(14, 42, 56, 20, 3, 3, "F");
-      doc.roundedRect(75, 42, 56, 20, 3, 3, "F");
-      doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
-
-      // Label teks di dalam masing-masing card widget
-      doc.setFontSize(8);
-      doc.setFont("Helvetica", "bold");
-      doc.setTextColor(148, 163, 184); 
-      doc.text("TOTAL PEMASUKAN", 18, 47);
-      doc.text("TOTAL PENGELUARAN", 79, 47);
-      doc.text("SALDO BERSIH", 140, 47);
-
-      // Nominal Nilai di dalam masing-masing card widget
-      doc.setFontSize(11);
-      doc.setTextColor(16, 185, 129); // Hijau Emerald
-      doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55);
-      doc.setTextColor(244, 63, 94); // Merah Rose
-      doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
-      doc.setTextColor(netSaldoBersih >= 0 ? [30, 41, 59] : [244, 63, 94]); 
-      doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
-
-      // Mengubah struktur baris tabel data
-      const barisTabel = data.map((item, indeks) => {
-        const isMasuk = item.jenis === "Pemasukan";
-        const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
-        return [
-          indeks + 1,
-          formatTanggalFormal(item.tanggal),
-          item.keterangan || "-",
-          bersihkanIkonEmoji(item.kategori), 
-          item.jenis,
-          nominalFormat
-        ];
-      });
-
-      // Render tabel dengan model minimalis premium grid
-      doc.autoTable({
-        startY: 68,
-        head: [['No', 'Tanggal', 'Keterangan / Nota', 'Kategori', 'Jenis', 'Nominal']],
-        body: barisTabel,
-        theme: 'grid',
-        headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9.5, cellPadding: 3.5 },
-        bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
-        alternateRowStyles: { fillColor: [250, 250, 250] },
-        styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
-        columnStyles: {
-          0: { cellWidth: 10, halign: 'center' },
-          1: { cellWidth: 32 },
-          3: { cellWidth: 28 },
-          4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' },
-          5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' }
-        },
-        didParseCell: function(cellData) {
-          if (cellData.section === 'body') {
-            if (cellData.column.index === 4) {
-              if (cellData.cell.raw === "Pemasukan") cellData.cell.styles.textColor = [5, 150, 105];
-              else cellData.cell.styles.textColor = [244, 63, 94];
-            }
-            if (cellData.column.index === 5) {
-              if (cellData.cell.raw.startsWith("+")) cellData.cell.styles.textColor = [5, 150, 105]; 
-              else cellData.cell.styles.textColor = [30, 41, 59]; 
-            }
-          }
-        },
-        // Callback cetak nomor halaman dinamis di footer lembar PDF
-        didDrawPage: function(dataPage) {
-          doc.setFontSize(8);
-          doc.setFont("Helvetica", "normal");
-          doc.setTextColor(148, 163, 184);
-          doc.text(`Halaman ${dataPage.pageNumber}`, dataPage.settings.margin.left, doc.internal.pageSize.height - 10);
+      try {
+        const { data, periodeText } = dapatkanDataTerfilterModal();
+        
+        if (data.length === 0) {
+          Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' });
+          return;
         }
-      });
 
-      Swal.close();
-      doc.save(`Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.pdf`);
+        Swal.fire({ title: 'Menyiapkan PDF...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        let akumulasiMasuk = 0;
+        let akumulasiKeluar = 0;
+        data.forEach(item => {
+          const nominalInt = parseInt(item.nominal) || 0;
+          if (item.jenis === "Pemasukan") akumulasiMasuk += nominalInt;
+          else akumulasiKeluar += nominalInt;
+        });
+        const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(20);
+        doc.setTextColor(5, 150, 105); 
+        doc.text("LAPORAN KEUANGAN", 14, 20);
+        
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(100, 116, 139); 
+        doc.text(`Periode Laporan: ${periodeText}`, 14, 27);
+        doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 32);
+        
+        doc.setDrawColor(241, 245, 249);
+        doc.setLineWidth(0.4);
+        doc.line(14, 37, 196, 37);
+
+        doc.setFillColor(248, 250, 252); 
+        doc.roundedRect(14, 42, 56, 20, 3, 3, "F");
+        doc.roundedRect(75, 42, 56, 20, 3, 3, "F");
+        doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
+
+        doc.setFontSize(8);
+        doc.setFont("Helvetica", "bold");
+        doc.setTextColor(148, 163, 184); 
+        doc.text("TOTAL PEMASUKAN", 18, 47);
+        doc.text("TOTAL PENGELUARAN", 79, 47);
+        doc.text("SALDO BERSIH", 140, 47);
+
+        doc.setFontSize(11);
+        doc.setTextColor(16, 185, 129); 
+        doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55);
+        doc.setTextColor(244, 63, 94); 
+        doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
+        doc.setTextColor(netSaldoBersih >= 0 ? [30, 41, 59] : [244, 63, 94]); 
+        doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
+
+        const barisTabel = data.map((item, indeks) => {
+          const isMasuk = item.jenis === "Pemasukan";
+          const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
+          return [
+            indeks + 1,
+            formatTanggalFormal(item.tanggal),
+            item.keterangan || "-",
+            bersihkanIkonEmoji(item.kategori), 
+            item.jenis,
+            nominalFormat
+          ];
+        });
+
+        doc.autoTable({
+          startY: 68,
+          head: [['No', 'Tanggal', 'Keterangan / Nota', 'Kategori', 'Jenis', 'Nominal']],
+          body: barisTabel,
+          theme: 'grid',
+          headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9.5, cellPadding: 3.5 },
+          bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
+          alternateRowStyles: { fillColor: [250, 250, 250] },
+          styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
+          columnStyles: {
+            0: { cellWidth: 10, halign: 'center' },
+            1: { cellWidth: 32 },
+            3: { cellWidth: 28 },
+            4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' },
+            5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' }
+          },
+          didParseCell: function(cellData) {
+            if (cellData.section === 'body') {
+              if (cellData.column.index === 4) {
+                if (cellData.cell.raw === "Pemasukan") cellData.cell.styles.textColor = [5, 150, 105];
+                else cellData.cell.styles.textColor = [244, 63, 94];
+              }
+              if (cellData.column.index === 5) {
+                if (cellData.cell.raw.startsWith("+")) cellData.cell.styles.textColor = [5, 150, 105]; 
+                else cellData.cell.styles.textColor = [30, 41, 59]; 
+              }
+            }
+          },
+          didDrawPage: function(dataPage) {
+            doc.setFontSize(8);
+            doc.setFont("Helvetica", "normal");
+            doc.setTextColor(148, 163, 184);
+            doc.text(`Halaman ${dataPage.pageNumber}`, dataPage.settings.margin.left, doc.internal.pageSize.height - 10);
+          }
+        });
+
+        Swal.close();
+        doc.save(`Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.pdf`);
+      } catch (error) {
+        Swal.close();
+        Swal.fire({ icon: 'error', title: 'Gagal Ekspor PDF', text: 'Pustaka dokumen belum termuat sempurna. Mohon tunggu sejenak atau segarkan halaman.', confirmButtonColor: '#f43f5e' });
+        console.error(error);
+      }
     };
 
-    // 2. RE-DESIGN UNDUH EXCEL DASHBOARD (Tata Letak Dashborad Finansial yang Rapi & User Friendly)
+    // 2. RE-DESIGN UNDUH EXCEL DASHBOARD + SAFETY NET ANTI FREEZE
     window.unduhExcel = function() {
-      const { data, periodeText } = dapatkanDataTerfilterModal();
+      try {
+        const { data, periodeText } = dapatkanDataTerfilterModal();
 
-      if (data.length === 0) {
-        Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' });
-        return;
-      }
-
-      Swal.fire({ title: 'Membangun Dashboard Spreadsheet...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-
-      // Hitung ringkasan total akumulasi data
-      let sumMasuk = 0;
-      let sumKeluar = 0;
-      data.forEach(item => {
-        const nom = parseInt(item.nominal) || 0;
-        if (item.jenis === "Pemasukan") sumMasuk += nom;
-        else sumKeluar += nom;
-      });
-      const sumSaldoBersih = sumMasuk - sumKeluar;
-
-      // Membangun array of arrays (AOA) dengan baris struktur formasi dashboard sheet
-      const strukturRowsExcel = [
-        ["LAPORAN KEUANGAN DIGITAL WALLET STATEMENT"],
-        [`Periode Dokumen: ${periodeText}`],
-        [`Tanggal Unduh Data: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`],
-        [], // Spacing baris kosong
-        ["RINGKASAN AKUMULASI DANA PERIODE"],
-        ["Total Akumulasi Pemasukan", `Rp ${sumMasuk.toLocaleString('id-ID')}`],
-        ["Total Akumulasi Pengeluaran", `Rp ${sumKeluar.toLocaleString('id-ID')}`],
-        ["Total Saldo Bersih (Net)", `Rp ${sumSaldoBersih.toLocaleString('id-ID')}`],
-        [], // Spacing baris kosong
-        ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi (Rp)"]
-      ];
-
-      // Memasukkan records data transaksi ke baris Excel
-      data.forEach((item, indeks) => {
-        strukturRowsExcel.push([
-          indeks + 1,
-          formatTanggalFormal(item.tanggal),
-          item.keterangan || "-",
-          bersihkanIkonEmoji(item.kategori), 
-          item.jenis,
-          parseInt(item.nominal)
-        ]);
-      });
-
-      const worksheet = XLSX.utils.aoa_to_sheet(strukturRowsExcel);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Dashboard Statement");
-
-      // Set lebar kolom agar teks keterangan dan nominal pas tidak terpotong (###)
-      const konfigurasiLebarKolom = [
-        { wch: 6 },  // Kolom No
-        { wch: 18 }, // Kolom Tanggal
-        { wch: 25 }, // Kolom Keterangan
-        { wch: 16 }, // Kolom Kategori
-        { wch: 15 }, // Kolom Jenis Aliran
-        { wch: 22 }  // Kolom Nominal Angka
-      ];
-      
-      // Deteksi dinamis teks keterangan terpanjang
-      data.forEach(item => {
-        if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].wch) {
-          konfigurasiLebarKolom[2].wch = item.keterangan.length + 3;
+        if (data.length === 0) {
+          Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' });
+          return;
         }
-      });
-      
-      worksheet["!cols"] = konfigurasiLebarKolom;
 
-      Swal.close();
-      XLSX.writeFile(workbook, `Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.xlsx`);
+        Swal.fire({ title: 'Membangun Excel...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        let sumMasuk = 0;
+        let sumKeluar = 0;
+        data.forEach(item => {
+          const nom = parseInt(item.nominal) || 0;
+          if (item.jenis === "Pemasukan") sumMasuk += nom;
+          else sumKeluar += nom;
+        });
+        const sumSaldoBersih = sumMasuk - sumKeluar;
+
+        const strukturRowsExcel = [
+          ["LAPORAN KEUANGAN DIGITAL WALLET STATEMENT"],
+          [`Periode Dokumen: ${periodeText}`],
+          [`Tanggal Unduh Data: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`],
+          [], 
+          ["RINGKASAN AKUMULASI DANA PERIODE"],
+          ["Total Akumulasi Pemasukan", `Rp ${sumMasuk.toLocaleString('id-ID')}`],
+          ["Total Akumulasi Pengeluaran", `Rp ${sumKeluar.toLocaleString('id-ID')}`],
+          ["Total Saldo Bersih (Net)", `Rp ${sumSaldoBersih.toLocaleString('id-ID')}`],
+          [], 
+          ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi (Rp)"]
+        ];
+
+        data.forEach((item, indeks) => {
+          strukturRowsExcel.push([
+            indeks + 1,
+            formatTanggalFormal(item.tanggal),
+            item.keterangan || "-",
+            bersihkanIkonEmoji(item.kategori), 
+            item.jenis,
+            parseInt(item.nominal)
+          ]);
+        });
+
+        const worksheet = XLSX.utils.aoa_to_sheet(strukturRowsExcel);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Dashboard Statement");
+
+        const konfigurasiLebarKolom = [
+          { wch: 6 },  
+          { wch: 18 }, 
+          { wch: 25 }, 
+          { wch: 16 }, 
+          { wch: 15 }, 
+          { wch: 22 }  
+        ];
+        
+        data.forEach(item => {
+          if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].wch) {
+            konfigurasiLebarKolom[2].wch = item.keterangan.length + 3;
+          }
+        });
+        
+        worksheet["!cols"] = konfigurasiLebarKolom;
+
+        Swal.close();
+        XLSX.writeFile(workbook, `Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.xlsx`);
+      } catch (error) {
+        Swal.close();
+        Swal.fire({ icon: 'error', title: 'Gagal Ekspor Excel', text: 'Pustaka spreadsheet belum termuat sempurna. Mohon tunggu sejenak atau segarkan halaman.', confirmButtonColor: '#f43f5e' });
+        console.error(error);
+      }
     };
   </script>
 </body>
