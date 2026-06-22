@@ -294,7 +294,7 @@
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
         
-        <!-- SINKRONISASI POSISI UTAMA: Tombol ditempatkan secara solid di dalam tab riwayat agar interaktif -->
+        <!-- Tombol Utama Riwayat Lengkap -->
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
@@ -498,14 +498,14 @@
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
-        if(btnBukaDetail) btnBukaDetail.classList.add('hidden'); // Sembunyikan jika di home
+        if(btnBukaDetail) btnBukaDetail.classList.add('hidden'); 
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
         navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
         pageRiwayat.classList.remove('hidden');
-        if(btnBukaDetail && databaseRiwayatRaw.length > 0) btnBukaDetail.classList.remove('hidden'); // Paksa muncul di riwayat jika data ada
+        if(btnBukaDetail && databaseRiwayatRaw.length > 0) btnBukaDetail.classList.remove('hidden'); 
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary();
@@ -531,7 +531,7 @@
         
         databaseRiwayatRaw = res.riwayat || [];
         
-        window.buatOpsiFilterBulanSemuaElemen();
+        window.buatOpsiFilterBulanModal();
         
         const hariIni = new Date();
         const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
@@ -564,7 +564,6 @@
       const pageRiwayatAktif = !document.getElementById('pageRiwayat').classList.contains('hidden');
 
       if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
-        // Jika sedang di tab riwayat, pastikan tombol buka riwayat dipaksa aktif
         if (btnBukaDetail && pageRiwayatAktif) {
           btnBukaDetail.classList.remove('hidden');
         }
@@ -807,7 +806,8 @@
       });
     };
 
-    window.buatOpsiFilterBulanSemuaElemen = function() {
+    // SINKRONISASI TOTAL: Nama fungsi disatukan mutlak agar tidak crash saat rendering filter laporan bulanan
+    window.buatOpsiFilterBulanModal = function() {
       const selectUtama = document.getElementById('filterBulanUtamaHidden');
       const selectModal = document.getElementById('filterBulanModal');
       if (!selectUtama || !selectModal) return;
@@ -822,8 +822,6 @@
         const p = k.split('-');
         const namaBulan = bulan[parseInt(p[1])-1];
         htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-        
-        // SINKRONISASI MUTLAK: Menggunakan tanda backtick tutup (`) murni untuk mencegah syntax error crash global
         htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
       });
       
@@ -1004,7 +1002,10 @@
     
     window.bukaModalDetailSemua = () => { 
       const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
+      
+      // FIX CALL: Memanggil nama fungsi baru yang sudah diselaraskan di atas
       window.buatOpsiFilterBulanModal();
+      
       const hariIni = new Date(); const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
       const select = document.getElementById('filterBulanModal'); const triggerLabel = document.getElementById('labelPeriodeTerpilih');
       if (select) {
