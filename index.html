@@ -377,10 +377,10 @@
 
         <div class="grid grid-cols-2 gap-3 pt-1">
           <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100/80 text-rose-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
-            <i class="fa-solid fa-file-pdf"></i> PDF
+            <i class="fa-solid fa-file-pdf"></i> PDF Premium
           </button>
           <button onclick="window.unduhExcel()" class="bg-emerald-50 border border-emerald-100/80 text-emerald-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
-            <i class="fa-solid fa-file-excel"></i> Excel
+            <i class="fa-solid fa-file-excel"></i> Excel Dashboard
           </button>
         </div>
       </div>
@@ -422,7 +422,6 @@
 
     Chart.register(ChartDataLabels);
 
-    // Fungsi 1: Format interaktif untuk UI aplikasi (Menghasilkan Hari Ini/Kemarin)
     function formatTanggalIndo(tglString) {
       if(!tglString) return "-";
       const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -438,7 +437,6 @@
       return tanggalObj.toLocaleDateString('id-ID', opsi);
     }
 
-    // Fungsi 2: Format formal murni tanpa kata Hari Ini/Kemarin khusus Dokumen Cetak/Ekspor
     function formatTanggalFormal(tglString) {
       if(!tglString) return "-";
       const tanggalObj = new Date(tglString);
@@ -1181,7 +1179,7 @@
       return teksRaw.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
     }
 
-    // 1. AKTIVASI UNDUH PDF PREMIUM (Tanggal Menggunakan formatTanggalFormal)
+    // 1. RE-DESIGN UNDUH PDF PREMIUM (Lebih Estetik dengan Widget Akumulasi Saldo & Grid Minimalis)
     window.unduhPDF = function() {
       const { data, periodeText } = dapatkanDataTerfilterModal();
       
@@ -1190,31 +1188,68 @@
         return;
       }
 
-      Swal.fire({ title: 'Menyiapkan PDF...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      Swal.fire({ title: 'Menyiapkan PDF Premium...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+      // Kalkulasi akumulasi data finasial untuk widget atas
+      let akumulasiMasuk = 0;
+      let akumulasiKeluar = 0;
+      data.forEach(item => {
+        const nominalInt = parseInt(item.nominal) || 0;
+        if (item.jenis === "Pemasukan") akumulasiMasuk += nominalInt;
+        else akumulasiKeluar += nominalInt;
+      });
+      const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('p', 'mm', 'a4');
       
+      // Header Desain
       doc.setFont("Helvetica", "bold");
-      doc.setFontSize(18);
-      doc.setTextColor(16, 185, 129); 
-      doc.text("LAPORAN KEUANGAN DOMPET DIGITAL", 14, 20);
+      doc.setFontSize(20);
+      doc.setTextColor(5, 150, 105); 
+      doc.text("LAPORAN KEUANGAN", 14, 20);
       
       doc.setFont("Helvetica", "normal");
       doc.setFontSize(10);
       doc.setTextColor(100, 116, 139); 
-      doc.text(`Periode: ${periodeText}`, 14, 26);
-      doc.text(`Tanggal Unduh: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 31);
+      doc.text(`Periode Laporan: ${periodeText}`, 14, 27);
+      doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 32);
       
-      doc.setDrawColor(226, 232, 240);
-      doc.line(14, 35, 196, 35);
+      // Garis Pembatas Atas Minimalis
+      doc.setDrawColor(241, 245, 249);
+      doc.setLineWidth(0.4);
+      doc.line(14, 37, 196, 37);
 
+      // --- MENGGAMBAR STAT CARDS / WIDGET RINGKASAN ESTETIK ---
+      doc.setFillColor(248, 250, 252); // Background abu-abu lembut premium
+      doc.roundedRect(14, 42, 56, 20, 3, 3, "F");
+      doc.roundedRect(75, 42, 56, 20, 3, 3, "F");
+      doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
+
+      // Label teks di dalam masing-masing card widget
+      doc.setFontSize(8);
+      doc.setFont("Helvetica", "bold");
+      doc.setTextColor(148, 163, 184); 
+      doc.text("TOTAL PEMASUKAN", 18, 47);
+      doc.text("TOTAL PENGELUARAN", 79, 47);
+      doc.text("SALDO BERSIH", 140, 47);
+
+      // Nominal Nilai di dalam masing-masing card widget
+      doc.setFontSize(11);
+      doc.setTextColor(16, 185, 129); // Hijau Emerald
+      doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55);
+      doc.setTextColor(244, 63, 94); // Merah Rose
+      doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
+      doc.setTextColor(netSaldoBersih >= 0 ? [30, 41, 59] : [244, 63, 94]); 
+      doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
+
+      // Mengubah struktur baris tabel data
       const barisTabel = data.map((item, indeks) => {
         const isMasuk = item.jenis === "Pemasukan";
         const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
         return [
           indeks + 1,
-          formatTanggalFormal(item.tanggal), // FIX: Menggunakan format formal murni (Tanpa Hari Ini/Kemarin)
+          formatTanggalFormal(item.tanggal),
           item.keterangan || "-",
           bersihkanIkonEmoji(item.kategori), 
           item.jenis,
@@ -1222,27 +1257,41 @@
         ];
       });
 
+      // Render tabel dengan model minimalis premium grid
       doc.autoTable({
-        startY: 40,
+        startY: 68,
         head: [['No', 'Tanggal', 'Keterangan / Nota', 'Kategori', 'Jenis', 'Nominal']],
         body: barisTabel,
-        theme: 'striped',
-        headStyles: { fillColor: [16, 185, 129], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 10 },
-        bodyStyles: { fontSize: 9, textColor: [51, 65, 85] },
+        theme: 'grid',
+        headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9.5, cellPadding: 3.5 },
+        bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
+        alternateRowStyles: { fillColor: [250, 250, 250] },
+        styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
         columnStyles: {
           0: { cellWidth: 10, halign: 'center' },
-          4: { fontStyle: 'bold' },
-          5: { halign: 'right', fontStyle: 'bold' }
+          1: { cellWidth: 32 },
+          3: { cellWidth: 28 },
+          4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' },
+          5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' }
         },
         didParseCell: function(cellData) {
-          if (cellData.section === 'body' && cellData.column.index === 5) {
-            const text = cellData.cell.raw;
-            if (text.startsWith("+")) {
-              cellData.cell.styles.textColor = [5, 150, 105]; 
-            } else {
-              cellData.cell.styles.textColor = [30, 41, 59]; 
+          if (cellData.section === 'body') {
+            if (cellData.column.index === 4) {
+              if (cellData.cell.raw === "Pemasukan") cellData.cell.styles.textColor = [5, 150, 105];
+              else cellData.cell.styles.textColor = [244, 63, 94];
+            }
+            if (cellData.column.index === 5) {
+              if (cellData.cell.raw.startsWith("+")) cellData.cell.styles.textColor = [5, 150, 105]; 
+              else cellData.cell.styles.textColor = [30, 41, 59]; 
             }
           }
+        },
+        // Callback cetak nomor halaman dinamis di footer lembar PDF
+        didDrawPage: function(dataPage) {
+          doc.setFontSize(8);
+          doc.setFont("Helvetica", "normal");
+          doc.setTextColor(148, 163, 184);
+          doc.text(`Halaman ${dataPage.pageNumber}`, dataPage.settings.margin.left, doc.internal.pageSize.height - 10);
         }
       });
 
@@ -1250,7 +1299,7 @@
       doc.save(`Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.pdf`);
     };
 
-    // 2. AKTIVASI UNDUH EXCEL RAPID (Tanggal Menggunakan formatTanggalFormal)
+    // 2. RE-DESIGN UNDUH EXCEL DASHBOARD (Tata Letak Dashborad Finansial yang Rapi & User Friendly)
     window.unduhExcel = function() {
       const { data, periodeText } = dapatkanDataTerfilterModal();
 
@@ -1259,23 +1308,66 @@
         return;
       }
 
-      Swal.fire({ title: 'Membangun Spreadsheet...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      Swal.fire({ title: 'Membangun Dashboard Spreadsheet...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-      const dataExcel = data.map((item, indeks) => ({
-        "No": indeks + 1,
-        "Tanggal Transaksi": formatTanggalFormal(item.tanggal), // FIX: Diubah menjadi formal agar seragam dengan PDF
-        "Keterangan / Nota": item.keterangan,
-        "Kategori": bersihkanIkonEmoji(item.kategori), 
-        "Jenis Aliran": item.jenis,
-        "Nominal (Rp)": parseInt(item.nominal)
-      }));
+      // Hitung ringkasan total akumulasi data
+      let sumMasuk = 0;
+      let sumKeluar = 0;
+      data.forEach(item => {
+        const nom = parseInt(item.nominal) || 0;
+        if (item.jenis === "Pemasukan") sumMasuk += nom;
+        else sumKeluar += nom;
+      });
+      const sumSaldoBersih = sumMasuk - sumKeluar;
 
-      const worksheet = XLSX.utils.json_to_sheet(dataExcel);
+      // Membangun array of arrays (AOA) dengan baris struktur formasi dashboard sheet
+      const strukturRowsExcel = [
+        ["LAPORAN KEUANGAN DIGITAL WALLET STATEMENT"],
+        [`Periode Dokumen: ${periodeText}`],
+        [`Tanggal Unduh Data: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`],
+        [], // Spacing baris kosong
+        ["RINGKASAN AKUMULASI DANA PERIODE"],
+        ["Total Akumulasi Pemasukan", `Rp ${sumMasuk.toLocaleString('id-ID')}`],
+        ["Total Akumulasi Pengeluaran", `Rp ${sumKeluar.toLocaleString('id-ID')}`],
+        ["Total Saldo Bersih (Net)", `Rp ${sumSaldoBersih.toLocaleString('id-ID')}`],
+        [], // Spacing baris kosong
+        ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi (Rp)"]
+      ];
+
+      // Memasukkan records data transaksi ke baris Excel
+      data.forEach((item, indeks) => {
+        strukturRowsExcel.push([
+          indeks + 1,
+          formatTanggalFormal(item.tanggal),
+          item.keterangan || "-",
+          bersihkanIkonEmoji(item.kategori), 
+          item.jenis,
+          parseInt(item.nominal)
+        ]);
+      });
+
+      const worksheet = XLSX.utils.aoa_to_sheet(strukturRowsExcel);
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Keuangan");
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Dashboard Statement");
 
-      const maxW = dataExcel.reduce((w, row) => Math.max(w, (row["Keterangan / Nota"] ? row["Keterangan / Nota"].length : 10)), 15);
-      worksheet["!cols"] = [{ wch: 6 }, { wch: 18 }, { wch: maxW + 2 }, { wch: 15 }, { wch: 15 }, { wch: 18 }];
+      // Set lebar kolom agar teks keterangan dan nominal pas tidak terpotong (###)
+      const konfigurasiLebarKolom = [
+        { wch: 6 },  // Kolom No
+        { wch: 18 }, // Kolom Tanggal
+        { wch: 25 }, // Kolom Keterangan
+        { wch: 16 }, // Kolom Kategori
+        { wch: 15 }, // Kolom Jenis Aliran
+        { wch: 22 }  // Kolom Nominal Angka
+      ];
+      
+      // Deteksi dinamis teks keterangan terpanjang
+      data.forEach(item => {
+        if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].wch) {
+          konfigurasiLebarKolom[2].wch = item.keterangan.length + 3;
+        }
+      });
+      
+      worksheet["!cols"] = konfigurasiLebarKolom;
 
       Swal.close();
       XLSX.writeFile(workbook, `Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.xlsx`);
