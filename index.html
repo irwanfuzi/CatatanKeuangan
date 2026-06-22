@@ -43,7 +43,7 @@
       max-width: 100% !important;
       border-radius: 2.5rem 2.5rem 0 0 !important;
       padding: 1.75rem 1.75rem calc(1.75rem + env(safe-area-inset-bottom)) 1.75rem !important;
-      box-shadow: 0 -15px 30px -5px rgba(51, 65, 85, 0.12) !important;
+      box-shadow: 0 -15px 30px -5px rgba(51, 65, 85, 0.15) !important;
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 3px;
@@ -53,7 +53,6 @@
       border-radius: 10px;
     }
     
-    /* FINTECH EMERALD KALENDER STYLING OLEH FLATPICKR */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
@@ -80,9 +79,7 @@
       color: #1e293b !important;
       height: 35px !important;
     }
-    /* Styling Dropdown Bulan & Tahun di Dalam Kalender */
-    .flatpickr-current-month .flatpickr-monthDropdown-months,
-    .numInputWrapper minical{
+    .flatpickr-current-month .flatpickr-monthDropdown-months {
       font-weight: 700 !important;
       color: #1e293b !important;
       background: transparent !important;
@@ -335,16 +332,14 @@
     Chart.register(ChartDataLabels);
 
     document.addEventListener('DOMContentLoaded', () => {
-      // INITIALIZE KALENDER: Format Teks Indonesia + Fitur Dropdown Bulan & List Tahun Terintegrasi
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
-        dateFormat: "d F Y", // Menampilkan Nama Bulan Utuh (Contoh: 22 Juni 2026)
+        dateFormat: "d F Y",
         defaultDate: new Date(),
-        changeMonth: true,   // Pilihan Dropdown Bulan
-        changeYear: true,    // Pilihan List Navigasi Tahun
+        changeMonth: true,
+        changeYear: true,
         disableMobile: "true",
         onReady: function(selectedDates, dateStr, instance) {
-          // Menyimpan tanggal default berformat ISO YYYY-MM-DD ke elemen input hidden
           if(selectedDates[0]) {
             const d = selectedDates[0];
             document.getElementById('tanggal_mentah').value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, '0') + "-" + String(d.getDate()).padStart(2, '0');
@@ -512,14 +507,14 @@
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan}</h4>
+                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
                     ${item.kategori} &bull; ${formatTanggalIndo(item.tanggal)}
                   </span>
                 </div>
               </div>
               <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
-                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
+                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
         });
@@ -531,7 +526,7 @@
 
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
-        document.getElementById('btnBukaDetail').classList.remove('hidden'); // PERBAIKAN: Menampilkan tombol riwayat penuh dengan stabil
+        document.getElementById('btnBukaDetail').classList.remove('hidden'); 
       } else {
         document.getElementById('loadingRiwayat').classList.add('hidden');
         document.getElementById('btnBukaDetail').classList.add('hidden');
@@ -543,6 +538,7 @@
       }
     };
 
+    // ANTISIPASI ERROR: Menambahkan sistem proteksi pengecekan data agar tidak memicu crash jika kategori tidak dikenal
     window.prosesFilterKategoriBulanUtama = function() {
       const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
       const dataKategoriGrafik = {};
@@ -550,16 +546,17 @@
 
       let dataHasilFilter = databaseRiwayatRaw;
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal.startsWith(bulanTerpilih));
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.startsWith(bulanTerpilih));
       }
 
       dataHasilFilter.forEach(item => {
         if (item.jenis !== "Pemasukan") {
-          const kategoriCocok = daftarKategoriPengeluaran.find(kat => kat.includes(item.kategori) || item.kategori.includes(kat.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim()));
+          const itemKategoriRaw = item.kategori || "";
+          const kategoriCocok = daftarKategoriPengeluaran.find(kat => kat.includes(itemKategoriRaw) || itemKategoriRaw.includes(kat.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim()));
           if (kategoriCocok) {
-            dataKategoriGrafik[kategoriCocok] = (dataKategoriGrafik[kategoriCocok] || 0) + parseInt(item.nominal);
+            dataKategoriGrafik[kategoriCocok] = (dataKategoriGrafik[kategoriCocok] || 0) + parseInt(item.nominal || 0);
           } else {
-            dataKategoriGrafik["📦 Lainnya"] = (dataKategoriGrafik["📦 Lainnya"] || 0) + parseInt(item.nominal);
+            dataKategoriGrafik["📦 Lainnya"] = (dataKategoriGrafik["📦 Lainnya"] || 0) + parseInt(item.nominal || 0);
           }
         }
       });
@@ -742,7 +739,7 @@
       if (!selectUtama || !selectModal) return;
       
       const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal.substring(0, 7)))];
+      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal ? i.tanggal.substring(0, 7) : ""))].filter(k => k !== "");
       
       let htmlUtama = '<option value="ALL">Semua Periode</option>';
       let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
@@ -822,7 +819,7 @@
 
       let dataHasilFilterBulan = databaseRiwayatRaw;
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal.startsWith(bulanTerpilih));
+        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.startsWith(bulanTerpilih));
       }
 
       document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi";
@@ -834,8 +831,10 @@
 
       const grupTransactionsModal = {};
       dataHasilFilterBulan.forEach(item => {
-        if (!grupTransactionsModal[item.tanggal]) grupTransactionsModal[item.tanggal] = [];
-        grupTransactionsModal[item.tanggal].push(item);
+        if(item.tanggal) {
+          if (!grupTransactionsModal[item.tanggal]) grupTransactionsModal[item.tanggal] = [];
+          grupTransactionsModal[item.tanggal].push(item);
+        }
       });
 
       Object.keys(grupTransactionsModal).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
@@ -851,14 +850,14 @@
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan}</h4>
+                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
                     ${item.kategori}
                   </span>
                 </div>
               </div>
               <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
-                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}
+                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
         });
@@ -895,7 +894,7 @@
       Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       
       const data = { 
-        tanggal: document.getElementById('tanggal_mentah').value, // Ambil nilai tanggal murni ISO YYYY-MM-DD
+        tanggal: document.getElementById('tanggal_mentah').value, 
         jenis: document.getElementById('jenis').value, 
         kategori: document.getElementById('kategori').value, 
         nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
