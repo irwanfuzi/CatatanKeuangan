@@ -59,7 +59,7 @@
       border-radius: 1.75rem !important;
       box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
-      padding: 12px !important;
+      padding: 14px !important;
       width: 315px !important; 
       box-sizing: border-box !important;
     }
@@ -100,18 +100,74 @@
     }
     .flatpickr-months .flatpickr-month {
       color: #1e293b !important;
-      height: 35px !important;
+      height: 42px !important;
+    }
+
+    /* BARU & UPGRADE: Navigasi Pemilihan Bulan & Tahun Super Modern Pills */
+    .flatpickr-current-month {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      width: 100% !important;
+      position: relative !important;
+      left: 0 !important;
+      padding: 0 !important;
     }
     .flatpickr-current-month .flatpickr-monthDropdown-months {
+      font-family: 'Urbanist', sans-serif !important;
       font-weight: 700 !important;
+      font-size: 14px !important;
       color: #1e293b !important;
-      background: transparent !important;
+      background: #f1f5f9 !important;
       border: none !important;
+      border-radius: 0.85rem !important;
+      padding: 6px 12px !important;
+      cursor: pointer !important;
+      transition: all 0.2s !important;
       outline: none !important;
     }
+    .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+      background: #e2e8f0 !important;
+    }
+    .flatpickr-current-month .numInputWrapper {
+      background: #f1f5f9 !important;
+      border-radius: 0.85rem !important;
+      padding: 6px 2px !important;
+      width: 72px !important;
+      display: inline-block !important;
+      transition: all 0.2s !important;
+    }
+    .flatpickr-current-month .numInputWrapper:hover {
+      background: #e2e8f0 !important;
+    }
+    .flatpickr-current-month .numInputWrapper span {
+      display: none !important; /* Hilangkan panah spin vertikal bawaan HTML yang kaku */
+    }
     .flatpickr-current-month input.numInput.cur-year {
+      font-family: 'Urbanist', sans-serif !important;
       font-weight: 700 !important;
+      font-size: 14px !important;
       color: #1e293b !important;
+      background: transparent !important;
+      text-align: center !important;
+      padding: 0 !important;
+      width: 100% !important;
+      outline: none !important;
+      border: none !important;
+    }
+    
+    /* Tombol Navigasi Kiri Kanan Bulan */
+    .flatpickr-months .flatpickr-prev-month, 
+    .flatpickr-months .flatpickr-next-month {
+      top: 4px !important;
+      padding: 10px !important;
+      color: #94a3b8 !important;
+      transition: all 0.2s !important;
+    }
+    .flatpickr-months .flatpickr-prev-month:hover, 
+    .flatpickr-months .flatpickr-next-month:hover {
+      color: #10b981 !important;
     }
   </style>
 </head>
@@ -493,7 +549,6 @@
       }
     };
 
-    // FUNGSI BARU: Memproses pemetaan data visual secara aman (Dipakai Cache & Server)
     window.aplikasikanDataKeUI = function(res) {
       document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
@@ -524,13 +579,12 @@
       window.renderGrafikTrenBulanan(res.trenBulananRaw || {});
     };
 
-    // OPTIMASI: Membaca cache offline localstorage terlebih dahulu agar load super kencang
     window.loadSummary = function() {
       const localCache = localStorage.getItem('app_keuangan_cache');
       if (localCache) {
         try {
           const resCached = JSON.parse(localCache);
-          window.aplikasikanDataKeUI(resCached); // UI langsung terisi dalam 0.01 detik!
+          window.aplikasikanDataKeUI(resCached); 
         } catch(e) {
           console.log("Gagal memproses cache.");
         }
@@ -548,7 +602,6 @@
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
       if (res) {
-        // Simpan data terbaru ke cache lokal smartphone
         localStorage.setItem('app_keuangan_cache', JSON.stringify(res));
         window.aplikasikanDataKeUI(res);
       }
