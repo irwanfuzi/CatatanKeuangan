@@ -293,14 +293,13 @@
         </div>
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
+        
+        <!-- SINKRONISASI POSISI UTAMA: Tombol ditempatkan secara solid di dalam tab riwayat agar interaktif -->
+        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
+          <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+        </button>
       </div>
     </div>
-
-    <!-- PERBAIKAN STRUKTUR: Tombol ditaruh di luar halaman penjelajah agar bisa diakses global -->
-    <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
-      <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-    </button>
-    
   </div>
 
   <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
@@ -494,16 +493,19 @@
       const pageRiwayat = document.getElementById('pageRiwayat');
       const navHome = document.getElementById('navHome');
       const navRiwayat = document.getElementById('navRiwayat');
+      const btnBukaDetail = document.getElementById('btnBukaDetail');
 
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
+        if(btnBukaDetail) btnBukaDetail.classList.add('hidden'); // Sembunyikan jika di home
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
         navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
         pageRiwayat.classList.remove('hidden');
+        if(btnBukaDetail && databaseRiwayatRaw.length > 0) btnBukaDetail.classList.remove('hidden'); // Paksa muncul di riwayat jika data ada
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary();
@@ -558,13 +560,15 @@
       if (!listContainer) return;
       listContainer.innerHTML = "";
 
-      // FIX LOGIC: Tombol dipaksa aktif terlepas dari filter data kosong/penjelajah halaman
       const btnBukaDetail = document.getElementById('btnBukaDetail');
-      if (btnBukaDetail) {
-        btnBukaDetail.classList.remove('hidden');
-      }
+      const pageRiwayatAktif = !document.getElementById('pageRiwayat').classList.contains('hidden');
 
       if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
+        // Jika sedang di tab riwayat, pastikan tombol buka riwayat dipaksa aktif
+        if (btnBukaDetail && pageRiwayatAktif) {
+          btnBukaDetail.classList.remove('hidden');
+        }
+
         const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
@@ -600,6 +604,7 @@
         listContainer.classList.remove('hidden');
       } else {
         document.getElementById('loadingRiwayat').classList.add('hidden');
+        if (btnBukaDetail) btnBukaDetail.classList.add('hidden');
         listContainer.innerHTML = `
           <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center mb-1">
             <p class="text-slate-400 text-xs font-semibold">Belum ada data transaksi kas tercatat.</p>
@@ -817,6 +822,8 @@
         const p = k.split('-');
         const namaBulan = bulan[parseInt(p[1])-1];
         htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+        
+        // SINKRONISASI MUTLAK: Menggunakan tanda backtick tutup (`) murni untuk mencegah syntax error crash global
         htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
       });
       
