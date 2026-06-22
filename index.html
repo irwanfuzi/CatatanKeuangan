@@ -48,16 +48,6 @@
       background: #e2e8f0;
       border-radius: 10px;
     }
-    /* Menghilangkan panah default browser pada select untuk kustomisasi modern */
-    .premium-select {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      background-size: 16px;
-    }
   </style>
 </head>
 
@@ -91,7 +81,7 @@
   <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI - TAMPILAN PREMIUM BARU) -->
+    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI - SUPER PREMIUM UI) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
       <div class="flex items-center gap-2 mb-6">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -100,35 +90,44 @@
 
       <form id="formKeuangan" onsubmit="window.handleForm(event)">
         <!-- 1. INPUT TANGGAL TRANSAKSI -->
-        <div class="mb-4 relative">
-          <label class="block text-[10px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase">TANGGAL TRANSAKSI</label>
+        <div class="mb-5">
+          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
-            <input type="date" id="tanggal" class="w-full p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11" required>
+            <input type="date" id="tanggal" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-regular fa-calendar-days"></i>
             </div>
           </div>
         </div>
 
-        <!-- 2. DROPDOWN JENIS ALIRAN DANA -->
-        <div class="mb-4">
-          <label class="block text-[10px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase">JENIS ALIRAN DANA</label>
-          <div class="relative">
-            <select id="jenis" onchange="window.updateKategoriOptions()" class="premium-select w-full p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white transition-all pl-11">
-              <option value="Pengeluaran">💸 Pengeluaran</option>
-              <option value="Pemasukan">💰 Pemasukan</option>
-            </select>
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
-              <i class="fa-solid fa-arrows-left-right"></i>
-            </div>
+        <!-- 2. JENIS ALIRAN DANA (SUPER PREMIUM SEGMENTED CONTROL) -->
+        <div class="mb-5">
+          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
+          <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
+            <!-- Hidden Input untuk Menampung Nilai Data Form -->
+            <input type="hidden" id="jenis" value="Pengeluaran">
+            
+            <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm">
+              💸 Pengeluaran
+            </button>
+            <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700">
+              💰 Pemasukan
+            </button>
           </div>
         </div>
 
-        <!-- 3. DROPDOWN POS KATEGORI -->
-        <div class="mb-4">
-          <label class="block text-[10px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase">POS KATEGORI</label>
+        <!-- 3. POS KATEGORI (SUPER PREMIUM BOTTOM SHEET TRIGGER) -->
+        <div class="mb-5">
+          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
-            <select id="kategori" class="premium-select w-full p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white transition-all pl-11"></select>
+            <!-- Hidden Input untuk Menampung Nilai Kategori Aktif -->
+            <input type="hidden" id="kategori" value="">
+            
+            <!-- Tombol Trigger untuk Membuka Bottom Sheet Kustom -->
+            <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 text-left flex justify-between items-center outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white transition-all pl-11 pr-4">
+              <span id="txtKategoriTerpilihLabel">Pilih Kategori</span>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+            </button>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-solid fa-tags"></i>
             </div>
@@ -136,10 +135,10 @@
         </div>
 
         <!-- 4. INPUT NOMINAL TRANSAKSI -->
-        <div class="mb-4">
-          <label class="block text-[10px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase">NOMINAL TRANSAKSI (Rp)</label>
+        <div class="mb-5">
+          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
-            <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-12" required>
+            <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-12" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
               Rp
             </div>
@@ -148,9 +147,9 @@
 
         <!-- 5. INPUT KETERANGAN -->
         <div class="mb-6">
-          <label class="block text-[10px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase">KETERANGAN / NOTA</label>
+          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
-            <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11" required>
+            <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-regular fa-pen-to-square"></i>
             </div>
@@ -302,6 +301,7 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     
     const daftarKategoriPengeluaran = ["🍔 Makanan", "🚗 Transport", "🏠 Tagihan", "🎬 Hiburan", "🏥 Kesehatan", "📦 Lainnya"];
+    const daftarKategoriPemasukan = ["💼 Gaji", "🚀 Sampingan", "📈 Investasi", "🎁 Lainnya"];
     const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
     let myChartInstance = null;
     let myBarChartInstance = null; 
@@ -314,6 +314,76 @@
       window.updateKategoriOptions();
       window.loadSummary();
     });
+
+    // PREMIUM SINKRONISASI: Pengaturan Logika Tab Jenis Aliran Dana (1 Klik Langsung Aktif)
+    window.pilihJenisTab = function(jenisTerpilih) {
+      document.getElementById('jenis').value = jenisTerpilih;
+      
+      const btnKeluar = document.getElementById('btnTabPengeluaran');
+      const btnMasuk = document.getElementById('btnTabPemasukan');
+      
+      if (jenisTerpilih === 'Pengeluaran') {
+        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm";
+        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700";
+      } else {
+        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-emerald-600 shadow-sm";
+        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700";
+      }
+      
+      window.updateKategoriOptions();
+    };
+
+    // PREMIUM UX: Membuka Panel Pilihan Kategori Kustom Berbentuk Bottom Sheet Empuk (SweetAlert2)
+    window.bukaBottomSheetPilihanKategori = function() {
+      const jenis = document.getElementById('jenis').value;
+      const opsiKategori = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran : daftarKategoriPemasukan;
+      const kategoriSaatIni = document.getElementById('kategori').value;
+      
+      let htmlPilihanKategori = `<div class="grid grid-cols-1 gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      
+      opsiKategori.forEach(kat => {
+        const isSelected = kat === kategoriSaatIni;
+        htmlPilihanKategori += `
+          <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+          }">
+            <span class="text-sm">${kat}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      });
+      htmlPilihanKategori += `</div>`;
+      
+      Swal.fire({
+        title: 'Pilih Kategori Dana',
+        html: htmlPilihanKategori,
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        cancelButtonColor: '#f1f5f9',
+        background: '#ffffff',
+        customClass: {
+          popup: 'premium-bottom-sheet',
+          title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3',
+          cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2'
+        }
+      });
+    };
+
+    window.setKategoriDariBottomSheet = function(kategoriTerpilih) {
+      document.getElementById('kategori').value = kategoriTerpilih;
+      document.getElementById('txtKategoriTerpilihLabel').innerText = kategoriTerpilih;
+      document.getElementById('txtKategoriTerpilihLabel').classList.replace('text-slate-400', 'text-slate-700');
+      Swal.close();
+    };
+
+    window.updateKategoriOptions = function() {
+      const jenis = document.getElementById('jenis').value;
+      const opsiDefault = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran[0] : daftarKategoriPemasukan[0];
+      
+      // Reset isian tombol trigger label ke opsi pertama otomatis setiap jenis diubah
+      document.getElementById('kategori').value = opsiDefault;
+      document.getElementById('txtKategoriTerpilihLabel').innerText = opsiDefault;
+    };
 
     window.tukarHalaman = function(menu) {
       const pageHome = document.getElementById('pageHome');
@@ -790,21 +860,27 @@
 
     window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
     window.tombolReloadPintar = () => { document.getElementById('iconReload').classList.add('animate-spin'); window.loadSummary(); window.tukarHalaman('home'); };
-    
-    window.updateKategoriOptions = () => {
-      const jenis = document.getElementById('jenis').value;
-      // PEMBARUAN FORM: Menggunakan struktur satu kata + emoji yang konsisten demi estetika UX
-      const opsi = { "Pengeluaran": daftarKategoriPengeluaran, "Pemasukan": ["💼 Gaji", "🚀 Sampingan", "📈 Investasi", "🎁 Lainnya"] };
-      document.getElementById('kategori').innerHTML = opsi[jenis].map(kat => `<option value="${kat}" class="font-semibold text-slate-700">${kat}</option>`).join('');
-    };
 
     window.handleForm = function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnSimpan'); btn.disabled = true; 
       Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-      const data = { tanggal: document.getElementById('tanggal').value, jenis: document.getElementById('jenis').value, kategori: document.getElementById('kategori').value, nominal: document.getElementById('nominal').value.replace(/\./g, ''), keterangan: document.getElementById('keterangan').value || "-" };
+      
+      // Ambil data langsung dari nilai elemen kontrol kustom premium kita
+      const data = { 
+        tanggal: document.getElementById('tanggal').value, 
+        jenis: document.getElementById('jenis').value, 
+        kategori: document.getElementById('kategori').value, 
+        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
+        keterangan: document.getElementById('keterangan').value || "-" 
+      };
+      
       fetch(API_URL, { method: "POST", body: JSON.stringify(data) }).then(() => { 
-        btn.disabled = false; document.getElementById('formKeuangan').reset(); document.getElementById('tanggal').valueAsDate = new Date(); window.loadSummary();
+        btn.disabled = false; 
+        document.getElementById('formKeuangan').reset(); 
+        document.getElementById('tanggal').valueAsDate = new Date(); 
+        window.pilihJenisTab('Pengeluaran'); // Kembalikan ke tab pengeluaran default
+        window.loadSummary();
       });
     };
     
