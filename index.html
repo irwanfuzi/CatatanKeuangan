@@ -29,7 +29,6 @@
     body::-webkit-scrollbar {
       display: none;
     }
-    /* Style Custom untuk Bottom Sheet Premium */
     .premium-bottom-sheet {
       position: fixed !important;
       bottom: 0 !important;
@@ -42,7 +41,6 @@
       padding: 1.75rem 1.75rem calc(1.75rem + env(safe-area-inset-bottom)) 1.75rem !important;
       box-shadow: 0 -15px 30px -5px rgba(51, 65, 85, 0.12) !important;
     }
-    /* Custom Scrollbar tipis untuk legenda */
     .custom-scrollbar::-webkit-scrollbar {
       width: 4px;
     }
@@ -55,7 +53,6 @@
 
 <body class="w-full min-h-screen flex flex-col pb-[95px]">
 
-  <!-- TOP TOTAL WALLET BALANCE CARD -->
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -80,10 +77,8 @@
     </div>
   </div>
 
-  <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100/80 mb-6">
       <div class="flex items-center gap-2 mb-5">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -116,7 +111,7 @@
 
         <div class="mb-5">
           <label class="block text-[11px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase">KETERANGAN / NOTA</label>
-          <input type="text" id="keterangan" placeholder="Contoh: Beli nasi goreng ayam" class="w-full p-3.5 bg-slate-50 rounded-xl border border-slate-100 font-semibold text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" required>
+          <input type="text" id="keterangan" placeholder="Contoh: Beli nasi goreng ayam" class="w-full p-3.5 bg-slate-50 rounded-xl border-none font-semibold text-slate-700 placeholder-slate-400 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all" required>
         </div>
 
         <div class="flex gap-3 w-full">
@@ -135,21 +130,26 @@
       </button>
     </div>
 
-    <!-- HALAMAN RIWAYAT (DENGAN TAMPILAN GRAFIK FINTECH MODERN) -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
-      <!-- 1. ANALISIS PROPORSI PENGELUARAN (DONUT CHART) -->
       <div class="w-full bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100/80">
-        <div class="flex flex-col mb-5">
-          <div class="flex items-center gap-2">
-            <div class="w-1.5 h-5 bg-rose-500 rounded-full"></div>
-            <h3 class="text-lg font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
+        <div class="flex items-center justify-between mb-5">
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <div class="w-1.5 h-5 bg-rose-500 rounded-full"></div>
+              <h3 class="text-lg font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-0.5 font-semibold">Proporsi pos kategori bulan ini</p>
           </div>
-          <p class="text-[12px] text-slate-400 mt-1 font-semibold">Komposisi pembagian anggaran berdasarkan kategori</p>
+          
+          <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-2 bg-slate-50 border border-slate-200/60 rounded-xl text-xs font-bold text-slate-600 flex items-center gap-1.5 active:scale-95 transition-all">
+            <span id="labelPeriodeUtama">Bulan Ini</span>
+            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+          </button>
+          <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
         </div>
         
         <div class="w-full flex flex-col items-center gap-6 py-2">
-          <!-- Kotak Donut Chart Rapi Seimbang -->
           <div class="relative w-[150px] h-[150px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-2">
@@ -157,14 +157,11 @@
               <span id="chartCenterTotal" class="text-[14px] font-bold text-slate-800 mt-0.5 truncate max-w-[120px]">Rp 0</span>
             </div>
           </div>
-          <!-- Grid Legenda Premium Baru Layaknya Aplikasi Bank Premium -->
-          <div id="customLegendContainer" class="w-full grid grid-cols-2 gap-2.5 max-h-[190px] overflow-y-auto pr-1 custom-scrollbar">
-          </div>
+          <div id="customLegendContainer" class="w-full grid grid-cols-2 gap-2.5 max-h-[190px] overflow-y-auto pr-1 custom-scrollbar"></div>
         </div>
-        <div id="noChartData" class="text-center text-sm text-slate-400 font-medium py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-2 hidden">Tidak ada alokasi data pengeluaran saat ini</div>
+        <div id="noChartData" class="text-center text-sm text-slate-400 font-medium py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-2 hidden">Tidak ada alokasi pengeluaran pada periode ini</div>
       </div>
 
-      <!-- 2. GRAFIK TREN BULANAN (BAR CHART PEMASUKAN VS PENGELUARAN) -->
       <div class="w-full bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex flex-col mb-5">
           <div class="flex items-center gap-2">
@@ -178,7 +175,6 @@
         </div>
       </div>
 
-      <!-- 3. TRANSAKSI TERAKHIR (3 RINGKASAN DATA CEPAT) -->
       <div class="w-full flex flex-col gap-3.5">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-base font-bold text-slate-800">Transaksi Terakhir</h3>
@@ -200,11 +196,9 @@
     </div>
   </div>
 
-  <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
-      <!-- Header Modal -->
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
           <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
@@ -215,11 +209,10 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
-      <!-- Filter Periode & Ekspor Terintegrasi (Opsi 1 Premium Fintech UX) -->
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
-          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriode()" class="w-full p-3.5 bg-slate-50 hover:bg-slate-100/70 border border-slate-200/80 rounded-2xl text-left font-bold text-slate-700 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
+          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-slate-50 hover:bg-slate-100/70 border border-slate-200/80 rounded-2xl text-left font-bold text-slate-700 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
             <span id="labelPeriodeTerpilih" class="text-sm">Tampilkan Semua</span>
             <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
           </button>
@@ -236,7 +229,6 @@
         </div>
       </div>
 
-      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -244,7 +236,6 @@
     </div>
   </div>
 
-  <!-- TAB NAVIGATION MENUS BOTTOM -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -327,7 +318,30 @@
         document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
         
         databaseRiwayatRaw = res.riwayat || [];
+        
+        // 1. Siapkan data filter pilihan periode
+        window.buatOpsiFilterBulanSemuaElemen();
+        
+        // 2. Set default filter Donut Chart ke bulan berjalan saat ini
+        const hariIni = new Date();
+        const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
+        const selectUtama = document.getElementById('filterBulanUtamaHidden');
+        
+        if (selectUtama) {
+          const adaBulanIni = Array.from(selectUtama.options).some(o => o.value === formatKunciBulanIni);
+          if (adaBulanIni) {
+            selectUtama.value = formatKunciBulanIni;
+            const opsiDitemukan = Array.from(selectUtama.options).find(o => o.value === formatKunciBulanIni);
+            document.getElementById('labelPeriodeUtama').innerText = opsiDitemukan.text;
+          } else {
+            selectUtama.value = selectUtama.options[0] ? selectUtama.options[0].value : "ALL";
+            document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0] ? selectUtama.options[0].text : "Tampilkan Semua";
+          }
+        }
+        
+        // 3. Render data halaman utama riwayat
         window.renderHalamanRiwayatUtama();
+        window.prosesFilterKategoriBulanUtama();
         window.renderGrafikTrenBulanan(res.trenBulananRaw || {});
       }
     };
@@ -336,21 +350,12 @@
       const listContainer = document.getElementById('listRiwayat');
       if (!listContainer) return;
       listContainer.innerHTML = "";
-      
-      const dataKategoriGrafik = {};
-      daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
       if (databaseRiwayatRaw.length > 0) {
-        databaseRiwayatRaw.forEach(item => {
-          if (item.jenis !== "Pemasukan") {
-            dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
-          }
-        });
-
         const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
-        dataTerbatasHalamanUtama.forEach((item, indexTerbatas) => {
+        dataTerbatasHalamanUtama.forEach((item) => {
           const isMasuk = item.jenis === "Pemasukan";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
@@ -378,12 +383,10 @@
             <div class="divide-y divide-slate-100/60">${susunanHTMLItemRingkas}</div>
           </div>`;
 
-        window.renderGrafik(dataKategoriGrafik);
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
         document.getElementById('btnBukaDetail').classList.remove('hidden');
       } else {
-        window.renderGrafik({});
         document.getElementById('loadingRiwayat').classList.add('hidden');
         document.getElementById('btnBukaDetail').classList.add('hidden');
         listContainer.innerHTML = `
@@ -397,7 +400,26 @@
       }
     };
 
-    // MEROMBAK LEGENDA MENJADI GRID KARTU FINTECH MODERN USER-FRIENDLY
+    // Fungsi Filter Otomatis Donut Chart Berdasarkan Bulan Terpilih di Halaman Utama
+    window.prosesFilterKategoriBulanUtama = function() {
+      const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
+      const dataKategoriGrafik = {};
+      daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
+
+      let dataHasilFilter = databaseRiwayatRaw;
+      if (bulanTerpilih !== "ALL") {
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal.startsWith(bulanTerpilih));
+      }
+
+      dataHasilFilter.forEach(item => {
+        if (item.jenis !== "Pemasukan") {
+          dataKategoriGrafik[item.kategori] = (dataKategoriGrafik[item.kategori] || 0) + parseInt(item.nominal);
+        }
+      });
+
+      window.renderGrafik(dataKategoriGrafik);
+    };
+
     window.renderGrafik = function(dataKategori) {
       const canvasCtx = document.getElementById('chartPengeluaran');
       const legendContainer = document.getElementById('customLegendContainer');
@@ -411,12 +433,12 @@
       textCenterTotal.innerText = "Rp " + total.toLocaleString('id-ID');
 
       if (total === 0) { 
-        document.getElementById('chartPengeluaran').parentNode.style.display = 'none'; 
+        canvasCtx.parentNode.style.display = 'none'; 
         noDataMsg.classList.remove('hidden'); 
         return; 
       }
       
-      document.getElementById('chartPengeluaran').parentNode.style.display = 'flex'; 
+      canvasCtx.parentNode.style.display = 'flex'; 
       noDataMsg.classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
@@ -475,8 +497,8 @@
         data: {
           labels: labels,
           datasets: [
-            { label: 'Masuk', data: dataMasuk, backgroundColor: '#10b981', borderRadius: 5, barThickness: 12 },
-            { label: 'Keluar', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 5, barThickness: 12 }
+            { label: 'Masuk', data: dataMasuk, backgroundColor: '#10b981', borderRadius: 5, barThickness: 10 },
+            { label: 'Keluar', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 5, barThickness: 10 }
           ]
         },
         options: {
@@ -614,17 +636,67 @@
       });
     };
 
-    window.pilihPeriodeListCustom = function(nilaiKunci, labelTeks) {
-      const select = document.getElementById('filterBulanModal');
-      if (select) {
-        select.value = nilaiKunci;
-        document.getElementById('labelPeriodeTerpilih').innerText = labelTeks;
-        window.renderListModalSesuaiBulan();
-        Swal.close();
-      }
+    // FILTER BULAN LENGKAP PADA DUA COMPONENT BERBEDA (HALAMAN UTAMA & MODAL DETAIL)
+    window.buatOpsiFilterBulanSemuaElemen = function() {
+      const selectUtama = document.getElementById('filterBulanUtamaHidden');
+      const selectModal = document.getElementById('filterBulanModal');
+      if (!selectUtama || !selectModal) return;
+      
+      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal.substring(0, 7)))];
+      
+      let htmlUtama = '<option value="ALL">Semua Periode</option>';
+      let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
+      
+      keys.sort().reverse().forEach(k => {
+        const p = k.split('-');
+        const namaBulan = bulan[parseInt(p[1])-1];
+        htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+      });
+      
+      selectUtama.innerHTML = htmlUtama;
+      selectModal.innerHTML = htmlModal;
     };
 
-    window.bukaPilihanPeriode = function() {
+    // Pilihan Periode Custom Bottom Sheet Kustom untuk Halaman Utama Riwayat (Donut Chart)
+    window.bukaPilihanPeriodeHalamanUtama = function() {
+      const select = document.getElementById('filterBulanUtamaHidden');
+      const nilaiSekarang = select.value;
+      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1">`;
+      
+      for (let i = 0; i < select.options.length; i++) {
+        const val = select.options[i].value;
+        const txt = select.options[i].text;
+        const isSelected = val === nilaiSekarang;
+        
+        listHTML += `
+          <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          }">
+            <span class="text-sm">${txt}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      }
+      listHTML += `</div>`;
+      
+      Swal.fire({
+        title: 'Pilih Periode Analisis',
+        html: listHTML,
+        showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setPeriodeHalamanUtamaDariList = function(val, txt) {
+      document.getElementById('filterBulanUtamaHidden').value = val;
+      document.getElementById('labelPeriodeUtama').innerText = txt;
+      window.prosesFilterKategoriBulanUtama();
+      Swal.close();
+    };
+
+    // Pilihan Periode Custom Bottom Sheet Kustom untuk Modal Lengkap
+    window.bukaPilihanPeriodeModal = function() {
       const select = document.getElementById('filterBulanModal');
       const nilaiSekarang = select.value;
       let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1">`;
@@ -635,47 +707,28 @@
         const isSelected = val === nilaiSekarang;
         
         listHTML += `
-          <button onclick="window.pilihPeriodeListCustom('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected 
-            ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' 
-            : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
-          </button>
-        `;
+          </button>`;
       }
       listHTML += `</div>`;
       
       Swal.fire({
         title: 'Pilih Periode Laporan',
         html: listHTML,
-        showConfirmButton: false,
-        showCancelButton: true,
-        cancelButtonText: 'Tutup',
-        cancelButtonColor: '#f1f5f9',
-        background: '#ffffff',
-        customClass: { 
-          popup: 'premium-bottom-sheet', 
-          title: 'font-bold text-lg text-slate-800 pt-1 border-b border-slate-100 pb-3',
-          cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm transition-all active:scale-95 border border-slate-200 mt-2 focus:ring-0'
-        }
+        showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
       });
     };
 
-    window.buatOpsiFilterBulanModal = function() {
-      const select = document.getElementById('filterBulanModal');
-      if (!select) return;
-      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal.substring(0, 7)))];
-      
-      let html = '<option value="ALL">Tampilkan Semua</option>';
-      keys.sort().reverse().forEach(k => {
-        const p = k.split('-');
-        const namaBulan = bulan[parseInt(p[1])-1];
-        html += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-      });
-      select.innerHTML = html;
+    window.setPeriodeModalDariList = function(val, txt) {
+      document.getElementById('filterBulanModal').value = val;
+      document.getElementById('labelPeriodeTerpilih').innerText = txt;
+      window.renderListModalSesuaiBulan();
+      Swal.close();
     };
 
     window.renderListModalSesuaiBulan = function() {
@@ -742,21 +795,8 @@
       Swal.fire({
         title: 'Reset Semua Data?',
         text: "Tindakan ini akan menghapus seluruh saldo, laporan, dan riwayat transaksi secara permanen.",
-        icon: 'warning',
-        iconColor: '#f43f5e',
-        showCancelButton: true,
-        background: '#ffffff',
-        confirmButtonColor: '#f43f5e', 
-        cancelButtonColor: '#f1f5f9',  
-        confirmButtonText: 'Ya, Hapus Semua',
-        cancelButtonText: 'Batal',
-        customClass: {
-          popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100',
-          title: 'font-bold text-lg text-slate-800 family-urbanist pt-2',
-          htmlContainer: 'text-sm text-slate-500 family-urbanist px-2',
-          confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-sm transition-all active:scale-95 focus:ring-0',
-          cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-sm text-slate-600 transition-all active:scale-95 focus:ring-0'
-        }
+        icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Ya, Hapus Semua', cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', title: 'font-bold text-lg text-slate-800 family-urbanist pt-2', htmlContainer: 'text-sm text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-sm transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-sm text-slate-600 transition-all active:scale-95 focus:ring-0' }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: 'Membersihkan Data', text: 'Sedang menghapus data dari server...', allowOutsideClick: false, background: '#ffffff', didOpen: () => Swal.showLoading() });
