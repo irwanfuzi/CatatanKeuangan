@@ -331,7 +331,24 @@
 
     Chart.register(ChartDataLabels);
 
+    // FUNGSI UTAMA UNTUK MENGATUR FORMAT TANGGAL ISO SECARA AMAN
+    function sinkronisasiNilaiTanggalMentah(dateObj) {
+      if (dateObj instanceof Date && !isNaN(dateObj)) {
+        const yyyy = dateObj.getFullYear();
+        const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const dd = String(dateObj.getDate()).padStart(2, '0');
+        document.getElementById('tanggal_mentah').value = `${yyyy}-${mm}-${dd}`;
+      } else {
+        const hariIni = new Date();
+        const yyyy = hariIni.getFullYear();
+        const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
+        const dd = String(hariIni.getDate()).padStart(2, '0');
+        document.getElementById('tanggal_mentah').value = `${yyyy}-${mm}-${dd}`;
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      // Inisialisasi Kalender Flatpickr Premium
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
         dateFormat: "d F Y",
@@ -339,17 +356,11 @@
         changeMonth: true,
         changeYear: true,
         disableMobile: "true",
-        onReady: function(selectedDates, dateStr, instance) {
-          if(selectedDates[0]) {
-            const d = selectedDates[0];
-            document.getElementById('tanggal_mentah').value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, '0') + "-" + String(d.getDate()).padStart(2, '0');
-          }
+        onReady: function(selectedDates) {
+          sinkronisasiNilaiTanggalMentah(selectedDates[0]);
         },
-        onChange: function(selectedDates, dateStr, instance) {
-          if(selectedDates[0]) {
-            const d = selectedDates[0];
-            document.getElementById('tanggal_mentah').value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, '0') + "-" + String(d.getDate()).padStart(2, '0');
-          }
+        onChange: function(selectedDates) {
+          sinkronisasiNilaiTanggalMentah(selectedDates[0]);
         }
       });
       
@@ -453,6 +464,21 @@
       document.body.appendChild(script);
     };
 
+    function formatTanggalIndo(tglString) {
+      if(!tglString) return "-";
+      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
+      const tanggalObj = new Date(tglString);
+      
+      const hariIni = new Date();
+      const kemarin = new Date();
+      kemarin.setDate(hariIni.getDate() - 1);
+      
+      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
+      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
+      
+      return tanggalObj.toLocaleDateString('id-ID', opsi);
+    }
+
     window.handleGoogleData = function(res) {
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
@@ -492,7 +518,7 @@
       if (!listContainer) return;
       listContainer.innerHTML = "";
 
-      if (databaseRiwayatRaw.length > 0) {
+      if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
         const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
         let susunanHTMLItemRingkas = '';
         
@@ -509,7 +535,7 @@
                 <div class="truncate">
                   <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
-                    ${item.kategori} &bull; ${formatTanggalIndo(item.tanggal)}
+                    ${item.kategori || "Umum"} &bull; ${formatTanggalIndo(item.tanggal)}
                   </span>
                 </div>
               </div>
@@ -538,15 +564,14 @@
       }
     };
 
-    // ANTISIPASI ERROR: Menambahkan sistem proteksi pengecekan data agar tidak memicu crash jika kategori tidak dikenal
     window.prosesFilterKategoriBulanUtama = function() {
       const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
       const dataKategoriGrafik = {};
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
 
-      let dataHasilFilter = databaseRiwayatRaw;
+      let dataHasilFilter = databaseRiwayatRaw || [];
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.startsWith(bulanTerpilih));
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
       }
 
       dataHasilFilter.forEach(item => {
@@ -624,7 +649,7 @@
       const canvasCtx = document.getElementById('chartTrenBulanan');
       if (!canvasCtx) return;
 
-      const keysBulan = Object.keys(dataTrenObj).sort(); 
+      const keysBulan = Object.keys(dataTrenObj || {}).sort(); 
       const namaBulanIndo = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
       
       const labels = keysBulan.map(k => {
@@ -678,8 +703,8 @@
         confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e', cancelButtonColor: '#94a3b8',
         customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist border border-slate-100', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
       }).then((result) => {
-        if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexDataAsli); } 
-        else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexDataAsli); }
+        if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexAsli); } 
+        else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexAsli); }
       });
     };
 
@@ -739,7 +764,7 @@
       if (!selectUtama || !selectModal) return;
       
       const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal ? i.tanggal.substring(0, 7) : ""))].filter(k => k !== "");
+      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal ? i.tanggal.toString().substring(0, 7) : ""))].filter(k => k !== "");
       
       let htmlUtama = '<option value="ALL">Semua Periode</option>';
       let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
@@ -817,9 +842,9 @@
       if (!listModalContainer) return;
       listModalContainer.innerHTML = "";
 
-      let dataHasilFilterBulan = databaseRiwayatRaw;
+      let dataHasilFilterBulan = databaseRiwayatRaw || [];
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.startsWith(bulanTerpilih));
+        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
       }
 
       document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi";
@@ -832,8 +857,9 @@
       const grupTransactionsModal = {};
       dataHasilFilterBulan.forEach(item => {
         if(item.tanggal) {
-          if (!grupTransactionsModal[item.tanggal]) grupTransactionsModal[item.tanggal] = [];
-          grupTransactionsModal[item.tanggal].push(item);
+          const tglStr = item.tanggal.toString();
+          if (!grupTransactionsModal[tglStr]) grupTransactionsModal[tglStr] = [];
+          grupTransactionsModal[tglStr].push(item);
         }
       });
 
@@ -852,7 +878,7 @@
                 <div class="truncate">
                   <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
-                    ${item.kategori}
+                    ${item.kategori || "Umum"}
                   </span>
                 </div>
               </div>
@@ -890,24 +916,40 @@
 
     window.handleForm = function(e) {
       e.preventDefault();
-      const btn = document.getElementById('btnSimpan'); btn.disabled = true; 
+      const btn = document.getElementById('btnSimpan'); 
+      btn.disabled = true; 
+      
       Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       
+      const tglMentahValue = document.getElementById('tanggal_mentah').value;
       const data = { 
-        tanggal: document.getElementById('tanggal_mentah').value, 
+        tanggal: tglMentahValue, 
         jenis: document.getElementById('jenis').value, 
         kategori: document.getElementById('kategori').value, 
         nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
         keterangan: document.getElementById('keterangan').value || "-" 
       };
       
-      fetch(API_URL, { method: "POST", body: JSON.stringify(data) }).then(() => { 
-        btn.disabled = false; 
-        document.getElementById('formKeuangan').reset(); 
-        if (instanceFlatpickr) instanceFlatpickr.setDate(new Date()); 
-        window.pilihJenisTab('Pengeluaran'); 
-        window.loadSummary();
-      });
+      fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
+        .then(() => { 
+          btn.disabled = false; 
+          document.getElementById('formKeuangan').reset(); 
+          
+          // Reset tanggal secara terisolasi dan aman tanpa merusak Flatpickr instance
+          const hariIni = new Date();
+          if (instanceFlatpickr) {
+            instanceFlatpickr.setDate(hariIni, false); 
+          }
+          sinkronisasiNilaiTanggalMentah(hariIni);
+          
+          window.pilihJenisTab('Pengeluaran'); 
+          window.loadSummary();
+          Swal.close();
+        })
+        .catch((err) => {
+          btn.disabled = false;
+          Swal.fire({ icon: 'error', title: 'Gagal menyimpan', text: err.toString() });
+        });
     };
     
     window.bukaModalDetailSemua = () => { 
