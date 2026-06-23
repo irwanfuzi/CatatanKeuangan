@@ -58,6 +58,7 @@
       border-radius: 2.5rem 2.5rem 0 0 !important;
       padding: 1.75rem 1.75rem calc(1.75rem + env(safe-area-inset-bottom)) 1.75rem !important;
       box-shadow: 0 -15px 30px -5px rgba(51, 65, 85, 0.15) !important;
+      background: #ffffff;
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 3px;
@@ -67,6 +68,7 @@
       border-radius: 10px;
     }
     
+    /* CONFIG ENGINE RE-DESIGN KALENDER FLATPICKR (LIGHT MODE) */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
@@ -75,6 +77,23 @@
       padding: 14px !important;
       width: 315px !important; 
       box-sizing: border-box !important;
+      background: #ffffff !important;
+    }
+    .btn-pemicu-bulan, .btn-pemicu-tahun {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-pemicu-bulan:active, .btn-pemicu-tahun:active {
+      scale: 0.95;
     }
 
     /* ENGINE MODE GELAP PREMIUM */
@@ -112,13 +131,11 @@
       color: #f8fafc !important;
     }
 
-    /* FIX MENGUNCI WARNA INPUT SAAT FOKUS DI MODE GELAP */
     body.dark input:focus {
       background-color: #1a2336 !important;
       color: #f8fafc !important;
     }
     
-    /* FIX AUTOFILL BROWSER MEMAKSA BACKGROUND PUTIH PADA MODE GELAP */
     body.dark input:-webkit-autofill,
     body.dark input:-webkit-autofill:hover, 
     body.dark input:-webkit-autofill:focus {
@@ -141,14 +158,79 @@
       color: #fb7185 !important; 
     }
     
-    body.dark .flatpickr-calendar {
+    /* FIX THEMA ENGINE POP-UP SWEETALERT2 PADA MODE GELAP */
+    body.dark .swal2-popup {
       background: #131b2e !important;
-      border-color: #1e293b !important;
+      border: 1px solid #1e293b !important;
+      color: #f8fafc !important;
     }
-    
+    body.dark .swal2-title {
+      color: #f8fafc !important;
+    }
+    body.dark .swal2-html-container {
+      color: #cbd5e1 !important;
+    }
     body.dark .premium-bottom-sheet {
       background: linear-gradient(180deg, #161f33, #0e1422) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-bottom: none !important;
+    }
+
+    /* FIX INTEGRASI PENANGGALAN KALENDER FLATPICKR MODE GELAP */
+    body.dark .flatpickr-calendar {
+      background: #131b2e !important;
+      border-color: #1e293b !important;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
+    }
+    body.dark .flatpickr-months .flatpickr-month,
+    body.dark .flatpickr-current-month {
+      color: #f8fafc !important;
+      fill: #f8fafc !important;
+    }
+    body.dark .flatpickr-current-month .numInputWrapper span.arrowUp:after { border-bottom-color: #f8fafc; }
+    body.dark .flatpickr-current-month .numInputWrapper span.arrowDown:after { border-top-color: #f8fafc; }
+    body.dark .flatpickr-weekdays,
+    body.dark span.flatpickr-weekday {
+      background: transparent !important;
+      color: #94a3b8 !important;
+      font-weight: 700;
+    }
+    body.dark .flatpickr-day {
+      color: #cbd5e1 !important;
+    }
+    body.dark .flatpickr-day.prevMonthDay,
+    body.dark .flatpickr-day.nextMonthDay {
+      color: #334155 !important;
+    }
+    body.dark .flatpickr-day:hover,
+    body.dark .flatpickr-day.prevMonthDay:hover,
+    body.dark .flatpickr-day.nextMonthDay:hover,
+    body.dark .flatpickr-day.today:hover {
+      background: #1e293b !important;
+      color: #f8fafc !important;
+      border-color: #1e293b !important;
+    }
+    body.dark .flatpickr-day.today {
+      border-color: #10b981 !important;
+      color: #10b981 !important;
+    }
+    body.dark .flatpickr-day.selected,
+    body.dark .flatpickr-day.selected:hover {
+      background: #059669 !important;
+      border-color: #059669 !important;
+      color: white !important;
+    }
+    body.dark .btn-pemicu-bulan, body.dark .btn-pemicu-tahun {
+      background: #1a2336 !important;
+      border-color: #24324d !important;
+      color: #f8fafc !important;
+    }
+    body.dark .flatpickr-months .flatpickr-prev-month, 
+    body.dark .flatpickr-months .flatpickr-next-month {
+      color: #f8fafc !important;
+      fill: #f8fafc !important;
     }
   </style>
 </head>
@@ -220,7 +302,7 @@
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
             <input type="hidden" id="kategori" value="">
-            <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 text-left flex justify-between items-center outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white transition-all pl-11 pr-4">
+            <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
               <span id="txtKategoriTerpilihLabel">Pilih Kategori</span>
               <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
             </button>
@@ -528,6 +610,7 @@
       containerHeader.appendChild(btnTahun);
     };
 
+    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaBottomSheetBulanKalender = function(instance) {
       let htmlListBulan = `<div class="flex flex-col gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       
@@ -535,7 +618,7 @@
         const isSelected = indeks === instance.currentMonth;
         htmlListBulan += `
           <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${namaBulan}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -544,18 +627,12 @@
       htmlListBulan += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
-    window.setBulanKalenderDariSheet = function(indeksBulan) {
-      if (instanceFlatpickr) {
-        instanceFlatpickr.jumpToDate(new Date(instanceFlatpickr.currentYear, indeksBulan, 1), false);
-      }
-      Swal.close();
-    };
-
+    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaBottomSheetTahunKalender = function(instance) {
       const AppTahunSekarang = new Date().getFullYear();
       let htmlListTahun = `<div class="flex flex-col gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
@@ -564,7 +641,7 @@
         const isSelected = y === instance.currentYear;
         htmlListTahun += `
           <button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">Tahun ${y}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -573,8 +650,8 @@
       htmlListTahun += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -585,7 +662,6 @@
       Swal.close();
     };
 
-    /* FIX KONSISTENSI UTILITY DARK MODE PADA TOMBOL YANG DIINJEKSI JS */
     window.pilihJenisTab = function(jenisTerpilih) {
       document.getElementById('jenis').value = jenisTerpilih;
       
@@ -603,6 +679,7 @@
       window.updateKategoriOptions();
     };
 
+    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaBottomSheetPilihanKategori = function() {
       const jenis = document.getElementById('jenis').value;
       const opsiKategori = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran : daftarKategoriPemasukan;
@@ -614,7 +691,7 @@
         const isSelected = kat === kategoriSaatIni;
         htmlPilihanKategori += `
           <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${kat}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -623,8 +700,8 @@
       htmlPilihanKategori += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Kategori Dana', html: htmlPilihanKategori, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Kategori Dana', html: htmlPilihanKategori, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -910,8 +987,8 @@
       if (!item) return;
 
       Swal.fire({
-        title: 'Kelola Transaksi', text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit Data', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e', cancelButtonColor: '#94a3b8',
-        customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
+        title: 'Kelola Transaksi', text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit Data', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e',
+        customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 active:scale-95 focus:ring-0' }
       }).then((result) => {
         if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexDataAsli); } 
         else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexDataAsli); }
@@ -933,8 +1010,8 @@
               <input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700 dark:text-slate-200">
             </div>
           </div>`,
-        showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#10b981', cancelButtonText: 'Batal', cancelButtonColor: '#94a3b8',
-        customClass: { popup: 'rounded-[2.2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' },
+        showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#10b981', cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-[2.2rem] p-6 shadow-xl', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 active:scale-95' },
         preConfirm: () => {
           const ketInput = document.getElementById('swalEditKeterangan').value.trim();
           const nomInput = document.getElementById('swalEditNominal').value.replace(/[^0-9]/g, '');
@@ -956,7 +1033,7 @@
     window.prosesHapusTransaksiKirimServer = function(indexDataAsli) {
       Swal.fire({
         title: 'Hapus Transaksi?', text: 'Data akan hilang permanen.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Hapus', confirmButtonColor: '#f43f5e', cancelButtonText: 'Batal',
-        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' }
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 active:scale-95' }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
@@ -990,6 +1067,7 @@
       selectModal.innerHTML = htmlModal;
     };
 
+    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaPilihanPeriodeHalamanUtama = function() {
       const select = document.getElementById('filterBulanUtamaHidden');
       const nilaiSekarang = select.value;
@@ -998,7 +1076,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1006,8 +1084,8 @@
       }
       listHTML += `</div>`;
       Swal.fire({
-        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -1018,6 +1096,7 @@
       Swal.close();
     };
 
+    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaPilihanPeriodeModal = function() {
       const select = document.getElementById('filterBulanModal');
       const nilaiSekarang = select.value;
@@ -1026,7 +1105,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1034,8 +1113,8 @@
       }
       listHTML += `</div>`;
       Swal.fire({
-        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -1109,10 +1188,11 @@
       });
     };
 
+    /* FIX: HAPUS PAKSAAN BACKGROUND VALUE WHITE DI OVERRIDE CSS GLOBAL DI ATAS */
     window.resetSemuaData = function() {
       Swal.fire({
-        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
-        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs text-slate-600 transition-all active:scale-95 focus:ring-0' }
+        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, confirmButtonColor: '#f43f5e', cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition-all active:scale-95 focus:ring-0' }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: 'Cleaning...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
