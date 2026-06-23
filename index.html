@@ -9,7 +9,14 @@
   <link rel="manifest" href="manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
@@ -21,7 +28,6 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 
-  <!-- Library Kalender Modern Flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
@@ -158,137 +164,137 @@
       color: #10b981 !important;
     }
 
-    /* REKAYASA MODERN SAKLAR PERUBAHAN STYLE - MODE GELAP PREMIUM */
-    body.dark-mode {
-      background-color: #0b0f19; /* Latar Belakang Midnight Deep Tone */
+    /* REKAYASA MODERN SAKLAR PERUBAHAN STYLE - MODE GELAP PREMIUM DENGAN KELAS KUSTOM STANDAR (.dark) */
+    body.dark {
+      background-color: #0b0f19; 
     }
-    body.dark-mode #pageHome,
-    body.dark-mode #pageRiwayat > div,
-    body.dark-mode #modalDetailTransaksi > div,
-    body.dark-mode #modalDetailTransaksi .bg-white,
-    body.dark-mode #listRiwayat > div,
-    body.dark-mode #listRiwayatPenuhModal > div,
-    body.dark-mode .fixed.bottom-0 {
+    body.dark #pageHome,
+    body.dark #pageRiwayat > div,
+    body.dark #modalDetailTransaksi > div,
+    body.dark #modalDetailTransaksi .bg-white,
+    body.dark #listRiwayat > div,
+    body.dark #listRiwayatPenuhModal > div,
+    body.dark .fixed.bottom-0 {
       background: linear-gradient(145deg, #131b2e, #111827) !important;
       border-color: #1e293b !important;
       box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
     }
-    body.dark-mode h3,
-    body.dark-mode h4,
-    body.dark-mode #chartCenterTotal,
-    body.dark-mode #txtTotalDataModal {
+    body.dark h3,
+    body.dark h4,
+    body.dark #chartCenterTotal,
+    body.dark #txtTotalDataModal {
       color: #f8fafc !important;
     }
-    body.dark-mode .text-slate-800 { color: #e2e8f0 !important; }
-    body.dark-mode .text-slate-700 { color: #cbd5e1 !important; }
-    body.dark-mode .text-slate-600 { color: #94a3b8 !important; }
+    body.dark .text-slate-800 { color: #e2e8f0 !important; }
+    body.dark .text-slate-700 { color: #cbd5e1 !important; }
+    body.dark .text-slate-600 { color: #94a3b8 !important; }
     
-    body.dark-mode input,
-    body.dark-mode #btnTriggerKategori,
-    body.dark-mode #btnTriggerFilter,
-    body.dark-mode #modalDetailTransaksi .bg-slate-50\/60,
-    body.dark-mode #noChartData,
-    body.dark-mode #loadingRiwayat {
+    body.dark input,
+    body.dark #btnTriggerKategori,
+    body.dark #btnTriggerFilter,
+    body.dark #modalDetailTransaksi .bg-slate-50\/60,
+    body.dark #noChartData,
+    body.dark #loadingRiwayat {
       background-color: #1a2336 !important;
       border-color: #24324d !important;
       color: #f8fafc !important;
     }
-    body.dark-mode input::placeholder {
+    body.dark input::placeholder {
       color: #4b5563 !important;
     }
-    body.dark-mode .bg-slate-100 {
+    body.dark .bg-slate-100 {
       background-color: #1a2336 !important;
     }
-    body.dark-mode #btnTabPengeluaran:not(.bg-white),
-    body.dark-mode #btnTabPemasukan:not(.bg-white) {
+    body.dark #btnTabPengeluaran:not(.bg-white),
+    body.dark #btnTabPemasukan:not(.bg-white) {
       color: #64748b !important;
     }
-    body.dark-mode #btnTabPengeluaran.bg-white,
-    body.dark-mode #btnTabPemasukan.bg-white {
+    body.dark #btnTabPengeluaran.bg-white,
+    body.dark #btnTabPemasukan.bg-white {
       background-color: #0b0f19 !important;
       color: #f8fafc !important;
     }
-    body.dark-mode #customLegendContainer {
+    body.dark #customLegendContainer {
       border-left-color: #1e293b !important;
     }
-    body.dark-mode #customLegendContainer .text-slate-600 {
+    body.dark #customLegendContainer .text-slate-600 {
       color: #94a3b8 !important;
     }
-    body.dark-mode .divide-slate-100\/60 > div {
+    body.dark .divide-slate-100\/60 > div {
       border-bottom-color: #1e293b !important;
     }
-    body.dark-mode #btnBukaDetail {
+    body.dark #btnBukaDetail {
       background-color: #131b2e !important;
       border-color: #1e293b !important;
       color: #34d399 !important;
     }
-    body.dark-mode #btnBukaDetail:hover {
+    body.dark #btnBukaDetail:hover {
       background-color: #1a2336 !important;
     }
     
     /* OPTIMASI TOMBOL SIMPAN TRANSAKSI (PRIMARY CTA) DI MODE GELAP AGAR GLOWING & INTERAKTIF */
-    body.dark-mode #btnSimpan {
+    body.dark #btnSimpan {
       background-color: #059669 !important;
-      box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3) !important; /* Efek neon glow mewah */
+      box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3) !important; 
       color: #ffffff !important;
     }
-    body.dark-mode #btnSimpan:hover {
-      background-color: #10b981 !important; /* Sedikit lebih cerah & pop-up saat di-hover */
+    body.dark #btnSimpan:hover {
+      background-color: #10b981 !important; 
       box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.45) !important;
     }
     
     /* Tombol Reset Data mawar lembut pada mode gelap */
-    body.dark-mode .btn-reset-data {
+    body.dark .btn-reset-data {
       background-color: rgba(244, 63, 94, 0.08) !important; 
       border-color: rgba(244, 63, 94, 0.2) !important;
       color: #fb7185 !important; 
     }
-    body.dark-mode .btn-reset-data:hover {
+    body.dark .btn-reset-data:hover {
       background-color: rgba(244, 63, 94, 0.15) !important;
     }
     
     /* Kalender Flatpickr dalam Mode Gelap */
-    body.dark-mode .flatpickr-calendar {
+    body.dark .flatpickr-calendar {
       background: #131b2e !important;
       border-color: #1e293b !important;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
     }
-    body.dark-mode .flatpickr-day {
+    body.dark .flatpickr-day {
       color: #e2e8f0 !important;
     }
-    body.dark-mode .flatpickr-day:hover {
+    body.dark .flatpickr-day:hover {
       background: #1a2336 !important;
     }
-    body.dark-mode .flatpickr-months .flatpickr-month,
-    body.dark-mode .btn-pemicu-bulan,
-    body.dark-mode .btn-pemicu-tahun {
+    body.dark .flatpickr-months .flatpickr-month,
+    body.dark .btn-pemicu-bulan,
+    body.dark .btn-pemicu-tahun {
       color: #f8fafc !important;
       background: #1a2336 !important;
     }
-    body.dark-mode .flatpickr-weekday {
+    body.dark .flatpickr-weekday {
       color: #4b5563 !important;
     }
     
     /* Pop up Konfirmasi SweetAlert dalam Mode Gelap */
-    body.dark-mode .swal2-popup {
+    body.dark .swal2-popup {
       background: #131b2e !important;
       border: 1px solid #1e293b !important;
     }
-    body.dark-mode .swal2-title, body.dark-mode .swal2-html-container {
+    body.dark .swal2-title, body.dark .swal2-html-container {
       color: #f8fafc !important;
     }
-    body.dark-mode .swal2-cancel {
+    body.dark .swal2-cancel {
       background-color: #1a2336 !important;
       color: #cbd5e1 !important;
     }
     
     /* Bottom Sheet Pilihan Modal Kategori */
-    body.dark-mode .premium-bottom-sheet button {
+    body.dark .premium-bottom-sheet button {
       background-color: #131b2e !important;
       border-color: #1e293b !important;
       color: #cbd5e1 !important;
     }
-    body.dark-mode .premium-bottom-sheet button.bg-emerald-50 {
+    body.dark .premium-bottom-sheet button.bg-emerald-50 {
       background-color: #059669 !important;
       border-color: #10b981 !important;
       color: #ffffff !important;
@@ -298,12 +304,10 @@
 
 <body class="w-full min-h-screen flex flex-col pb-[95px]">
 
-  <!-- TOP TOTAL WALLET BALANCE CARD -->
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
     
-    <!-- TOMBOL FITUR TOGGLE MODE GELAP -->
     <button onclick="window.toggleDarkMode()" class="absolute right-6 top-5 w-9 h-9 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all z-50 focus:outline-none">
       <i id="iconDarkMode" class="fa-solid fa-moon"></i>
     </button>
@@ -328,10 +332,8 @@
     </div>
   </div>
 
-  <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
       <div class="flex items-center gap-2 mb-6">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -339,7 +341,6 @@
       </div>
 
       <form id="formKeuangan" onsubmit="window.handleForm(event)">
-        <!-- 1. INPUT TANGGAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
@@ -351,7 +352,6 @@
           </div>
         </div>
 
-        <!-- 2. JENIS ALIRAN DANA -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
           <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
@@ -365,7 +365,6 @@
           </div>
         </div>
 
-        <!-- 3. POS KATEGORI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
@@ -380,7 +379,6 @@
           </div>
         </div>
 
-        <!-- 4. INPUT NOMINAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
@@ -391,7 +389,6 @@
           </div>
         </div>
 
-        <!-- 5. INPUT KETERANGAN -->
         <div class="mb-6">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
@@ -418,10 +415,8 @@
       </button>
     </div>
 
-    <!-- HALAMAN RIWAYAT -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
-      <!-- 1. ANALISIS PENGELUARAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4">
           <div class="flex flex-col">
@@ -451,7 +446,6 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
-      <!-- 2. GRAFIK TREN KEUNGAN BULANAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex flex-col mb-4">
           <div class="flex items-center gap-2">
@@ -464,7 +458,6 @@
         </div>
       </div>
 
-      <!-- 3. TRANSAKSI TERAKHIR -->
       <div class="w-full flex flex-col gap-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
@@ -478,7 +471,6 @@
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
         
-        <!-- Tombol Utama Buka Riwayat Lengkap -->
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
@@ -486,11 +478,9 @@
     </div>
   </div>
 
-  <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
-      <!-- Header Modal -->
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
           <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
@@ -501,7 +491,6 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
-      <!-- Filter Periode & Ekspor Di Dalam Modal -->
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -522,7 +511,6 @@
         </div>
       </div>
 
-      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -530,7 +518,6 @@
     </div>
   </div>
 
-  <!-- TAB NAVIGATION MENUS -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -608,7 +595,7 @@
 
       const statusModeGelapSimpanan = localStorage.getItem('app_dark_mode');
       if (statusModeGelapSimpanan === 'enabled') {
-        document.body.classList.add('dark-mode');
+        document.body.classList.add('dark');
         window.updateIconVisualModeGelap(true);
       }
 
@@ -639,7 +626,7 @@
     });
 
     window.toggleDarkMode = function() {
-      const modeGelapAktif = document.body.classList.toggle('dark-mode');
+      const modeGelapAktif = document.body.classList.toggle('dark');
       localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
       window.updateIconVisualModeGelap(modeGelapAktif);
       
@@ -998,14 +985,14 @@
                 <span class="text-slate-600 font-bold tracking-tight">${kat}</span>
               </div>
               <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[10px] dark:text-slate-300">
-                ${persen}% <span class="text-[9px] text-slate-400 font-medium">(${Math.round(valuesAktif[i]/1000)}k)</span>
+                ${persen}% <span class="text-[9px] text-slate-400 font-medium dark:text-slate-400">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </span>
             </div>`);
       });
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'doughnut',
-        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark-mode') ? '#131b2e' : '#ffffff' }] },
+        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#131b2e' : '#ffffff' }] },
         options: {
           cutout: '75%', responsive: true, maintainAspectRatio: false,
           plugins: {
@@ -1034,7 +1021,7 @@
 
       if (myBarChartInstance !== null) myBarChartInstance.destroy();
 
-      const apaModeGelap = document.body.classList.contains('dark-mode');
+      const apaModeGelap = document.body.classList.contains('dark');
       const warnaGarisGrid = apaModeGelap ? '#1e293b' : '#f8fafc';
       const warnaLabelTeks = apaModeGelap ? '#94a3b8' : '#1e293b';
 
