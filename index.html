@@ -31,6 +31,7 @@
     body {
       font-family: 'Urbanist', sans-serif;
       background-color: #f8fafc;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
     body::-webkit-scrollbar {
       display: none;
@@ -156,6 +157,103 @@
     .flatpickr-months .flatpickr-next-month:hover {
       color: #10b981 !important;
     }
+
+    /* CSS CLASS KHUSUS MODE GELAP (DARK MODE OVERRIDES) */
+    body.dark-mode {
+      background-color: #0f172a;
+    }
+    body.dark-mode #pageHome,
+    body.dark-mode #pageRiwayat > div,
+    body.dark-mode #modalDetailTransaksi > div,
+    body.dark-mode #modalDetailTransaksi .bg-white,
+    body.dark-mode #listRiwayat > div,
+    body.dark-mode #listRiwayatPenuhModal > div,
+    body.dark-mode .fixed.bottom-0 {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+    }
+    body.dark-mode h3,
+    body.dark-mode h4,
+    body.dark-mode #chartCenterTotal,
+    body.dark-mode #txtTotalDataModal {
+      color: #f1f5f9 !important;
+    }
+    body.dark-mode .text-slate-800 { color: #f1f5f9 !important; }
+    body.dark-mode .text-slate-700 { color: #cbd5e1 !important; }
+    body.dark-mode .text-slate-600 { color: #94a3b8 !important; }
+    
+    body.dark-mode input,
+    body.dark-mode #btnTriggerKategori,
+    body.dark-mode #btnTriggerFilter,
+    body.dark-mode #modalDetailTransaksi .bg-slate-50\/60,
+    body.dark-mode #noChartData,
+    body.dark-mode #loadingRiwayat {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+      color: #e2e8f0 !important;
+    }
+    body.dark-mode .bg-slate-100 {
+      background-color: #334155 !important;
+    }
+    body.dark-mode #btnTabPengeluaran:not(.bg-white),
+    body.dark-mode #btnTabPemasukan:not(.bg-white) {
+      color: #94a3b8 !important;
+    }
+    body.dark-mode #btnTabPengeluaran.bg-white,
+    body.dark-mode #btnTabPemasukan.bg-white {
+      background-color: #0f172a !important;
+    }
+    body.dark-mode #customLegendContainer {
+      border-left-color: #334155 !important;
+    }
+    body.dark-mode #customLegendContainer .text-slate-600 {
+      color: #cbd5e1 !important;
+    }
+    body.dark-mode .divide-slate-100\/60 > div {
+      border-bottom-color: #334155 !important;
+    }
+    body.dark-mode #btnBukaDetail {
+      background-color: #1e293b !important;
+      border-color: #334155 !important;
+    }
+    body.dark-mode .flatpickr-calendar {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f1f5f9 !important;
+    }
+    body.dark-mode .flatpickr-day {
+      color: #cbd5e1 !important;
+    }
+    body.dark-mode .flatpickr-months .flatpickr-month,
+    body.dark-mode .btn-pemicu-bulan,
+    body.dark-mode .btn-pemicu-tahun {
+      color: #f1f5f9 !important;
+      background: #334155 !important;
+    }
+    body.dark-mode .flatpickr-weekday {
+      color: #94a3b8 !important;
+    }
+    body.dark-mode .swal2-popup {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+    body.dark-mode .swal2-title, body.dark-mode .swal2-html-container {
+      color: #f1f5f9 !important;
+    }
+    body.dark-mode .swal2-cancel {
+      background-color: #334155 !important;
+      color: #cbd5e1 !important;
+    }
+    body.dark-mode .premium-bottom-sheet button {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+      color: #e2e8f0 !important;
+    }
+    body.dark-mode .premium-bottom-sheet button.bg-emerald-50 {
+      background-color: #047857 !important;
+      border-color: #10b981 !important;
+      color: #ffffff !important;
+    }
   </style>
 </head>
 
@@ -166,6 +264,11 @@
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
     
+    <!-- TOMBOL FITUR TOGGLE MODE GELAP -->
+    <button onclick="window.toggleDarkMode()" class="absolute right-6 top-5 w-9 h-9 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all z-50 focus:outline-none">
+      <i id="iconDarkMode" class="fa-solid fa-moon"></i>
+    </button>
+
     <h1 class="text-sm font-semibold opacity-75 tracking-wide">Halo, Pengguna!</h1>
     <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase">Total Saldo Kamu</p>
     <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-6">Rp 0</h2>
@@ -414,6 +517,7 @@
     let myBarChartInstance = null; 
     let databaseRiwayatRaw = []; 
     let instanceFlatpickr = null;
+    let trenBulananRawGlobal = {}; // Menyimpan data grafik tren secara global untuk re-render instan saat ganti mode gelap
 
     Chart.register(ChartDataLabels);
 
@@ -463,6 +567,13 @@
         window.jsPDF = window.jspdf.jsPDF;
       }
 
+      // Cek Status Pilihan Mode Gelap Sebelumnya dari Storage Pengguna
+      const statusModeGelapSimpanan = localStorage.getItem('app_dark_mode');
+      if (statusModeGelapSimpanan === 'enabled') {
+        document.body.classList.add('dark-mode');
+        window.updateIconVisualModeGelap(true);
+      }
+
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
         dateFormat: "d F Y",
@@ -488,6 +599,28 @@
       window.updateKategoriOptions();
       window.loadSummary();
     });
+
+    // FUNGSI INTI UNTUK TOGGLE MODE GELAP / MODE TERANG
+    window.toggleDarkMode = function() {
+      const modeGelapAktif = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
+      window.updateIconVisualModeGelap(modeGelapAktif);
+      
+      // Render ulang grafik agar penyesuaian warna teks/grid langsung diaplikasikan
+      window.prosesFilterKategoriBulanUtama();
+      window.renderGrafikTrenBulanan(trenBulananRawGlobal);
+    };
+
+    window.updateIconVisualModeGelap = function(apakahGelap) {
+      const icon = document.getElementById('iconDarkMode');
+      if (icon) {
+        if (apakahGelap) {
+          icon.className = "fa-solid fa-sun";
+        } else {
+          icon.className = "fa-solid fa-moon";
+        }
+      }
+    };
 
     window.buatPemicuKapsulKalenderCustom = function(instance) {
       const containerHeader = instance.calendarContainer.querySelector('.flatpickr-current-month');
@@ -660,6 +793,7 @@
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
       databaseRiwayatRaw = res.riwayat || [];
+      trenBulananRawGlobal = res.trenBulananRaw || {}; // Menyimpan data tren global
       window.buatOpsiFilterBulanModal();
       
       const hariIni = new Date();
@@ -680,7 +814,7 @@
       
       window.renderHalamanRiwayatUtama();
       window.prosesFilterKategoriBulanUtama();
-      window.renderGrafikTrenBulanan(res.trenBulananRaw || {});
+      window.renderGrafikTrenBulanan(trenBulananRawGlobal);
     };
 
     window.loadSummary = function() {
@@ -732,19 +866,19 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/80 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/80 dark:hover:bg-slate-700/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
-                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
                   <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
-                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
+                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70 dark:bg-emerald-500/20 dark:text-emerald-400' : 'text-slate-500 bg-slate-100 dark:bg-slate-700 dark:text-slate-400'}">
                     ${item.kategori || "Umum"} &bull; ${formatTanggalIndo(item.tanggal)}
                   </span>
                 </div>
               </div>
-              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
@@ -827,7 +961,7 @@
                 <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
                 <span class="text-slate-600 font-bold tracking-tight">${kat}</span>
               </div>
-              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[10px]">
+              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[10px] dark:text-slate-300">
                 ${persen}% <span class="text-[9px] text-slate-400 font-medium">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </span>
             </div>`);
@@ -835,7 +969,7 @@
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'doughnut',
-        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: '#ffffff' }] },
+        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff' }] },
         options: {
           cutout: '75%', responsive: true, maintainAspectRatio: false,
           plugins: {
@@ -864,6 +998,11 @@
 
       if (myBarChartInstance !== null) myBarChartInstance.destroy();
 
+      // Penyesuaian Dinamis Warna Grafik untuk Mode Gelap / Mode Terang
+      const apaModeGelap = document.body.classList.contains('dark-mode');
+      const warnaGarisGrid = apaModeGelap ? '#334155' : '#f8fafc';
+      const warnaLabelTeks = apaModeGelap ? '#94a3b8' : '#1e293b';
+
       myBarChartInstance = new Chart(canvasCtx, {
         type: 'bar',
         data: {
@@ -876,11 +1015,11 @@
         options: {
           responsive: true, maintainAspectRatio: false,
           scales: {
-            y: { ticks: { font: { family: 'Urbanist', size: 9, weight: 'bold' }, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: '#f8fafc' } },
-            x: { ticks: { font: { family: 'Urbanist', size: 10, weight: '700' } }, grid: { display: false } }
+            y: { ticks: { font: { family: 'Urbanist', size: 9, weight: 'bold' }, color: warnaLabelTeks, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: warnaGarisGrid } },
+            x: { ticks: { font: { family: 'Urbanist', size: 10, weight: '700' }, color: warnaLabelTeks }, grid: { display: false } }
           },
           plugins: {
-            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 10, weight: 'bold' } } },
+            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 10, weight: 'bold' }, color: warnaLabelTeks } },
             datalabels: { display: false },
             tooltip: { callbacks: { label: (ctx) => " " + ctx.dataset.label + ": Rp " + ctx.raw.toLocaleString('id-ID') } }
           }
@@ -909,11 +1048,11 @@
           <div class="flex flex-col gap-4 text-left font-urbanist p-1">
             <div>
               <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Keterangan Baru</label>
-              <input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700">
+              <input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700 dark:text-slate-200">
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Nominal Baru (Rp)</label>
-              <input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700">
+              <input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700 dark:text-slate-200">
             </div>
           </div>`,
         showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#10b981', cancelButtonText: 'Batal', cancelButtonColor: '#94a3b8',
@@ -981,7 +1120,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
@@ -1009,7 +1148,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
@@ -1063,19 +1202,19 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemModal += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
-                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
                   <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
-                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
+                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70 dark:bg-emerald-500/20 dark:text-emerald-400' : 'text-slate-500 bg-slate-100 dark:bg-slate-700 dark:text-slate-400'}">
                     ${item.kategori || "Umum"}
                   </span>
                 </div>
               </div>
-              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
@@ -1319,7 +1458,6 @@
       }
     };
 
-    // FITUR UTAMA UNDUH EXCEL DENGAN PEWARNAAN TABEL PREMIUM, ASLI .XLSX DAN ANTI-CORRUPT
     window.unduhExcel = function() {
       try {
         const { data, periodeText } = dapatkanDataTerfilterModal();
@@ -1340,11 +1478,9 @@
         });
         const sumSaldoBersih = sumMasuk - sumKeluar;
 
-        // Inisialisasi engine ExcelJS Workbook
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Dashboard Statement');
 
-        // Menuliskan Judul Atas Dokumen (Sesuai Permintaan: Cukup Laporan Keuangan Saja)
         worksheet.getCell('A1').value = "LAPORAN KEUANGAN";
         worksheet.getCell('A1').font = { name: 'Segoe UI', size: 16, bold: true, color: { argb: '047857' } };
         
@@ -1354,7 +1490,6 @@
         worksheet.getCell('A3').value = `Tanggal Unduh Data: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
         worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
 
-        // Membuat Kotak Ringkasan Atas (Sesuai Permintaan: Tanpa Kata Periode)
         worksheet.mergeCells('A5:C5');
         worksheet.getCell('A5').value = "RINGKASAN AKUMULASI DANA";
         worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } };
@@ -1364,7 +1499,6 @@
           bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
         };
 
-        // Mengisi Baris Ringkasan Pemasukan, Pengeluaran, dan Net Saldo
         const isiRingkasan = [
           { row: '6', text: 'Total Akumulasi Pemasukan', val: sumMasuk, color: '059669' },
           { row: '7', text: 'Total Akumulasi Pengeluaran', val: sumKeluar, color: 'B91C1C' },
@@ -1392,7 +1526,6 @@
           valCell.font = { name: 'Segoe UI', bold: true, color: { argb: item.color } };
         });
 
-        // Membuat Header Tabel Data Utama (Row 10)
         const headers = ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi"];
         const headerRow = worksheet.getRow(10);
         headerRow.height = 24;
@@ -1409,14 +1542,13 @@
           };
         });
 
-        // Memasukkan Seluruh Baris Data Transaksi Terfilter
         data.forEach((item, indeks) => {
           const rowNum = 11 + indeks;
           const dRow = worksheet.getRow(rowNum);
           dRow.height = 20;
 
           const isMasuk = item.jenis === "Pemasukan";
-          const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; // Efek Zebra Selang Seling
+          const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; 
           const finColor = isMasuk ? '059669' : 'B91C1C';
 
           dRow.getCell(1).value = indeks + 1;
@@ -1442,29 +1574,26 @@
             }
             if (col === 6) {
               cell.alignment = { horizontal: 'right' };
-              cell.numFormat = '"Rp"#,##0'; // Format angka rupiah murni native Excel
+              cell.numFormat = '"Rp"#,##0'; 
               cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } };
             }
           }
         });
 
-        // Set Fitur Filter Otomatis Pada Tabel Data
         worksheet.autoFilter = {
           from: { row: 10, column: 1 },
           to: { row: 10 + data.length, column: 6 }
         };
 
-        // Konfigurasi Lebar Kolom Dasar Excel
         const konfigurasiLebarKolom = [
-          { width: 8 },   // No
-          { width: 20 },  // Tanggal Transaksi
-          { width: 28 },  // Keterangan / Nota
-          { width: 18 },  // Kategori
-          { width: 16 },  // Jenis Aliran
-          { width: 24 }   // Nominal Transaksi
+          { width: 8 },   
+          { width: 20 },  
+          { width: 28 },  
+          { width: 18 },  
+          { width: 16 },  
+          { width: 24 }   
         ];
 
-        // Autoresize Kolom Keterangan Jika Sangat Panjang
         data.forEach(item => {
           if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].width) {
             konfigurasiLebarKolom[2].width = item.keterangan.length + 4;
@@ -1472,7 +1601,6 @@
         });
         worksheet.columns = konfigurasiLebarKolom;
 
-        // Compile file ke format XLSX resmi (.xlsx)
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlUnduh = URL.createObjectURL(blob);
