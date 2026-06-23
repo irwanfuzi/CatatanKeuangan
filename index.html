@@ -452,12 +452,14 @@
           <div class="flex flex-col">
             <div class="flex items-center gap-2">
               <div class="w-1.5 h-5 bg-rose-500 rounded-full"></div>
-              <h3 class="text-base font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
+              <!-- TYPOGRAPHY SCALE UP PADA JUDUL ANALISIS -->
+              <h3 class="text-[17px] font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
             </div>
           </div>
-          <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 active:scale-95 transition-all">
+          <!-- FILTER PERIODE BULAN INI NAIK KE TEXT-XS AGAR LEBIH DIBACA -->
+          <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
             <span id="labelPeriodeUtama">Bulan Ini</span>
-            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400"></i>
+            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
           </button>
           <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
         </div>
@@ -466,8 +468,9 @@
           <div class="relative w-[125px] h-[125px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
             <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-1">
-              <span class="text-[7px] font-bold text-slate-400 tracking-wider uppercase">Total</span>
-              <span id="chartCenterTotal" class="text-[12px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
+              <!-- LABELS TEXT TENGAH DIAGRAM DINAIKKAN AGAR TERBACA JELAS -->
+              <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase">Total</span>
+              <span id="chartCenterTotal" class="text-[14px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
             </div>
           </div>
           <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[130px] overflow-y-auto pl-3 custom-scrollbar border-l border-slate-100">
@@ -480,7 +483,8 @@
         <div class="flex flex-col mb-4">
           <div class="flex items-center gap-2">
             <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-            <h3 class="text-base font-bold text-slate-800 tracking-tight">Tren Keuangan Bulanan</h3>
+            <!-- TYPOGRAPHY SCALE UP JUDUL TREN BULANAN -->
+            <h3 class="text-[17px] font-bold text-slate-800 tracking-tight">Tren Keuangan Bulanan</h3>
           </div>
         </div>
         <div class="w-full h-[185px]">
@@ -925,7 +929,6 @@
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <!-- OPTIMASI UKURAN FONT UTAMA MENJADI JAUH LEBIH READABLE -->
                   <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
@@ -1012,14 +1015,15 @@
 
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
+          // OPTIMASI UKURAN FONT PADA TEKS TAMPILAN LEGENDA (KANAN)
           legendContainer.insertAdjacentHTML('beforeend', `
-            <div class="flex items-center justify-between w-full text-[12px] py-0.5 font-semibold">
+            <div class="flex items-center justify-between w-full text-[13px] py-0.5 font-semibold">
               <div class="flex items-center gap-1.5 min-w-[55%]">
                 <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
                 <span class="text-slate-600 font-bold tracking-tight dark:text-slate-300">${kat}</span>
               </div>
-              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[10px] dark:text-slate-400">
-                ${persen}% <span class="text-[9px] text-slate-400 font-medium dark:text-slate-500">(${Math.round(valuesAktif[i]/1000)}k)</span>
+              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[11px] dark:text-slate-400">
+                ${persen}% <span class="text-[10px] text-slate-400 font-medium dark:text-slate-500">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </span>
             </div>`);
       });
@@ -1071,11 +1075,12 @@
         options: {
           responsive: true, maintainAspectRatio: false,
           scales: {
-            y: { ticks: { font: { family: 'Urbanist', size: 9, weight: 'bold' }, color: warnaLabelTeks, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: warnaGarisGrid } },
-            x: { ticks: { font: { family: 'Urbanist', size: 10, weight: '700' }, color: warnaLabelTeks }, grid: { display: false } }
+            // OPTIMASI UKURAN LABEL FONT DI DALAM GRAFIK TREN (SIZE: 11)
+            y: { ticks: { font: { family: 'Urbanist', size: 11, weight: 'bold' }, color: warnaLabelTeks, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: warnaGarisGrid } },
+            x: { ticks: { font: { family: 'Urbanist', size: 11, weight: '700' }, color: warnaLabelTeks }, grid: { display: false } }
           },
           plugins: {
-            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 10, weight: 'bold' }, color: warnaLabelTeks } },
+            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 11, weight: 'bold' }, color: warnaLabelTeks } },
             datalabels: { display: false },
             tooltip: { callbacks: { label: (ctx) => " " + ctx.dataset.label + ": Rp " + ctx.raw.toLocaleString('id-ID') } }
           }
@@ -1264,7 +1269,6 @@
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <!-- SINKRONISASI UKURAN FONT DI DALAM MODAL RIWAYAT -->
                   <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
                     ${item.kategori || "Umum"}
