@@ -76,93 +76,6 @@
       width: 315px !important; 
       box-sizing: border-box !important;
     }
-    .flatpickr-innerContainer {
-      width: 100% !important;
-    }
-    .flatpickr-rwd {
-      width: 100% !important;
-    }
-    .flatpickr-days {
-      width: 100% !important;
-    }
-    .dayContainer {
-      width: 100% !important;
-      min-width: 100% !important;
-      max-width: 100% !important;
-    }
-    .flatpickr-day {
-      max-width: 38px !important;
-      height: 38px !important;
-      line-height: 38px !important;
-      margin: 1px !important;
-    }
-    .flatpickr-day.selected, .flatpickr-day.selected:hover {
-      background: #059669 !important;
-      border-color: #059669 !important;
-      font-weight: bold !important;
-      border-radius: 0.75rem !important;
-    }
-    .flatpickr-day:hover {
-      background: #ecfdf5 !important;
-      border-radius: 0.75rem !important;
-    }
-    .flatpickr-day.today {
-      border-color: #10b981 !important;
-      color: #047857 !important;
-      font-weight: bold !important;
-    }
-    .flatpickr-months .flatpickr-month {
-      color: #1e293b !important;
-      height: 42px !important;
-    }
-
-    .flatpickr-current-month {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 6px !important;
-      width: 100% !important;
-      position: relative !important;
-      left: 0 !important;
-      padding: 0 !important;
-    }
-    
-    .btn-pemicu-bulan, .btn-pemicu-tahun {
-      font-family: 'Urbanist', sans-serif !important;
-      font-weight: 700 !important;
-      font-size: 13px !important;
-      color: #1e293b !important;
-      background: #f1f5f9 !important;
-      border: none !important;
-      border-radius: 0.85rem !important;
-      padding: 6px 12px !important;
-      cursor: pointer !important;
-      transition: all 0.2s !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 5px !important;
-      min-width: 95px !important;
-    }
-    .btn-pemicu-bulan:hover, .btn-pemicu-tahun:hover {
-      background: #e2e8f0 !important;
-    }
-    
-    .flatpickr-monthDropdown-months, .flatpickr-current-month .numInputWrapper {
-      display: none !important;
-    }
-    
-    .flatpickr-months .flatpickr-prev-month, 
-    .flatpickr-months .flatpickr-next-month {
-      top: 4px !important;
-      padding: 10px !important;
-      color: #94a3b8 !important;
-      transition: all 0.2s !important;
-    }
-    .flatpickr-months .flatpickr-prev-month:hover, 
-    .flatpickr-months .flatpickr-next-month:hover {
-      color: #10b981 !important;
-    }
 
     /* ENGINE MODE GELAP PREMIUM */
     body.dark {
@@ -172,7 +85,6 @@
     body.dark #pageRiwayat > div,
     body.dark #modalDetailTransaksi > div,
     body.dark #modalDetailTransaksi .bg-white,
-    body.dark #listRiwayat > div,
     body.dark #listRiwayatPenuhModal > div,
     body.dark .fixed.bottom-0 {
       background: linear-gradient(145deg, #131b2e, #111827) !important;
@@ -199,47 +111,13 @@
       border-color: #24324d !important;
       color: #f8fafc !important;
     }
-    body.dark input::placeholder {
-      color: #4b5563 !important;
-    }
-    body.dark .bg-slate-100 {
-      background-color: #1a2336 !important;
-    }
-    body.dark #btnTabPengeluaran:not(.bg-white),
-    body.dark #btnTabPemasukan:not(.bg-white) {
-      color: #64748b !important;
-    }
-    body.dark #btnTabPengeluaran.bg-white,
-    body.dark #btnTabPemasukan.bg-white {
-      background-color: #0b0f19 !important;
-      color: #f8fafc !important;
-    }
-    body.dark #customLegendContainer {
-      border-left-color: #1e293b !important;
-    }
-    body.dark #customLegendContainer .text-slate-600 {
-      color: #94a3b8 !important;
-    }
-    body.dark .divide-slate-100\/60 > div {
-      border-bottom-color: #1e293b !important;
-    }
-    body.dark #btnBukaDetail {
-      background-color: #131b2e !important;
-      border-color: #1e293b !important;
-      color: #34d399 !important;
-    }
-    body.dark #btnBukaDetail:hover {
-      background-color: #1a2336 !important;
-    }
+    
+    body.dark .bg-white { background: #131b2e !important; }
     
     body.dark #btnSimpan {
       background-color: #059669 !important;
       box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3) !important; 
       color: #ffffff !important;
-    }
-    body.dark #btnSimpan:hover {
-      background-color: #10b981 !important; 
-      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.45) !important;
     }
     
     body.dark .btn-reset-data {
@@ -247,87 +125,15 @@
       border-color: rgba(244, 63, 94, 0.2) !important;
       color: #fb7185 !important; 
     }
-    body.dark .btn-reset-data:hover {
-      background-color: rgba(244, 63, 94, 0.15) !important;
-    }
     
     body.dark .flatpickr-calendar {
       background: #131b2e !important;
       border-color: #1e293b !important;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
-    }
-    body.dark .flatpickr-day {
-      color: #e2e8f0 !important;
-    }
-    body.dark .flatpickr-day:hover {
-      background: #1a2336 !important;
-    }
-    body.dark .flatpickr-months .flatpickr-month,
-    body.dark .btn-pemicu-bulan,
-    body.dark .btn-pemicu-tahun {
-      color: #f8fafc !important;
-      background: #1a2336 !important;
-    }
-    body.dark .flatpickr-weekday {
-      color: #4b5563 !important;
-    }
-    
-    body.dark .swal2-popup {
-      background: #131b2e !important;
-      border: 1px solid #1e293b !important;
-    }
-    body.dark .swal2-title, body.dark .swal2-html-container {
-      color: #f8fafc !important;
-    }
-    body.dark .swal2-cancel {
-      background-color: #1a2336 !important;
-      color: #cbd5e1 !important;
     }
     
     body.dark .premium-bottom-sheet {
       background: linear-gradient(180deg, #161f33, #0e1422) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-      box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.5) !important;
-    }
-    body.dark .premium-bottom-sheet .swal2-title {
-      border-bottom-color: rgba(255, 255, 255, 0.05) !important;
-    }
-    body.dark .premium-bottom-sheet button {
-      background-color: #1e293b !important;
-      border-color: rgba(255, 255, 255, 0.05) !important;
-      color: #e2e8f0 !important;
-    }
-    body.dark .premium-bottom-sheet button:active {
-      background-color: #24324d !important;
-    }
-    body.dark .premium-bottom-sheet button.bg-emerald-50,
-    body.dark .premium-bottom-sheet button.dark\:bg-emerald-500\/20 {
-      background-color: rgba(16, 185, 129, 0.15) !important;
-      border-color: #10b981 !important;
-      color: #34d399 !important;
-    }
-    body.dark .premium-bottom-sheet .swal2-cancel {
-      background-color: #1a2336 !important;
-      color: #94a3b8 !important;
-      border-color: rgba(255, 255, 255, 0.04) !important;
-    }
-
-    /* KUSTOMISASI EKSPOR NEON GLASS-TRANSLUCENT MODE GELAP */
-    body.dark button[onclick="window.unduhPDF()"] {
-      background-color: rgba(244, 63, 94, 0.09) !important;
-      border-color: rgba(244, 63, 94, 0.25) !important;
-      color: #fca5a5 !important;
-    }
-    body.dark button[onclick="window.unduhPDF()"]:active {
-      background-color: rgba(244, 63, 94, 0.18) !important;
-    }
-    body.dark button[onclick="window.unduhExcel()"] {
-      background-color: rgba(16, 185, 129, 0.09) !important;
-      border-color: rgba(16, 185, 129, 0.25) !important;
-      color: #6ee7b7 !important;
-    }
-    body.dark button[onclick="window.unduhExcel()"]:active {
-      background-color: rgba(16, 185, 129, 0.18) !important;
     }
   </style>
 </head>
@@ -488,20 +294,25 @@
         </div>
       </div>
 
-      <div class="w-full flex flex-col gap-3">
-        <div class="flex items-center justify-between px-2">
-          <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
-          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Terbaru</span>
+      <!-- KARTU TRANSAKSI TERAKHIR (HEADER DAN BUTTON SEKARANG BERADA DI DALAM KARTU UTUH) -->
+      <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col">
+        <div class="flex items-center justify-between mb-4 px-1">
+          <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span>Transaksi Terakhir
+          </h3>
+          <span class="px-2.5 py-0.5 bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200/40 dark:border-slate-700/50">
+            Terbaru
+          </span>
         </div>
         
-        <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-1.5">
+        <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center flex flex-col items-center justify-center gap-1.5">
           <i class="fa-solid fa-circle-notch animate-spin text-emerald-600 text-base"></i>
           <span class="font-semibold text-slate-400">Sinkronisasi data server...</span>
         </div>
         
-        <div id="listRiwayat" class="space-y-2.5 hidden"></div>
+        <div id="listRiwayat" class="divide-y divide-slate-100/60 dark:divide-slate-800/30 hidden"></div>
         
-        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
+        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
       </div>
@@ -603,6 +414,7 @@
       return tanggalObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
+    // Perbaikan typo nama fungsi
     function sinkronisasiNilaiTanggalMentah(dateObj) {
       if (dateObj instanceof Date && !isNaN(dateObj)) {
         const yyyy = dateObj.getFullYear();
@@ -755,7 +567,7 @@
 
     window.setTahunKalenderDariSheet = function(angkaTahun) {
       if (instanceFlatpickr) {
-        instanceFlatkeepr = instanceFlatpickr.jumpToDate(new Date(angkaTahun, instanceFlatpickr.currentMonth, 1), false);
+        instanceFlatpickr.jumpToDate(new Date(angkaTahun, instanceFlatpickr.currentMonth, 1), false);
       }
       Swal.close();
     };
@@ -821,19 +633,19 @@
       const pageRiwayat = document.getElementById('pageRiwayat');
       const navHome = document.getElementById('navHome');
       const navRiwayat = document.getElementById('navRiwayat');
-      const btnBukaDetail = document.getElementById('btnBukaDetail');
+      const cardTransaksi = document.getElementById('cardTransaksiTerakhir');
 
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
-        if(btnBukaDetail) btnBukaDetail.classList.add('hidden'); 
+        if(cardTransaksi) cardTransaksi.classList.add('hidden'); 
         navHome.classList.replace('text-slate-400', 'text-emerald-600');
         navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
         pageRiwayat.classList.remove('hidden');
-        if(btnBukaDetail && databaseRiwayatRaw.length > 0) btnBukaDetail.classList.remove('hidden'); 
+        if(cardTransaksi && databaseRiwayatRaw.length > 0) cardTransaksi.classList.remove('hidden'); 
         navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
         navHome.classList.replace('text-emerald-600', 'text-slate-400');
         window.loadSummary();
@@ -919,7 +731,7 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-1 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50/80 dark:hover:bg-slate-700/20 border-b border-slate-100 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
                 <div class="w-10 h-10 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -940,18 +752,14 @@
             </div>`;
         });
 
-        listContainer.innerHTML = `
-          <div class="bg-white p-3 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-1">
-            <div class="divide-y divide-slate-100/60">${susunanHTMLItemRingkas}</div>
-          </div>`;
-
+        listContainer.innerHTML = susunanHTMLItemRingkas;
         document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
       } else {
         document.getElementById('loadingRiwayat').classList.add('hidden');
         if (btnBukaDetail) btnBukaDetail.classList.add('hidden');
         listContainer.innerHTML = `
-          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center mb-1">
+          <div class="text-center py-6">
             <p class="text-slate-400 text-xs font-semibold">Belum ada data transaksi kas tercatat.</p>
           </div>`;
         listContainer.classList.remove('hidden');
@@ -1011,15 +819,16 @@
 
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
+          // OPTIMASI NOMINAL DI BAWAH PERSENTASE: MENJADI TEXT-[13PX] DAN FONT-BOLD
           legendContainer.insertAdjacentHTML('beforeend', `
-            <div class="flex items-center justify-between w-full text-[13px] py-0.5 font-semibold">
-              <div class="flex items-center gap-1.5 min-w-[55%]">
+            <div class="flex items-center justify-between w-full py-1 font-semibold">
+              <div class="flex items-center gap-1.5 min-w-[50%]">
                 <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
-                <span class="text-slate-600 font-bold tracking-tight dark:text-slate-300 truncate">${kat}</span>
+                <span class="text-slate-600 font-bold tracking-tight dark:text-slate-300 truncate text-[13px]">${kat}</span>
               </div>
               <div class="flex flex-col items-end flex-shrink-0 ml-1">
-                <span class="text-slate-800 font-bold text-[11px] dark:text-slate-400 leading-none">${persen}%</span>
-                <span class="text-[9px] text-slate-400 font-medium dark:text-slate-500 leading-none mt-0.5">(${Math.round(valuesAktif[i]/1000)}k)</span>
+                <span class="text-slate-800 dark:text-slate-200 font-bold text-[13px] leading-none">${persen}%</span>
+                <span class="text-[13px] text-slate-400 dark:text-slate-400 font-bold leading-none mt-1">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </div>
             </div>`);
       });
@@ -1277,12 +1086,12 @@
         });
 
         listModalContainer.insertAdjacentHTML('beforeend', `
-          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
-            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 pb-2 mb-1 flex justify-between items-center">
+          <div class="bg-white dark:bg-[#131b2e] p-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
+            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 dark:border-slate-800/60 pb-2 mb-1 flex justify-between items-center">
               <span>${formatTanggalIndo(tgl)}</span>
               <span class="text-[11px] font-semibold text-slate-300 dark:text-slate-500">${tgl}</span>
             </div>
-            <div class="divide-y divide-slate-100/60">${susunanHTMLItemModal}</div>
+            <div class="divide-y divide-slate-100/60 dark:divide-slate-800/30">${susunanHTMLItemModal}</div>
           </div>`);
       });
     };
