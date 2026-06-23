@@ -1072,7 +1072,6 @@
       });
     };
 
-    // FIX RESET LOADING PERMANEN: Menambahkan penutup notifikasi sukses setelah fetch reset berhasil diselesaikan server
     window.resetSemuaData = function() {
       Swal.fire({
         title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
@@ -1083,7 +1082,6 @@
           fetch(API_URL + "?action=reset", { method: "POST" })
             .then(() => { 
               localStorage.removeItem('app_keuangan_cache'); 
-              // Menghancurkan status loading permanent dengan melemparkan pop-up sukses otomatis
               Swal.fire({ icon: 'success', title: 'Data Direset!', text: 'Semua data kas berhasil dibersihkan.', timer: 1500, showConfirmButton: false });
               window.loadSummary(); 
             })
@@ -1262,8 +1260,9 @@
           bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
           alternateRowStyles: { fillColor: [250, 250, 250] },
           styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
+          // FIX HARI INI: Mengubah lebar kolom index ke-0 (No) dari 10 menjadi 12 & mengecilkan padding khusus nomor agar teks tidak berlipat ke bawah
           columnStyles: {
-            0: { cellWidth: 10, halign: 'center' },
+            0: { cellWidth: 12, halign: 'center', styles: { cellPadding: 2 } },
             1: { cellWidth: 32 },
             3: { cellWidth: 28 },
             4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' },
