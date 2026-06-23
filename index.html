@@ -111,6 +111,21 @@
       border-color: #24324d !important;
       color: #f8fafc !important;
     }
+
+    /* FIX MENGUNCI WARNA INPUT SAAT FOKUS DI MODE GELAP */
+    body.dark input:focus {
+      background-color: #1a2336 !important;
+      color: #f8fafc !important;
+    }
+    
+    /* FIX AUTOFILL BROWSER MEMAKSA BACKGROUND PUTIH PADA MODE GELAP */
+    body.dark input:-webkit-autofill,
+    body.dark input:-webkit-autofill:hover, 
+    body.dark input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #f8fafc !important;
+      -webkit-box-shadow: 0 0 0px 1000px #1a2336 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
     
     body.dark .bg-white { background: #131b2e !important; }
     
@@ -181,7 +196,7 @@
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
             <input type="hidden" id="tanggal_mentntah" value="">
-            <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11 cursor-pointer" required>
+            <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 cursor-pointer" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-regular fa-calendar-days"></i>
             </div>
@@ -190,12 +205,12 @@
 
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
-          <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
+          <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
             <input type="hidden" id="jenis" value="Pengeluaran">
-            <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm">
+            <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400">
               💸 Pengeluaran
             </button>
-            <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700">
+            <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400">
               💰 Pemasukan
             </button>
           </div>
@@ -218,7 +233,7 @@
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
-            <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-12" required>
+            <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
               Rp
             </div>
@@ -228,7 +243,7 @@
         <div class="mb-6">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
-            <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11" required>
+            <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-regular fa-pen-to-square"></i>
             </div>
@@ -294,7 +309,6 @@
         </div>
       </div>
 
-      <!-- KARTU TRANSAKSI TERAKHIR (HEADER DAN BUTTON SEKARANG BERADA DI DALAM KARTU UTUH) -->
       <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col">
         <div class="flex items-center justify-between mb-4 px-1">
           <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -414,7 +428,6 @@
       return tanggalObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // Perbaikan typo nama fungsi
     function sinkronisasiNilaiTanggalMentah(dateObj) {
       if (dateObj instanceof Date && !isNaN(dateObj)) {
         const yyyy = dateObj.getFullYear();
@@ -572,6 +585,7 @@
       Swal.close();
     };
 
+    /* FIX KONSISTENSI UTILITY DARK MODE PADA TOMBOL YANG DIINJEKSI JS */
     window.pilihJenisTab = function(jenisTerpilih) {
       document.getElementById('jenis').value = jenisTerpilih;
       
@@ -579,11 +593,11 @@
       const btnMasuk = document.getElementById('btnTabPemasukan');
       
       if (jenisTerpilih === 'Pengeluaran') {
-        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm";
-        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700";
+        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400";
+        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
       } else {
-        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-emerald-600 shadow-sm";
-        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700";
+        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
+        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
       }
       
       window.updateKategoriOptions();
@@ -819,7 +833,6 @@
 
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
-          // OPTIMASI NOMINAL DI BAWAH PERSENTASE: MENJADI TEXT-[13PX] DAN FONT-BOLD
           legendContainer.insertAdjacentHTML('beforeend', `
             <div class="flex items-center justify-between w-full py-1 font-semibold">
               <div class="flex items-center gap-1.5 min-w-[50%]">
