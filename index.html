@@ -19,6 +19,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -585,7 +586,7 @@
             isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
           }">
             <span class="text-sm">${kat}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
           </button>`;
       });
       htmlPilihanKategori += `</div>`;
@@ -1300,17 +1301,19 @@
       }
     };
 
-    // FITUR UTAMA UNDUH EXCEL DENGAN PEWARNAAN TABEL PREMIUM & USER FRIENDLY
+    // FITUR UTAMA UNDUH EXCEL DENGAN PEWARNAAN TABEL PREMIUM, ASLI .XLSX DAN ANTI-CORRUPT
     window.unduhExcel = function() {
       try {
         const { data, periodeText } = dapatkanDataTerfilterModal();
+
         if (data.length === 0) {
           Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' });
           return;
         }
+
         Swal.fire({ title: 'Membangun Excel Premium...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-        let sumMasuk = 0; 
+        let sumMasuk = 0;
         let sumKeluar = 0;
         data.forEach(item => {
           const nom = parseInt(item.nominal) || 0;
@@ -1319,101 +1322,154 @@
         });
         const sumSaldoBersih = sumMasuk - sumKeluar;
 
-        // Menyusun dokumen XML/HTML Spreadsheet murni untuk dibaca secara native oleh Microsoft Excel
-        let excelTemplate = `
-          <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
-          <head>
-            <meta charset="UTF-8">
-            <style>
-              body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-              .title { font-size: 16pt; font-weight: bold; color: #047857; }
-              .subtitle { font-size: 10pt; color: #64748b; }
-              .header-section { font-size: 11pt; font-weight: bold; background-color: #f1f5f9; color: #1e293b; text-align: left; }
-              
-              /* Style Tabel Data Utama */
-              table { border-collapse: collapse; width: 100%; }
-              th { background-color: #059669; color: #ffffff; font-weight: bold; font-size: 10pt; border: 1px solid #10b981; padding: 8px; text-align: center; }
-              td { border: 1px solid #cbd5e1; font-size: 10pt; padding: 6px; }
-              
-              /* Skema Warna Baris Selang-Seling (Zebra Pattern) */
-              .baris-genap { background-color: #f8fafc; }
-              .baris-ganjil { background-color: #ffffff; }
-              
-              /* Finansial Highlighting (User Friendly) */
-              .pemasukan-text { color: #059669; font-weight: bold; }
-              .pengeluaran-text { color: #b91c1c; font-weight: bold; }
-              .text-right { text-align: right; }
-              .text-center { text-align: center; }
-            </style>
-          </head>
-          <body>
-            <table>
-              <tr><td colspan="6" class="title">LAPORAN DIGITAL WALLET STATEMENT</td></tr>
-              <tr><td colspan="6" class="subtitle">Periode Dokumen: ${periodeText}</td></tr>
-              <tr><td colspan="6" class="subtitle">Tanggal Unduh: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td></tr>
-              <tr><td colspan="6"></td></tr>
-              
-              <tr><td colspan="3" class="header-section" style="background-color: #e2e8f0; border: 1px solid #cbd5e1;">RINGKASAN AKUMULASI DANA PERIODE</td><td colspan="3" style="background-color: #e2e8f0; border: 1px solid #cbd5e1;"></td></tr>
-              <tr><td colspan="2" style="border: 1px solid #cbd5e1;">Total Akumulasi Pemasukan</td><td class="pemasukan-text text-right" colspan="2" style="border: 1px solid #cbd5e1;">Rp ${sumMasuk.toLocaleString('id-ID')}</td><td colspan="2" style="border: 1px solid #cbd5e1;"></td></tr>
-              <tr><td colspan="2" style="border: 1px solid #cbd5e1;">Total Akumulasi Pengeluaran</td><td class="pengeluaran-text text-right" colspan="2" style="border: 1px solid #cbd5e1;">Rp ${sumKeluar.toLocaleString('id-ID')}</td><td colspan="2" style="border: 1px solid #cbd5e1;"></td></tr>
-              <tr><td colspan="2" style="font-weight:bold; border: 1px solid #cbd5e1;">Total Saldo Bersih (Net)</td><td class="text-right" colspan="2" style="font-weight:bold; border: 1px solid #cbd5e1; color:${sumSaldoBersih >= 0 ? '#059669' : '#b91c1c'}">Rp ${sumSaldoBersih.toLocaleString('id-ID')}</td><td colspan="2" style="border: 1px solid #cbd5e1;"></td></tr>
-              <tr><td colspan="6"></td></tr>
-              
-              <thead>
-                <tr>
-                  <th style="width: 50px;">No</th>
-                  <th style="width: 130px;">Tanggal</th>
-                  <th style="width: 240px;">Keterangan / Nota</th>
-                  <th style="width: 120px;">Kategori</th>
-                  <th style="width: 110px;">Jenis</th>
-                  <th style="width: 140px;">Nominal Transaksi</th>
-                </tr>
-              </thead>
-              <tbody>
-        `;
+        // Inisialisasi engine ExcelJS Workbook
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Dashboard Statement');
 
-        // Menyusun baris transaksi dengan CSS selang-seling dan pewarnaan finansial dinamis
-        data.forEach((item, indeks) => {
-          const kelasBaris = (indeks % 2 === 0) ? 'baris-genap' : 'baris-ganjil';
-          const isMasuk = item.jenis === "Pemasukan";
-          const kelasFinansial = isMasuk ? 'pemasukan-text' : 'pengeluaran-text';
-          const tandaNominal = isMasuk ? '+ ' : '- ';
+        // Menuliskan Judul Atas Dokumen
+        worksheet.getCell('A1').value = "LAPORAN KEUANGAN DIGITAL WALLET STATEMENT";
+        worksheet.getCell('A1').font = { name: 'Segoe UI', size: 16, bold: true, color: { argb: '047857' } };
+        
+        worksheet.getCell('A2').value = `Periode Dokumen: ${periodeText}`;
+        worksheet.getCell('A2').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
+        
+        worksheet.getCell('A3').value = `Tanggal Unduh Data: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`;
+        worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
 
-          excelTemplate += `
-            <tr class="${kelasBaris}">
-              <td class="text-center">${indeks + 1}</td>
-              <td>${formatTanggalFormal(item.tanggal)}</td>
-              <td>${item.keterangan || "-"}</td>
-              <td>${bersihkanIkonEmoji(item.kategori)}</td>
-              <td class="${kelasFinansial} text-center">${item.jenis}</td>
-              <td class="${kelasFinansial} text-right">${tandaNominal}Rp ${parseInt(item.nominal).toLocaleString('id-ID')}</td>
-            </tr>
-          `;
+        // Membuat Kotak Ringkasan Atas
+        worksheet.mergeCells('A5:C5');
+        worksheet.getCell('A5').value = "RINGKASAN AKUMULASI DANA PERIODE";
+        worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } };
+        worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
+        worksheet.getCell('A5').border = {
+          top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
+          bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
+        };
+
+        // Mengisi Baris Ringkasan Pemasukan, Pengeluaran, dan Net Saldo
+        const isiRingkasan = [
+          { row: '6', text: 'Total Akumulasi Pemasukan', val: sumMasuk, color: '059669' },
+          { row: '7', text: 'Total Akumulasi Pengeluaran', val: sumKeluar, color: 'B91C1C' },
+          { row: '8', text: 'Total Saldo Bersih (Net)', val: sumSaldoBersih, color: sumSaldoBersih >= 0 ? '059669' : 'B91C1C' }
+        ];
+
+        isiRingkasan.forEach(item => {
+          worksheet.mergeCells(`A${item.row}:B${item.row}`);
+          worksheet.getCell(`A${item.row}`).value = item.text;
+          worksheet.getCell(`C${item.row}`).value = item.val;
+          
+          if(item.row === '8') worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: true };
+          else worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI' };
+
+          [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => {
+            worksheet.getCell(ref).border = {
+              top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
+              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
+            };
+          });
+
+          const valCell = worksheet.getCell(`C${item.row}`);
+          valCell.numFormat = '"Rp"#,##0';
+          valCell.alignment = { horizontal: 'right' };
+          valCell.font = { name: 'Segoe UI', bold: true, color: { argb: item.color } };
         });
 
-        excelTemplate += `
-              </tbody>
-            </table>
-          </body>
-          </html>
-        `;
+        // Membuat Header Tabel Data Utama (Row 10)
+        const headers = ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi"];
+        const headerRow = worksheet.getRow(10);
+        headerRow.height = 24;
 
-        // Mengubah string HTML Template menjadi blob dataURI agar langsung dipicu sebagai berkas .xls murni ber-style
-        const blobExcel = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8;' });
-        const urlUnduh = URL.createObjectURL(blobExcel);
-        
-        const tautanPemicu = document.createElement("a");
-        tautanPemicu.href = urlUnduh;
-        tautanPemicu.download = `Laporan_Keuangan_Premium_${periodeText.replace(/ /g, "_")}.xls`;
-        
-        document.body.appendChild(tautanPemicu);
-        tautanPemicu.click();
-        document.body.removeChild(tautanPemicu);
+        headers.forEach((h, idx) => {
+          const cell = headerRow.getCell(idx + 1);
+          cell.value = h;
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '059669' } };
+          cell.font = { name: 'Segoe UI', bold: true, color: { argb: 'FFFFFF' } };
+          cell.alignment = { horizontal: 'center', vertical: 'middle' };
+          cell.border = {
+            top: { style: 'thin', color: { argb: '10B981' } }, left: { style: 'thin', color: { argb: '10B981' } },
+            bottom: { style: 'thin', color: { argb: '10B981' } }, right: { style: 'thin', color: { argb: '10B981' } }
+          };
+        });
 
-        Swal.close();
+        // Memasukkan Seluruh Baris Data Transaksi Terfilter
+        data.forEach((item, indeks) => {
+          const rowNum = 11 + indeks;
+          const dRow = worksheet.getRow(rowNum);
+          dRow.height = 20;
+
+          const isMasuk = item.jenis === "Pemasukan";
+          const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; // Efek Zebra Selang Seling
+          const finColor = isMasuk ? '059669' : 'B91C1C';
+
+          dRow.getCell(1).value = indeks + 1;
+          dRow.getCell(2).value = formatTanggalFormal(item.tanggal);
+          dRow.getCell(3).value = item.keterangan || "-";
+          dRow.getCell(4).value = bersihkanIkonEmoji(item.kategori);
+          dRow.getCell(5).value = item.jenis;
+          dRow.getCell(6).value = parseInt(item.nominal) || 0;
+
+          for (let col = 1; col <= 6; col++) {
+            const cell = dRow.getCell(col);
+            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } };
+            cell.font = { name: 'Segoe UI', size: 10 };
+            cell.border = {
+              top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
+              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
+            };
+
+            if (col === 1) cell.alignment = { horizontal: 'center' };
+            if (col === 5) {
+              cell.alignment = { horizontal: 'center' };
+              cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } };
+            }
+            if (col === 6) {
+              cell.alignment = { horizontal: 'right' };
+              cell.numFormat = '"Rp"#,##0'; // Format angka rupiah murni native Excel
+              cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } };
+            }
+          }
+        });
+
+        // Set Fitur Filter Otomatis Pada Tabel Data
+        worksheet.autoFilter = {
+          from: { row: 10, column: 1 },
+          to: { row: 10 + data.length, column: 6 }
+        };
+
+        // Konfigurasi Lebar Kolom Dasar Excel
+        const konfigurasiLebarKolom = [
+          { width: 8 },   // No
+          { width: 20 },  // Tanggal Transaksi
+          { width: 28 },  // Keterangan / Nota
+          { width: 18 },  // Kategori
+          { width: 16 },  // Jenis Aliran
+          { width: 24 }   // Nominal Transaksi
+        ];
+
+        // Autoresize Kolom Keterangan Jika Sangat Panjang
+        data.forEach(item => {
+          if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].width) {
+            konfigurasiLebarKolom[2].width = item.keterangan.length + 4;
+          }
+        });
+        worksheet.columns = konfigurasiLebarKolom;
+
+        // Compile file ke format XLSX resmi (.xlsx)
+        workbook.xlsx.writeBuffer().then(function(buffer) {
+          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const urlUnduh = URL.createObjectURL(blob);
+          const tautanPemicu = document.createElement("a");
+          tautanPemicu.href = urlUnduh;
+          tautanPemicu.download = `Laporan_Keuangan_Premium_${periodeText.replace(/ /g, "_")}.xlsx`;
+          document.body.appendChild(tautanPemicu);
+          tautanPemicu.click();
+          document.body.removeChild(tautanPemicu);
+          Swal.close();
+        });
+
       } catch (error) {
         Swal.close();
-        Swal.fire({ icon: 'error', title: 'Gagal Ekspor Excel', text: 'Detail: ' + error.message, confirmButtonColor: '#f43f5e' });
+        Swal.fire({ icon: 'error', title: 'Gagal Ekspor Excel', text: 'Detail Kendala: ' + error.message, confirmButtonColor: '#f43f5e' });
         console.error(error);
       }
     };
