@@ -946,7 +946,7 @@
         const p = k.split('-');
         const namaBulan = bulan[parseInt(p[1])-1];
         htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
-        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>';
       });
       
       selectUtama.innerHTML = htmlUtama;
@@ -1260,7 +1260,6 @@
           bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
           alternateRowStyles: { fillColor: [250, 250, 250] },
           styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
-          // FIX HARI INI: Mengubah lebar kolom index ke-0 (No) dari 10 menjadi 12 & mengecilkan padding khusus nomor agar teks tidak berlipat ke bawah
           columnStyles: {
             0: { cellWidth: 12, halign: 'center', styles: { cellPadding: 2 } },
             1: { cellWidth: 32 },
@@ -1300,6 +1299,7 @@
       }
     };
 
+    // UPGRADE TERBARU: Pembuatan struktur berkas spreadsheet Excel agar interaktif, modern, & support formula hitung otomatis
     window.unduhExcel = function() {
       try {
         const { data, periodeText } = dapatkanDataTerfilterModal();
@@ -1320,17 +1320,18 @@
         });
         const sumSaldoBersih = sumMasuk - sumKeluar;
 
+        // Mengirimkan data angka murni tanpa embel-embel teks mentah Rp agar dideteksi sebagai Numeric Cell oleh sistem Excel
         const strukturRowsExcel = [
           ["LAPORAN KEUANGAN DIGITAL WALLET STATEMENT"],
           [`Periode Dokumen: ${periodeText}`],
           [`Tanggal Unduh Data: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`],
           [], 
           ["RINGKASAN AKUMULASI DANA PERIODE"],
-          ["Total Akumulasi Pemasukan", `Rp ${sumMasuk.toLocaleString('id-ID')}`],
-          ["Total Akumulasi Pengeluaran", `Rp ${sumKeluar.toLocaleString('id-ID')}`],
-          ["Total Saldo Bersih (Net)", `Rp ${sumSaldoBersih.toLocaleString('id-ID')}`],
+          ["Total Akumulasi Pemasukan", sumMasuk],
+          ["Total Akumulasi Pengeluaran", sumKeluar],
+          ["Total Saldo Bersih (Net)", sumSaldoBersih],
           [], 
-          ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi (Rp)"]
+          ["No", "Tanggal Transaksi", "Keterangan / Nota", "Kategori", "Jenis Aliran", "Nominal Transaksi"]
         ];
 
         data.forEach((item, indeks) => {
@@ -1340,21 +1341,47 @@
             item.keterangan || "-",
             bersihkanIkonEmoji(item.kategori), 
             item.jenis,
-            parseInt(item.nominal)
+            parseInt(item.nominal) || 0
           ]);
         });
 
         const worksheet = XLSX.utils.aoa_to_sheet(strukturRowsExcel);
+
+        // ATUR FORMAT MATA UANG INDONESIA (NATIVE CURRENCY Rp)
+        // Menyuntikkan metatag khusus token mata uang lokal ("Rp"#,##0) pada lembar ringkasan atas
+        ['B6', 'B7', 'B8'].forEach(ref => {
+          if (worksheet[ref]) {
+            worksheet[ref].t = 'n';
+            worksheet[ref].z = '"Rp"#,##0';
+          }
+        });
+
+        // Menyuntikkan metatag format Rp rupiah pada baris data transaksi (Kolom F dimulai dari baris 11 Excel)
+        data.forEach((_, indeks) => {
+          const ExcelRow = 11 + indeks; 
+          const ref = 'F' + ExcelRow;
+          if (worksheet[ref]) {
+            worksheet[ref].t = 'n';
+            worksheet[ref].z = '"Rp"#,##0';
+          }
+        });
+
+        // AKTIFKAN FITUR AUTOFILTER TABEL MODERN SECARA OTOMATIS
+        // Memberikan tanda saring (dropdown filter) dari kolom A10 sampai F (baris akhir data) agar bisa disortir mandiri di Excel
+        const totalBarisExcel = 10 + data.length;
+        worksheet['!autofilter'] = { ref: `A10:F${totalBarisExcel}` };
+
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Dashboard Statement");
 
+        // Optimalisasi Lebar Grid Kolom Baru Agar Lebih Bernafas & Longgar
         const konfigurasiLebarKolom = [
-          { wch: 6 },  
-          { wch: 18 }, 
-          { wch: 25 }, 
-          { wch: 16 }, 
-          { wch: 15 }, 
-          { wch: 22 }  
+          { wch: 8 },   // Kolom No
+          { wch: 20 },  // Kolom Tanggal
+          { wch: 28 },  // Kolom Keterangan
+          { wch: 18 },  // Kolom Kategori
+          { wch: 16 },  // Kolom Jenis
+          { wch: 24 }   // Kolom Nominal
         ];
         
         data.forEach(item => {
