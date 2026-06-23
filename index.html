@@ -5,24 +5,26 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
+
   <link rel="manifest" href="manifest.json">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght=400;600;700&display=swap" rel="stylesheet">
-  
+
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Urbanist', sans-serif;
@@ -31,9 +33,11 @@
     body::-webkit-scrollbar {
       display: none;
     }
+    
     .swal2-container {
       z-index: 999999 !important;
     }
+    
     .premium-bottom-sheet {
       position: fixed !important;
       bottom: 0 !important;
@@ -53,13 +57,14 @@
       background: #e2e8f0;
       border-radius: 10px;
     }
+    
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
       box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
       padding: 14px !important;
-      width: 315px !important;
+      width: 315px !important; 
       box-sizing: border-box !important;
     }
     .flatpickr-innerContainer {
@@ -101,6 +106,7 @@
       color: #1e293b !important;
       height: 42px !important;
     }
+
     .flatpickr-current-month {
       display: flex !important;
       align-items: center !important;
@@ -111,6 +117,7 @@
       left: 0 !important;
       padding: 0 !important;
     }
+    
     .btn-pemicu-bulan, .btn-pemicu-tahun {
       font-family: 'Urbanist', sans-serif !important;
       font-weight: 700 !important;
@@ -131,16 +138,20 @@
     .btn-pemicu-bulan:hover, .btn-pemicu-tahun:hover {
       background: #e2e8f0 !important;
     }
+    
     .flatpickr-monthDropdown-months, .flatpickr-current-month .numInputWrapper {
       display: none !important;
     }
-    .flatpickr-months .flatpickr-prev-month, .flatpickr-months .flatpickr-next-month {
+    
+    .flatpickr-months .flatpickr-prev-month, 
+    .flatpickr-months .flatpickr-next-month {
       top: 4px !important;
       padding: 10px !important;
       color: #94a3b8 !important;
       transition: all 0.2s !important;
     }
-    .flatpickr-months .flatpickr-prev-month:hover, .flatpickr-months .flatpickr-next-month:hover {
+    .flatpickr-months .flatpickr-prev-month:hover, 
+    .flatpickr-months .flatpickr-next-month:hover {
       color: #10b981 !important;
     }
   </style>
@@ -151,9 +162,11 @@
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+    
     <h1 class="text-sm font-semibold opacity-75 tracking-wide">Halo, Pengguna!</h1>
     <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase">Total Saldo Kamu</p>
     <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-6">Rp 0</h2>
+
     <div class="grid grid-cols-2 gap-4 relative z-10">
       <div class="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
         <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
@@ -177,29 +190,32 @@
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
         <h3 class="text-lg font-bold text-slate-800 tracking-tight">Tambah Transaksi</h3>
       </div>
+
       <form id="formKeuangan" onsubmit="window.handleForm(event)">
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
-            <input type="hidden" id="tanggal_mentah" value="">
+            <input type="hidden" id="tanggal_mentntah" value="">
             <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-11 cursor-pointer" required>
             <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
               <i class="fa-regular fa-calendar-days"></i>
             </div>
           </div>
         </div>
+
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
           <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
             <input type="hidden" id="jenis" value="Pengeluaran">
-            <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm bg-white text-rose-600 shadow-sm">
+            <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm">
               💸 Pengeluaran
             </button>
-            <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700">
+            <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700">
               💰 Pemasukan
             </button>
           </div>
         </div>
+
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
@@ -213,13 +229,17 @@
             </div>
           </div>
         </div>
+
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
             <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white outline-none transition-all pl-12" required>
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">Rp</div>
+            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
+              Rp
+            </div>
           </div>
         </div>
+
         <div class="mb-6">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
@@ -229,26 +249,32 @@
             </div>
           </div>
         </div>
+
         <div class="flex gap-3 w-full">
           <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-md shadow-emerald-600/10 hover:bg-emerald-700 hover:shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
             <i class="fa-solid fa-paper-plane"></i> Simpan Transaksi
           </button>
+          
           <button type="button" onclick="window.tombolReloadPintar()" class="bg-white text-slate-500 font-bold px-5 rounded-2xl border border-slate-200/80 shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center">
             <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
           </button>
         </div>
       </form>
+
       <button type="button" onclick="window.resetSemuaData()" class="w-full mt-4 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
         <i class="fa-solid fa-trash-can"></i> Reset Semua Data
       </button>
     </div>
 
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
+      
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-2">
-            <div class="w-1.5 h-5 bg-rose-500 rounded-full"></div>
-            <h3 class="text-base font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <div class="w-1.5 h-5 bg-rose-500 rounded-full"></div>
+              <h3 class="text-base font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
+            </div>
           </div>
           <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl text-[11px] font-bold text-slate-600 flex items-center gap-1 active:scale-95 transition-all">
             <span id="labelPeriodeUtama">Bulan Ini</span>
@@ -256,6 +282,7 @@
           </button>
           <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
         </div>
+        
         <div class="w-full flex flex-row items-center justify-between gap-1 py-1">
           <div class="relative w-[125px] h-[125px] flex-shrink-0 flex items-center justify-center">
             <canvas id="chartPengeluaran"></canvas>
@@ -264,7 +291,8 @@
               <span id="chartCenterTotal" class="text-[12px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
             </div>
           </div>
-          <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[130px] overflow-y-auto pl-3 custom-scrollbar border-l border-slate-100"></div>
+          <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[130px] overflow-y-auto pl-3 custom-scrollbar border-l border-slate-100">
+          </div>
         </div>
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
@@ -286,11 +314,14 @@
           <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
           <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Terbaru</span>
         </div>
+        
         <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col items-center justify-center gap-1.5">
           <i class="fa-solid fa-circle-notch animate-spin text-emerald-600 text-base"></i>
           <span class="font-semibold text-slate-400">Sinkronisasi data server...</span>
         </div>
+        
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
+        
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
@@ -300,6 +331,7 @@
 
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+      
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
           <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
@@ -309,6 +341,7 @@
         </div>
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
+
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -318,6 +351,7 @@
           </button>
           <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="hidden"></select>
         </div>
+
         <div class="grid grid-cols-2 gap-3 pt-1">
           <button onclick="window.unduhPDF()" class="bg-rose-50 border border-rose-100/80 text-rose-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
             <i class="fa-solid fa-file-pdf"></i> PDF
@@ -327,9 +361,11 @@
           </button>
         </div>
       </div>
+
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
+
     </div>
   </div>
 
@@ -338,595 +374,933 @@
       <i class="fa-solid fa-house text-xl mb-1"></i>
       <span class="text-[9px] font-bold tracking-widest">HOME</span>
     </button>
+    
     <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
       <span class="text-[9px] font-bold tracking-widest">RIWAYAT</span>
     </button>
   </div>
 
-  <script>
+  <script>                                                                                                    
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
+    
     const daftarKategoriPengeluaran = ["🍔 Makanan", "🚗 Transport", "🏠 Tagihan", "🎬 Hiburan", "🏥 Kesehatan", "📦 Lainnya"];
     const daftarKategoriPemasukan = ["💼 Gaji", "🚀 Sampingan", "📈 Investasi", "🎁 Lainnya"];
     const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
+    
     const namaBulanIndoFull = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     
-    let myChartInstance = null; 
+    let myChartInstance = null;
     let myBarChartInstance = null; 
     let databaseRiwayatRaw = []; 
     let instanceFlatpickr = null;
-    
+
     Chart.register(ChartDataLabels);
-    if (window.jspdf && window.jspdf.jsPDF) { 
-      window.jsPDF = window.jspdf.jsPDF; 
+
+    if (window.jspdf && window.jspdf.jsPDF) {
+      window.jsPDF = window.jspdf.jsPDF;
     }
 
-    function formatTanggalIndo(tglString) { 
-      if(!tglString) return "-"; 
-      const opsi = { day: 'numeric', month: 'long', year: 'numeric' }; 
-      const tanggalObj = new Date(tglString); 
-      const hariIni = new Date(); 
-      const kemarin = new Date(); 
-      kemarin.setDate(hariIni.getDate() - 1); 
-      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini"; 
-      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin"; 
-      return tanggalObj.toLocaleDateString('id-ID', opsi); 
+    function formatTanggalIndo(tglString) {
+      if(!tglString) return "-";
+      const opsi = { day: 'numeric', month: 'long', year: 'numeric' };
+      const tanggalObj = new Date(tglString);
+      
+      const hariIni = new Date();
+      const kemarin = new Date();
+      kemarin.setDate(hariIni.getDate() - 1);
+      
+      if(tanggalObj.toDateString() === hariIni.toDateString()) return "Hari Ini";
+      if(tanggalObj.toDateString() === kemarin.toDateString()) return "Kemarin";
+      
+      return tanggalObj.toLocaleDateString('id-ID', opsi);
     }
 
-    function formatTanggalFormal(tglString) { 
-      if(!tglString) return "-"; 
-      const tanggalObj = new Date(tglString); 
-      if (isNaN(tanggalObj)) return "-"; 
-      return tanggalObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }); 
+    function formatTanggalFormal(tglString) {
+      if(!tglString) return "-";
+      const tanggalObj = new Date(tglString);
+      if (isNaN(tanggalObj)) return "-";
+      return tanggalObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    function sinkronisasiNilaiTanggalMentah(dateObj) { 
-      const d = dateObj instanceof Date && !isNaN(dateObj) ? dateObj : new Date(); 
-      document.getElementById('tanggal_mentah').value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; 
+    function sinkronisasiNilaiTanggalMentah(dateObj) {
+      if (dateObj instanceof Date && !isNaN(dateObj)) {
+        const yyyy = dateObj.getFullYear();
+        const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const dd = String(dateObj.getDate()).padStart(2, '0');
+        document.getElementById('tanggal_mentntah').value = `${yyyy}-${mm}-${dd}`;
+      } else {
+        const hariIni = new Date();
+        const yyyy = hariIni.getFullYear();
+        const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
+        const dd = String(hariIni.getDate()).padStart(2, '0');
+        document.getElementById('tanggal_mentntah').value = `${yyyy}-${mm}-${dd}`;
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      instanceFlatpickr = flatpickr("#tanggal", { 
-        locale: "id", 
-        dateFormat: "d F Y", 
-        defaultDate: new Date(), 
-        onReady: function(s, d, i) { 
-          sinkronisasiNilaiTanggalMentah(s[0]); 
-          window.buatPemicuKapsulKalenderCustom(i); 
-        }, 
-        onChange: function(s) { 
-          sinkronisasiNilaiTanggalMentah(s[0]); 
-        } 
+      if (window.jspdf && window.jspdf.jsPDF) {
+        window.jsPDF = window.jspdf.jsPDF;
+      }
+
+      instanceFlatpickr = flatpickr("#tanggal", {
+        locale: "id",
+        dateFormat: "d F Y",
+        defaultDate: new Date(),
+        changeMonth: true,
+        changeYear: true,
+        disableMobile: "true",
+        onReady: function(selectedDates, dateStr, instance) {
+          sinkronisasiNilaiTanggalMentah(selectedDates[0]);
+          window.buatPemicuKapsulKalenderCustom(instance);
+        },
+        onMonthChange: function(dates, dataStr, instance) {
+          window.buatPemicuKapsulKalenderCustom(instance);
+        },
+        onYearChange: function(dates, dataStr, instance) {
+          window.buatPemicuKapsulKalenderCustom(instance);
+        },
+        onChange: function(selectedDates) {
+          sinkronisasiNilaiTanggalMentah(selectedDates[0]);
+        }
       });
-      window.updateKategoriOptions(); 
+      
+      window.updateKategoriOptions();
       window.loadSummary();
     });
 
     window.buatPemicuKapsulKalenderCustom = function(instance) {
       const containerHeader = instance.calendarContainer.querySelector('.flatpickr-current-month');
       if (!containerHeader) return;
-      const pemicuLamaBulan = containerHeader.querySelector('.btn-pemicu-bulan'); 
+      
+      const pemicuLamaBulan = containerHeader.querySelector('.btn-pemicu-bulan');
       if (pemicuLamaBulan) pemicuLamaBulan.remove();
-      const pemicuLamaTahun = containerHeader.querySelector('.btn-pemicu-tahun'); 
+      const pemicuLamaTahun = containerHeader.querySelector('.btn-pemicu-tahun');
       if (pemicuLamaTahun) pemicuLamaTahun.remove();
       
-      const btnBulan = document.createElement('button'); 
-      btnBulan.type = 'button'; 
-      btnBulan.className = 'btn-pemicu-bulan'; 
-      btnBulan.innerHTML = `<span>${namaBulanIndoFull[instance.currentMonth]}</span> <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>`; 
+      const labelBulanAktis = namaBulanIndoFull[instance.currentMonth];
+      const labelTahunAktif = instance.currentYear;
+      
+      const btnBulan = document.createElement('button');
+      btnBulan.type = 'button';
+      btnBulan.className = 'btn-pemicu-bulan';
+      btnBulan.innerHTML = `<span>${labelBulanAktis}</span> <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>`;
       btnBulan.addEventListener('click', () => window.bukaBottomSheetBulanKalender(instance));
       
-      const btnTahun = document.createElement('button'); 
-      btnTahun.type = 'button'; 
-      btnTahun.className = 'btn-pemicu-tahun'; 
-      btnTahun.innerHTML = `<span>${instance.currentYear}</span> <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>`; 
+      const btnTahun = document.createElement('button');
+      btnTahun.type = 'button';
+      btnTahun.className = 'btn-pemicu-tahun';
+      btnTahun.innerHTML = `<span>${labelTahunAktif}</span> <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>`;
       btnTahun.addEventListener('click', () => window.bukaBottomSheetTahunKalender(instance));
       
-      containerHeader.appendChild(btnBulan); 
+      containerHeader.appendChild(btnBulan);
       containerHeader.appendChild(btnTahun);
     };
 
     window.bukaBottomSheetBulanKalender = function(instance) {
       let htmlListBulan = `<div class="flex flex-col gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
-      namaBulanIndoFull.forEach((n, i) => { 
-        const isSelected = i === instance.currentMonth; 
-        htmlListBulan += `<button type="button" onclick="window.setBulanKalenderDariSheet(${i})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'}"><span class="text-sm">${n}</span>${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}</button>`; 
+      
+      namaBulanIndoFull.forEach((namaBulan, indeks) => {
+        const isSelected = indeks === instance.currentMonth;
+        htmlListBulan += `
+          <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+          }">
+            <span class="text-sm">${namaBulan}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
       });
       htmlListBulan += `</div>`;
-      Swal.fire({ 
-        title: 'Pilih Bulan', 
-        html: htmlListBulan, 
-        showConfirmButton: false, 
-        showCancelButton: true, 
-        cancelButtonText: 'Batal', 
-        cancelButtonColor: '#f1f5f9', 
-        customClass: { popup: 'premium-bottom-sheet' } 
+      
+      Swal.fire({
+        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
       });
     };
 
-    window.setBulanKalenderDariSheet = function(indeks) { 
-      if (instanceFlatpickr) { 
-        instanceFlatpickr.jumpToDate(new Date(instanceFlatpickr.currentYear, indeks, 1), false); 
-      } 
-      Swal.close(); 
+    window.setBulanKalenderDariSheet = function(indeksBulan) {
+      if (instanceFlatpickr) {
+        instanceFlatpickr.jumpToDate(new Date(instanceFlatpickr.currentYear, indeksBulan, 1), false);
+      }
+      Swal.close();
     };
 
     window.bukaBottomSheetTahunKalender = function(instance) {
-      const cur = new Date().getFullYear(); 
+      const AppTahunSekarang = new Date().getFullYear();
       let htmlListTahun = `<div class="flex flex-col gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
-      for (let y = cur - 5; y <= cur + 5; y++) { 
-        const isSelected = y === instance.currentYear; 
-        htmlListTahun += `<button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'}"><span class="text-sm">Tahun ${y}</span>${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}</button>`; 
-      }
-      Swal.fire({ 
-        title: 'Pilih Tahun', 
-        html: htmlListTahun, 
-        showConfirmButton: false, 
-        showCancelButton: true, 
-        cancelButtonText: 'Batal', 
-        customClass: { popup: 'premium-bottom-sheet' } 
-      });
-    };
-
-    window.setTahunKalenderDariSheet = function(thn) { 
-      if (instanceFlatpickr) { 
-        instanceFlatpickr.jumpToDate(new Date(thn, instanceFlatpickr.currentMonth, 1), false); 
-      } 
-      Swal.close(); 
-    };
-
-    window.pilihJenisTab = function(jenis) { 
-      document.getElementById('jenis').value = jenis; 
-      const btnK = document.getElementById('btnTabPengeluaran'); 
-      const btnM = document.getElementById('btnTabPemasukan'); 
-      if (jenis === 'Pengeluaran') { 
-        btnK.className = "w-full py-3 rounded-xl font-bold text-sm bg-white text-rose-600 shadow-sm"; 
-        btnM.className = "w-full py-3 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700"; 
-      } else { 
-        btnM.className = "w-full py-3 rounded-xl font-bold text-sm bg-white text-emerald-600 shadow-sm"; 
-        btnK.className = "w-full py-3 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700"; 
-      } 
-      window.updateKategoriOptions(); 
-    };
-
-    window.bukaBottomSheetPilihanKategori = function() { 
-      const jenis = document.getElementById('jenis').value; 
-      const opsi = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran : daftarKategoriPemasukan; 
-      const kAktif = document.getElementById('kategori').value; 
-      let html = `<div class="grid grid-cols-1 gap-2.5 max-h-[45vh] overflow-y-auto pt-2 custom-scrollbar">`; 
-      opsi.forEach(kat => { 
-        const isS = kat === kAktif; 
-        html += `<button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isS ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold'}"><span class="text-sm">${kat}</span>${isS ? '<i class="fa-solid fa-circle-check text-emerald-600"></i>' : ''}</button>`; 
-      }); 
-      Swal.fire({ 
-        title: 'Pilih Kategori', 
-        html: html, 
-        showConfirmButton: false, 
-        showCancelButton: true, 
-        customClass: { popup: 'premium-bottom-sheet' } 
-      }); 
-    };
-
-    window.setKategoriDariBottomSheet = function(kat) { 
-      document.getElementById('kategori').value = kat; 
-      document.getElementById('txtKategoriTerpilihLabel').innerText = kat; 
-      Swal.close(); 
-    };
-
-    window.updateKategoriOptions = function() { 
-      const jenis = document.getElementById('jenis').value; 
-      const def = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran[0] : daftarKategoriPemasukan[0]; 
-      document.getElementById('kategori').value = def; 
-      document.getElementById('txtKategoriTerpilihLabel').innerText = def; 
-    };
-
-    window.tukarHalaman = function(menu) { 
-      if (menu === 'home') { 
-        document.getElementById('pageHome').classList.remove('hidden'); 
-        document.getElementById('pageRiwayat').classList.add('hidden'); 
-      } else { 
-        document.getElementById('pageHome').classList.add('hidden'); 
-        document.getElementById('pageRiwayat').classList.remove('hidden'); 
-      } 
-      window.loadSummary(); 
-    };
-
-    window.aplikasikanDataKeUI = function(res) { 
-      document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0"; 
-      document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0"; 
-      document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0"; 
-      databaseRiwayatRaw = res.riwayat || []; 
-      window.buatOpsiFilterBulanModal(); 
-      window.renderHalamanRiwayatUtama(); 
-      window.prosesFilterKategoriBulanUtama(); 
-      window.renderGrafikTrenBulanan(res.trenBulananRaw || {}); 
-    };
-
-    window.loadSummary = function() { 
-      const localCache = localStorage.getItem('app_keuangan_cache'); 
-      if (localCache) { 
-        try { 
-          window.aplikasikanDataKeUI(JSON.parse(localCache)); 
-        } catch(e){} 
-      } 
-      const script = document.createElement('script'); 
-      script.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime(); 
-      document.body.appendChild(script); 
-    };
-
-    window.handleGoogleData = function(res) { 
-      document.getElementById('iconReload').classList.remove('animate-spin'); 
-      if (res) { 
-        localStorage.setItem('app_keuangan_cache', JSON.stringify(res)); 
-        window.aplikasikanDataKeUI(res); 
-      } 
-    };
-
-    window.renderHalamanRiwayatUtama = function() { 
-      const list = document.getElementById('listRiwayat'); 
-      if (!list) return; 
-      list.innerHTML = ""; 
-      if (databaseRiwayatRaw.length > 0) { 
-        const data = databaseRiwayatRaw.slice(0, 3); 
-        let html = ''; 
-        data.forEach((item, idx) => { 
-          const isM = item.jenis === "Pemasukan"; 
-          html += `<div onclick="window.bukaOpsiAksiTransaksi(${idx})" class="flex items-center justify-between py-3 px-1 border-b border-slate-50 cursor-pointer"><div class="flex items-center gap-3"><div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs ${isM ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}"><i class="fa-solid ${isM ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i></div><div><h4 class="text-[13px] font-bold text-slate-800">${item.keterangan}</h4><span class="text-[9px] text-slate-400 font-bold uppercase">${item.kategori} &bull; ${formatTanggalIndo(item.tanggal)}</span></div></div><span class="text-xs font-bold ${isM ? 'text-emerald-600' : 'text-slate-800'}">${isM ? '+' : '-'} Rp ${parseInt(item.nominal).toLocaleString('id-ID')}</span></div>`; 
-        }); 
-        list.innerHTML = `<div class="bg-white p-3 rounded-3xl border border-slate-100">${html}</div>`; 
-        document.getElementById('loadingRiwayat').classList.add('hidden'); 
-        list.classList.remove('hidden'); 
-      } 
-    };
-
-    window.prosesFilterKategoriBulanUtama = function() { 
-      const bulan = document.getElementById('filterBulanUtamaHidden').value; 
-      const grafik = {}; 
-      daftarKategoriPengeluaran.forEach(k => grafik[k] = 0); 
-      (databaseRiwayatRaw || []).filter(i => bulan === "ALL" || (i.tanggal && i.tanggal.startsWith(bulan))).forEach(i => { 
-        if (i.jenis !== "Pemasukan") { 
-          const k = daftarKategoriPengeluaran.find(kat => kat.includes(i.kategori)) || "📦 Lainnya"; 
-          grafik[k] = (grafik[k] || 0) + parseInt(i.nominal || 0); 
-        } 
-      }); 
-      window.renderGrafik(grafik); 
-    };
-
-    window.renderGrafik = function(grafik) { 
-      const ctx = document.getElementById('chartPengeluaran'); 
-      const legend = document.getElementById('customLegendContainer'); 
-      if (!ctx || !legend) return;
-      legend.innerHTML = ""; 
-      const L = Object.keys(grafik), V = Object.values(grafik); 
-      const T = V.reduce((a, b) => a + b, 0); 
-      document.getElementById('chartCenterTotal').innerText = "Rp " + T.toLocaleString('id-ID'); 
-      if (myChartInstance !== null) myChartInstance.destroy(); 
-      const activeL = L.filter((_, i) => V[i] > 0), activeV = V.filter(v => v > 0), colors = activeL.map((_, i) => daftarWarna[i % daftarWarna.length]); 
-      activeL.forEach((kat, i) => { 
-        legend.insertAdjacentHTML('beforeend', `<div class="flex items-center justify-between w-full text-[12px] font-semibold"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background-color:${colors[i]}"></span><span class="text-slate-600">${kat}</span></div><span class="text-slate-800">${((activeV[i]/T)*100).toFixed(0)}%</span></div>`); 
-      }); 
-      myChartInstance = new Chart(ctx, { 
-        type: 'doughnut', 
-        data: { labels: activeL, datasets: [{ data: activeV, backgroundColor: colors, borderWidth: 2, borderColor: '#ffffff' }] }, 
-        options: { cutout: '75%', plugins: { legend: { display: false } } } 
-      }); 
-    };
-
-    window.renderGrafikTrenBulanan = function(tren) { 
-      const ctx = document.getElementById('chartTrenBulanan'); 
-      if (!ctx) return;
-      const keys = Object.keys(tren || {}).sort(); 
-      if (myBarChartInstance !== null) myBarChartInstance.destroy(); 
-      myBarChartInstance = new Chart(ctx, { 
-        type: 'bar', 
-        data: { 
-          labels: keys.map(k => k.split('-')[1]), 
-          datasets: [{ label: 'Masuk', data: keys.map(k => tren[k].masuk), backgroundColor: '#10b981' }, { label: 'Keluar', data: keys.map(k => tren[k].keluar), backgroundColor: '#f43f5e' }] 
-        }, 
-        options: { plugins: { legend: { position: 'top' } } } 
-      }); 
-    };
-
-    window.buatOpsiFilterBulanModal = function() {
-      const selectUtama = document.getElementById('filterBulanUtamaHidden'); 
-      const selectModal = document.getElementById('filterBulanModal'); 
-      if (!selectUtama || !selectModal) return;
-      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal ? i.tanggal.toString().substring(0, 7) : ""))].filter(k => k !== "");
-      let htmlUtama = '<option value="ALL">Semua Periode</option>'; 
-      let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
-      keys.sort().reverse().forEach(k => { 
-        const p = k.split('-'); 
-        const namaBulan = namaBulanIndoFull[parseInt(p[1])-1]; 
-        htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`; 
-        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`; 
-      });
-      selectUtama.innerHTML = htmlUtama; 
-      selectModal.innerHTML = htmlModal;
-    };
-
-    window.bukaPilihanPeriodeHalamanUtama = function() {
-      const select = document.getElementById('filterBulanUtamaHidden'); 
-      const nilaiSekarang = select.value; 
-      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
-      for (let i = 0; i < select.options.length; i++) { 
-        const val = select.options[i].value; 
-        const txt = select.options[i].text; 
-        const isSelected = val === nilaiSekarang; 
-        listHTML += `<button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'}"><span class="text-sm">${txt}</span>${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}</button>`; 
-      }
-      listHTML += `</div>`; 
-      Swal.fire({ 
-        title: 'Pilih Periode Analisis', 
-        html: listHTML, 
-        showConfirmButton: false, 
-        showCancelButton: true, 
-        cancelButtonText: 'Tutup', 
-        cancelButtonColor: '#f1f5f9', 
-        background: '#ffffff', 
-        customClass: { popup: 'premium-bottom-sheet' } 
-      });
-    };
-
-    window.setPeriodeHalamanUtamaDariList = function(val, txt) { 
-      document.getElementById('filterBulanUtamaHidden').value = val; 
-      document.getElementById('labelPeriodeUtama').innerText = txt; 
-      window.prosesFilterKategoriBulanUtama(); 
-      Swal.close(); 
-    };
-
-    window.bukaPilihanPeriodeModal = function() {
-      const select = document.getElementById('filterBulanModal'); 
-      const nilaiSekarang = select.value; 
-      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
-      for (let i = 0; i < select.options.length; i++) { 
-        const val = select.options[i].value; 
-        const txt = select.options[i].text; 
-        const isSelected = val === nilaiSekarang; 
-        listHTML += `<button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'}"><span class="text-sm">${txt}</span>${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}</button>`; 
-      }
-      listHTML += `</div>`; 
-      Swal.fire({ 
-        title: 'Pilih Periode Laporan', 
-        html: listHTML, 
-        showConfirmButton: false, 
-        showCancelButton: true, 
-        cancelButtonText: 'Tutup', 
-        customClass: { popup: 'premium-bottom-sheet' } 
-      });
-    };
-
-    window.setPeriodeModalDariList = function(val, txt) { 
-      document.getElementById('filterBulanModal').value = val; 
-      document.getElementById('labelPeriodeTerpilih').innerText = txt; 
-      window.renderListModalSesuaiBulan(); 
-      Swal.close(); 
-    };
-
-    window.renderListModalSesuaiBulan = function() {
-      const listModalContainer = document.getElementById('listRiwayatPenuhModal'); 
-      const bulanTerpilih = document.getElementById('filterBulanModal').value; 
-      if (!listModalContainer) return; 
-      listModalContainer.innerHTML = "";
       
-      let dataHasilFilterBulan = databaseRiwayatRaw || []; 
-      if (bulanTerpilih !== "ALL") { 
-        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih)); 
+      for (let y = AppTahunSekarang - 5; y <= AppTahunSekarang + 5; y++) {
+        const isSelected = y === instance.currentYear;
+        htmlListTahun += `
+          <button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+          }">
+            <span class="text-sm">Tahun ${y}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      }
+      htmlListTahun += `</div>`;
+      
+      Swal.fire({
+        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setTahunKalenderDariSheet = function(angkaTahun) {
+      if (instanceFlatpickr) {
+        instanceFlatpickr.jumpToDate(new Date(angkaTahun, instanceFlatpickr.currentMonth, 1), false);
+      }
+      Swal.close();
+    };
+
+    window.pilihJenisTab = function(jenisTerpilih) {
+      document.getElementById('jenis').value = jenisTerpilih;
+      
+      const btnKeluar = document.getElementById('btnTabPengeluaran');
+      const btnMasuk = document.getElementById('btnTabPemasukan');
+      
+      if (jenisTerpilih === 'Pengeluaran') {
+        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm";
+        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700";
+      } else {
+        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-emerald-600 shadow-sm";
+        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700";
       }
       
-      document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi"; 
-      if(dataHasilFilterBulan.length === 0) { 
-        listModalContainer.innerHTML = "<div class='text-slate-400 py-6 text-center text-xs font-semibold'>Tidak ada transaksi di periode ini.</div>"; 
+      window.updateKategoriOptions();
+    };
+
+    window.bukaBottomSheetPilihanKategori = function() {
+      const jenis = document.getElementById('jenis').value;
+      const opsiKategori = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran : daftarKategoriPemasukan;
+      const kategoriSaatIni = document.getElementById('kategori').value;
+      
+      let htmlPilihanKategori = `<div class="grid grid-cols-1 gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      
+      opsiKategori.forEach(kat => {
+        const isSelected = kat === kategoriSaatIni;
+        htmlPilihanKategori += `
+          <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+          }">
+            <span class="text-sm">${kat}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-base"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      });
+      htmlPilihanKategori += `</div>`;
+      
+      Swal.fire({
+        title: 'Pilih Kategori Dana', html: htmlPilihanKategori, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setKategoriDariBottomSheet = function(kategoriTerpilih) {
+      document.getElementById('kategori').value = kategoriTerpilih;
+      document.getElementById('txtKategoriTerpilihLabel').innerText = kategoriTerpilih;
+      Swal.close();
+    };
+
+    window.updateKategoriOptions = function() {
+      const jenis = document.getElementById('jenis').value;
+      const opsiDefault = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran[0] : daftarKategoriPemasukan[0];
+      
+      document.getElementById('kategori').value = opsiDefault;
+      document.getElementById('txtKategoriTerpilihLabel').innerText = opsiDefault;
+    };
+
+    window.tukarHalaman = function(menu) {
+      const pageHome = document.getElementById('pageHome');
+      const pageRiwayat = document.getElementById('pageRiwayat');
+      const navHome = document.getElementById('navHome');
+      const navRiwayat = document.getElementById('navRiwayat');
+      const btnBukaDetail = document.getElementById('btnBukaDetail');
+
+      if (menu === 'home') {
+        pageHome.classList.remove('hidden');
+        pageRiwayat.classList.add('hidden');
+        if(btnBukaDetail) btnBukaDetail.classList.add('hidden'); 
+        navHome.classList.replace('text-slate-400', 'text-emerald-600');
+        navRiwayat.classList.replace('text-emerald-600', 'text-slate-400');
+        window.loadSummary(); 
+      } else if (menu === 'riwayat') {
+        pageHome.classList.add('hidden');
+        pageRiwayat.classList.remove('hidden');
+        if(btnBukaDetail && databaseRiwayatRaw.length > 0) btnBukaDetail.classList.remove('hidden'); 
+        navRiwayat.classList.replace('text-slate-400', 'text-emerald-600');
+        navHome.classList.replace('text-emerald-600', 'text-slate-400');
+        window.loadSummary();
+      }
+    };
+
+    window.aplikasikanDataKeUI = function(res) {
+      document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
+      document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
+      document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
+      
+      databaseRiwayatRaw = res.riwayat || [];
+      window.buatOpsiFilterBulanModal();
+      
+      const hariIni = new Date();
+      const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
+      const selectUtama = document.getElementById('filterBulanUtamaHidden');
+      
+      if (selectUtama) {
+        const adaBulanIni = Array.from(selectUtama.options).some(o => o.value === formatKunciBulanIni);
+        if (adaBulanIni) {
+          selectUtama.value = formatKunciBulanIni;
+          const opsiDitemukan = Array.from(selectUtama.options).find(o => o.value === formatKunciBulanIni);
+          document.getElementById('labelPeriodeUtama').innerText = opsiDitemukan.text;
+        } else {
+          selectUtama.value = selectUtama.options[0] ? selectUtama.options[0].value : "ALL";
+          document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0] ? selectUtama.options[0].text : "Tampilkan Semua";
+        }
+      }
+      
+      window.renderHalamanRiwayatUtama();
+      window.prosesFilterKategoriBulanUtama();
+      window.renderGrafikTrenBulanan(res.trenBulananRaw || {});
+    };
+
+    window.loadSummary = function() {
+      const localCache = localStorage.getItem('app_keuangan_cache');
+      if (localCache) {
+        try {
+          const resCached = JSON.parse(localCache);
+          window.aplikasikanDataKeUI(resCached); 
+        } catch(e) {
+          console.log("Gagal memproses cache.");
+        }
+      }
+
+      const oldScript = document.getElementById('google-jsonp-script');
+      if (oldScript) oldScript.remove();
+      const script = document.createElement('script');
+      script.id = 'google-jsonp-script';
+      script.src = API_URL + "?callback=handleGoogleData&ts=" + new Date().getTime();
+      document.body.appendChild(script);
+    };
+
+    window.handleGoogleData = function(res) {
+      const icon = document.getElementById('iconReload');
+      if (icon) icon.classList.remove('animate-spin');
+      if (res) {
+        localStorage.setItem('app_keuangan_cache', JSON.stringify(res));
+        window.aplikasikanDataKeUI(res);
+      }
+    };
+
+    window.renderHalamanRiwayatUtama = function() {
+      const listContainer = document.getElementById('listRiwayat');
+      if (!listContainer) return;
+      listContainer.innerHTML = "";
+
+      const btnBukaDetail = document.getElementById('btnBukaDetail');
+      const pageRiwayatAktif = !document.getElementById('pageRiwayat').classList.contains('hidden');
+
+      if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
+        if (btnBukaDetail && pageRiwayatAktif) {
+          btnBukaDetail.classList.remove('hidden');
+        }
+
+        const dataTerbatasHalamanUtama = databaseRiwayatRaw.slice(0, 3);
+        let susunanHTMLItemRingkas = '';
+        
+        dataTerbatasHalamanUtama.forEach((item) => {
+          const isMasuk = item.jenis === "Pemasukan";
+          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
+          
+          susunanHTMLItemRingkas += `
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/80 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+              <div class="flex items-center gap-3 min-w-[70%]">
+                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                  <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+                </div>
+                <div class="truncate">
+                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
+                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
+                    ${item.kategori || "Umum"} &bull; ${formatTanggalIndo(item.tanggal)}
+                  </span>
+                </div>
+              </div>
+              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
+              </span>
+            </div>`;
+        });
+
+        listContainer.innerHTML = `
+          <div class="bg-white p-3 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-1">
+            <div class="divide-y divide-slate-100/60">${susunanHTMLItemRingkas}</div>
+          </div>`;
+
+        document.getElementById('loadingRiwayat').classList.add('hidden');
+        listContainer.classList.remove('hidden');
+      } else {
+        document.getElementById('loadingRiwayat').classList.add('hidden');
+        if (btnBukaDetail) btnBukaDetail.classList.add('hidden');
+        listContainer.innerHTML = `
+          <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center mb-1">
+            <p class="text-slate-400 text-xs font-semibold">Belum ada data transaksi kas tercatat.</p>
+          </div>`;
+        listContainer.classList.remove('hidden');
+      }
+    };
+
+    window.prosesFilterKategoriBulanUtama = function() {
+      const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
+      const dataKategoriGrafik = {};
+      daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
+
+      let dataHasilFilter = databaseRiwayatRaw || [];
+      if (bulanTerpilih !== "ALL") {
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
+      }
+
+      dataHasilFilter.forEach(item => {
+        if (item.jenis !== "Pemasukan") {
+          const itemKategoriRaw = item.kategori || "";
+          const kategoriCocok = daftarKategoriPengeluaran.find(kat => kat.includes(itemKategoriRaw) || itemKategoriRaw.includes(kat.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim()));
+          if (kategoriCocok) {
+            dataKategoriGrafik[kategoriCocok] = (dataKategoriGrafik[kategoriCocok] || 0) + parseInt(item.nominal || 0);
+          } else {
+            dataKategoriGrafik["📦 Lainnya"] = (dataKategoriGrafik["📦 Lainnya"] || 0) + parseInt(item.nominal || 0);
+          }
+        }
+      });
+
+      window.renderGrafik(dataKategoriGrafik);
+    };
+
+    window.renderGrafik = function(dataKategori) {
+      const canvasCtx = document.getElementById('chartPengeluaran');
+      const legendContainer = document.getElementById('customLegendContainer');
+      const textCenterTotal = document.getElementById('chartCenterTotal');
+      const noDataMsg = document.getElementById('noChartData');
+      if (!canvasCtx || !legendContainer) return;
+      
+      legendContainer.innerHTML = "";
+      const labels = Object.keys(dataKategori), values = Object.values(dataKategori);
+      const total = values.reduce((a, b) => a + b, 0);
+      textCenterTotal.innerText = "Rp " + total.toLocaleString('id-ID');
+
+      if (total === 0) { 
+        canvasCtx.parentNode.style.display = 'none'; 
+        noDataMsg.classList.remove('hidden'); 
         return; 
       }
       
-      const grupTransactionsModal = {}; 
-      dataHasilFilterBulan.forEach(item => { 
-        if(item.tanggal) { 
-          const tglStr = item.tanggal.toString(); 
-          if (!grupTransactionsModal[tglStr]) grupTransactionsModal[tglStr] = []; 
-          grupTransactionsModal[tglStr].push(item); 
-        } 
+      canvasCtx.parentNode.style.display = 'flex'; 
+      noDataMsg.classList.add('hidden');
+      if (myChartInstance !== null) myChartInstance.destroy();
+
+      const labelsAktif = labels.filter((_, idx) => values[idx] > 0);
+      const valuesAktif = values.filter(v => v > 0);
+      const warnaTerpakai = labelsAktif.map((_, idx) => daftarWarna[idx % daftarWarna.length]);
+
+      labelsAktif.forEach((kat, i) => {
+          const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
+          legendContainer.insertAdjacentHTML('beforeend', `
+            <div class="flex items-center justify-between w-full text-[12px] py-0.5 font-semibold">
+              <div class="flex items-center gap-1.5 min-w-[55%]">
+                <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
+                <span class="text-slate-600 font-bold tracking-tight">${kat}</span>
+              </div>
+              <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-[10px]">
+                ${persen}% <span class="text-[9px] text-slate-400 font-medium">(${Math.round(valuesAktif[i]/1000)}k)</span>
+              </span>
+            </div>`);
       });
+
+      myChartInstance = new Chart(canvasCtx, {
+        type: 'doughnut',
+        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: '#ffffff' }] },
+        options: {
+          cutout: '75%', responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true, displayColors: false, callbacks: { label: (ctx) => " Rp " + ctx.raw.toLocaleString('id-ID'), title: (t) => t[0].label } },
+            datalabels: { display: false } 
+          }
+        }
+      });
+    };
+
+    window.renderGrafikTrenBulanan = function(dataTrenObj) {
+      const canvasCtx = document.getElementById('chartTrenBulanan');
+      if (!canvasCtx) return;
+
+      const keysBulan = Object.keys(dataTrenObj || {}).sort(); 
+      const namaBulanIndo = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
       
-      Object.keys(grupTransactionsModal).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
-        let susunanHTMLItemModal = ''; 
-        grupTransactionsModal[tgl].forEach(item => { 
-          const isMasuk = item.jenis === "Pemasukan"; 
-          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item); 
-          susunanHTMLItemModal += `<div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer"><div class="flex items-center gap-3 min-w-[70%]"><div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}"><i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i></div><div class="truncate"><h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4><span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">${item.kategori || "Umum"}</span></div></div><span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}</span></div>`; 
-        });
-        listModalContainer.insertAdjacentHTML('beforeend', `<div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4"><div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 pb-2 mb-1 flex justify-between items-center"><span>${formatTanggalIndo(tgl)}</span><span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span></div><div class="divide-y divide-slate-100/60">${susunanHTMLItemModal}</div></div>`);
+      const labels = keysBulan.map(k => {
+        const parts = k.split('-');
+        return namaBulanIndo[parseInt(parts[1]) - 1] + " " + parts[0].substring(2);
+      });
+
+      const dataMasuk = keysBulan.map(k => dataTrenObj[k].masuk);
+      const dataKeluar = keysBulan.map(k => dataTrenObj[k].keluar);
+
+      if (myBarChartInstance !== null) myBarChartInstance.destroy();
+
+      myBarChartInstance = new Chart(canvasCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Masuk', data: dataMasuk, backgroundColor: '#10b981', borderRadius: 4, barThickness: 8 },
+            { label: 'Keluar', data: dataKeluar, backgroundColor: '#f43f5e', borderRadius: 4, barThickness: 8 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            y: { ticks: { font: { family: 'Urbanist', size: 9, weight: 'bold' }, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: '#f8fafc' } },
+            x: { ticks: { font: { family: 'Urbanist', size: 10, weight: '700' } }, grid: { display: false } }
+          },
+          plugins: {
+            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 10, weight: 'bold' } } },
+            datalabels: { display: false },
+            tooltip: { callbacks: { label: (ctx) => " " + ctx.dataset.label + ": Rp " + ctx.raw.toLocaleString('id-ID') } }
+          }
+        }
       });
     };
-
-    window.bukaModalDetailSemua = () => { 
-      const modal = document.getElementById('modalDetailTransaksi'); 
-      const box = modal.querySelector('div'); 
-      window.buatOpsiFilterBulanModal(); 
-      const hariIni = new Date(); 
-      const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0'); 
-      const select = document.getElementById('filterBulanModal'); 
-      const triggerLabel = document.getElementById('labelPeriodeTerpilih'); 
-      if (select) { 
-        const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni); 
-        if (opsiTersedia) { 
-          select.value = formatKunciBulanIni; 
-          if (triggerLabel) triggerLabel.innerText = Array.from(select.options).find(option => option.value === formatKunciBulanIni).text; 
-        } else { 
-          select.value = "ALL"; 
-          if (triggerLabel) triggerLabel.innerText = "Tampilkan Semua"; 
-        } 
-      } 
-      window.renderListModalSesuaiBulan(); 
-      modal.classList.remove('hidden'); 
-      setTimeout(() => { 
-        modal.classList.remove('opacity-0'); 
-        if(box) box.classList.remove('translate-y-full'); 
-      }, 20); 
-    };
-
-    window.tutupModalDetailSemua = () => { 
-      const modal = document.getElementById('modalDetailTransaksi'); 
-      const box = modal.querySelector('div'); 
-      modal.classList.add('opacity-0'); 
-      if(box) box.classList.add('translate-y-full'); 
-      setTimeout(() => { modal.classList.add('hidden'); }, 300); 
-    };
-
-    function dapatkanDataTerfilterModal() { 
-      const bulanTerpilih = document.getElementById('filterBulanModal').value; 
-      let dataHasilFilter = databaseRiwayatRaw || []; 
-      if (bulanTerpilih !== "ALL") { 
-        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih)); 
-      } 
-      return { data: dataHasilFilter, periodeText: document.getElementById('labelPeriodeTerpilih').innerText }; 
-    }
-
-    function bersihkanIkonEmoji(teksRaw) { 
-      if (!teksRaw) return "Umum"; 
-      return teksRaw.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim(); 
-    }
 
     window.bukaOpsiAksiTransaksi = function(indexDataAsli) {
-      const item = databaseRiwayatRaw[indexDataAsli]; 
+      const item = databaseRiwayatRaw[indexDataAsli];
       if (!item) return;
-      Swal.fire({ 
-        title: 'Kelola Transaksi', 
-        text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, 
-        icon: 'question', 
-        showDenyButton: true, 
-        showCancelButton: true, 
-        confirmButtonText: 'Edit Data', 
-        denyButtonText: 'Hapus', 
-        cancelButtonText: 'Batal', 
-        confirmButtonColor: '#10b981', 
-        denyButtonColor: '#f43f5e', 
-        cancelButtonColor: '#94a3b8' 
-      }).then((result) => { 
-        if (result.isConfirmed) { 
-          window.prosesModalEditTransaksiForm(indexDataAsli); 
-        } else if (result.isDenied) { 
-          window.prosesHapusTransaksiKirimServer(indexDataAsli); 
-        } 
+
+      Swal.fire({
+        title: 'Kelola Transaksi', text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit Data', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e', cancelButtonColor: '#94a3b8',
+        customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist border border-slate-100', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
+      }).then((result) => {
+        if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexDataAsli); } 
+        else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexDataAsli); }
       });
     };
 
     window.prosesModalEditTransaksiForm = function(indexDataAsli) {
       const item = databaseRiwayatRaw[indexDataAsli];
-      Swal.fire({ 
-        title: 'Edit Data Keuangan', 
-        html: `<div class="flex flex-col gap-4 text-left font-urbanist p-1"><div><label class="block text-xs font-bold text-slate-400 uppercase mb-1">Keterangan Baru</label><input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700"></div><div><label class="block text-xs font-bold text-slate-400 uppercase mb-1">Nominal Baru (Rp)</label><input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700"></div></div>`, 
-        showCancelButton: true, 
-        confirmButtonText: 'Simpan', 
-        confirmButtonColor: '#10b981', 
-        cancelButtonText: 'Batal', 
-        cancelButtonColor: '#94a3b8', 
-        preConfirm: () => { 
-          const ketInput = document.getElementById('swalEditKeterangan').value.trim(); 
-          const nomInput = document.getElementById('swalEditNominal').value.replace(/[^0-9]/g, ''); 
-          if (!ketInput) { Swal.showValidationMessage('Keterangan kosong!'); return false; } 
-          if (!nomInput || parseInt(nomInput) <= 0) { Swal.showValidationMessage('Nominal minimal 1!'); return false; } 
-          return { keterangan: ketInput, nominal: nomInput }; 
-        } 
-      }).then((result) => { 
-        if (result.isConfirmed) { 
-          Swal.fire({ title: 'Memperbarui...', allowOutsideClick: false, didOpen: () => Swal.showLoading() }); 
-          const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexDataAsli; 
-          fetch(API_URL + "?action=update&index=" + indexBalikBarisSheet, { method: "POST", body: JSON.stringify(result.value) }).then(() => { 
-            Swal.fire({ icon: 'success', title: 'Diubah!', timer: 1500, showConfirmButton: false }); 
-            window.loadSummary(); 
-          }); 
-        } 
+      Swal.fire({
+        title: 'Edit Data Keuangan',
+        html: `
+          <div class="flex flex-col gap-4 text-left font-urbanist p-1">
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Keterangan Baru</label>
+              <input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Nominal Baru (Rp)</label>
+              <input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700">
+            </div>
+          </div>`,
+        showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#10b981', cancelButtonText: 'Batal', cancelButtonColor: '#94a3b8',
+        customClass: { popup: 'rounded-[2.2rem] p-6 shadow-xl border border-slate-100', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' },
+        preConfirm: () => {
+          const ketInput = document.getElementById('swalEditKeterangan').value.trim();
+          const nomInput = document.getElementById('swalEditNominal').value.replace(/[^0-9]/g, '');
+          if (!ketInput) { Swal.showValidationMessage('Keterangan kosong!'); return false; }
+          if (!nomInput || parseInt(nomInput) <= 0) { Swal.showValidationMessage('Nominal minimal 1!'); return false; }
+          return { keterangan: ketInput, nominal: nomInput };
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Memperbarui...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexDataAsli;
+          fetch(API_URL + "?action=update&index=" + indexBalikBarisSheet, { method: "POST", body: JSON.stringify(result.value) }).then(() => {
+            Swal.fire({ icon: 'success', title: 'Diubah!', timer: 1500, showConfirmButton: false }); window.loadSummary();
+          });
+        }
       });
     };
 
     window.prosesHapusTransaksiKirimServer = function(indexDataAsli) {
-      Swal.fire({ title: 'Hapus Transaksi?', text: 'Data akan hilang permanen.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Hapus', confirmButtonColor: '#f43f5e', cancelButtonText: 'Batal' }).then((result) => { 
-        if (result.isConfirmed) { 
-          Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() }); 
-          const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexDataAsli; 
-          fetch(API_URL + "?action=delete&index=" + indexBalikBarisSheet, { method: "POST" }).then(() => { 
-            Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false }); 
-            window.loadSummary(); 
-          }); 
-        } 
+      Swal.fire({
+        title: 'Hapus Transaksi?', text: 'Data akan hilang permanen.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Hapus', confirmButtonColor: '#f43f5e', cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          const indexBalikBarisSheet = databaseRiwayatRaw.length - 1 - indexDataAsli;
+          fetch(API_URL + "?action=delete&index=" + indexBalikBarisSheet, { method: "POST" }).then(() => {
+            Swal.fire({ icon: 'success', title: 'Terhapus!', timer: 1500, showConfirmButton: false }); window.loadSummary();
+          });
+        }
       });
     };
 
+    window.buatOpsiFilterBulanModal = function() {
+      const selectUtama = document.getElementById('filterBulanUtamaHidden');
+      const selectModal = document.getElementById('filterBulanModal');
+      if (!selectUtama || !selectModal) return;
+      
+      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const keys = [...new Set(databaseRiwayatRaw.map(i => i.tanggal ? i.tanggal.toString().substring(0, 7) : ""))].filter(k => k !== "");
+      
+      let htmlUtama = '<option value="ALL">Semua Periode</option>';
+      let htmlModal = '<option value="ALL">Tampilkan Semua</option>';
+      
+      keys.sort().reverse().forEach(k => {
+        const p = k.split('-');
+        const namaBulan = bulan[parseInt(p[1])-1];
+        htmlUtama += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+        // FIX ERROR TANDA KUTIP: Memperbaiki tanda petik tunggal terbalik di ujung kode baris ini agar JavaScript terbaca normal
+        htmlModal += `<option value="${k}">${namaBulan} ${p[0]}</option>`;
+      });
+      
+      selectUtama.innerHTML = htmlUtama;
+      selectModal.innerHTML = htmlModal;
+    };
+
+    window.bukaPilihanPeriodeHalamanUtama = function() {
+      const select = document.getElementById('filterBulanUtamaHidden');
+      const nilaiSekarang = select.value;
+      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      for (let i = 0; i < select.options.length; i++) {
+        const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
+        listHTML += `
+          <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          }">
+            <span class="text-sm">${txt}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      }
+      listHTML += `</div>`;
+      Swal.fire({
+        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setPeriodeHalamanUtamaDariList = function(val, txt) {
+      document.getElementById('filterBulanUtamaHidden').value = val;
+      document.getElementById('labelPeriodeUtama').innerText = txt;
+      window.prosesFilterKategoriBulanUtama();
+      Swal.close();
+    };
+
+    window.bukaPilihanPeriodeModal = function() {
+      const select = document.getElementById('filterBulanModal');
+      const nilaiSekarang = select.value;
+      let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      for (let i = 0; i < select.options.length; i++) {
+        const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
+        listHTML += `
+          <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
+            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+          }">
+            <span class="text-sm">${txt}</span>
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
+          </button>`;
+      }
+      listHTML += `</div>`;
+      Swal.fire({
+        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+      });
+    };
+
+    window.setPeriodeModalDariList = function(val, txt) {
+      document.getElementById('filterBulanModal').value = val;
+      document.getElementById('labelPeriodeTerpilih').innerText = txt;
+      window.renderListModalSesuaiBulan();
+      Swal.close();
+    };
+
+    window.renderListModalSesuaiBulan = function() {
+      const listModalContainer = document.getElementById('listRiwayatPenuhModal');
+      const bulanTerpilih = document.getElementById('filterBulanModal').value;
+      if (!listModalContainer) return;
+      listModalContainer.innerHTML = "";
+
+      let dataHasilFilterBulan = databaseRiwayatRaw || [];
+      if (bulanTerpilih !== "ALL") {
+        dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
+      }
+
+      document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " Transaksi";
+
+      if(dataHasilFilterBulan.length === 0) {
+        listModalContainer.innerHTML = "<div class='text-slate-400 py-6 text-center text-xs font-semibold'>Tidak ada transaksi di periode ini.</div>";
+        return;
+      }
+
+      const grupTransactionsModal = {};
+      dataHasilFilterBulan.forEach(item => {
+        if(item.tanggal) {
+          const tglStr = item.tanggal.toString();
+          if (!grupTransactionsModal[tglStr]) grupTransactionsModal[tglStr] = [];
+          grupTransactionsModal[tglStr].push(item);
+        }
+      });
+
+      Object.keys(grupTransactionsModal).sort((a,b) => new Date(b) - new Date(a)).forEach(tgl => {
+        let susunanHTMLItemModal = '';
+        grupTransactionsModal[tgl].forEach(item => {
+          const isMasuk = item.jenis === "Pemasukan";
+          const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
+          
+          susunanHTMLItemModal += `
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+              <div class="flex items-center gap-3 min-w-[70%]">
+                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50' : 'text-rose-600 bg-rose-50'}">
+                  <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
+                </div>
+                <div class="truncate">
+                  <h4 class="text-[13px] font-bold text-slate-800 truncate mb-0.5">${item.keterangan || "-"}</h4>
+                  <span class="inline-block text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide ${isMasuk ? 'text-emerald-700 bg-emerald-50/70' : 'text-slate-500 bg-slate-100'}">
+                    ${item.kategori || "Umum"}
+                  </span>
+                </div>
+              </div>
+              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800'}">
+                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
+              </span>
+            </div>`;
+        });
+
+        listModalContainer.insertAdjacentHTML('beforeend', `
+          <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
+            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 pb-2 mb-1 flex justify-between items-center">
+              <span>${formatTanggalIndo(tgl)}</span>
+              <span class="text-[10px] font-semibold lowercase text-slate-300">${tgl}</span>
+            </div>
+            <div class="divide-y divide-slate-100/60">${susunanHTMLItemModal}</div>
+          </div>`);
+      });
+    };
+
+    window.resetSemuaData = function() {
+      Swal.fire({
+        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs text-slate-600 transition-all active:scale-95 focus:ring-0' }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: 'Cleaning...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          fetch(API_URL + "?action=reset", { method: "POST" })
+            .then(() => { 
+              localStorage.removeItem('app_keuangan_cache'); 
+              Swal.fire({ icon: 'success', title: 'Data Direset!', text: 'Semua data kas berhasil dibersihkan.', timer: 1500, showConfirmButton: false });
+              window.loadSummary(); 
+            })
+            .catch((err) => {
+              Swal.close();
+              Swal.fire({ icon: 'error', title: 'Gagal Bersihkan', text: err.toString() });
+            });
+        }
+      });
+    };
+
+    window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
+    window.tombolReloadPintar = () => { document.getElementById('iconReload').classList.add('animate-spin'); window.loadSummary(); window.tukarHalaman('home'); };
+
+    window.handleForm = function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSimpan'); 
+      btn.disabled = true; 
+      
+      Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      
+      const tglMentahValue = document.getElementById('tanggal_mentntah').value;
+      const data = { 
+        tanggal: tglMentahValue, 
+        jenis: document.getElementById('jenis').value, 
+        kategori: document.getElementById('kategori').value, 
+        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
+        keterangan: document.getElementById('keterangan').value || "-" 
+      };
+      
+      fetch(API_URL, { method: "POST", body: JSON.stringify(data) })
+        .then(() => { 
+          btn.disabled = false; 
+          document.getElementById('formKeuangan').reset(); 
+          
+          const hariIni = new Date();
+          if (instanceFlatpickr) {
+            instanceFlatpickr.setDate(hariIni, false); 
+          }
+          sinkronisasiNilaiTanggalMentah(hariIni);
+          
+          window.pilihJenisTab('Pengeluaran'); 
+          window.loadSummary();
+          Swal.close();
+        })
+        .catch((err) => {
+          btn.disabled = false;
+          Swal.fire({ icon: 'error', title: 'Gagal menyimpan', text: err.toString() });
+        });
+    };
+    
+    window.bukaModalDetailSemua = () => { 
+      const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
+      window.buatOpsiFilterBulanModal();
+      
+      const hariIni = new Date(); const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
+      const select = document.getElementById('filterBulanModal'); const triggerLabel = document.getElementById('labelPeriodeTerpilih');
+      if (select) {
+        const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
+        if (opsiTersedia) { select.value = formatKunciBulanIni; if (triggerLabel) triggerLabel.innerText = Array.from(select.options).find(option => option.value === formatKunciBulanIni).text; } 
+        else { select.value = "ALL"; if (triggerLabel) triggerLabel.innerText = "Tampilkan Semua"; }
+      }
+      window.renderListModalSesuaiBulan(); modal.classList.remove('hidden'); 
+      setTimeout(() => { modal.classList.remove('opacity-0'); if(box) box.classList.remove('translate-y-full'); }, 20); 
+    };
+
+    window.tutupModalDetailSemua = () => { 
+      const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
+      modal.classList.add('opacity-0'); if(box) box.classList.add('translate-y-full');
+      setTimeout(() => { modal.classList.add('hidden'); }, 300); 
+    };
+    
+    function dapatkanDataTerfilterModal() {
+      const bulanTerpilih = document.getElementById('filterBulanModal').value;
+      let dataHasilFilter = databaseRiwayatRaw || [];
+      if (bulanTerpilih !== "ALL") {
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
+      }
+      return {
+        data: dataHasilFilter,
+        periodeText: document.getElementById('labelPeriodeTerpilih').innerText
+      };
+    }
+
+    function bersihkanIkonEmoji(teksRaw) {
+      if (!teksRaw) return "Umum";
+      return teksRaw.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
+    }
+
     window.unduhPDF = function() {
       try {
-        if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
-        const { data, periodeText } = dapatkanDataTerfilterModal(); 
-        if (data.length === 0) { 
-          Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' }); 
-          return; 
+        if (window.jspdf && window.jspdf.jsPDF) {
+          window.jsPDF = window.jspdf.jsPDF;
         }
+
+        const { data, periodeText } = dapatkanDataTerfilterModal();
+        
+        if (data.length === 0) {
+          Swal.fire({ icon: 'warning', title: 'Gagal Ekspor', text: 'Tidak ada data transaksi untuk diekspor pada periode ini.', confirmButtonColor: '#10b981' });
+          return;
+        }
+
         Swal.fire({ title: 'Menyiapkan PDF...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-        
-        let akumulasiMasuk = 0; 
-        let akumulasiKeluar = 0; 
-        data.forEach(item => { 
-          const nominalInt = parseInt(item.nominal) || 0; 
-          if (item.jenis === "Pemasukan") akumulasiMasuk += nominalInt; 
-          else akumulasiKeluar += nominalInt; 
-        }); 
+
+        let akumulasiMasuk = 0;
+        let akumulasiKeluar = 0;
+        data.forEach(item => {
+          const nominalInt = parseInt(item.nominal) || 0;
+          if (item.jenis === "Pemasukan") akumulasiMasuk += nominalInt;
+          else akumulasiKeluar += nominalInt;
+        });
         const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
-        
-        const { jsPDF } = window.jspdf; 
+
+        const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
         
-        doc.setFont("Helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(5, 150, 105); doc.text("LAPORAN KEUANGAN", 14, 20);
-        doc.setFont("Helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(100, 116, 139); doc.text(`Periode Laporan: ${periodeText}`, 14, 27); doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 32);
-        doc.setDrawColor(241, 245, 249); doc.setLineWidth(0.4); doc.line(14, 37, 196, 37);
-        doc.setFillColor(248, 250, 252); doc.roundedRect(14, 42, 56, 20, 3, 3, "F"); doc.roundedRect(75, 42, 56, 20, 3, 3, "F"); doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
-        doc.setFontSize(8); doc.setFont("Helvetica", "bold"); doc.setTextColor(148, 163, 184); doc.text("TOTAL PEMASUKAN", 18, 47); doc.text("TOTAL PENGELUARAN", 79, 47); doc.text("SALDO BERSIH", 140, 47);
-        doc.setFontSize(11); doc.setTextColor(16, 185, 129); doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55); doc.setTextColor(244, 63, 94); doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
+        doc.setFont("Helvetica", "bold");
+        doc.setFontSize(20);
+        doc.setTextColor(5, 150, 105); 
+        doc.text("LAPORAN KEUANGAN", 14, 20);
         
-        if (netSaldoBersih >= 0) { doc.setTextColor(30, 41, 59); } else { doc.setTextColor(244, 63, 94); } doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
+        doc.setFont("Helvetica", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(100, 116, 139); 
+        doc.text(`Periode Laporan: ${periodeText}`, 14, 27);
+        doc.text(`Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 32);
         
-        const barisTabel = data.map((item, indeks) => { 
-          const isMasuk = item.jenis === "Pemasukan"; 
-          const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID'); 
-          return [indeks + 1, formatTanggalFormal(item.tanggal), item.keterangan || "-", bersihkanIkonEmoji(item.kategori), item.jenis, nominalFormat]; 
+        doc.setDrawColor(241, 245, 249);
+        doc.setLineWidth(0.4);
+        doc.line(14, 37, 196, 37);
+
+        doc.setFillColor(248, 250, 252); 
+        doc.roundedRect(14, 42, 56, 20, 3, 3, "F");
+        doc.roundedRect(75, 42, 56, 20, 3, 3, "F");
+        doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
+
+        doc.setFontSize(8);
+        doc.setFont("Helvetica", "bold");
+        doc.setTextColor(148, 163, 184); 
+        doc.text("TOTAL PEMASUKAN", 18, 47);
+        doc.text("TOTAL PENGELUARAN", 79, 47);
+        doc.text("SALDO BERSIH", 140, 47);
+
+        doc.setFontSize(11);
+        doc.setTextColor(16, 185, 129); 
+        doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55);
+        doc.setTextColor(244, 63, 94); 
+        doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
+        
+        if (netSaldoBersih >= 0) {
+          doc.setTextColor(30, 41, 59);
+        } else {
+          doc.setTextColor(244, 63, 94);
+        }
+        doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
+
+        const barisTabel = data.map((item, indeks) => {
+          const isMasuk = item.jenis === "Pemasukan";
+          const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
+          return [
+            indeks + 1,
+            formatTanggalFormal(item.tanggal),
+            item.keterangan || "-",
+            bersihkanIkonEmoji(item.kategori), 
+            item.jenis,
+            nominalFormat
+          ];
         });
-        
-        doc.autoTable({ 
-          startY: 68, 
-          head: [['No', 'Tanggal', 'Keterangan / Nota', 'Kategori', 'Jenis', 'Nominal']], 
-          body: barisTabel, 
-          theme: 'grid', 
-          headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9.5, cellPadding: 3.5 }, 
-          bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 }, 
-          alternateRowStyles: { fillColor: [250, 250, 250] }, 
-          styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 }, 
-          columnStyles: { 0: { cellWidth: 12, halign: 'center', styles: { cellPadding: 2 } }, 1: { cellWidth: 32 }, 3: { cellWidth: 28 }, 4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' }, 5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' } }, 
-          didParseCell: function(cellData) { 
-            if (cellData.section === 'body') { 
-              if (cellData.column.index === 4) { 
-                if (cellData.cell.raw === "Pemasukan") cellData.cell.styles.textColor = [5, 150, 105]; 
-                else cellData.cell.styles.textColor = [244, 63, 94]; 
-              } 
-              if (cellData.column.index === 5) { 
-                if (cellData.cell.raw && typeof cellData.cell.raw === 'string' && cellData.cell.raw.startsWith("+")) { 
+
+        doc.autoTable({
+          startY: 68,
+          head: [['No', 'Tanggal', 'Keterangan / Nota', 'Kategori', 'Jenis', 'Nominal']],
+          body: barisTabel,
+          theme: 'grid',
+          headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9.5, cellPadding: 3.5 },
+          bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
+          alternateRowStyles: { fillColor: [250, 250, 250] },
+          styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
+          columnStyles: {
+            0: { cellWidth: 12, halign: 'center', styles: { cellPadding: 2 } },
+            1: { cellWidth: 32 },
+            3: { cellWidth: 28 },
+            4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' },
+            5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' }
+          },
+          didParseCell: function(cellData) {
+            if (cellData.section === 'body') {
+              if (cellData.column.index === 4) {
+                if (cellData.cell.raw === "Pemasukan") cellData.cell.styles.textColor = [5, 150, 105];
+                else cellData.cell.styles.textColor = [244, 63, 94];
+              }
+              if (cellData.column.index === 5) {
+                if (cellData.cell.raw && typeof cellData.cell.raw === 'string' && cellData.cell.raw.startsWith("+")) {
                   cellData.cell.styles.textColor = [5, 150, 105]; 
-                } else { 
+                } else {
                   cellData.cell.styles.textColor = [30, 41, 59]; 
-                } 
-              } 
-            } 
-          }, 
-          didDrawPage: function(dataPage) { 
-            doc.setFontSize(8); doc.setFont("Helvetica", "normal"); doc.setTextColor(148, 163, 184); doc.text(`Halaman ${dataPage.pageNumber}`, dataPage.settings.margin.left, doc.internal.pageSize.height - 10); 
-          } 
+                }
+              }
+            }
+          },
+          didDrawPage: function(dataPage) {
+            doc.setFontSize(8);
+            doc.setFont("Helvetica", "normal");
+            doc.setTextColor(148, 163, 184);
+            doc.text(`Halaman ${dataPage.pageNumber}`, dataPage.settings.margin.left, doc.internal.pageSize.height - 10);
+          }
         });
-        Swal.close(); 
+
+        Swal.close();
         doc.save(`Laporan_Keuangan_${periodeText.replace(/ /g, "_")}.pdf`);
-      } catch (error) { 
-        Swal.close(); 
-        Swal.fire({ icon: 'error', title: 'Gagal Ekspor PDF', text: 'Detail Kendala: ' + error.message, confirmButtonColor: '#f43f5e' }); 
+      } catch (error) {
+        Swal.close();
+        Swal.fire({ icon: 'error', title: 'Gagal Ekspor PDF', text: 'Detail Kendala: ' + error.message + '. Pastikan tidak membukanya di dalam browser internal aplikasi chat seperti WhatsApp.', confirmButtonColor: '#f43f5e' });
+        console.error(error);
       }
     };
 
+    // FITUR UTAMA UNDUH EXCEL DENGAN PEWARNAAN TABEL PREMIUM & USER FRIENDLY
     window.unduhExcel = function() {
       try {
         const { data, periodeText } = dapatkanDataTerfilterModal();
@@ -945,6 +1319,7 @@
         });
         const sumSaldoBersih = sumMasuk - sumKeluar;
 
+        // Menyusun dokumen XML/HTML Spreadsheet murni untuk dibaca secara native oleh Microsoft Excel
         let excelTemplate = `
           <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
           <head>
@@ -954,11 +1329,17 @@
               .title { font-size: 16pt; font-weight: bold; color: #047857; }
               .subtitle { font-size: 10pt; color: #64748b; }
               .header-section { font-size: 11pt; font-weight: bold; background-color: #f1f5f9; color: #1e293b; text-align: left; }
+              
+              /* Style Tabel Data Utama */
               table { border-collapse: collapse; width: 100%; }
               th { background-color: #059669; color: #ffffff; font-weight: bold; font-size: 10pt; border: 1px solid #10b981; padding: 8px; text-align: center; }
-              td { border: 1px solid #e2e8f0; font-size: 10pt; padding: 6px; }
+              td { border: 1px solid #cbd5e1; font-size: 10pt; padding: 6px; }
+              
+              /* Skema Warna Baris Selang-Seling (Zebra Pattern) */
               .baris-genap { background-color: #f8fafc; }
               .baris-ganjil { background-color: #ffffff; }
+              
+              /* Finansial Highlighting (User Friendly) */
               .pemasukan-text { color: #059669; font-weight: bold; }
               .pengeluaran-text { color: #b91c1c; font-weight: bold; }
               .text-right { text-align: right; }
@@ -971,11 +1352,13 @@
               <tr><td colspan="6" class="subtitle">Periode Dokumen: ${periodeText}</td></tr>
               <tr><td colspan="6" class="subtitle">Tanggal Unduh: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td></tr>
               <tr><td colspan="6"></td></tr>
-              <tr><td colspan="3" class="header-section" style="background-color: #e2e8f0;">RINGKASAN AKUMULASI DANA PERIODE</td><td colspan="3" style="background-color: #e2e8f0;"></td></tr>
-              <tr><td colspan="2">Total Akumulasi Pemasukan</td><td class="pemasukan-text text-right" colspan="2">Rp ${sumMasuk.toLocaleString('id-ID')}</td><td colspan="2"></td></tr>
-              <tr><td colspan="2">Total Akumulasi Pengeluaran</td><td class="pengeluaran-text text-right" colspan="2">Rp ${sumKeluar.toLocaleString('id-ID')}</td><td colspan="2"></td></tr>
-              <tr><td colspan="2" style="font-weight:bold;">Total Saldo Bersih (Net)</td><td class="text-right" colspan="2" style="font-weight:bold; color:${sumSaldoBersih >= 0 ? '#059669' : '#b91c1c'}">Rp ${sumSaldoBersih.toLocaleString('id-ID')}</td><td colspan="2"></td></tr>
+              
+              <tr><td colspan="3" class="header-section" style="background-color: #e2e8f0; border: 1px solid #cbd5e1;">RINGKASAN AKUMULASI DANA PERIODE</td><td colspan="3" style="background-color: #e2e8f0; border: 1px solid #cbd5e1;"></td></tr>
+              <tr><td colspan="2" style="border: 1px solid #cbd5e1;">Total Akumulasi Pemasukan</td><td class="pemasukan-text text-right" colspan="2" style="border: 1px solid #cbd5e1;">Rp ${sumMasuk.toLocaleString('id-ID')}</td><td colspan="2" style="border: 1px solid #cbd5e1;"></td></tr>
+              <tr><td colspan="2" style="border: 1px solid #cbd5e1;">Total Akumulasi Pengeluaran</td><td class="pengeluaran-text text-right" colspan="2" style="border: 1px solid #cbd5e1;">Rp ${sumKeluar.toLocaleString('id-ID')}</td><td colspan="2" style="border: 1px solid #cbd5e1;"></td></tr>
+              <tr><td colspan="2" style="font-weight:bold; border: 1px solid #cbd5e1;">Total Saldo Bersih (Net)</td><td class="text-right" colspan="2" style="font-weight:bold; border: 1px solid #cbd5e1; color:${sumSaldoBersih >= 0 ? '#059669' : '#b91c1c'}">Rp ${sumSaldoBersih.toLocaleString('id-ID')}</td><td colspan="2" style="border: 1px solid #cbd5e1;"></td></tr>
               <tr><td colspan="6"></td></tr>
+              
               <thead>
                 <tr>
                   <th style="width: 50px;">No</th>
@@ -989,6 +1372,7 @@
               <tbody>
         `;
 
+        // Menyusun baris transaksi dengan CSS selang-seling dan pewarnaan finansial dinamis
         data.forEach((item, indeks) => {
           const kelasBaris = (indeks % 2 === 0) ? 'baris-genap' : 'baris-ganjil';
           const isMasuk = item.jenis === "Pemasukan";
@@ -1014,65 +1398,24 @@
           </html>
         `;
 
+        // Mengubah string HTML Template menjadi blob dataURI agar langsung dipicu sebagai berkas .xls murni ber-style
         const blobExcel = new Blob([excelTemplate], { type: 'application/vnd.ms-excel;charset=utf-8;' });
         const urlUnduh = URL.createObjectURL(blobExcel);
+        
         const tautanPemicu = document.createElement("a");
         tautanPemicu.href = urlUnduh;
         tautanPemicu.download = `Laporan_Keuangan_Premium_${periodeText.replace(/ /g, "_")}.xls`;
+        
         document.body.appendChild(tautanPemicu);
         tautanPemicu.click();
         document.body.removeChild(tautanPemicu);
+
         Swal.close();
       } catch (error) {
         Swal.close();
         Swal.fire({ icon: 'error', title: 'Gagal Ekspor Excel', text: 'Detail: ' + error.message, confirmButtonColor: '#f43f5e' });
+        console.error(error);
       }
-    };
-
-    window.formatInputRupiah = function(i) {
-      i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
-    };
-
-    window.tombolReloadPintar = function() {
-      document.getElementById('iconReload').classList.add('animate-spin'); 
-      window.loadSummary(); 
-      window.tukarHalaman('home');
-    };
-
-    window.handleForm = function(e) {
-      e.preventDefault(); 
-      const btn = document.getElementById('btnSimpan'); 
-      btn.disabled = true;
-      Swal.fire({ title: 'Menyimpan...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-      const data = { 
-        tanggal: document.getElementById('tanggal_mentah').value, 
-        jenis: document.getElementById('jenis').value, 
-        kategori: document.getElementById('kategori').value, 
-        nominal: document.getElementById('nominal').value.replace(/\./g, ''), 
-        keterangan: document.getElementById('keterangan').value || "-" 
-      };
-      fetch(API_URL, { method: "POST", body: JSON.stringify(data) }).then(() => { 
-        btn.disabled = false; 
-        document.getElementById('formKeuangan').reset(); 
-        const h = new Date(); 
-        if (instanceFlatpickr) { instanceFlatpickr.setDate(h, false); } 
-        sinkronisasiNilaiTanggalMentah(h); 
-        window.pilihJenisTab('Pengeluaran'); 
-        window.loadSummary(); 
-        Swal.close(); 
-      }).catch((err) => { 
-        btn.disabled = false; 
-        Swal.fire({ icon: 'error', title: 'Gagal menyimpan', text: err.toString() }); 
-      });
-    };
-
-    window.resetSemuaData = function() {
-      Swal.fire({ title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal' }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({ title: 'Cleaning...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-          fetch(API_URL + "?action=reset", { method: "POST" }).then(() => { localStorage.removeItem('app_keuangan_cache'); Swal.fire({ icon: 'success', title: 'Data Direset!', timer: 1500, showConfirmButton: false }); window.loadSummary(); }).catch((err) => { Swal.close(); Swal.fire({ icon: 'error', title: 'Gagal Bersihkan', text: err.toString() }); });
-        }
-      });
     };
   </script>
 </body>
