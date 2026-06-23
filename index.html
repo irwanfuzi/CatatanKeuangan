@@ -164,7 +164,7 @@
       color: #10b981 !important;
     }
 
-    /* REKAYASA MODERN SAKLAR PERUBAHAN STYLE - MODE GELAP PREMIUM DENGAN KELAS KUSTOM STANDAR (.dark) */
+    /* ENGINE MODE GELAP PREMIUM */
     body.dark {
       background-color: #0b0f19; 
     }
@@ -232,7 +232,6 @@
       background-color: #1a2336 !important;
     }
     
-    /* OPTIMASI TOMBOL SIMPAN TRANSAKSI (PRIMARY CTA) DI MODE GELAP AGAR GLOWING & INTERAKTIF */
     body.dark #btnSimpan {
       background-color: #059669 !important;
       box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.3) !important; 
@@ -243,7 +242,6 @@
       box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.45) !important;
     }
     
-    /* Tombol Reset Data mawar lembut pada mode gelap */
     body.dark .btn-reset-data {
       background-color: rgba(244, 63, 94, 0.08) !important; 
       border-color: rgba(244, 63, 94, 0.2) !important;
@@ -253,7 +251,6 @@
       background-color: rgba(244, 63, 94, 0.15) !important;
     }
     
-    /* Kalender Flatpickr dalam Mode Gelap */
     body.dark .flatpickr-calendar {
       background: #131b2e !important;
       border-color: #1e293b !important;
@@ -275,7 +272,6 @@
       color: #4b5563 !important;
     }
     
-    /* Pop up Konfirmasi SweetAlert dalam Mode Gelap */
     body.dark .swal2-popup {
       background: #131b2e !important;
       border: 1px solid #1e293b !important;
@@ -288,7 +284,6 @@
       color: #cbd5e1 !important;
     }
     
-    /* Bottom Sheet Pilihan Modal Kategori & Periode Laporan Latar Belakang Modern */
     body.dark .premium-bottom-sheet {
       background: linear-gradient(180deg, #161f33, #0e1422) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -315,6 +310,24 @@
       background-color: #1a2336 !important;
       color: #94a3b8 !important;
       border-color: rgba(255, 255, 255, 0.04) !important;
+    }
+
+    /* KUSTOMISASI EKSPOR PDF DAN EXCEL KETIKA MODE GELAP AKTIF (GLASS-TRANSLUCENT NEON EFFECT) */
+    body.dark button[onclick="window.unduhPDF()"] {
+      background-color: rgba(244, 63, 94, 0.09) !important;
+      border-color: rgba(244, 63, 94, 0.25) !important;
+      color: #fca5a5 !important;
+    }
+    body.dark button[onclick="window.unduhPDF()"]:active {
+      background-color: rgba(244, 63, 94, 0.18) !important;
+    }
+    body.dark button[onclick="window.unduhExcel()"] {
+      background-color: rgba(16, 185, 129, 0.09) !important;
+      border-color: rgba(16, 185, 129, 0.25) !important;
+      color: #6ee7b7 !important;
+    }
+    body.dark button[onclick="window.unduhExcel()"]:active {
+      background-color: rgba(16, 185, 129, 0.18) !important;
     }
   </style>
 </head>
