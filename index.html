@@ -312,7 +312,7 @@
       border-color: rgba(255, 255, 255, 0.04) !important;
     }
 
-    /* KUSTOMISASI EKSPOR PDF DAN EXCEL KETIKA MODE GELAP AKTIF (GLASS-TRANSLUCENT NEON EFFECT) */
+    /* KUSTOMISASI EKSPOR NEON GLASS-TRANSLUCENT MODE GELAP */
     body.dark button[onclick="window.unduhPDF()"] {
       background-color: rgba(244, 63, 94, 0.09) !important;
       border-color: rgba(244, 63, 94, 0.25) !important;
@@ -919,22 +919,23 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-1 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
-                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
+                <div class="w-10 h-10 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <h4 class="text-[13px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1 leading-tight">${item.keterangan || "-"}</h4>
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="inline-block text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
+                  <!-- OPTIMASI UKURAN FONT UTAMA MENJADI JAUH LEBIH READABLE -->
+                  <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
                       ${item.kategori || "Umum"}
                     </span>
-                    <span class="text-[9px] font-medium text-slate-400 dark:text-slate-500">${formatTanggalIndo(item.tanggal)}</span>
+                    <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">${formatTanggalIndo(item.tanggal)}</span>
                   </div>
                 </div>
               </div>
-              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
+              <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
@@ -1257,19 +1258,20 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemModal += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
-                <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
+                <div class="w-10 h-10 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <h4 class="text-[13px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1 leading-tight">${item.keterangan || "-"}</h4>
-                  <span class="inline-block text-[9px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
+                  <!-- SINKRONISASI UKURAN FONT DI DALAM MODAL RIWAYAT -->
+                  <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
+                  <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
                     ${item.kategori || "Umum"}
                   </span>
                 </div>
               </div>
-              <span class="text-xs font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
+              <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
@@ -1279,7 +1281,7 @@
           <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
             <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 pb-2 mb-1 flex justify-between items-center">
               <span>${formatTanggalIndo(tgl)}</span>
-              <span class="text-[10px] font-semibold lowercase text-slate-300 dark:text-slate-500">${tgl}</span>
+              <span class="text-[11px] font-semibold text-slate-300 dark:text-slate-500">${tgl}</span>
             </div>
             <div class="divide-y divide-slate-100/60">${susunanHTMLItemModal}</div>
           </div>`);
