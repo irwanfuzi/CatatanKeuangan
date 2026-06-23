@@ -10,6 +10,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
+  <!-- Load Tailwind & Konfigurasi Sinkronisasi Manual Dark Mode -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -28,11 +29,12 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 
+  <!-- Library Kalender Modern Flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2 family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Urbanist', sans-serif;
@@ -69,11 +71,11 @@
     
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
-      border-radius: 1.75rem !important;
-      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.15) !important;
+      border-radius: 2rem !important;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
-      padding: 14px !important;
-      width: 320px !important; 
+      padding: 16px !important;
+      width: 325px !important; 
       box-sizing: border-box !important;
     }
     .flatpickr-innerContainer {
@@ -102,11 +104,11 @@
       background: #059669 !important;
       border-color: #059669 !important;
       font-weight: 800 !important;
-      border-radius: 0.75rem !important;
+      border-radius: 0.85rem !important;
     }
     .flatpickr-day:hover {
       background: #ecfdf5 !important;
-      border-radius: 0.75rem !important;
+      border-radius: 0.85rem !important;
     }
     .flatpickr-day.today {
       border-color: #10b981 !important;
@@ -115,7 +117,7 @@
     }
     .flatpickr-months .flatpickr-month {
       color: #0f172a !important;
-      height: 44px !important;
+      height: 46px !important;
     }
 
     .flatpickr-current-month {
@@ -137,14 +139,14 @@
       background: #f1f5f9 !important;
       border: none !important;
       border-radius: 0.85rem !important;
-      padding: 7px 16px !important;
+      padding: 8px 16px !important;
       cursor: pointer !important;
       transition: all 0.2s ease !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
       gap: 5px !important;
-      min-width: 100px !important;
+      min-width: 102px !important;
     }
     .btn-pemicu-bulan:hover, .btn-pemicu-tahun:hover {
       background: #e2e8f0 !important;
@@ -156,7 +158,7 @@
     
     .flatpickr-months .flatpickr-prev-month, 
     .flatpickr-months .flatpickr-next-month {
-      top: 5px !important;
+      top: 6px !important;
       padding: 8px !important;
       color: #94a3b8 !important;
       transition: all 0.2s !important;
@@ -178,12 +180,12 @@
     body.dark #listRiwayatPenuhModal > div {
       background: linear-gradient(150deg, #111827, #0f172a) !important;
       border-color: #1e293b !important;
-      box-shadow: 0 20px 40px -15 rgba(0, 0, 0, 0.5) !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
     }
     body.dark .fixed-nav-island {
-      background-color: rgba(15, 23, 42, 0.8) !important;
+      background-color: rgba(15, 23, 42, 0.85) !important;
       border-color: rgba(255, 255, 255, 0.08) !important;
-      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4) !important;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.5) !important;
     }
     body.dark h3,
     body.dark h4,
@@ -235,7 +237,7 @@
     
     body.dark #btnSimpan {
       background-color: #059669 !important;
-      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4) !important; 
+      box-shadow: 0 12px 30px -5px rgba(16, 185, 129, 0.4) !important; 
     }
     
     body.dark .btn-reset-data {
@@ -282,9 +284,11 @@
   </style>
 </head>
 
-<body class="w-full min-h-screen flex flex-col pb-[115px]">
+<body class="w-full min-h-screen flex flex-col pb-[120px]">
 
+  <!-- TOP FINTECH PREMIUM BLOCK EXPANDED -->
   <div class="w-full bg-gradient-to-b from-slate-900 to-slate-800 p-6 text-white rounded-b-[2.5rem] shadow-xl flex flex-col relative overflow-hidden">
+    <!-- Neon Lighting Glow Effects -->
     <div class="absolute -right-10 -top-10 w-44 h-44 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
     
@@ -324,15 +328,18 @@
     </div>
   </div>
 
+  <!-- MAIN VIEW APP CHANNELS -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
-    <div id="pageHome" class="w-full bg-white p-5.5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.015)] border border-slate-100/80 mb-5">
-      <div class="flex items-center gap-2.5 mb-5.5">
+    <!-- CARD MODULE: FORM INPUT (DI-POLISH LEBIH RAPI & SIMETRIS) -->
+    <div id="pageHome" class="w-full bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.015)] border border-slate-100/80 mb-5">
+      <div class="flex items-center gap-2.5 mb-6">
         <div class="w-1.5 h-5 bg-emerald-500 rounded-full"></div>
         <h3 class="text-sm font-black text-slate-900 tracking-wider uppercase">Tambah Transaksi Baru</h3>
       </div>
 
       <form id="formKeuangan" onsubmit="window.handleForm(event)" class="space-y-5">
+        <!-- 1. TANGGAL -->
         <div>
           <label class="block text-xs font-bold text-slate-500 mb-2 tracking-wide uppercase">Tanggal Transaksi</label>
           <div class="relative">
@@ -344,6 +351,7 @@
           </div>
         </div>
 
+        <!-- 2. STREAM TAB BUTTON -->
         <div>
           <label class="block text-xs font-bold text-slate-500 mb-2 tracking-wide uppercase">Jenis Aliran Dana</label>
           <div class="w-full p-1.5 bg-slate-100 rounded-xl grid grid-cols-2 gap-2">
@@ -357,6 +365,7 @@
           </div>
         </div>
 
+        <!-- 3. KATEGORI -->
         <div>
           <label class="block text-xs font-bold text-slate-500 mb-2 tracking-wide uppercase">Pos Kategori</label>
           <div class="relative">
@@ -371,6 +380,7 @@
           </div>
         </div>
 
+        <!-- 4. NOMINAL -->
         <div>
           <label class="block text-xs font-bold text-slate-500 mb-2 tracking-wide uppercase">Nominal Transaksi</label>
           <div class="relative">
@@ -381,6 +391,7 @@
           </div>
         </div>
 
+        <!-- 5. KETERANGAN -->
         <div>
           <label class="block text-xs font-bold text-slate-500 mb-2 tracking-wide uppercase">Keterangan / Nota</label>
           <div class="relative">
@@ -407,9 +418,11 @@
       </button>
     </div>
 
+    <!-- APP STATEMENT ANALYTICS -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-5 mb-5 hidden">
       
-      <div class="w-full bg-white p-5.5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.015)] border border-slate-100/80">
+      <!-- 1. DONUT DIAGRAM CARD -->
+      <div class="w-full bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.015)] border border-slate-100/80">
         <div class="flex items-center justify-between mb-4.5">
           <div class="flex items-center gap-2">
             <div class="w-1.5 h-4.5 bg-rose-500 rounded-full"></div>
@@ -436,7 +449,8 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-5 bg-slate-50 rounded-xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
-      <div class="w-full bg-white p-5.5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.015)] border border-slate-100/80">
+      <!-- 2. MONTHLY BAR CHART TREND -->
+      <div class="w-full bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.015)] border border-slate-100/80">
         <div class="flex items-center gap-2 mb-4">
           <div class="w-1.5 h-4.5 bg-blue-500 rounded-full"></div>
           <h3 class="text-sm font-black text-slate-900 tracking-wider uppercase">Tren Keuangan Bulanan</h3>
@@ -446,6 +460,7 @@
         </div>
       </div>
 
+      <!-- 3. LIVE TRANSACTIONS RECORD -->
       <div class="w-full flex flex-col gap-3">
         <div class="flex items-center justify-between px-1.5">
           <h3 class="text-sm font-black text-slate-800 uppercase tracking-wider">Transaksi Terakhir</h3>
@@ -466,9 +481,11 @@
     </div>
   </div>
 
+  <!-- POPUP HISTORY SHEET MODAL VIEW -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/50 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
+      <!-- Header Modal -->
       <div class="w-full bg-white px-5 pt-4.5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-2.5">
           <button onclick="window.tutupModalDetailSemua()" class="w-9 h-9 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl focus:outline-none">
@@ -479,6 +496,7 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-xs bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
+      <!-- Filter Periode & Ekspor Laporan -->
       <div class="w-full bg-white px-5 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-4">
         <div>
           <label class="block text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -499,6 +517,7 @@
         </div>
       </div>
 
+      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -506,6 +525,7 @@
     </div>
   </div>
 
+  <!-- FLOATING NAVIGATION ISLAND FOOTER BAR -->
   <div class="fixed bottom-5 left-5 right-5 bg-slate-900/90 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/[0.06] py-3.5 px-12 flex justify-around z-50 fixed-nav-island">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-400 flex flex-col items-center min-w-[70px] focus:outline-none transition-all duration-300">
       <i class="fa-solid fa-wallet text-lg mb-1"></i>
@@ -518,6 +538,7 @@
     </button>
   </div>
 
+  <!-- SCRIPT LOGIC CORE CONTROL MODULES -->
   <script>                                                                                                    
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     
@@ -685,7 +706,7 @@
       Swal.fire({
         title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
         background: document.documentElement.classList.contains('dark') ? '#111827' : '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-black text-sm text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3.5 rounded-xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-black text-sm text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3 rounded-xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -715,7 +736,7 @@
       Swal.fire({
         title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
         background: document.documentElement.classList.contains('dark') ? '#111827' : '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-black text-sm text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3.5 rounded-xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-black text-sm text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3 rounded-xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -886,7 +907,7 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border-b border-slate-100/50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-3 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border-b border-slate-100/50 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-4 min-w-[62%]">
                 <div class="w-10 h-10 flex items-center justify-center rounded-xl text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -1053,7 +1074,7 @@
       Swal.fire({
         title: 'Kelola Transaksi', text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit Data', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e', cancelButtonColor: '#94a3b8',
         background: document.documentElement.classList.contains('dark') ? '#111827' : '#ffffff',
-        customClass: { popup: 'rounded-[1.75rem] p-5 shadow-xl font-urbanist border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
+        customClass: { popup: 'rounded-[1.75rem] p-5 shadow-xl border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
       }).then((result) => {
         if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexDataAsli); } 
         else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexDataAsli); }
@@ -1066,7 +1087,7 @@
         title: 'Edit Data Keuangan',
         background: document.documentElement.classList.contains('dark') ? '#111827' : '#ffffff',
         html: `
-          <div class="flex flex-col gap-4 text-left font-urbanist p-1">
+          <div class="flex flex-col gap-4 text-left p-1">
             <div>
               <label class="block text-sm font-bold text-slate-400 uppercase mb-1">Keterangan Baru</label>
               <input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500/30 font-bold text-slate-700 dark:text-slate-200">
@@ -1228,7 +1249,7 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemModal += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-3 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3.5 min-w-[70%]">
                 <div class="w-9 h-9 flex items-center justify-center rounded-lg text-sm flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -1522,8 +1543,10 @@
         worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } };
         worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
         worksheet.getCell('A5').border = {
-          top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-          bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
+          top: { style: 'thin', color: { argb: 'CBD5E1' } }, 
+          left: { style: 'thin', color: { argb: 'CBD5E1' } },
+          bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, 
+          right: { style: 'thin', color: { argb: 'CBD5E1' } }
         };
 
         const isiRingkasan = [
@@ -1542,8 +1565,10 @@
 
           [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => {
             worksheet.getCell(ref).border = {
-              top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
+              top: { style: 'thin', color: { argb: 'CBD5E1' } }, 
+              left: { style: 'thin', color: { argb: 'CBD5E1' } },
+              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, 
+              right: { style: 'thin', color: { argb: 'CBD5E1' } }
             };
           });
 
@@ -1564,8 +1589,10 @@
           cell.font = { name: 'Segoe UI', bold: true, color: { argb: 'FFFFFF' } };
           cell.alignment = { horizontal: 'center', vertical: 'middle' };
           cell.border = {
-            top: { style: 'thin', color: { argb: '10B981' } }, left: { style: 'thin', color: { argb: '10B981' } },
-            bottom: { style: 'thin', color: { argb: '10B981' } }, right: { style: 'thin', color: { argb: '10B981' } }
+            top: { style: 'thin', color: { argb: '10B981' } }, 
+            left: { style: 'thin', color: { argb: '10B981' } },
+            bottom: { style: 'thin', color: { argb: '10B981' } }, 
+            right: { style: 'thin', color: { argb: '10B981' } }
           };
         });
 
@@ -1590,8 +1617,10 @@
             cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } };
             cell.font = { name: 'Segoe UI', size: 10 };
             cell.border = {
-              top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
+              top: { style: 'thin', color: { argb: 'CBD5E1' } }, 
+              left: { style: 'thin', color: { argb: 'CBD5E1' } },
+              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, 
+              right: { style: 'thin', color: { argb: 'CBD5E1' } }
             };
 
             if (col === 1) cell.alignment = { horizontal: 'center' };
