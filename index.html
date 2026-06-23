@@ -10,6 +10,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
+  <!-- Load Tailwind & Konfigurasi Sinkronisasi Manual Dark Mode -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -28,6 +29,7 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 
+  <!-- Library Kalender Modern Flatpickr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
@@ -304,10 +306,12 @@
 
 <body class="w-full min-h-screen flex flex-col pb-[95px]">
 
+  <!-- TOP TOTAL WALLET BALANCE CARD -->
   <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
     
+    <!-- TOMBOL FITUR TOGGLE MODE GELAP -->
     <button onclick="window.toggleDarkMode()" class="absolute right-6 top-5 w-9 h-9 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all z-50 focus:outline-none">
       <i id="iconDarkMode" class="fa-solid fa-moon"></i>
     </button>
@@ -332,8 +336,10 @@
     </div>
   </div>
 
+  <!-- MAIN CONTAINER AREA -->
   <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
     
+    <!-- HALAMAN HOME (FORM INPUT TRANSAKSI) -->
     <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
       <div class="flex items-center gap-2 mb-6">
         <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -341,6 +347,7 @@
       </div>
 
       <form id="formKeuangan" onsubmit="window.handleForm(event)">
+        <!-- 1. INPUT TANGGAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Tanggal Transaksi</label>
           <div class="relative">
@@ -352,6 +359,7 @@
           </div>
         </div>
 
+        <!-- 2. JENIS ALIRAN DANA -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Jenis Aliran Dana</label>
           <div class="w-full p-1 bg-slate-100 rounded-2xl grid grid-cols-2 gap-1">
@@ -365,6 +373,7 @@
           </div>
         </div>
 
+        <!-- 3. POS KATEGORI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Pos Kategori</label>
           <div class="relative">
@@ -379,6 +388,7 @@
           </div>
         </div>
 
+        <!-- 4. INPUT NOMINAL TRANSAKSI -->
         <div class="mb-5">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Nominal Transaksi (Rp)</label>
           <div class="relative">
@@ -389,6 +399,7 @@
           </div>
         </div>
 
+        <!-- 5. INPUT KETERANGAN -->
         <div class="mb-6">
           <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Keterangan / Nota</label>
           <div class="relative">
@@ -415,8 +426,10 @@
       </button>
     </div>
 
+    <!-- HALAMAN RIWAYAT -->
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
+      <!-- 1. ANALISIS PENGELUARAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4">
           <div class="flex flex-col">
@@ -425,9 +438,10 @@
               <h3 class="text-base font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
             </div>
           </div>
-          <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200/60 rounded-xl text-[11px] font-bold text-slate-600 flex items-center gap-1 active:scale-95 transition-all">
+          <!-- PENYEMPURNAAN VISUAL: Tombol Pemilih Periode Kalender diberi utilitas dark mode -->
+          <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1 active:scale-95 transition-all focus:outline-none">
             <span id="labelPeriodeUtama">Bulan Ini</span>
-            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400"></i>
+            <i class="fa-solid fa-chevron-down text-[9px] text-slate-400 dark:text-slate-500"></i>
           </button>
           <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
         </div>
@@ -446,6 +460,7 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
+      <!-- 2. GRAFIK TREN KEUNGAN BULANAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex flex-col mb-4">
           <div class="flex items-center gap-2">
@@ -458,6 +473,7 @@
         </div>
       </div>
 
+      <!-- 3. TRANSAKSI TERAKHIR -->
       <div class="w-full flex flex-col gap-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-sm font-bold text-slate-800">Transaksi Terakhir</h3>
@@ -471,6 +487,7 @@
         
         <div id="listRiwayat" class="space-y-2.5 hidden"></div>
         
+        <!-- Tombol Utama Buka Riwayat Lengkap -->
         <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 hover:bg-slate-50 font-bold p-3.5 rounded-2xl shadow-sm text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-2 hidden">
           <span>Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
         </button>
@@ -478,12 +495,15 @@
     </div>
   </div>
 
+  <!-- MODAL FULL SCREEN: LIST RIWAYAT LENGKAP -->
   <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
     <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
       
+      <!-- Header Modal -->
       <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
         <div class="flex items-center gap-3">
-          <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-xl active:scale-95 transition-all">
+          <!-- PENYEMPURNAAN VISUAL: Tombol Silang (X) Penutup Modal diberi fitur warna dark mode adaptif -->
+          <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all focus:outline-none">
             <i class="fa-solid fa-xmark text-base"></i>
           </button>
           <h3 class="text-base font-bold text-slate-800">Riwayat Lengkap</h3>
@@ -491,6 +511,7 @@
         <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-full">0 Transaksi</span>
       </div>
 
+      <!-- Filter Periode & Ekspor Di Dalam Modal -->
       <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
         <div>
           <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Filter Periode Laporan</label>
@@ -511,6 +532,7 @@
         </div>
       </div>
 
+      <!-- Area Scroll Riwayat Penuh Modal -->
       <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
         <div id="listRiwayatPenuhModal" class="space-y-4"></div>
       </div>
@@ -518,6 +540,7 @@
     </div>
   </div>
 
+  <!-- TAB NAVIGATION MENUS -->
   <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
     <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
       <i class="fa-solid fa-house text-xl mb-1"></i>
@@ -595,6 +618,7 @@
 
       const statusModeGelapSimpanan = localStorage.getItem('app_dark_mode');
       if (statusModeGelapSimpanan === 'enabled') {
+        document.documentElement.classList.add('dark');
         document.body.classList.add('dark');
         window.updateIconVisualModeGelap(true);
       }
@@ -625,8 +649,14 @@
       window.loadSummary();
     });
 
+    // PENYEMPURNAAN SAKLAR SINKRONISASI: Menjamin ketersediaan class dark pada DOM Root HTML & Body
     window.toggleDarkMode = function() {
-      const modeGelapAktif = document.body.classList.toggle('dark');
+      const modeGelapAktif = document.documentElement.classList.toggle('dark');
+      if (modeGelapAktif) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
       localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
       window.updateIconVisualModeGelap(modeGelapAktif);
       
@@ -680,17 +710,18 @@
         const isSelected = indeks === instance.currentMonth;
         htmlListBulan += `
           <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400 font-bold' : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${namaBulan}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-700 dark:border-slate-600"></div>'}
           </button>`;
       });
       htmlListBulan += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3.5 rounded-2xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -709,17 +740,18 @@
         const isSelected = y === instance.currentYear;
         htmlListTahun += `
           <button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400 font-bold' : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">Tahun ${y}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-700 dark:border-slate-600"></div>'}
           </button>`;
       }
       htmlListTahun += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3.5 rounded-2xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -758,17 +790,18 @@
         const isSelected = kat === kategoriSaatIni;
         htmlPilihanKategori += `
           <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 border-emerald-300 text-emerald-800 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-semibold active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400 font-bold' : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${kat}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white"></div>'}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-700 dark:border-slate-600"></div>'}
           </button>`;
       });
       htmlPilihanKategori += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Kategori Dana', html: htmlPilihanKategori, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 pt-1 border-b border-slate-100 pb-3', cancelButton: 'w-full bg-slate-100 text-slate-500 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Kategori Dana', html: htmlPilihanKategori, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold py-3.5 rounded-2xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -1055,7 +1088,8 @@
 
       Swal.fire({
         title: 'Kelola Transaksi', text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit Data', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#10b981', denyButtonColor: '#f43f5e', cancelButtonColor: '#94a3b8',
-        customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist border border-slate-100', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'rounded-[2.2rem] p-5 shadow-xl font-urbanist border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', denyButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0', cancelButton: 'rounded-xl font-bold px-4 py-3 text-sm active:scale-95 focus:ring-0' }
       }).then((result) => {
         if (result.isConfirmed) { window.prosesModalEditTransaksiForm(indexDataAsli); } 
         else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(indexDataAsli); }
@@ -1066,6 +1100,7 @@
       const item = databaseRiwayatRaw[indexDataAsli];
       Swal.fire({
         title: 'Edit Data Keuangan',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
         html: `
           <div class="flex flex-col gap-4 text-left font-urbanist p-1">
             <div>
@@ -1078,7 +1113,7 @@
             </div>
           </div>`,
         showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#10b981', cancelButtonText: 'Batal', cancelButtonColor: '#94a3b8',
-        customClass: { popup: 'rounded-[2.2rem] p-6 shadow-xl border border-slate-100', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' },
+        customClass: { popup: 'rounded-[2.2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' },
         preConfirm: () => {
           const ketInput = document.getElementById('swalEditKeterangan').value.trim();
           const nomInput = document.getElementById('swalEditNominal').value.replace(/[^0-9]/g, '');
@@ -1100,7 +1135,8 @@
     window.prosesHapusTransaksiKirimServer = function(indexDataAsli) {
       Swal.fire({
         title: 'Hapus Transaksi?', text: 'Data akan hilang permanen.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Hapus', confirmButtonColor: '#f43f5e', cancelButtonText: 'Batal',
-        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' }
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', confirmButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95', cancelButton: 'rounded-xl font-bold px-5 py-3 text-sm active:scale-95' }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: 'Menghapus...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
@@ -1142,16 +1178,19 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400 font-bold' : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-700 dark:border-slate-600"></div>'}
           </button>`;
       }
       listHTML += `</div>`;
+      
+      // SAKLAR PERBAIKAN: Jendela Bottom Sheet untuk analisis tahunan/bulanan kini support dark mode seutuhnya
       Swal.fire({
-        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Periode Analisis', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -1170,16 +1209,19 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 border-slate-100 text-slate-700 font-medium active:bg-slate-100'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-400 font-bold' : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-100 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white"></div>'}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-700 dark:border-slate-600"></div>'}
           </button>`;
       }
       listHTML += `</div>`;
+      
+      // SAKLAR PERBAIKAN: Menambahkan konfigurasi dinamis background & cancelButton warna teks modal laporan agar tidak hilang
       Swal.fire({
-        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9', background: '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 pt-1 border-b pb-3', cancelButton: 'w-full bg-slate-100 text-slate-600 font-bold py-3.5 rounded-2xl text-sm border focus:ring-0 mt-2' }
+        title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-lg text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -1255,8 +1297,9 @@
 
     window.resetSemuaData = function() {
       Swal.fire({
-        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, background: '#ffffff', confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
-        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs text-slate-600 transition-all active:scale-95 focus:ring-0' }
+        title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, confirmButtonColor: '#f43f5e', cancelButtonColor: '#f1f5f9', confirmButtonText: 'Hapus Semua', cancelButtonText: 'Batal',
+        background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
+        customClass: { popup: 'rounded-[2rem] p-6 shadow-xl border border-slate-100 dark:border-slate-800', title: 'font-bold text-base text-slate-800 family-urbanist pt-2', htmlContainer: 'text-xs text-slate-500 family-urbanist px-2', confirmButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs transition-all active:scale-95 focus:ring-0', cancelButton: 'rounded-2xl font-bold px-6 py-3.5 text-xs text-slate-600 transition-all active:scale-95 focus:ring-0' }
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: 'Cleaning...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
