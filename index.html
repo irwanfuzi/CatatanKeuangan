@@ -158,9 +158,9 @@
       color: #10b981 !important;
     }
 
-    /* CSS CLASS KHUSUS MODE GELAP (DARK MODE OVERRIDES) */
+    /* REKAYASA MODERN SAKLAR PERUBAHAN STYLE - MODE GELAP PREMIUM */
     body.dark-mode {
-      background-color: #0f172a;
+      background-color: #0b0f19; /* Latar Belakang Midnight Deep Tone, Sangat Elegan */
     }
     body.dark-mode #pageHome,
     body.dark-mode #pageRiwayat > div,
@@ -169,16 +169,17 @@
     body.dark-mode #listRiwayat > div,
     body.dark-mode #listRiwayatPenuhModal > div,
     body.dark-mode .fixed.bottom-0 {
-      background-color: #1e293b !important;
-      border-color: #334155 !important;
+      background: linear-gradient(145deg, #131b2e, #111827) !important;
+      border-color: #1e293b !important;
+      box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
     }
     body.dark-mode h3,
     body.dark-mode h4,
     body.dark-mode #chartCenterTotal,
     body.dark-mode #txtTotalDataModal {
-      color: #f1f5f9 !important;
+      color: #f8fafc !important;
     }
-    body.dark-mode .text-slate-800 { color: #f1f5f9 !important; }
+    body.dark-mode .text-slate-800 { color: #e2e8f0 !important; }
     body.dark-mode .text-slate-700 { color: #cbd5e1 !important; }
     body.dark-mode .text-slate-600 { color: #94a3b8 !important; }
     
@@ -188,69 +189,86 @@
     body.dark-mode #modalDetailTransaksi .bg-slate-50\/60,
     body.dark-mode #noChartData,
     body.dark-mode #loadingRiwayat {
-      background-color: #0f172a !important;
-      border-color: #334155 !important;
-      color: #e2e8f0 !important;
+      background-color: #1a2336 !important;
+      border-color: #24324d !important;
+      color: #f8fafc !important;
+    }
+    body.dark-mode input::placeholder {
+      color: #4b5563 !important;
     }
     body.dark-mode .bg-slate-100 {
-      background-color: #334155 !important;
+      background-color: #1a2336 !important;
     }
     body.dark-mode #btnTabPengeluaran:not(.bg-white),
     body.dark-mode #btnTabPemasukan:not(.bg-white) {
-      color: #94a3b8 !important;
+      color: #64748b !important;
     }
     body.dark-mode #btnTabPengeluaran.bg-white,
     body.dark-mode #btnTabPemasukan.bg-white {
-      background-color: #0f172a !important;
+      background-color: #0b0f19 !important;
+      color: #f8fafc !important;
     }
     body.dark-mode #customLegendContainer {
-      border-left-color: #334155 !important;
+      border-left-color: #1e293b !important;
     }
     body.dark-mode #customLegendContainer .text-slate-600 {
-      color: #cbd5e1 !important;
+      color: #94a3b8 !important;
     }
     body.dark-mode .divide-slate-100\/60 > div {
-      border-bottom-color: #334155 !important;
+      border-bottom-color: #1e293b !important;
     }
     body.dark-mode #btnBukaDetail {
-      background-color: #1e293b !important;
-      border-color: #334155 !important;
+      background-color: #131b2e !important;
+      border-color: #1e293b !important;
+      color: #34d399 !important;
     }
+    body.dark-mode #btnBukaDetail:hover {
+      background-color: #1a2336 !important;
+    }
+    
+    /* Kalender Flatpickr dalam Mode Gelap */
     body.dark-mode .flatpickr-calendar {
-      background: #1e293b !important;
-      border-color: #334155 !important;
-      color: #f1f5f9 !important;
+      background: #131b2e !important;
+      border-color: #1e293b !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
     }
     body.dark-mode .flatpickr-day {
-      color: #cbd5e1 !important;
+      color: #e2e8f0 !important;
+    }
+    body.dark-mode .flatpickr-day:hover {
+      background: #1a2336 !important;
     }
     body.dark-mode .flatpickr-months .flatpickr-month,
     body.dark-mode .btn-pemicu-bulan,
     body.dark-mode .btn-pemicu-tahun {
-      color: #f1f5f9 !important;
-      background: #334155 !important;
+      color: #f8fafc !important;
+      background: #1a2336 !important;
     }
     body.dark-mode .flatpickr-weekday {
-      color: #94a3b8 !important;
+      color: #4b5563 !important;
     }
+    
+    /* Pop up Konfirmasi SweetAlert dalam Mode Gelap */
     body.dark-mode .swal2-popup {
-      background-color: #1e293b !important;
-      color: #f1f5f9 !important;
+      background: #131b2e !important;
+      border: 1px solid #1e293b !important;
     }
     body.dark-mode .swal2-title, body.dark-mode .swal2-html-container {
-      color: #f1f5f9 !important;
+      color: #f8fafc !important;
     }
     body.dark-mode .swal2-cancel {
-      background-color: #334155 !important;
+      background-color: #1a2336 !important;
       color: #cbd5e1 !important;
     }
+    
+    /* Bottom Sheet Pilihan Modal Kategori */
     body.dark-mode .premium-bottom-sheet button {
-      background-color: #0f172a !important;
-      border-color: #334155 !important;
-      color: #e2e8f0 !important;
+      background-color: #131b2e !important;
+      border-color: #1e293b !important;
+      color: #cbd5e1 !important;
     }
     body.dark-mode .premium-bottom-sheet button.bg-emerald-50 {
-      background-color: #047857 !important;
+      background-color: #059669 !important;
       border-color: #10b981 !important;
       color: #ffffff !important;
     }
@@ -517,7 +535,7 @@
     let myBarChartInstance = null; 
     let databaseRiwayatRaw = []; 
     let instanceFlatpickr = null;
-    let trenBulananRawGlobal = {}; // Menyimpan data grafik tren secara global untuk re-render instan saat ganti mode gelap
+    let trenBulananRawGlobal = {}; 
 
     Chart.register(ChartDataLabels);
 
@@ -567,7 +585,6 @@
         window.jsPDF = window.jspdf.jsPDF;
       }
 
-      // Cek Status Pilihan Mode Gelap Sebelumnya dari Storage Pengguna
       const statusModeGelapSimpanan = localStorage.getItem('app_dark_mode');
       if (statusModeGelapSimpanan === 'enabled') {
         document.body.classList.add('dark-mode');
@@ -600,13 +617,11 @@
       window.loadSummary();
     });
 
-    // FUNGSI INTI UNTUK TOGGLE MODE GELAP / MODE TERANG
     window.toggleDarkMode = function() {
       const modeGelapAktif = document.body.classList.toggle('dark-mode');
       localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
       window.updateIconVisualModeGelap(modeGelapAktif);
       
-      // Render ulang grafik agar penyesuaian warna teks/grid langsung diaplikasikan
       window.prosesFilterKategoriBulanUtama();
       window.renderGrafikTrenBulanan(trenBulananRawGlobal);
     };
@@ -793,7 +808,7 @@
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
       databaseRiwayatRaw = res.riwayat || [];
-      trenBulananRawGlobal = res.trenBulananRaw || {}; // Menyimpan data tren global
+      trenBulananRawGlobal = res.trenBulananRaw || {}; 
       window.buatOpsiFilterBulanModal();
       
       const hariIni = new Date();
@@ -866,7 +881,7 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/80 dark:hover:bg-slate-700/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3 px-1 hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border-b border-slate-50 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
                 <div class="w-9 h-9 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -969,7 +984,7 @@
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'doughnut',
-        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark-mode') ? '#1e293b' : '#ffffff' }] },
+        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark-mode') ? '#131b2e' : '#ffffff' }] },
         options: {
           cutout: '75%', responsive: true, maintainAspectRatio: false,
           plugins: {
@@ -998,9 +1013,8 @@
 
       if (myBarChartInstance !== null) myBarChartInstance.destroy();
 
-      // Penyesuaian Dinamis Warna Grafik untuk Mode Gelap / Mode Terang
       const apaModeGelap = document.body.classList.contains('dark-mode');
-      const warnaGarisGrid = apaModeGelap ? '#334155' : '#f8fafc';
+      const warnaGarisGrid = apaModeGelap ? '#1e293b' : '#f8fafc';
       const warnaLabelTeks = apaModeGelap ? '#94a3b8' : '#1e293b';
 
       myBarChartInstance = new Chart(canvasCtx, {
