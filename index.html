@@ -319,7 +319,7 @@
   <!-- MAIN SCROLLABLE DASHBOARD VIEW CONTAINER -->
   <div class="w-full px-4 mt-4 flex-grow" id="mainContainer">
     
-    <!-- APP HOME PAGE LAYOUT -->
+    <!-- CARD MODULE: INPUT BOX -->
     <div id="pageHome" class="w-full bg-white p-4.5 rounded-[1.5rem] shadow-[0_4px_20px_rgba(15,23,42,0.015)] border border-slate-100 mb-4">
       <div class="flex items-center gap-2 mb-4.5">
         <div class="w-1 h-5 bg-emerald-600 rounded-full"></div>
@@ -901,14 +901,12 @@
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <!-- DIOPTIMALKAN: UKURAN TEKS KETERANGAN DAN TANGGAL DIPERBESAR KONTRAST -->
                   <h4 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate mb-0.5 leading-tight">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-xs font-semibold text-slate-500 dark:text-slate-400 tracking-wide uppercase">
                     ${item.kategori || "Umum"} &bull; ${formatTanggalIndo(item.tanggal)}
                   </span>
                 </div>
               </div>
-              <!-- DIOPTIMALKAN: UKURAN NOMINAL LOG DI HALAMAN DEPAN DIPERBESAR LEBIH TEGAS -->
               <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
@@ -992,7 +990,6 @@
                 <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
                 <span class="text-slate-700 dark:text-slate-300 tracking-tight truncate text-xs">${kat}</span>
               </div>
-              <!-- DIOPTIMALKAN: PERSENTASE DAN NOMINAL LEBIH NYAMAN DILIRIK -->
               <span class="text-slate-800 font-bold text-right ml-1 flex-shrink-0 text-xs dark:text-slate-100">
                 ${persen}% <span class="text-[10px] text-slate-400 font-medium">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </span>
@@ -1195,7 +1192,7 @@
       Swal.fire({
         title: 'Pilih Periode Laporan', html: listHTML, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Tutup', cancelButtonColor: '#f1f5f9',
         background: document.documentElement.classList.contains('dark') ? '#131b2e' : '#ffffff',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3 rounded-xl text-xs border dark:border-slate-700 focus:ring-0 mt-2' }
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b dark:border-slate-800/80 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-xs border dark:border-slate-700 focus:ring-0 mt-2' }
       });
     };
 
@@ -1246,7 +1243,6 @@
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <!-- DIOPTIMALKAN: TEKS LOG RIWAYAT MODAL SHEET DIPERBESAR AGAR SANGAT NYAMAN DIBACA -->
                   <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 truncate mb-0.5 leading-tight">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-xs font-semibold text-slate-500 dark:text-slate-400">
                     ${item.kategori || "Umum"}
@@ -1536,7 +1532,7 @@
         worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
         worksheet.getCell('A5').border = {
           top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-          bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } };
+          bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
         };
 
         const isiRingkasan = [
