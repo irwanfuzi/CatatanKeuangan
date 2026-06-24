@@ -830,7 +830,7 @@
           window.buatPemicuKapsulKalenderCustom(instance);
         },
         onChange: function(selectedDates) {
-          sinkronisasiNilaiTanggalMentah(selectedDates[0]);
+          sinkronisasiNilaiTanggalMentntah(selectedDates[0]);
         }
       });
       
@@ -919,7 +919,7 @@
       });
     };
 
-    /* FIX MUTLAK KALENDER BULAN: Paksa sinkronisasi internal & redraw visual grid hari beserta judul */
+    /* PERBAIKAN: Setelah simpan bulan, paksa Flatpickr untuk tetap terbuka di layar */
     window.setBulanKalenderDariSheet = function(indeksBulan) {
       if (instanceFlatpickr) {
         instanceFlatpickr.currentMonth = indeksBulan;
@@ -927,6 +927,9 @@
         window.buatPemicuKapsulKalenderCustom(instanceFlatpickr);
       }
       Swal.close();
+      setTimeout(() => {
+        if (instanceFlatpickr) instanceFlatpickr.open();
+      }, 300);
     };
 
     window.bukaBottomSheetTahunKalender = function(instance) {
@@ -953,7 +956,7 @@
       });
     };
 
-    /* FIX MUTLAK KALENDER TAHUN: Paksa sinkronisasi internal & redraw visual grid hari beserta judul */
+    /* PERBAIKAN: Setelah simpan tahun, paksa Flatpickr untuk tetap terbuka di layar */
     window.setTahunKalenderDariSheet = function(angkaTahun) {
       if (instanceFlatpickr) {
         instanceFlatpickr.currentYear = angkaTahun;
@@ -961,6 +964,9 @@
         window.buatPemicuKapsulKalenderCustom(instanceFlatpickr);
       }
       Swal.close();
+      setTimeout(() => {
+        if (instanceFlatpickr) instanceFlatpickr.open();
+      }, 300);
     };
 
     window.pilihJenisTab = function(jenisTerpilih) {
@@ -1083,7 +1089,7 @@
           document.getElementById('labelPeriodeUtama').innerText = opsiDitemukan;
         } else {
           selectUtama.value = selectUtama.options[0] ? selectUtama.options[0].value : "ALL";
-          document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0] ? selectUtama.options[0].text : translations[currentLang].tampilkanSemua;
+          document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0] ? selectUtama.options[0].text : translations[currentLang].semuaPeriode;
         }
       }
       
