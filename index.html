@@ -286,17 +286,17 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <!-- MAIN CANVAS CONTAINER: FRAME RIGID ANTI GULUNG UNTUK DETEKSI POSISI MODAL DENGAN AKURAT -->
+  <!-- MAIN CANVAS CONTAINER -->
   <div id="appCanvasWrapper" class="w-full max-w-md h-screen md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.18)] overflow-hidden md:border md:border-slate-200/60 transition-all duration-300">
 
-    <!-- SCROLLABLE CONTENT LAYER: KHUSUS MENGGULUNG KONTEN DALAM TANPA GARIS SCROLL BAR -->
+    <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-grow overflow-y-auto hide-scrollbar pb-[105px]">
       
       <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden flex-shrink-0">
         <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
         <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
         
-        <!-- CONTROLLER SECTION V3: MENU DROPDOWN PADA TOMBOL BAHASA -->
+        <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
           <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5">
             <i class="fa-solid fa-globe text-white/80"></i>
@@ -675,19 +675,19 @@
       const tglInput = document.getElementById('tanggal');
       if (tglInput) tglInput.placeholder = translations[currentLang].pilihTgl;
       const ketInput = document.getElementById('keterangan');
-      if (ketInput) ketInput.placeholder = translations[currentLang].contohNota;
+      if (let Input = document.getElementById('keterangan')) ketInput.placeholder = translations[currentLang].contohNota;
 
       const switcherBtn = document.getElementById('txtLangLabel');
       if (switcherBtn) switcherBtn.innerText = currentLang.toUpperCase();
     };
 
-    /* ENGINE BARU V3: POP-UP BOTTOM SHEET PILIHAN BAHASA PREMIUM */
+    /* ENGINE DROPDOWN DENGAN REDESIGN BENDERA CDN ANTI BLANK DI LAPTOP */
     window.bukaBottomSheetBahasa = function() {
       let htmlListBahasa = `<div class="grid grid-cols-1 gap-2.5 text-left pt-2 px-1">`;
       
       const opsiBahasa = [
-        { kode: 'id', nama: '🇮🇩 Bahasa Indonesia' },
-        { kode: 'en', nama: '🇬🇧 English' }
+        { kode: 'id', nama: 'Bahasa Indonesia', bendera: 'https://flagcdn.com/24x18/id.png' },
+        { kode: 'en', nama: 'English', bendera: 'https://flagcdn.com/24x18/gb.png' }
       ];
       
       opsiBahasa.forEach(lang => {
@@ -698,7 +698,10 @@
               ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' 
               : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
           }">
-            <span class="text-sm">${lang.nama}</span>
+            <div class="flex items-center gap-3">
+              <img src="${lang.bendera}" class="w-5 h-3.5 object-cover rounded-sm shadow-[0_1px_3px_rgba(0,0,0,0.15)] flex-shrink-0" alt="">
+              <span class="text-sm">${lang.nama}</span>
+            </div>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
           </button>`;
       });
