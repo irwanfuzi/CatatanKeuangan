@@ -48,13 +48,12 @@
       z-index: 999999 !important;
     }
 
-    /* FIX STABILISASI TERAKHIR: KUNCI TINGGI MINIMUM NAVBAR AGAR TIDAK BISA DICRUSH JADI 0px */
     #mainFixedNavbar {
       z-index: 9999 !important;
       display: flex !important;
       background-color: #ffffff;
       flex-shrink: 0 !important; 
-      min-height: 65px !important; /* Jaminan mutlak space vertikal selalu tersedia */
+      min-height: 65px !important;
     }
     
     /* BOTTOM SHEET CONFIGURATION - RESPONSIVE FOR LAPTOP */
@@ -295,7 +294,7 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <!-- MAIN CANVAS CONTAINER (DIUBAH MENJADI overflow-x-hidden & overflow-y-clip AGAR TIDAK MEMOTONG NAVBAR) -->
+  <!-- MAIN CANVAS CONTAINER -->
   <div id="appCanvasWrapper" class="w-full max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.18)] overflow-x-hidden overflow-y-clip md:border md:border-slate-200/60 transition-all duration-300">
 
     <!-- SCROLLABLE CONTENT LAYER -->
@@ -920,9 +919,12 @@
       });
     };
 
+    /* FIX MUTLAK KALENDER BULAN: Paksa sinkronisasi internal & redraw visual grid hari beserta judul */
     window.setBulanKalenderDariSheet = function(indeksBulan) {
       if (instanceFlatpickr) {
-        instanceFlatpickr.jumpToDate(new Date(instanceFlatpickr.currentYear, indeksBulan, 1), false);
+        instanceFlatpickr.currentMonth = indeksBulan;
+        instanceFlatpickr.redraw();
+        window.buatPemicuKapsulKalenderCustom(instanceFlatpickr);
       }
       Swal.close();
     };
@@ -951,9 +953,12 @@
       });
     };
 
+    /* FIX MUTLAK KALENDER TAHUN: Paksa sinkronisasi internal & redraw visual grid hari beserta judul */
     window.setTahunKalenderDariSheet = function(angkaTahun) {
       if (instanceFlatpickr) {
-        instanceFlatpickr.jumpToDate(new Date(angkaTahun, instanceFlatpickr.currentMonth, 1), false);
+        instanceFlatpickr.currentYear = angkaTahun;
+        instanceFlatpickr.redraw();
+        window.buatPemicuKapsulKalenderCustom(instanceFlatpickr);
       }
       Swal.close();
     };
@@ -1533,7 +1538,7 @@
             })
             .catch((err) => {
               Swal.close();
-              Swal.fire({ icon: 'error', title: translations[currentLang].swalErrorReset, text: err.toString() });
+              Swal.fire({ icon: 'error', title: 'Gagal Bersihkan', text: err.toString() });
             });
         }
       });
