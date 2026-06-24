@@ -34,9 +34,10 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* DESKTOP BACKGROUND BACKDROP ENGINE */
     body {
       font-family: 'Urbanist', sans-serif;
-      background-color: #f8fafc;
+      background-color: #f1f5f9; 
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     body::-webkit-scrollbar {
@@ -61,6 +62,15 @@
       background: #ffffff;
     }
     
+    @media (min-width: 768px) {
+      .premium-bottom-sheet {
+        position: absolute !important;
+        left: 0 !important;
+        right: 0 !important;
+        max-width: 100% !important;
+      }
+    }
+    
     .hide-scrollbar::-webkit-scrollbar {
       display: none !important;
     }
@@ -77,7 +87,6 @@
       border-radius: 10px;
     }
     
-    /* FIX ANTI-FLICKER UNTUK TOMBOL BAHASA & THEME ENGINE */
     .tombol-kontrol-stabil {
       transform: translateZ(0);
       -webkit-transform: translateZ(0);
@@ -132,14 +141,18 @@
 
     /* ENGINE MODE GELAP PREMIUM */
     body.dark {
-      background-color: #0b0f19; 
+      background-color: #060913; 
+    }
+    body.dark #appCanvasWrapper {
+      background-color: #0b0f19 !important;
+      border-color: #1e293b !important;
     }
     body.dark #pageHome,
     body.dark #pageRiwayat > div,
     body.dark #modalDetailTransaksi > div,
     body.dark #modalDetailTransaksi .bg-white,
     body.dark #listRiwayatPenuhModal > div,
-    body.dark .fixed.bottom-0 {
+    body.dark #mainFixedNavbar {
       background: linear-gradient(145deg, #131b2e, #111827) !important;
       border-color: #1e293b !important;
       box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
@@ -206,9 +219,6 @@
     body.dark .premium-bottom-sheet {
       background: linear-gradient(180deg, #161f33, #0e1422) !important;
       border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-      border-left: none !important;
-      border-right: none !important;
-      border-bottom: none !important;
     }
 
     body.dark .flatpickr-calendar {
@@ -267,241 +277,248 @@
   </style>
 </head>
 
-<body class="w-full min-h-screen flex flex-col pb-[95px]">
+<body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden">
-    <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
-    <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
-    
-    <!-- CONTROLLER SECTION V2: SOLID BACKUP LAYER ANTI STACKING-BUG -->
-    <div class="absolute right-6 top-5 flex items-center gap-2 z-[9999]">
-      <button onclick="window.toggleLanguage()" class="tombol-kontrol-stabil w-12 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs tracking-wider">
-        <span id="txtLangLabel" class="text-white">EN</span>
-      </button>
-      <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none">
-        <i id="iconDarkMode" class="fa-solid fa-moon text-white"></i>
-      </button>
-    </div>
+  <!-- MAIN CANVAS CONTAINER: BERFUNGSI SEBAGAAL FRAME HP PADA LAPTOP/TABLET -->
+  <div id="appCanvasWrapper" class="w-full max-w-md min-h-screen md:min-h-[92vh] md:max-h-[95vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.18)] overflow-y-auto overflow-x-hidden hide-scrollbar pb-[95px] md:border md:border-slate-200/60 transition-all duration-300">
 
-    <h1 class="text-sm font-semibold opacity-75 tracking-wide" data-i18n="halo">Halo, Pengguna!</h1>
-    <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
-    <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-6">Rp 0</h2>
-
-    <div class="grid grid-cols-2 gap-4 relative z-10">
-      <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
-        <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
-        </span>
-        <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
-      </div>
-      <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
-        <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
-        </span>
-        <p id="txtKeluar" class="font-bold text-base tracking-wide">Rp 0</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
-    
-    <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
-      <div class="flex items-center gap-2 mb-6">
-        <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
-        <h3 class="text-lg font-bold text-slate-800 tracking-tight" data-i18n="tambahTrans">Tambah Transaksi</h3>
-      </div>
-
-      <form id="formKeuangan" onsubmit="window.handleForm(event)">
-        <div class="mb-5">
-          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
-          <div class="relative">
-            <input type="hidden" id="tanggal_mentntah" value="">
-            <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 cursor-pointer" required>
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
-              <i class="fa-regular fa-calendar-days"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-5">
-          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="jenisAliran">Jenis Aliran Dana</label>
-          <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
-            <input type="hidden" id="jenis" value="Pengeluaran">
-            <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400" data-i18n="tabKeluar">
-              💸 Pengeluaran
-            </button>
-            <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400" data-i18n="tabMasuk">
-              💰 Pemasukan
-            </button>
-          </div>
-        </div>
-
-        <div class="mb-5">
-          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
-          <div class="relative">
-            <input type="hidden" id="kategori" value="">
-            <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
-              <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
-              <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
-            </button>
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
-              <i class="fa-solid fa-tags"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-5">
-          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
-          <div class="relative">
-            <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12" required>
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
-              Rp
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
-          <div class="relative">
-            <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11" required>
-            <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
-              <i class="fa-regular fa-pen-to-square"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex gap-3 w-full">
-          <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-md shadow-emerald-600/10 hover:bg-emerald-700 hover:shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
-            <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
-          </button>
-          
-          <button type="button" onclick="window.tombolReloadPintar()" class="bg-white text-slate-500 font-bold px-5 rounded-2xl border border-slate-200/80 shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center">
-            <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
-          </button>
-        </div>
-      </form>
-
-      <button type="button" onclick="window.resetSemuaData()" class="btn-reset-data w-full mt-4 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
-        <i class="fa-solid fa-trash-can"></i> <span data-i18n="resetData">Reset Semua Data</span>
-      </button>
-    </div>
-
-    <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
+    <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden flex-shrink-0">
+      <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
+      <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
       
-      <!-- CARD 1: ANALISIS PENGELUARAN -->
-      <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
-        <div class="flex items-center justify-between mb-4 px-1">
-          <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-            <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span>
-          </h3>
-          <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
-            <span id="labelPeriodeUtama">Bulan Ini</span>
-            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-          </button>
-          <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
-        </div>
-        
-        <div class="w-full flex flex-row items-center justify-between gap-1 py-1">
-          <div class="relative w-[125px] h-[125px] flex-shrink-0 flex items-center justify-center">
-            <canvas id="chartPengeluaran"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-1">
-              <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase" data-i18n="total">Total</span>
-              <span id="chartCenterTotal" class="text-[14px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
-            </div>
-          </div>
-          <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[125px] overflow-y-auto pl-4 hide-scrollbar">
-          </div>
-        </div>
-        <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
-      </div>
-
-      <!-- CARD 2: TREN KEUANGAN BULANAN -->
-      <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
-        <div class="flex items-center justify-between mb-4 px-1">
-          <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-            <span class="w-1.5 h-4 bg-blue-500 rounded-full"></span><span data-i18n="trenTitle">Tren Keuangan Bulanan</span>
-          </h3>
-        </div>
-        <div class="w-full h-[185px]">
-          <canvas id="chartTrenBulanan"></canvas>
-        </div>
-      </div>
-
-      <!-- CARD 3: TRANSAKSI TERAKHIR -->
-      <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col">
-        <div class="flex items-center justify-between mb-4 px-1">
-          <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-            <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span>
-          </h3>
-          <span class="px-2.5 py-0.5 bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200/40 dark:border-slate-700/50" data-i18n="terbaru">
-            Terbaru
-          </span>
-        </div>
-        
-        <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center flex flex-col items-center justify-center gap-1.5">
-          <i class="fa-solid fa-circle-notch animate-spin text-emerald-600 text-base"></i>
-          <span class="font-semibold text-slate-400" data-i18n="loadingServer">Sinkronisasi data server...</span>
-        </div>
-        
-        <div id="listRiwayat" class="divide-y divide-slate-100/60 dark:divide-slate-800/30 hidden"></div>
-        
-        <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
-          <span data-i18n="bukaRiwayat">Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+      <!-- CONTROLLER SECTION V2 -->
+      <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
+        <button onclick="window.toggleLanguage()" class="tombol-kontrol-stabil w-12 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs tracking-wider">
+          <span id="txtLangLabel" class="text-white">EN</span>
+        </button>
+        <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none">
+          <i id="iconDarkMode" class="fa-solid fa-moon text-white"></i>
         </button>
       </div>
-    </div>
-  </div>
 
-  <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
-    <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+      <h1 class="text-sm font-semibold opacity-75 tracking-wide" data-i18n="halo">Halo, Pengguna!</h1>
+      <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
+      <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-6">Rp 0</h2>
+
+      <div class="grid grid-cols-2 gap-4 relative z-10">
+        <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
+          <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
+          </span>
+          <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
+        </div>
+        <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
+          <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
+          </span>
+          <p id="txtKeluar" class="font-bold text-base tracking-wide">Rp 0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full px-4 mt-6 flex-grow" id="mainContainer">
       
-      <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
-        <div class="flex items-center gap-3">
-          <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all">
-            <i class="fa-solid fa-xmark text-base"></i>
-          </button>
-          <h3 class="text-base font-bold text-slate-800" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
-        </div>
-        <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">0 Transaksi</span>
-      </div>
-
-      <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
-        <div>
-          <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider" data-i18n="filterPeriode">Filter Periode Laporan</label>
-          <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100/70 dark:hover:bg-slate-700/50 border border-slate-200/80 dark:border-slate-700 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
-            <span id="labelPeriodeTerpilih" class="text-sm" data-i18n="tampilkanSemua">Tampilkan Semua</span>
-            <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
-          </button>
-          <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="hidden"></select>
+      <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
+        <div class="flex items-center gap-2 mb-6">
+          <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
+          <h3 class="text-lg font-bold text-slate-800 tracking-tight" data-i18n="tambahTrans">Tambah Transaksi</h3>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 pt-1">
-          <button onclick="window.unduhPDF()" class="bg-rose-50 dark:bg-rose-950/20 border border-rose-100/80 dark:border-rose-900/30 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
-            <i class="fa-solid fa-file-pdf"></i> PDF
-          </button>
-          <button onclick="window.unduhExcel()" class="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100/80 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
-            <i class="fa-solid fa-file-excel"></i> Excel
+        <form id="formKeuangan" onsubmit="window.handleForm(event)">
+          <div class="mb-5">
+            <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
+            <div class="relative">
+              <input type="hidden" id="tanggal_mentntah" value="">
+              <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 cursor-pointer" required>
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
+                <i class="fa-regular fa-calendar-days"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="jenisAliran">Jenis Aliran Dana</label>
+            <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
+              <input type="hidden" id="jenis" value="Pengeluaran">
+              <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400" data-i18n="tabKeluar">
+                💸 Pengeluaran
+              </button>
+              <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400" data-i18n="tabMasuk">
+                💰 Pemasukan
+              </button>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
+            <div class="relative">
+              <input type="hidden" id="kategori" value="">
+              <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
+                <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
+                <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+              </button>
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
+                <i class="fa-solid fa-tags"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
+            <div class="relative">
+              <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12" required>
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
+                Rp
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
+            <div class="relative">
+              <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3.5 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11" required>
+              <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3 w-full">
+            <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-4 rounded-2xl shadow-md shadow-emerald-600/10 hover:bg-emerald-700 hover:shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
+              <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
+            </button>
+            
+            <button type="button" onclick="window.tombolReloadPintar()" class="bg-white text-slate-500 font-bold px-5 rounded-2xl border border-slate-200/80 shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center">
+              <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
+            </button>
+          </div>
+        </form>
+
+        <button type="button" onclick="window.resetSemuaData()" class="btn-reset-data w-full mt-4 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3.5 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+          <i class="fa-solid fa-trash-can"></i> <span data-i18n="resetData">Reset Semua Data</span>
+        </button>
+      </div>
+
+      <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
+        
+        <!-- CARD 1: ANALISIS PENGELUARAN -->
+        <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
+          <div class="flex items-center justify-between mb-4 px-1">
+            <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span>
+            </h3>
+            <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
+              <span id="labelPeriodeUtama">Bulan Ini</span>
+              <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+            </button>
+            <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
+          </div>
+          
+          <div class="w-full flex flex-row items-center justify-between gap-1 py-1">
+            <div class="relative w-[125px] h-[125px] flex-shrink-0 flex items-center justify-center">
+              <canvas id="chartPengeluaran"></canvas>
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-1">
+                <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase" data-i18n="total">Total</span>
+                <span id="chartCenterTotal" class="text-[14px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
+              </div>
+            </div>
+            <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[125px] overflow-y-auto pl-4 hide-scrollbar">
+            </div>
+          </div>
+          <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
+        </div>
+
+        <!-- CARD 2: TREN KEUANGAN BULANAN -->
+        <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
+          <div class="flex items-center justify-between mb-4 px-1">
+            <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-blue-500 rounded-full"></span><span data-i18n="trenTitle">Tren Keuangan Bulanan</span>
+            </h3>
+          </div>
+          <div class="w-full h-[185px]">
+            <canvas id="chartTrenBulanan"></canvas>
+          </div>
+        </div>
+
+        <!-- CARD 3: TRANSAKSI TERAKHIR -->
+        <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col">
+          <div class="flex items-center justify-between mb-4 px-1">
+            <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span>
+            </h3>
+            <span class="px-2.5 py-0.5 bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200/40 dark:border-slate-700/50" data-i18n="terbaru">
+              Terbaru
+            </span>
+          </div>
+          
+          <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center flex flex-col items-center justify-center gap-1.5">
+            <i class="fa-solid fa-circle-notch animate-spin text-emerald-600 text-base"></i>
+            <span class="font-semibold text-slate-400" data-i18n="loadingServer">Sinkronisasi data server...</span>
+          </div>
+          
+          <div id="listRiwayat" class="divide-y divide-slate-100/60 dark:divide-slate-800/30 hidden"></div>
+          
+          <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
+            <span data-i18n="bukaRiwayat">Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
           </button>
         </div>
       </div>
-
-      <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
-        <div id="listRiwayatPenuhModal" class="space-y-4"></div>
-      </div>
-
     </div>
-  </div>
 
-  <div class="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))]">
-    <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
-      <i class="fa-solid fa-house text-xl mb-1"></i>
-      <span class="text-[9px] font-bold tracking-widest">HOME</span>
-    </button>
-    
-    <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
-      <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
-      <span class="text-[9px] font-bold tracking-widest">RIWAYAT</span>
-    </button>
+    <!-- MODAL DETAIL TRANSAKSI: DIUBAH MENJADI ABSOLUTE SUPAYA MENGUNCI DI DALAM CANVAS HP JIKA DI LAPTOP -->
+    <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
+      <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+        
+        <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all">
+              <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+            <h3 class="text-base font-bold text-slate-800" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
+          </div>
+          <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">0 Transaksi</span>
+        </div>
+
+        <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider" data-i18n="filterPeriode">Filter Periode Laporan</label>
+            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100/70 dark:hover:bg-slate-700/50 border border-slate-200/80 dark:border-slate-700 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
+              <span id="labelPeriodeTerpilih" class="text-sm" data-i18n="tampilkanSemua">Tampilkan Semua</span>
+              <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+            </button>
+            <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="hidden"></select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <button onclick="window.unduhPDF()" class="bg-rose-50 dark:bg-rose-950/20 border border-rose-100/80 dark:border-rose-900/30 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
+              <i class="fa-solid fa-file-pdf"></i> PDF
+            </button>
+            <button onclick="window.unduhExcel()" class="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100/80 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
+              <i class="fa-solid fa-file-excel"></i> Excel
+            </button>
+          </div>
+        </div>
+
+        <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60">
+          <div id="listRiwayatPenuhModal" class="space-y-4"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NAVIGATION BAR V2: FIX POSISI SENTRAL DI LAPTOP / TAB -->
+    <div id="mainFixedNavbar" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))] md:rounded-b-[2.75rem]">
+      <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
+        <i class="fa-solid fa-house text-xl mb-1"></i>
+        <span class="text-[9px] font-bold tracking-widest">HOME</span>
+      </button>
+      
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
+        <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
+        <span class="text-[9px] font-bold tracking-widest">RIWAYAT</span>
+      </button>
+    </div>
+
   </div>
 
   <script>                                                                                                    
