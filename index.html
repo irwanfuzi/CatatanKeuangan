@@ -286,14 +286,17 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
+  <!-- MAIN CANVAS CONTAINER -->
   <div id="appCanvasWrapper" class="w-full max-w-md h-screen md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.18)] overflow-hidden md:border md:border-slate-200/60 transition-all duration-300">
 
+    <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-grow overflow-y-auto hide-scrollbar pb-[105px]">
       
       <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden flex-shrink-0">
         <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
         <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
         
+        <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
           <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5">
             <i class="fa-solid fa-globe text-white/80"></i>
@@ -410,6 +413,7 @@
 
         <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
           
+          <!-- CARD 1: ANALISIS PENGELUARAN -->
           <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -436,6 +440,7 @@
             <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
           </div>
 
+          <!-- CARD 2: TREN KEUANGAN BULANAN -->
           <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -447,6 +452,7 @@
             </div>
           </div>
 
+          <!-- CARD 3: TRANSAKSI TERAKHIR -->
           <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col mb-6">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -472,6 +478,7 @@
       </div>
     </div>
 
+    <!-- MODAL DETAIL TRANSAKSI -->
     <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
       <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
         
@@ -512,15 +519,16 @@
       </div>
     </div>
 
+    <!-- NAVIGATION BAR -->
     <div id="mainFixedNavbar" class="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-100 shadow-[0_-5px_25px_rgba(0,0,0,0.02)] py-3 px-16 flex justify-around z-50 pb-[calc(14px+env(safe-area-inset-bottom))] md:rounded-b-[2.75rem]">
       <button id="navHome" onclick="window.tukarHalaman('home')" class="text-emerald-600 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
         <i class="fa-solid fa-house text-xl mb-1"></i>
-        <span class="text-[9px] font-bold tracking-widest">HOME</span>
+        <span data-i18n="navHome" class="text-[9px] font-bold tracking-widest">BERANDA</span>
       </button>
       
       <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="text-slate-400 flex flex-col items-center min-w-[70px] active:scale-95 transition-transform focus:outline-none">
         <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
-        <span class="text-[9px] font-bold tracking-widest">RIWAYAT</span>
+        <span data-i18n="navRiwayat" class="text-[9px] font-bold tracking-widest">RIWAYAT</span>
       </button>
     </div>
 
@@ -565,7 +573,8 @@
         swalSuccessReset: "Data Direset!", swalDescReset: "Semua data kas berhasil dibersihkan.", swalErrorReset: "Gagal Bersihkan",
         pdfJudul: "LAPORAN KEUANGAN", pdfPeriode: "Periode Laporan", pdfTglCetak: "Tanggal Cetak", pdfTbodyNo: "No",
         pdfTbodyTgl: "Tanggal", pdfTbodyKet: "Keterangan / Nota", pdfTbodyKat: "Kategori", pdfTbodyJenis: "Jenis", pdfTbodyNom: "Nominal",
-        excelTitle: "RINGKASAN AKUMULASI DANA", excelIn: "Total Akumulasi Pemasukan", excelOut: "Total Akumulasi Pengeluaran", excelNet: "Total Saldo Bersih (Net)"
+        excelTitle: "RINGKASAN AKUMULASI DANA", excelIn: "Total Akumulasi Pemasukan", excelOut: "Total Akumulasi Pengeluaran", excelNet: "Total Saldo Bersih (Net)",
+        navHome: "BERANDA", navRiwayat: "RIWAYAT"
       },
       en: {
         halo: "Hello, User!", totalSaldo: "Your Total Balance", pemasukan: "Income", pengeluaran: "Expense",
@@ -587,7 +596,8 @@
         swalSuccessReset: "Data Reset!", swalDescReset: "All cash records successfully cleared.", swalErrorReset: "Failed to Clear",
         pdfJudul: "FINANCIAL REPORT STATEMENT", pdfPeriode: "Report Period", pdfTglCetak: "Print Date", pdfTbodyNo: "No",
         pdfTbodyTgl: "Date", pdfTbodyKet: "Description / Memo", pdfTbodyKat: "Category", pdfTbodyJenis: "Type", pdfTbodyNom: "Amount",
-        excelTitle: "FINANCIAL ACCUMULATION SUMMARY", excelIn: "Total Accumulated Income", excelOut: "Total Accumulated Expense", excelNet: "Total Net Balance"
+        excelTitle: "FINANCIAL ACCUMULATION SUMMARY", excelIn: "Total Accumulated Income", excelOut: "Total Accumulated Expense", excelNet: "Total Net Balance",
+        navHome: "HOME", navRiwayat: "HISTORY"
       }
     };
 
@@ -656,7 +666,6 @@
       return idx;
     }
 
-    /* ENGINE SCRIPT SUDAH STRIP TYPO & DIAGNOSIS BEBAS SCROLLBAR CRASH */
     window.applyLanguageUI = function() {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
