@@ -553,7 +553,6 @@
         window.updateIconVisualModeGelap(true);
       }
 
-      /* Nonaktifkan module native built-in dropdown flatpickr */
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
         dateFormat: "d F Y",
@@ -585,8 +584,9 @@
       localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
       window.updateIconVisualModeGelap(modeGelapAktif);
       
-      window.prosesFilterKategoriBulanUtama();
-      window.renderGrafikTrenBulanan(trenBulananRawGlobal);
+      /* FIX ENGINE: Matikan animasi saat beralih mode gelap agar UI tidak pusing */
+      window.prosesFilterKategoriBulanUtama(false);
+      window.renderGrafikTrenBulanan(trenBulananRawGlobal, false);
     };
 
     window.updateIconVisualModeGelap = function(apakahGelap) {
@@ -636,7 +636,6 @@
       containerHeader.appendChild(btnTahun);
     };
 
-    /* RE-LAYOUT: SEKARANG MEMILIKI STRUKTUR & DESIGN YANG SAMA PERSIS DENGAN SELEKSI POS KATEGORI */
     window.bukaBottomSheetBulanKalender = function(instance) {
       let htmlListBulan = `<div class="grid grid-cols-1 gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       
@@ -667,7 +666,6 @@
       Swal.close();
     };
 
-    /* RE-LAYOUT: SEKARANG MEMILIKI STRUKTUR & DESIGN YANG SAMA PERSIS DENGAN SELEKSI POS KATEGORI */
     window.bukaBottomSheetTahunKalender = function(instance) {
       const AppTahunSekarang = new Date().getFullYear();
       let htmlListTahun = `<div class="grid grid-cols-1 gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
@@ -780,7 +778,8 @@
       }
     };
 
-    window.aplikasikanDataKeUI = function(res) {
+    /* FIX ENGINE ANIMASI: Menambahkan parameter kontrol biarkanAnimasi */
+    window.aplikasikanDataKeUI = function(res, biarkanAnimasi = true) {
       document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
@@ -806,8 +805,8 @@
       }
       
       window.renderHalamanRiwayatUtama();
-      window.prosesFilterKategoriBulanUtama();
-      window.renderGrafikTrenBulanan(trenBulananRawGlobal);
+      window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
+      window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
     };
 
     window.loadSummary = function() {
@@ -815,7 +814,8 @@
       if (localCache) {
         try {
           const resCached = JSON.parse(localCache);
-          window.aplikasikanDataKeUI(resCached); 
+          /* FIX: Render pertama dari cache tidak perlu animasi putar-putar */
+          window.aplikasikanDataKeUI(resCached, false); 
         } catch(e) {
           console.log("Gagal memproses cache.");
         }
@@ -834,7 +834,8 @@
       if (icon) icon.classList.remove('animate-spin');
       if (res) {
         localStorage.setItem('app_keuangan_cache', JSON.stringify(res));
-        window.aplikasikanDataKeUI(res);
+        /* FIX: Render kedua dari Live Server Google baru kita jalankan animasinya */
+        window.aplikasikanDataKeUI(res, true);
       }
     };
 
@@ -894,7 +895,7 @@
       }
     };
 
-    window.prosesFilterKategoriBulanUtama = function() {
+    window.prosesFilterKategoriBulanUtama = function(biarkanAnimasi = true) {
       const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
       const dataKategoriGrafik = {};
       daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
@@ -916,10 +917,10 @@
         }
       });
 
-      window.renderGrafik(dataKategoriGrafik);
+      window.renderGrafik(dataKategoriGrafik, biarkanAnimasi);
     };
 
-    window.renderGrafik = function(dataKategori) {
+    window.renderGrafik = function(dataKategori, biarkanAnimasi = true) {
       const canvasCtx = document.getElementById('chartPengeluaran');
       const legendContainer = document.getElementById('customLegendContainer');
       const textCenterTotal = document.getElementById('chartCenterTotal');
@@ -965,6 +966,8 @@
         data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#131b2e' : '#ffffff' }] },
         options: {
           cutout: '75%', responsive: true, maintainAspectRatio: false,
+          /* FIX: Gunakan parameter animasi dinamis agar tidak duplikasi putaran */
+          animation: biarkanAnimasi ? { duration: 800, animateRotate: true, animateScale: false } : false,
           plugins: {
             legend: { display: false },
             tooltip: { enabled: true, displayColors: false, callbacks: { label: (ctx) => " Rp " + ctx.raw.toLocaleString('id-ID'), title: (t) => t[0].label } },
@@ -974,7 +977,7 @@
       });
     };
 
-    window.renderGrafikTrenBulanan = function(dataTrenObj) {
+    window.renderGrafikTrenBulanan = function(dataTrenObj, biarkanAnimasi = true) {
       const canvasCtx = document.getElementById('chartTrenBulanan');
       if (!canvasCtx) return;
 
@@ -1006,6 +1009,7 @@
         },
         options: {
           responsive: true, maintainAspectRatio: false,
+          animation: biarkanAnimasi ? { duration: 800 } : false,
           scales: {
             y: { ticks: { font: { family: 'Urbanist', size: 11, weight: 'bold' }, color: warnaLabelTeks, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: warnaGarisGrid } },
             x: { ticks: { font: { family: 'Urbanist', size: 11, weight: '700' }, color: warnaLabelTeks }, grid: { display: false } }
@@ -1128,7 +1132,7 @@
     window.setPeriodeHalamanUtamaDariList = function(val, txt) {
       document.getElementById('filterBulanUtamaHidden').value = val;
       document.getElementById('labelPeriodeUtama').innerText = txt;
-      window.prosesFilterKategoriBulanUtama();
+      window.prosesFilterKategoriBulanUtama(false); /* FIX: Ganti filter dropdown utama tidak perlu efek gasing */
       Swal.close();
     };
 
