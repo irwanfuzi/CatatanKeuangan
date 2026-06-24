@@ -77,6 +77,15 @@
       border-radius: 10px;
     }
     
+    /* FIX ANTI-FLICKER UNTUK TOMBOL BAHASA & THEME ENGINE */
+    .tombol-kontrol-stabil {
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      will-change: transform, background-color;
+    }
+    
     /* CONFIG ENGINE RE-DESIGN KALENDER FLATPICKR (LIGHT MODE) */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
@@ -264,13 +273,13 @@
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
     
-    <!-- CONTROLLER SECTION: LANG SWITCHER & DARK MODE -->
-    <div class="absolute right-6 top-5 flex items-center gap-2 z-50">
-      <button onclick="window.toggleLanguage()" class="w-12 h-9 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs tracking-wider">
-        <span id="txtLangLabel">EN</span>
+    <!-- CONTROLLER SECTION V2: SOLID BACKUP LAYER ANTI STACKING-BUG -->
+    <div class="absolute right-6 top-5 flex items-center gap-2 z-[9999]">
+      <button onclick="window.toggleLanguage()" class="tombol-kontrol-stabil w-12 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs tracking-wider">
+        <span id="txtLangLabel" class="text-white">EN</span>
       </button>
-      <button onclick="window.toggleDarkMode()" class="w-9 h-9 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none">
-        <i id="iconDarkMode" class="fa-solid fa-moon"></i>
+      <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none">
+        <i id="iconDarkMode" class="fa-solid fa-moon text-white"></i>
       </button>
     </div>
 
@@ -279,13 +288,13 @@
     <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-6">Rp 0</h2>
 
     <div class="grid grid-cols-2 gap-4 relative z-10">
-      <div class="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
+      <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
         <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
         </span>
         <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
       </div>
-      <div class="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
+      <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
         <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
         </span>
@@ -498,7 +507,6 @@
   <script>                                                                                                    
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     
-    // RE-DESIGN DICTIONARY BILINGUAL KATEGORI ENGINE PREMIUM
     const kategoriTranslations = {
       id: {
         pengeluaran: ["🍔 Makanan", "🚗 Transport", "🏠 Tagihan", "🎬 Hiburan", "🏥 Kesehatan", "📦 Lainnya"],
@@ -514,7 +522,6 @@
     const namaBulanIndoFull = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     const namaBulanEnglishFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     
-    // DATA DICTIONARY ENGINE TRANSLATIONS
     const translations = {
       id: {
         halo: "Halo, Pengguna!", totalSaldo: "Total Saldo Kamu", pemasukan: "Pemasukan", pengeluaran: "Pengeluaran",
@@ -575,7 +582,6 @@
       window.jsPDF = window.jspdf.jsPDF;
     }
 
-    // ENGINE PARSER TANGGAL RESILIEN MULTI-FORMAT (MENCEGAH INVALID DATE PADA SERVER / BROWSER)
     function parseKeTanggalObj(tglString) {
       if (!tglString) return new Date();
       let d = new Date(tglString);
@@ -585,16 +591,15 @@
       let parts = urutanStr.split(/[-/ ]+/);
       
       if (parts.length >= 3) {
-        if (parts[0].length === 4) { // YYYY-MM-DD
+        if (parts[0].length === 4) { 
           let year = parseInt(parts[0]), month = parseInt(parts[1]) - 1, day = parseInt(parts[2]);
           let t = new Date(year, month, day);
           if (!isNaN(t.getTime())) return t;
         }
-        if (parts[2].length === 4) { // DD-MM-YYYY atau DD Month YYYY
+        if (parts[2].length === 4) { 
           let day = parseInt(parts[0]), month = parseInt(parts[1]) - 1, year = parseInt(parts[2]);
           if (isNaN(month)) {
             const mStr = parts[1].toLowerCase();
-            const daftarBulanLokal = ["jan", "feb", "mar", "apr", "mei", "jun", "jul", "agu", "sep", "okt", "nov", "des", "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "maret", "agustus"];
             if (mStr.includes("jan")) month = 0;
             else if (mStr.includes("feb")) month = 1;
             else if (mStr.includes("mar")) month = 2;
@@ -615,7 +620,6 @@
       return new Date(); 
     }
 
-    // MAPPER FUNCTION UNTUK MENCARI INDEX KATEGORI BERDASARKAN BAHASA APAPUN (CASE-INSENSITIVE)
     function dapatkanIndeksKategori(kategoriRaw, jenisStr) {
       if(!kategoriRaw) return -1;
       const jns = jenisStr ? jenisStr.toString().trim().toLowerCase() : "";
@@ -659,7 +663,6 @@
         window.buatPemicuKapsulKalenderCustom(instanceFlatpickr);
       }
       
-      // Sinkronisasi ulang data filter dinamis saat penukaran bahasa berlangsung
       const sUtama = document.getElementById('filterBulanUtamaHidden');
       const sModal = document.getElementById('filterBulanModal');
       const vUtama = sUtama ? sUtama.value : "ALL";
@@ -771,9 +774,9 @@
       const icon = document.getElementById('iconDarkMode');
       if (icon) {
         if (apakahGelap) {
-          icon.className = "fa-solid fa-sun";
+          icon.className = "fa-solid fa-sun text-white";
         } else {
-          icon.className = "fa-solid fa-moon";
+          icon.className = "fa-solid fa-moon text-white";
         }
       }
     };
@@ -894,7 +897,6 @@
       window.updateKategoriOptions();
     };
 
-    /* KATEGORI DANA BOTTOM SHEET BILINGUAL MODE */
     window.bukaBottomSheetPilihanKategori = function() {
       const jenis = document.getElementById('jenis').value;
       const listKey = (jenis.toString().trim().toLowerCase() === "pemasukan") ? "pemasukan" : "pengeluaran";
@@ -1025,7 +1027,6 @@
       }
     };
 
-    // LOGIKA RENDER TRANSAKSI TERAKHIR DUAL BAHASA PREMIUM & STABIL 
     window.renderHalamanRiwayatUtama = function() {
       const listContainer = document.getElementById('listRiwayat');
       if (!listContainer) return;
@@ -1047,7 +1048,6 @@
           const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
-          // Konversi visual bilingual pada Kategori Pos Transaksi Terakhir
           const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
           const listKey = isMasuk ? "pemasukan" : "pengeluaran";
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
@@ -1361,7 +1361,6 @@
       Swal.close();
     };
 
-    // LOGIKA RENDER POP-UP RIWAYAT LENGKAP BILINGUAL ENGINE
     window.renderListModalSesuaiBulan = function() {
       const listModalContainer = document.getElementById('listRiwayatPenuhModal');
       const bulanTerpilih = document.getElementById('filterBulanModal').value;
@@ -1396,7 +1395,6 @@
           const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
-          // Konversi bahasa visual kategori di modal riwayat lengkap
           const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
           const listKey = isMasuk ? "pemasukan" : "pengeluaran";
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
