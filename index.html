@@ -61,7 +61,6 @@
       background: #ffffff;
     }
     
-    /* MODERNIER: SEAMLESS SCROLLBAR ENGINE UNTUK LEGENDA DANA */
     .hide-scrollbar::-webkit-scrollbar {
       display: none !important;
     }
@@ -800,8 +799,8 @@
         const adaBulanIni = Array.from(selectUtama.options).some(o => o.value === formatKunciBulanIni);
         if (adaBulanIni) {
           selectUtama.value = formatKunciBulanIni;
-          const opsiDitemukan = Array.from(selectUtama.options).find(o => o.value === formatKunciBulanIni);
-          document.getElementById('labelPeriodeUtama').innerText = opsiDitemukan.text;
+          const opsiDitemukan = Array.from(selectUtama.options).find(o => o.value === formatKunciBulanIni).text;
+          document.getElementById('labelPeriodeUtama').innerText = opsiDitemukan;
         } else {
           selectUtama.value = selectUtama.options[0] ? selectUtama.options[0].value : "ALL";
           document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0] ? selectUtama.options[0].text : "Tampilkan Semua";
@@ -950,15 +949,16 @@
 
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
+          // RE-DESIGN PREMIUM: Persentase & Nominal dibuat berdampingan horizontal dengan kontras warna modern
           legendContainer.insertAdjacentHTML('beforeend', `
             <div class="flex items-center justify-between w-full py-1 font-semibold">
-              <div class="flex items-center gap-1.5 min-w-[50%]">
+              <div class="flex items-center gap-1.5 min-w-[45%]">
                 <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
                 <span class="text-slate-600 font-bold tracking-tight dark:text-slate-300 truncate text-[13px]">${kat}</span>
               </div>
-              <div class="flex flex-col items-end flex-shrink-0 ml-1">
-                <span class="text-slate-800 dark:text-slate-200 font-bold text-[13px] leading-none">${persen}%</span>
-                <span class="text-[13px] text-slate-400 dark:text-slate-400 font-bold leading-none mt-1">(${Math.round(valuesAktif[i]/1000)}k)</span>
+              <div class="flex items-center gap-1.5 flex-shrink-0 ml-1 text-right">
+                <span class="text-slate-800 dark:text-slate-200 font-bold text-[13px]">${persen}%</span>
+                <span class="text-[12px] text-slate-400 dark:text-slate-500 font-semibold">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </div>
             </div>`);
       });
