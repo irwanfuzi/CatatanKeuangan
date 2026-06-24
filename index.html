@@ -79,10 +79,27 @@
       box-sizing: border-box !important;
       background: #ffffff !important;
     }
+    
+    /* FORCE HIDE ELEMEN NATIVE AGAR TIDAK BENTROK DENGAN TOMBOL MODERN */
+    .flatpickr-current-month {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      width: 100% !important;
+      left: 0 !important;
+      padding: 0 !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    .flatpickr-current-month .numInputWrapper,
+    .flatpickr-current-month .cur-month {
+      display: none !important;
+    }
+
     .btn-pemicu-bulan, .btn-pemicu-tahun {
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 10px;
       font-size: 13px;
       font-weight: 700;
@@ -536,12 +553,13 @@
         window.updateIconVisualModeGelap(true);
       }
 
+      /* FIX: changeMonth & changeYear diubah ke false untuk blokir elemen native HP */
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: "id",
         dateFormat: "d F Y",
         defaultDate: new Date(),
-        changeMonth: true,
-        changeYear: true,
+        changeMonth: false,
+        changeYear: false,
         disableMobile: "true",
         onReady: function(selectedDates, dateStr, instance) {
           sinkronisasiNilaiTanggalMentah(selectedDates[0]);
@@ -598,13 +616,21 @@
       btnBulan.type = 'button';
       btnBulan.className = 'btn-pemicu-bulan';
       btnBulan.innerHTML = `<span>${labelBulanAktis}</span> <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>`;
-      btnBulan.addEventListener('click', () => window.bukaBottomSheetBulanKalender(instance));
+      btnBulan.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.bukaBottomSheetBulanKalender(instance);
+      });
       
       const btnTahun = document.createElement('button');
       btnTahun.type = 'button';
       btnTahun.className = 'btn-pemicu-tahun';
       btnTahun.innerHTML = `<span>${labelTahunAktif}</span> <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>`;
-      btnTahun.addEventListener('click', () => window.bukaBottomSheetTahunKalender(instance));
+      btnTahun.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.bukaBottomSheetTahunKalender(instance);
+      });
       
       containerHeader.appendChild(btnBulan);
       containerHeader.appendChild(btnTahun);
