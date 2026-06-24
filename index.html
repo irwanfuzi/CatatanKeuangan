@@ -610,48 +610,67 @@
       containerHeader.appendChild(btnTahun);
     };
 
-    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
+    /* UPGRADE MODERN: BULAN DIUBAH MENJADI FINTECH STYLE GRID CARD 3 KOLOM */
     window.bukaBottomSheetBulanKalender = function(instance) {
-      let htmlListBulan = `<div class="flex flex-col gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      const bulanSistemSekarang = new Date().getMonth();
+      const tokenBulanSingkat = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOV", "DES"];
+      let htmlListBulan = `<div class="grid grid-cols-3 gap-3 pt-2.5 px-0.5">`;
       
       namaBulanIndoFull.forEach((namaBulan, indeks) => {
         const isSelected = indeks === instance.currentMonth;
+        const isBulanIni = indeks === bulanSistemSekarang;
+        
         htmlListBulan += `
-          <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
+          <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="relative flex flex-col items-center justify-center p-3.5 rounded-2xl border transition-all duration-200 active:scale-95 ${
+            isSelected 
+              ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 border-emerald-500 text-white font-bold shadow-lg shadow-emerald-500/20' 
+              : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-700/50'
           }">
-            <span class="text-sm">${namaBulan}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
+            <span class="text-xs tracking-wider font-extrabold block mb-0.5">${tokenBulanSingkat[indeks]}</span>
+            <span class="text-[10px] opacity-60 font-medium">${namaBulan.substring(0, 5)}</span>
+            ${isBulanIni && !isSelected ? '<span class="absolute right-2 top-2 w-1.5 h-1.5 rounded-full bg-emerald-500"></span>' : ''}
+            ${isBulanIni && isSelected ? '<span class="absolute right-2 top-2 w-1.5 h-1.5 rounded-full bg-white"></span>' : ''}
           </button>`;
       });
       htmlListBulan += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
+        title: 'Pilih Bulan', html: htmlListBulan, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3.5 tracking-tight', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-4 transition-all' }
       });
     };
 
-    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
+    window.setBulanKalenderDariSheet = function(indeksBulan) {
+      if (instanceFlatpickr) {
+        instanceFlatpickr.jumpToDate(new Date(instanceFlatpickr.currentYear, indeksBulan, 1), false);
+      }
+      Swal.close();
+    };
+
+    /* UPGRADE MODERN: TAHUN DIUBAH MENJADI FINTECH STYLE GRID CARD 3 KOLOM */
     window.bukaBottomSheetTahunKalender = function(instance) {
       const AppTahunSekarang = new Date().getFullYear();
-      let htmlListTahun = `<div class="flex flex-col gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      let htmlListTahun = `<div class="grid grid-cols-3 gap-3 pt-2.5 px-0.5">`;
       
-      for (let y = AppTahunSekarang - 5; y <= AppTahunSekarang + 5; y++) {
+      for (let y = AppTahunSekarang - 4; y <= AppTahunSekarang + 4; y++) {
         const isSelected = y === instance.currentYear;
+        const isTahunIni = y === AppTahunSekarang;
+        
         htmlListTahun += `
-          <button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
+          <button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="relative flex flex-col items-center justify-center p-4 rounded-2xl border transition-all duration-200 active:scale-95 ${
+            isSelected 
+              ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 border-emerald-500 text-white font-bold shadow-lg shadow-emerald-500/20' 
+              : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-700/50'
           }">
-            <span class="text-sm">Tahun ${y}</span>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
+            <span class="text-sm tracking-wide">${y}</span>
+            ${isTahunIni ? `<span class="text-[9px] mt-0.5 font-semibold ${isSelected ? 'text-white/80' : 'text-emerald-500 dark:text-emerald-400'}">Ini</span>` : `<span class="text-[9px] mt-0.5 opacity-40 font-normal">Tahun</span>`}
           </button>`;
       }
       htmlListTahun += `</div>`;
       
       Swal.fire({
-        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', cancelButtonColor: '#f1f5f9',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-2' }
+        title: 'Pilih Tahun', html: htmlListTahun, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal',
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base text-slate-800 dark:text-slate-100 pt-1 border-b border-slate-100 dark:border-slate-800/60 pb-3.5 tracking-tight', cancelButton: 'w-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold py-3.5 rounded-2xl text-sm border border-slate-200 dark:border-slate-700 focus:ring-0 mt-4 transition-all' }
       });
     };
 
@@ -679,7 +698,7 @@
       window.updateKategoriOptions();
     };
 
-    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
+    /* KATEGORI DANA BOTTOM SHEET */
     window.bukaBottomSheetPilihanKategori = function() {
       const jenis = document.getElementById('jenis').value;
       const opsiKategori = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran : daftarKategoriPemasukan;
@@ -1067,7 +1086,6 @@
       selectModal.innerHTML = htmlModal;
     };
 
-    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaPilihanPeriodeHalamanUtama = function() {
       const select = document.getElementById('filterBulanUtamaHidden');
       const nilaiSekarang = select.value;
@@ -1096,7 +1114,6 @@
       Swal.close();
     };
 
-    /* FIX: MENGHAPUS BACKGROUND WHITE DAN MENAMBAHKAN UTILITAS DARK MODE UNTUK FILTER BELUM TERPILIH */
     window.bukaPilihanPeriodeModal = function() {
       const select = document.getElementById('filterBulanModal');
       const nilaiSekarang = select.value;
@@ -1188,7 +1205,6 @@
       });
     };
 
-    /* FIX: HAPUS PAKSAAN BACKGROUND VALUE WHITE DI OVERRIDE CSS GLOBAL DI ATAS */
     window.resetSemuaData = function() {
       Swal.fire({
         title: 'Reset Semua Data?', text: "Tindakan ini menghapus permanen data.", icon: 'warning', iconColor: '#f43f5e', showCancelButton: true, confirmButtonColor: '#f43f5e', cancelButtonText: 'Batal',
