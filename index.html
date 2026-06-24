@@ -264,6 +264,7 @@
     <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
     
+    <!-- CONTROLLER SECTION: LANG SWITCHER & DARK MODE -->
     <div class="absolute right-6 top-5 flex items-center gap-2 z-50">
       <button onclick="window.toggleLanguage()" class="w-12 h-9 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs tracking-wider">
         <span id="txtLangLabel">EN</span>
@@ -378,6 +379,7 @@
 
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
+      <!-- CARD 1: ANALISIS PENGELUARAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4 px-1">
           <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -404,6 +406,7 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
       </div>
 
+      <!-- CARD 2: TREN KEUANGAN BULANAN -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
         <div class="flex items-center justify-between mb-4 px-1">
           <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -415,6 +418,7 @@
         </div>
       </div>
 
+      <!-- CARD 3: TRANSAKSI TERAKHIR -->
       <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col">
         <div class="flex items-center justify-between mb-4 px-1">
           <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -494,14 +498,23 @@
   <script>                                                                                                    
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     
-    const daftarKategoriPengeluaran = ["🍔 Makanan", "🚗 Transport", "🏠 Tagihan", "🎬 Hiburan", "🏥 Kesehatan", "📦 Lainnya"];
-    const daftarKategoriPemasukan = ["💼 Gaji", "🚀 Sampingan", "📈 Investasi", "🎁 Lainnya"];
+    // RE-DESIGN DICTIONARY BILINGUAL KATEGORI ENGINE PREMIUM
+    const kategoriTranslations = {
+      id: {
+        pengeluaran: ["🍔 Makanan", "🚗 Transport", "🏠 Tagihan", "🎬 Hiburan", "🏥 Kesehatan", "📦 Lainnya"],
+        pemasukan: ["💼 Gaji", "🚀 Sampingan", "📈 Investasi", "🎁 Lainnya"]
+      },
+      en: {
+        pengeluaran: ["🍔 Food", "🚗 Transport", "🏠 Bills", "🎬 Entertainment", "🏥 Health", "📦 Others"],
+        pemasukan: ["💼 Salary", "🚀 Side Hustle", "📈 Investment", "🎁 Others"]
+      }
+    };
+
     const daftarWarna = ['#f43f5e', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#64748b'];
-    
     const namaBulanIndoFull = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
     const namaBulanEnglishFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     
-    // DATA DICTIONARY ENGINE TRANSLATIONS (ID & EN)
+    // DATA DICTIONARY ENGINE TRANSLATIONS
     const translations = {
       id: {
         halo: "Halo, Pengguna!", totalSaldo: "Total Saldo Kamu", pemasukan: "Pemasukan", pengeluaran: "Pengeluaran",
@@ -562,7 +575,22 @@
       window.jsPDF = window.jspdf.jsPDF;
     }
 
-    // FUNCTION TRANSLATION ENGINE LOGIC
+    // MAPPER FUNCTION UNTUK MENCARI INDEX KATEGORI BERDASARKAN BAHASA APAPUN (ANTI-BREAK OLD DATA)
+    function dapatkanIndeksKategori(kategoriRaw, jenisStr) {
+      if(!kategoriRaw) return -1;
+      const listKey = jenisStr === "Pemasukan" ? "pemasukan" : "pengeluaran";
+      const cleanText = (t) => t.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim().toLowerCase();
+      const txt = cleanText(kategoriRaw);
+      
+      // Cek kecocokan di list Bahasa Indonesia
+      let idx = kategoriTranslations.id[listKey].findIndex(k => cleanText(k) === txt || txt.includes(cleanText(k)) || cleanText(k).includes(txt));
+      if (idx !== -1) return idx;
+      
+      // Cek kecocokan di list Bahasa Inggris
+      idx = kategoriTranslations.en[listKey].findIndex(k => cleanText(k) === txt || txt.includes(cleanText(k)) || cleanText(k).includes(txt));
+      return idx;
+    }
+
     window.applyLanguageUI = function() {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
@@ -571,13 +599,11 @@
         }
       });
 
-      // Update Form Placeholders
       const tglInput = document.getElementById('tanggal');
       if (tglInput) tglInput.placeholder = translations[currentLang].pilihTgl;
       const ketInput = document.getElementById('keterangan');
       if (ketInput) ketInput.placeholder = translations[currentLang].contohNota;
 
-      // Update Switcher Button Label
       const switcherBtn = document.getElementById('txtLangLabel');
       if (switcherBtn) switcherBtn.innerText = currentLang === 'id' ? 'EN' : 'ID';
     };
@@ -587,14 +613,13 @@
       localStorage.setItem('app_lang_choice', currentLang);
       
       window.applyLanguageUI();
+      window.updateKategoriOptions(); 
       
-      // Mengubah setelan Flatpickr secara instan
       if (instanceFlatpickr) {
         instanceFlatpickr.set("locale", currentLang === 'id' ? 'id' : 'default');
         window.buatPemicuKapsulKalenderCustom(instanceFlatpickr);
       }
       
-      // Update sisa elemen dinamis
       window.buatOpsiFilterBulanModal();
       window.renderHalamanRiwayatUtama();
       window.prosesFilterKategoriBulanUtama(false);
@@ -651,7 +676,6 @@
         window.updateIconVisualModeGelap(true);
       }
 
-      // Load Saved Language Choice
       const savedLang = localStorage.getItem('app_lang_choice');
       if (savedLang === 'id' || savedLang === 'en') {
         currentLang = savedLang;
@@ -820,16 +844,21 @@
       window.updateKategoriOptions();
     };
 
-    /* KATEGORI DANA BOTTOM SHEET */
+    /* KATEGORI DANA BOTTOM SHEET BILINGUAL MODE */
     window.bukaBottomSheetPilihanKategori = function() {
       const jenis = document.getElementById('jenis').value;
-      const opsiKategori = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran : daftarKategoriPemasukan;
+      const listKey = jenis === "Pemasukan" ? "pemasukan" : "pengeluaran";
+      const opsiKategori = kategoriTranslations[currentLang][listKey];
       const kategoriSaatIni = document.getElementById('kategori').value;
       
       let htmlPilihanKategori = `<div class="grid grid-cols-1 gap-2.5 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       
       opsiKategori.forEach(kat => {
-        const isSelected = kat === kategoriSaatIni;
+        // Normalisasi pengecekan index agar tanda centang tetap aktif walau beda bahasa
+        const idxTarget = dapatkanIndeksKategori(kat, jenis);
+        const idxAktif = dapatkanIndeksKategori(kategoriSaatIni, jenis);
+        const isSelected = idxTarget === idxAktif && idxTarget !== -1;
+        
         htmlPilihanKategori += `
           <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
             isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
@@ -854,10 +883,16 @@
 
     window.updateKategoriOptions = function() {
       const jenis = document.getElementById('jenis').value;
-      const opsiDefault = (jenis === "Pengeluaran") ? daftarKategoriPengeluaran[0] : daftarKategoriPemasukan[0];
+      const listKey = jenis === "Pemasukan" ? "pemasukan" : "pengeluaran";
+      const opsiKategori = kategoriTranslations[currentLang][listKey];
+      const kategoriSaatIni = document.getElementById('kategori').value;
       
-      document.getElementById('kategori').value = opsiDefault;
-      document.getElementById('txtKategoriTerpilihLabel').innerText = opsiDefault;
+      // Deteksi index kategori saat ini untuk dikonversi bahasanya secara dinamis
+      let idx = dapatkanIndeksKategori(kategoriSaatIni, jenis);
+      const kategoriBaru = (idx !== -1) ? opsiKategori[idx] : opsiKategori[0];
+      
+      document.getElementById('kategori').value = kategoriBaru;
+      document.getElementById('txtKategoriTerpilihLabel').innerText = kategoriBaru;
     };
 
     window.tukarHalaman = function(menu) {
@@ -962,6 +997,11 @@
           const isMasuk = item.jenis === "Pemasukan";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
+          // Terjemahkan kategori secara visual di riwayat ringkas
+          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
+          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
+          const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || "Umum");
+          
           susunanHTMLItemRingkas += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50/80 dark:hover:bg-slate-700/20 border-b border-slate-100 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
@@ -972,7 +1012,7 @@
                   <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
                   <div class="flex items-center gap-2 flex-wrap">
                     <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
-                      ${item.kategori || "Umum"}
+                      ${kategoriVisual}
                     </span>
                     <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">${formatTanggalIndo(item.tanggal)}</span>
                   </div>
@@ -1001,7 +1041,10 @@
     window.prosesFilterKategoriBulanUtama = function(biarkanAnimasi = true) {
       const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
       const dataKategoriGrafik = {};
-      daftarKategoriPengeluaran.forEach(kat => dataKategoriGrafik[kat] = 0);
+      const opsiKategoriSekarang = kategoriTranslations[currentLang].pengeluaran;
+      
+      // Inisialisasi object grafik berdasarkan bahasa aktif
+      opsiKategoriSekarang.forEach(kat => dataKategoriGrafik[kat] = 0);
 
       let dataHasilFilter = databaseRiwayatRaw || [];
       if (bulanTerpilih !== "ALL") {
@@ -1010,12 +1053,14 @@
 
       dataHasilFilter.forEach(item => {
         if (item.jenis !== "Pemasukan") {
-          const itemKategoriRaw = item.kategori || "";
-          const kategoriCocok = daftarKategoriPengeluaran.find(kat => kat.includes(itemKategoriRaw) || itemKategoriRaw.includes(kat.replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim()));
-          if (kategoriCocok) {
-            dataKategoriGrafik[kategoriCocok] = (dataKategoriGrafik[kategoriCocok] || 0) + parseInt(item.nominal || 0);
+          // Normalisasi pencocokan bahasa dinamis untuk chart
+          const idx = dapatkanIndeksKategori(item.kategori, "Pengeluaran");
+          if (idx !== -1 && idx < opsiKategoriSekarang.length) {
+            const katTargetTerjemahan = opsiKategoriSekarang[idx];
+            dataKategoriGrafik[katTargetTerjemahan] = (dataKategoriGrafik[katTargetTerjemahan] || 0) + parseInt(item.nominal || 0);
           } else {
-            dataKategoriGrafik["📦 Lainnya"] = (dataKategoriGrafik["📦 Lainnya"] || 0) + parseInt(item.nominal || 0);
+            const katDefaultLainnya = opsiKategoriSekarang[opsiKategoriSekarang.length - 1];
+            dataKategoriGrafik[katDefaultLainnya] = (dataKategoriGrafik[katDefaultLainnya] || 0) + parseInt(item.nominal || 0);
           }
         }
       });
@@ -1299,6 +1344,11 @@
           const isMasuk = item.jenis === "Pemasukan";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
+          // Konversi bahasa visual kategori di modal riwayat lengkap
+          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
+          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
+          const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || "Umum");
+          
           susunanHTMLItemModal += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
@@ -1308,7 +1358,7 @@
                 <div class="truncate">
                   <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
                   <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
-                    ${item.kategori || "Umum"}
+                    ${kategoriVisualModal}
                   </span>
                 </div>
               </div>
@@ -1499,11 +1549,17 @@
           const isMasuk = item.jenis === "Pemasukan";
           const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
           const txtJenisFixed = currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense');
+          
+          // Terjemahkan kolom kategori pada cetak PDF
+          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
+          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
+          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : item.kategori;
+
           return [
             indeks + 1,
             formatTanggalFormal(item.tanggal),
             item.keterangan || "-",
-            bersihkanIkonEmoji(item.kategori), 
+            bersihkanIkonEmoji(katTerjemahan), 
             txtJenisFixed,
             nominalFormat
           ];
@@ -1664,11 +1720,16 @@
           const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; 
           const finColor = isMasuk ? '059669' : 'B91C1C';
           const txtJenisFixed = currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense');
+          
+          // Terjemahkan kolom kategori pada lembar Excel
+          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
+          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
+          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : item.kategori;
 
           dRow.getCell(1).value = indeks + 1;
           dRow.getCell(2).value = formatTanggalFormal(item.tanggal);
           dRow.getCell(3).value = item.keterangan || "-";
-          dRow.getCell(4).value = bersihkanIkonEmoji(item.kategori);
+          dRow.getCell(4).value = bersihkanIkonEmoji(katTerjemahan);
           dRow.getCell(5).value = txtJenisFixed;
           dRow.getCell(6).value = parseInt(item.nominal) || 0;
 
