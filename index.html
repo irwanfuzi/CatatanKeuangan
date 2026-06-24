@@ -117,7 +117,7 @@
       box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
       border: 1px solid #f1f5f9 !important;
       padding: 14px !important;
-      width: 315px !important; 
+      width: 336px !important; /* FIX: Diperlebar dari 315px ke 336px agar hari minggu tidak terpotong padding */
       box-sizing: border-box !important;
       background: #ffffff !important;
     }
@@ -830,7 +830,7 @@
           window.buatPemicuKapsulKalenderCustom(instance);
         },
         onChange: function(selectedDates) {
-          sinkronisasiNilaiTanggalMentntah(selectedDates[0]);
+          sinkronisasiNilaiTanggalMentah(selectedDates[0]);
         }
       });
       
@@ -919,7 +919,6 @@
       });
     };
 
-    /* PERBAIKAN: Setelah simpan bulan, paksa Flatpickr untuk tetap terbuka di layar */
     window.setBulanKalenderDariSheet = function(indeksBulan) {
       if (instanceFlatpickr) {
         instanceFlatpickr.currentMonth = indeksBulan;
@@ -956,7 +955,6 @@
       });
     };
 
-    /* PERBAIKAN: Setelah simpan tahun, paksa Flatpickr untuk tetap terbuka di layar */
     window.setTahunKalenderDariSheet = function(angkaTahun) {
       if (instanceFlatpickr) {
         instanceFlatpickr.currentYear = angkaTahun;
