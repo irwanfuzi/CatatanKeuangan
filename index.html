@@ -367,14 +367,12 @@
 
     <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-6 hidden">
       
+      <!-- CARD 1: ANALISIS PENGELUARAN (RE-DESIGN 15PX) -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex flex-col">
-            <div class="flex items-center gap-2">
-              <div class="w-1.5 h-5 bg-rose-500 rounded-full"></div>
-              <h3 class="text-[17px] font-bold text-slate-800 tracking-tight">Analisis Pengeluaran</h3>
-            </div>
-          </div>
+        <div class="flex items-center justify-between mb-4 px-1">
+          <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span>Analisis Pengeluaran
+          </h3>
           <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
             <span id="labelPeriodeUtama">Bulan Ini</span>
             <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
@@ -396,18 +394,19 @@
         <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden">Tidak ada pengeluaran periode ini</div>
       </div>
 
+      <!-- CARD 2: TREN KEUANGAN BULANAN (RE-DESIGN 15PX) -->
       <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
-        <div class="flex flex-col mb-4">
-          <div class="flex items-center gap-2">
-            <div class="w-1.5 h-5 bg-blue-500 rounded-full"></div>
-            <h3 class="text-[17px] font-bold text-slate-800 tracking-tight">Tren Keuangan Bulanan</h3>
-          </div>
+        <div class="flex items-center justify-between mb-4 px-1">
+          <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-blue-500 rounded-full"></span>Tren Keuangan Bulanan
+          </h3>
         </div>
         <div class="w-full h-[185px]">
           <canvas id="chartTrenBulanan"></canvas>
         </div>
       </div>
 
+      <!-- CARD 3: TRANSAKSI TERAKHIR (STABIL 15PX) -->
       <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col">
         <div class="flex items-center justify-between mb-4 px-1">
           <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -584,7 +583,6 @@
       localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
       window.updateIconVisualModeGelap(modeGelapAktif);
       
-      /* FIX ENGINE: Matikan animasi saat beralih mode gelap agar UI tidak pusing */
       window.prosesFilterKategoriBulanUtama(false);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, false);
     };
@@ -778,7 +776,6 @@
       }
     };
 
-    /* FIX ENGINE ANIMASI: Menambahkan parameter kontrol biarkanAnimasi */
     window.aplikasikanDataKeUI = function(res, biarkanAnimasi = true) {
       document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
@@ -814,7 +811,6 @@
       if (localCache) {
         try {
           const resCached = JSON.parse(localCache);
-          /* FIX: Render pertama dari cache tidak perlu animasi putar-putar */
           window.aplikasikanDataKeUI(resCached, false); 
         } catch(e) {
           console.log("Gagal memproses cache.");
@@ -834,7 +830,6 @@
       if (icon) icon.classList.remove('animate-spin');
       if (res) {
         localStorage.setItem('app_keuangan_cache', JSON.stringify(res));
-        /* FIX: Render kedua dari Live Server Google baru kita jalankan animasinya */
         window.aplikasikanDataKeUI(res, true);
       }
     };
@@ -966,7 +961,6 @@
         data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#131b2e' : '#ffffff' }] },
         options: {
           cutout: '75%', responsive: true, maintainAspectRatio: false,
-          /* FIX: Gunakan parameter animasi dinamis agar tidak duplikasi putaran */
           animation: biarkanAnimasi ? { duration: 800, animateRotate: true, animateScale: false } : false,
           plugins: {
             legend: { display: false },
@@ -1132,7 +1126,7 @@
     window.setPeriodeHalamanUtamaDariList = function(val, txt) {
       document.getElementById('filterBulanUtamaHidden').value = val;
       document.getElementById('labelPeriodeUtama').innerText = txt;
-      window.prosesFilterKategoriBulanUtama(false); /* FIX: Ganti filter dropdown utama tidak perlu efek gasing */
+      window.prosesFilterKategoriBulanUtama(false); 
       Swal.close();
     };
 
@@ -1292,7 +1286,7 @@
       const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
       window.buatOpsiFilterBulanModal();
       
-      const hariIni = new Date(); const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
+      const hariIni = new Date(); const formatKunciBulan Ini = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
       const select = document.getElementById('filterBulanModal'); const triggerLabel = document.getElementById('labelPeriodeTerpilih');
       if (select) {
         const opsiTersedia = Array.from(select.options).some(option => option.value === formatKunciBulanIni);
