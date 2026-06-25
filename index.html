@@ -142,9 +142,9 @@
     
     /* ENGINE AKSESLERASI SCROLL SMOOTH PREMIUM */
     .flex-1.overflow-y-auto {
-      -webkit-overflow-scrolling: touch !important; /* Momentum scroll bawaan iOS/Android */
-      transform: translateZ(0); /* Memaksa HP pakai akselerasi hardware GPU */
-      will-change: scroll-position; /* Optimasi rendering browser untuk scroll cepat */
+      -webkit-overflow-scrolling: touch !important; 
+      transform: translateZ(0); 
+      will-change: scroll-position; 
     }
     
     /* CONFIG ENGINE RE-DESIGN KALENDER FLATPICKR (LIGHT MODE) */
@@ -652,7 +652,7 @@
         swalConfirmReset: "Reset All Data?", swalDetailReset: "This action will clean all data permanently.", swalStatusReset: "Cleaning...",
         swalSuccessReset: "Data Reset!", swalDescReset: "All cash records successfully cleared.", swalErrorReset: "Failed to Clear",
         pdfJudul: "FINANCIAL REPORT STATEMENT", pdfPeriode: "Report Period", pdfTglCetak: "Print Date", pdfTbodyNo: "No",
-        pdfTbodyTgl: "Date", pdfTbodyKet: "Description / Memo", pdfTbodyKat: "Category", pdfTbodyJenis: "Type", pdfTbodyNom: "Amount",
+        pdfTbodyTgl: "Date", pdfTbodyKat: "Category", pdfTbodyJenis: "Type", pdfTbodyNom: "Amount",
         excelTitle: "FINANCIAL ACCUMULATION SUMMARY", excelIn: "Total Accumulated Income", excelOut: "Total Accumulated Expense", excelNet: "Total Net Balance",
         navHome: "HOME", navRiwayat: "HISTORY"
       }
@@ -1608,7 +1608,22 @@
     };
 
     window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
-    window.tombolReloadPintar = () => { document.getElementById('iconReload').classList.add('animate-spin'); window.loadSummary(); window.tukarHalaman('home'); };
+    
+    // RE-ENGINE LIVE REFRESH PWA TANPA MENAHAN CACHE INTERNET
+    window.tombolReloadPintar = function() { 
+      document.getElementById('iconReload').classList.add('animate-spin'); 
+      localStorage.removeItem('app_keuangan_cache');
+      
+      // Jika online, paksa hapus cache dinamis via browser sejenak
+      if (navigator.onLine && 'serviceWorker' in navigator) {
+        caches.keys().then(names => {
+          for (let name of names) caches.delete(name);
+        });
+      }
+      
+      window.loadSummary(); 
+      window.tukarHalaman('home'); 
+    };
 
     window.handleForm = function(e) {
       e.preventDefault();
@@ -1826,7 +1841,7 @@
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
 
-    // SUNTIKAN ENGINE ANTI-FREEZE & AUTO REFRESH CACHE PWA / APK
+    // CORE ENGINE ANTI-STUCK: AUTO REFRESH JIKA ADALAH UPDATE SERVICE WORKER BARU
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').then(reg => {
@@ -1835,7 +1850,7 @@
             if (installingWorker == null) return;
             installingWorker.onstatechange = () => {
               if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('Kode baru terdeteksi! Mengosongkan cache lama...');
+                console.log('Update terdeteksi, membersihkan memori dan memuat ulang...');
                 caches.keys().then(names => {
                   for (let name of names) caches.delete(name);
                 }).then(() => {
