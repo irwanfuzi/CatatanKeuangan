@@ -387,7 +387,8 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
               <div class="relative">
                 <input type="hidden" id="tanggal_mentntah" value="">
-                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 cursor-pointer" required>
+                <!-- HEIGHT LOCKED TO 52px FOR UNIFORMITY -->
+                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full h-[52px] bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
                   <i class="fa-regular fa-calendar-days"></i>
                 </div>
@@ -396,12 +397,13 @@
 
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="jenisAliran">Jenis Aliran Dana</label>
-              <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
+              <!-- CONTAINER HEIGHT LOCKED TO 52px FOR UNIFORMITY -->
+              <div class="w-full h-[52px] p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
                 <input type="hidden" id="jenis" value="Pengeluaran">
-                <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400" data-i18n="tabKeluar">
+                <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full h-full rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400" data-i18n="tabKeluar">
                   💸 Pengeluaran
                 </button>
-                <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400" data-i18n="tabMasuk">
+                <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full h-full rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400" data-i18n="tabMasuk">
                   💰 Pemasukan
                 </button>
               </div>
@@ -411,7 +413,8 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
               <div class="relative">
                 <input type="hidden" id="kategori" value="">
-                <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
+                <!-- HEIGHT LOCKED TO 52px FOR UNIFORMITY -->
+                <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full h-[52px] bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
                   <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
                   <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
                 </button>
@@ -424,7 +427,8 @@
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
               <div class="relative">
-                <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12" required>
+                <!-- HEIGHT LOCKED TO 52px FOR UNIFORMITY -->
+                <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full h-[52px] bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-lg text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12 pr-4" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
                   Rp
                 </div>
@@ -434,7 +438,8 @@
             <div class="mb-5">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
               <div class="relative">
-                <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11" required>
+                <!-- HEIGHT LOCKED TO 52px FOR UNIFORMITY -->
+                <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full h-[52px] bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
                   <i class="fa-regular fa-pen-to-square"></i>
                 </div>
@@ -442,11 +447,11 @@
             </div>
 
             <div class="flex gap-3 w-full">
-              <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-3.5 rounded-2xl shadow-md shadow-emerald-600/10 hover:bg-emerald-700 hover:shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
+              <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold h-[52px] rounded-2xl shadow-md shadow-emerald-600/10 hover:bg-emerald-700 hover:shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
                 <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
               </button>
               
-              <button type="button" onclick="window.tombolReloadPintar()" class="bg-white text-slate-500 font-bold px-5 rounded-2xl border border-slate-200/80 shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center">
+              <button type="button" onclick="window.tombolReloadPintar()" class="bg-white text-slate-500 font-bold px-5 h-[52px] rounded-2xl border border-slate-200/80 shadow-sm hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center">
                 <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
               </button>
             </div>
@@ -1025,12 +1030,13 @@
       const btnKeluar = document.getElementById('btnTabPengeluaran');
       const btnMasuk = document.getElementById('btnTabPemasukan');
       
+      // HEIGHT REMAINS LOCKED TO h-full
       if (jenisTerpilih === 'Pengeluaran') {
-        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400";
-        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
+        btnKeluar.className = "w-full h-full rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400";
+        btnMasuk.className = "w-full h-full rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
       } else {
-        btnMasuk.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
-        btnKeluar.className = "w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
+        btnMasuk.className = "w-full h-full rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
+        btnKeluar.className = "w-full h-full rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
       }
       
       window.updateKategoriOptions();
