@@ -573,8 +573,8 @@
       
       <!-- MENU 1: BERANDA -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
-        <button id="navHome" onclick="window.tukarHalaman('home')" class="w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-extrabold tracking-wide text-emerald-600 dark:text-emerald-400 scale-105">
-          <i class="fa-regular fa-compass text-xl"></i>
+        <button id="navHome" onclick="window.tukarHalaman('home')" class="w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-extrabold tracking-wide text-emerald-600 dark:text-emerald-400 scale-105 opacity-100">
+          <i class="fa-solid fa-house text-xl"></i>
           <span data-i18n="navHome">BERANDA</span>
         </button>
       </div>
@@ -582,7 +582,7 @@
       <!-- MENU 2: RIWAYAT -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
         <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-semibold tracking-wide text-slate-400 dark:text-slate-500 opacity-70">
-          <i class="fa-regular fa-rectangle-list text-xl"></i>
+          <i class="fa-regular fa-receipt text-xl"></i>
           <span data-i18n="navRiwayat">RIWAYAT</span>
         </button>
       </div>
@@ -1105,10 +1105,10 @@
         if(cardTransaksi) cardTransaksi.classList.add('hidden'); 
         
         navHome.className = activeClasses;
-        navHome.querySelector('i').className = "fa-solid fa-compass text-xl";
+        navHome.querySelector('i').className = "fa-solid fa-house text-xl";
         
         navRiwayat.className = inactiveClasses;
-        navRiwayat.querySelector('i').className = "fa-regular fa-rectangle-list text-xl";
+        navRiwayat.querySelector('i').className = "fa-regular fa-receipt text-xl";
         
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
@@ -1117,10 +1117,10 @@
         if(cardTransaksi && databaseRiwayatRaw.length > 0) cardTransaksi.classList.remove('hidden'); 
         
         navRiwayat.className = activeClasses;
-        navRiwayat.querySelector('i').className = "fa-solid fa-rectangle-list text-xl";
+        navRiwayat.querySelector('i').className = "fa-solid fa-receipt text-xl";
         
         navHome.className = inactiveClasses;
-        navHome.querySelector('i').className = "fa-regular fa-compass text-xl";
+        navHome.querySelector('i').className = "fa-regular fa-house text-xl";
         
         window.loadSummary();
 
