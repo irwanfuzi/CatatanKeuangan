@@ -48,11 +48,14 @@
       z-index: 999999 !important;
     }
 
-    /* ENGINE KONFIGURASI NAVBAR MODAL PREMIUM GAYA LENGKUNG ATAS */
+    /* ENGINE KONFIGURASI NAVBAR FIXATION ANTI-VANISHING */
     #mainFixedNavbar {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
       z-index: 9999 !important;
       display: flex !important;
-      flex-shrink: 0 !important; 
       min-height: 72px !important;
     }
     
@@ -332,7 +335,7 @@
         </div>
       </div>
 
-      <div class="w-full px-4 mt-6" id="mainContainer">
+      <div class="w-full px-4 mt-6 pb-24" id="mainContainer">
         
         <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
           <div class="flex items-center gap-2 mb-6">
@@ -519,7 +522,7 @@
       </div>
     </div>
 
-    <div id="mainFixedNavbar" class="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-100/80 dark:border-slate-800/50 rounded-t-[2.5rem] shadow-[0_-12px_30px_-5px_rgba(51,65,85,0.06)] dark:shadow-[0_-12px_35px_-5px_rgba(0,0,0,0.5)] py-3 px-14 flex justify-around items-center pb-[calc(14px+env(safe-area-inset-bottom))] md:rounded-b-[2.75rem] transition-all duration-300">
+    <div id="mainFixedNavbar" class="absolute bottom-0 left-0 right-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-100/80 dark:border-slate-800/50 rounded-t-[2.5rem] shadow-[0_-12px_30px_-5px_rgba(51,65,85,0.06)] dark:shadow-[0_-12px_35px_-5px_rgba(0,0,0,0.5)] py-3 px-14 flex justify-around items-center pb-[calc(14px+env(safe-area-inset-bottom))] md:rounded-b-[2.75rem] transition-all duration-300">
       
       <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-row items-center justify-center gap-2 py-2.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400">
         <i class="fa-solid fa-house text-base"></i>
@@ -1603,7 +1606,7 @@
       const bulanTerpilih = document.getElementById('filterBulanModal').value;
       let dataHasilFilter = databaseRiwayatRaw || [];
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilled));
       }
       return {
         data: dataHasilFilter,
