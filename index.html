@@ -174,7 +174,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
- transition: all 0.2s;
+      transition: all 0.2s;
     }
     .btn-pemicu-bulan:active, .btn-pemicu-tahun:active {
       scale: 0.95;
@@ -511,7 +511,7 @@
         </div>
       </div>
 
-      <!-- KAPSUL PENSTABIL STRUKTURAL KONSISTEN (Dioptimalkan h-[88px] agar sisa guliran kartu pas di atas deck bawah) -->
+      <!-- KAPSUL PENSTABIL STRUKTURAL KONSISTEN -->
       <div class="w-full h-[88px] flex-shrink-0 pointer-events-none"></div>
 
     </div>
@@ -659,8 +659,6 @@
     if (window.jspdf && window.jspdf.jsPDF) {
       window.jsPDF = window.jspdf.jsPDF;
     }
-
-    fontFamily = 'Urbanist', sans-serif;
 
     function parseKeTanggalObj(tglString) {
       if (!tglString) return new Date();
