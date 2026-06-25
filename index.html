@@ -568,8 +568,8 @@
       </div>
     </div>
 
-    <!-- ADAPTIF FIXED NAVBAR GOPAY STYLE (LIGHT: PUTIH BERSIH, DARK: SLATE GELAP) -->
-    <div id="mainFixedNavbar" class="bg-white dark:bg-slate-900/95 border-t border-slate-200/80 dark:border-slate-800/80 shadow-[0_-10px_30px_rgba(51,65,85,0.06)] dark:shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.5)] flex flex-row items-center justify-between pb-[calc(10px+env(safe-area-inset-bottom))]">
+    <!-- ADAPTIF FIXED NAVBAR GOPAY STYLE WITH GLASSMORPHISM EFFECT -->
+    <div id="mainFixedNavbar" class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/50 dark:border-slate-800/50 shadow-[0_-10px_30px_rgba(51,65,85,0.04)] dark:shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.4)] flex flex-row items-center justify-between pb-[calc(10px+env(safe-area-inset-bottom))]">
       
       <!-- MENU 1: BERANDA -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
@@ -1554,7 +1554,7 @@
           const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
           const listKey = isMasuk ? "pemasukan" : "pengeluaran";
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
-          const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
+          const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
           
           susunanHTMLItemModal += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
@@ -1614,7 +1614,6 @@
       document.getElementById('iconReload').classList.add('animate-spin'); 
       localStorage.removeItem('app_keuangan_cache');
       
-      // Jika online, paksa hapus cache dinamis via browser sejenak
       if (navigator.onLine && 'serviceWorker' in navigator) {
         caches.keys().then(names => {
           for (let name of names) caches.delete(name);
