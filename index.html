@@ -48,7 +48,7 @@
       z-index: 999999 !important;
     }
 
-    /* ENGINE KONFIGURASI NAVBAR FIXATION ANTI-VANISHING (FIXED: Menggunakan fixed di mobile agar terkunci mutlak ke kaca layar HP) */
+    /* ENGINE KONFIGURASI NAVBAR FIXATION ANTI-VANISHING */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -535,7 +535,7 @@
       </div>
     </div>
 
-    <!-- RE-DESIGNED NAVIGATION BAR: MINIMALIST COLOR SHIFT WITHOUT PILL BACKGROUND -->
+    <!-- FIXED NAVBAR ENGINE -->
     <div id="mainFixedNavbar" class="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-100/80 dark:border-slate-800/50 rounded-t-[2.5rem] shadow-[0_-12px_30px_-5px_rgba(51,65,85,0.06)] dark:shadow-[0_-12px_35px_-5px_rgba(0,0,0,0.5)] py-3 px-14 flex justify-around items-center pb-[calc(14px+env(safe-area-inset-bottom))] md:rounded-b-[2.75rem] transition-all duration-300">
       
       <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-row items-center justify-center gap-2 py-2.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400">
@@ -845,7 +845,10 @@
       });
       
       window.updateKategoriOptions();
-      window.loadSummary();
+      
+      // ENGINE REFRESH LOCK: Deteksi tab aktif terakhir agar tidak ke-reset ke Beranda saat refresh
+      const savedTab = localStorage.getItem('active_tab') || 'home';
+      window.tukarHalaman(savedTab);
     });
 
     window.toggleDarkMode = function() {
@@ -1048,6 +1051,9 @@
       const navHome = document.getElementById('navHome');
       const navRiwayat = document.getElementById('navRiwayat');
       const cardTransaksi = document.getElementById('cardTransaksiTerakhir');
+
+      // Simpan status halaman aktif ke memori browser
+      localStorage.setItem('active_tab', menu);
 
       const activeClasses = "flex flex-row items-center justify-center gap-2 py-2.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400";
       const inactiveClasses = "flex flex-row items-center justify-center gap-2 py-2.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-slate-400 dark:text-slate-500";
