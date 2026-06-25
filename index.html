@@ -72,13 +72,13 @@
       z-index: 9999 !important;
       display: flex !important;
       min-height: 68px !important;
-      border-radius: 16px 16px 0 0 !important; /* Lengkungan halus sisi atas */
+      border-radius: 16px 16px 0 0 !important;
     }
     
     @media (min-width: 768px) {
       #mainFixedNavbar {
         position: absolute !important;
-        border-radius: 0 0 2.75rem 2.75rem !important; /* Mengikuti frame mockup laptop */
+        border-radius: 0 0 2.75rem 2.75rem !important;
       }
     }
     
@@ -1103,7 +1103,6 @@
         
         window.loadSummary();
 
-        /* FIX SCROLL JUMP: Paksa Chart.js hitung ulang ukuran seketika setelah kontainer unhide */
         setTimeout(() => {
           if (myChartInstance) myChartInstance.resize();
           if (myBarChartInstance) myBarChartInstance.resize();
@@ -1658,7 +1657,7 @@
       const bulanTerpilih = document.getElementById('filterBulanModal').value;
       let dataHasilFilter = databaseRiwayatRaw || [];
       if (bulanTerpilih !== "ALL") {
-        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
+        dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilled));
       }
       return {
         data: dataHasilFilter,
@@ -1678,7 +1677,6 @@
         }
 
         const { data, periodeText } = dapatkanDataTerfilterModal();
-        
         if (data.length === 0) {
           Swal.fire({ icon: 'warning', title: 'Error', text: 'No data transactions to export.', confirmButtonColor: '#10b981' });
           return;
@@ -1686,8 +1684,7 @@
 
         Swal.fire({ title: currentLang === 'id' ? 'Menyiapkan PDF...' : 'Preparing PDF...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-        let akumulasiMasuk = 0;
-        let akumulasiKeluar = 0;
+        let akumulasiMasuk = 0; let akumulasiKeluar = 0;
         data.forEach(item => {
           const nominalInt = parseInt(item.nominal) || 0;
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
@@ -1696,294 +1693,145 @@
         });
         const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
 
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
+        const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4');
         
-        doc.setFont("Helvetica", "bold");
-        doc.setFontSize(20);
-        doc.setTextColor(5, 150, 105); 
-        doc.text(translations[currentLang].pdfJudul, 14, 20);
-        
-        doc.setFont("Helvetica", "normal");
-        doc.setFontSize(10);
-        doc.setTextColor(100, 116, 139); 
-        doc.text(`${translations[currentLang].pdfPeriode}: ${periodeText}`, 14, 27);
+        doc.setFont("Helvetica", "bold"); doc.setFontSize(20); doc.setTextColor(5, 150, 105); doc.text(translations[currentLang].pdfJudul, 14, 20);
+        doc.setFont("Helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(100, 116, 139); doc.text(`${translations[currentLang].pdfPeriode}: ${periodeText}`, 14, 27);
         doc.text(`${translations[currentLang].pdfTglCetak}: ${new Date().toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}`, 14, 32);
         
-        doc.setDrawColor(241, 245, 249);
-        doc.setLineWidth(0.4);
-        doc.line(14, 37, 196, 37);
+        doc.setDrawColor(241, 245, 249); doc.setLineWidth(0.4); doc.line(14, 37, 196, 37);
+        doc.setFillColor(248, 250, 252); doc.roundedRect(14, 42, 56, 20, 3, 3, "F"); doc.roundedRect(75, 42, 56, 20, 3, 3, "F"); doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
 
-        doc.setFillColor(248, 250, 252); 
-        doc.roundedRect(14, 42, 56, 20, 3, 3, "F");
-        doc.roundedRect(75, 42, 56, 20, 3, 3, "F");
-        doc.roundedRect(136, 42, 60, 20, 3, 3, "F");
+        doc.setFontSize(8); doc.setFont("Helvetica", "bold"); doc.setTextColor(148, 163, 184); 
+        doc.text(currentLang === 'id' ? "TOTAL PEMASUKAN" : "TOTAL INCOME", 18, 47); doc.text(currentLang === 'id' ? "TOTAL PENGELUARAN" : "TOTAL EXPENSE", 79, 47); doc.text(currentLang === 'id' ? "SALDO BERSIH" : "NET BALANCE", 140, 47);
 
-        doc.setFontSize(8);
-        doc.setFont("Helvetica", "bold");
-        doc.setTextColor(148, 163, 184); 
-        doc.text(currentLang === 'id' ? "TOTAL PEMASUKAN" : "TOTAL INCOME", 18, 47);
-        doc.text(currentLang === 'id' ? "TOTAL PENGELUARAN" : "TOTAL EXPENSE", 79, 47);
-        doc.text(currentLang === 'id' ? "SALDO BERSIH" : "NET BALANCE", 140, 47);
-
-        doc.setFontSize(11);
-        doc.setTextColor(16, 185, 129); 
-        doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55);
-        doc.setTextColor(244, 63, 94); 
-        doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
-        
-        if (netSaldoBersih >= 0) {
-          doc.setTextColor(30, 41, 59);
-        } else {
-          doc.setTextColor(244, 63, 94);
-        }
-        doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
+        doc.setFontSize(11); doc.setTextColor(16, 185, 129); doc.text("Rp " + akumulasiMasuk.toLocaleString('id-ID'), 18, 55);
+        doc.setTextColor(244, 63, 94); doc.text("Rp " + akumulasiKeluar.toLocaleString('id-ID'), 79, 55);
+        doc.setTextColor(netSaldoBersih >= 0 ? 30 : 244, netSaldoBersih >= 0 ? 41 : 63, netSaldoBersih >= 0 ? 59 : 94); doc.text("Rp " + netSaldoBersih.toLocaleString('id-ID'), 140, 55);
 
         const barisTabel = data.map((item, indeks) => {
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
           const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
           const nominalFormat = (isMasuk ? "+ " : "- ") + "Rp " + parseInt(item.nominal).toLocaleString('id-ID');
-          const txtJenisFixed = currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense');
-          
           const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
-          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
-          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : item.kategori;
+          const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
+          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
 
-          return [
-            indeks + 1,
-            formatTanggalFormal(item.tanggal),
-            item.keterangan || "-",
-            bersihkanIkonEmoji(katTerjemahan), 
-            txtJenisFixed,
-            nominalFormat
-          ];
+          return [indeks + 1, formatTanggalFormal(item.tanggal), item.keterangan || "-", bersihkanIkonEmoji(katTerjemahan), currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense'), nominalFormat];
         });
 
         doc.autoTable({
-          startY: 68,
-          head: [[
-            translations[currentLang].pdfTbodyNo, 
-            translations[currentLang].pdfTbodyTgl, 
-            translations[currentLang].pdfTbodyKet, 
-            translations[currentLang].pdfTbodyKat, 
-            translations[currentLang].pdfTbodyJenis, 
-            translations[currentLang].pdfTbodyNom
-          ]],
-          body: barisTabel,
-          theme: 'grid',
+          startY: 68, head: [[translations[currentLang].pdfTbodyNo, translations[currentLang].pdfTbodyTgl, translations[currentLang].pdfTbodyKet, translations[currentLang].pdfTbodyKat, translations[currentLang].pdfTbodyJenis, translations[currentLang].pdfTbodyNom]], body: barisTabel, theme: 'grid',
           headStyles: { fillColor: [5, 150, 105], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9.5, cellPadding: 3.5 },
-          bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 },
-          alternateRowStyles: { fillColor: [250, 250, 250] },
-          styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
-          columnStyles: {
-            0: { cellWidth: 12, halign: 'center', styles: { cellPadding: 2 } },
-            1: { cellWidth: 32 },
-            3: { cellWidth: 28 },
-            4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' },
-            5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' }
-          },
-          didParseCell: function(cellData) {
-            if (cellData.section === 'body') {
-              if (cellData.column.index === 4) {
-                if (cellData.cell.raw === "Pemasukan" || cellData.cell.raw === "Income") cellData.cell.styles.textColor = [5, 150, 105];
-                else cellData.cell.styles.textColor = [244, 63, 94];
-              }
-              if (cellData.column.index === 5) {
-                if (cellData.cell.raw && typeof cellData.cell.raw === 'string' && cellData.cell.raw.startsWith("+")) {
-                  cellData.cell.styles.textColor = [5, 150, 105]; 
-                } else {
-                  cellData.cell.styles.textColor = [30, 41, 59]; 
-                }
-              }
+          bodyStyles: { fontSize: 8.5, textColor: [51, 65, 85], cellPadding: 3 }, alternateRowStyles: { fillColor: [250, 250, 250] }, styles: { font: 'Helvetica', lineColor: [241, 245, 249], lineWidth: 0.3 },
+          columnStyles: { 0: { cellWidth: 12, halign: 'center' }, 1: { cellWidth: 32 }, 3: { cellWidth: 28 }, 4: { cellWidth: 25, fontStyle: 'bold', halign: 'center' }, 5: { cellWidth: 35, halign: 'right', fontStyle: 'bold' } },
+          didParseCell: function(cData) {
+            if (cData.section === 'body') {
+              if (cData.column.index === 4) cData.cell.styles.textColor = (cData.cell.raw === "Pemasukan" || cData.cell.raw === "Income") ? [5, 150, 105] : [244, 63, 94];
+              if (cData.column.index === 5) cData.cell.styles.textColor = (cData.cell.raw && cData.cell.raw.startsWith("+")) ? [5, 150, 105] : [30, 41, 59];
             }
           },
-          didDrawPage: function(dataPage) {
-            doc.setFontSize(8);
-            doc.setFont("Helvetica", "normal");
-            doc.setTextColor(148, 163, 184);
-            doc.text(`Page ${dataPage.pageNumber}`, dataPage.settings.margin.left, doc.internal.pageSize.height - 10);
-          }
+          didDrawPage: function(dPage) { doc.setFontSize(8); doc.setFont("Helvetica", "normal"); doc.setTextColor(148, 163, 184); doc.text(`Page ${dPage.pageNumber}`, dPage.settings.margin.left, doc.internal.pageSize.height - 10); }
         });
 
-        Swal.close();
-        doc.save(`Financial_Report_${periodeText.replace(/ /g, "_")}.pdf`);
-      } catch (error) {
-        Swal.close();
-        Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message });
-        console.error(error);
-      }
+        Swal.close(); doc.save(`Financial_Report_${periodeText.replace(/ /g, "_")}.pdf`);
+      } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
 
     window.unduhExcel = function() {
       try {
         const { data, periodeText } = dapatkanDataTerfilterModal();
-
-        if (data.length === 0) {
-          Swal.fire({ icon: 'warning', title: 'Error', text: 'No data transactions to export.', confirmButtonColor: '#10b981' });
-          return;
-        }
+        if (data.length === 0) { Swal.fire({ icon: 'warning', title: 'Error', text: 'No data transactions to export.', confirmButtonColor: '#10b981' }); return; }
 
         Swal.fire({ title: currentLang === 'id' ? 'Membangun Excel Premium...' : 'Building Premium Excel...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
-        let sumMasuk = 0;
-        let sumKeluar = 0;
+        let sumMasuk = 0; let sumKeluar = 0;
         data.forEach(item => {
           const nom = parseInt(item.nominal) || 0;
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
-          if (itemJenisClean === "pemasukan" || itemJenisClean === "income") sumMasuk += nom;
-          else sumKeluar += nom;
+          if (itemJenisClean === "pemasukan" || itemJenisClean === "income") sumMasuk += nom; else sumKeluar += nom;
         });
         const sumSaldoBersih = sumMasuk - sumKeluar;
 
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Dashboard Statement');
+        const workbook = new ExcelJS.Workbook(); const worksheet = workbook.addWorksheet('Dashboard Statement');
+        worksheet.getCell('A1').value = translations[currentLang].pdfJudul; worksheet.getCell('A1').font = { name: 'Segoe UI', size: 16, bold: true, color: { argb: '047857' } };
+        worksheet.getCell('A2').value = `${translations[currentLang].pdfPeriode}: ${periodeText}`; worksheet.getCell('A2').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
+        worksheet.getCell('A3').value = `${translations[currentLang].pdfTglCetak}: ${new Date().toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}`; worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
 
-        worksheet.getCell('A1').value = translations[currentLang].pdfJudul;
-        worksheet.getCell('A1').font = { name: 'Segoe UI', size: 16, bold: true, color: { argb: '047857' } };
-        
-        worksheet.getCell('A2').value = `${translations[currentLang].pdfPeriode}: ${periodeText}`;
-        worksheet.getCell('A2').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
-        
-        worksheet.getCell('A3').value = `${translations[currentLang].pdfTglCetak}: ${new Date().toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}`;
-        worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
-
-        worksheet.mergeCells('A5:C5');
-        worksheet.getCell('A5').value = translations[currentLang].excelTitle;
-        worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } };
-        worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
-        worksheet.getCell('A5').border = {
-          top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-          bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
-        };
+        worksheet.mergeCells('A5:C5'); worksheet.getCell('A5').value = translations[currentLang].excelTitle; worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } }; worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
+        worksheet.getCell('A5').border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
 
         const isiRingkasan = [
-          { row: '6', text: translations[currentLang].excelIn, val: sumMasuk, color: '059669' },
-          { row: '7', text: translations[currentLang].excelOut, val: sumKeluar, color: 'B91C1C' },
-          { row: '8', text: translations[currentLang].excelNet, val: sumSaldoBersih, color: sumSaldoBersih >= 0 ? '059669' : 'B91C1C' }
+          { row: '6', text: translations[currentLang].excelIn, val: sumMasuk, color: '059669' }, { row: '7', text: translations[currentLang].excelOut, val: sumKeluar, color: 'B91C1C' }, { row: '8', text: translations[currentLang].excelNet, val: sumSaldoBersih, color: sumSaldoBersih >= 0 ? '059669' : 'B91C1C' }
         ];
 
         isiRingkasan.forEach(item => {
-          worksheet.mergeCells(`A${item.row}:B${item.row}`);
-          worksheet.getCell(`A${item.row}`).value = item.text;
-          worksheet.getCell(`C${item.row}`).value = item.val;
-          
-          if(item.row === '8') worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: true };
-          else worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI' };
-
-          [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => {
-            worksheet.getCell(ref).border = {
-              top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
-            };
-          });
-
-          const valCell = worksheet.getCell(`C${item.row}`);
-          valCell.numFormat = '"Rp"#,##0';
-          valCell.alignment = { horizontal: 'right' };
-          valCell.font = { name: 'Segoe UI', bold: true, color: { argb: item.color } };
+          worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.getCell(`A${item.row}`).value = item.text; worksheet.getCell(`C${item.row}`).value = item.val;
+          worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: item.row === '8' };
+          [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => { worksheet.getCell(ref).border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } }; });
+          const valCell = worksheet.getCell(`C${item.row}`); valCell.numFormat = '"Rp"#,##0'; valCell.alignment = { horizontal: 'right' }; valCell.font = { name: 'Segoe UI', bold: true, color: { argb: item.color } };
         });
 
-        const headers = [
-          translations[currentLang].pdfTbodyNo, 
-          translations[currentLang].tglTrans, 
-          translations[currentLang].ketNota, 
-          translations[currentLang].posKategori, 
-          currentLang === 'id' ? 'Jenis Aliran' : 'Flow Type', 
-          currentLang === 'id' ? 'Nominal' : 'Amount'
-        ];
-        const headerRow = worksheet.getRow(10);
-        headerRow.height = 24;
+        const headers = [translations[currentLang].pdfTbodyNo, translations[currentLang].tglTrans, translations[currentLang].ketNota, translations[currentLang].posKategori, currentLang === 'id' ? 'Jenis Aliran' : 'Flow Type', currentLang === 'id' ? 'Nominal' : 'Amount'];
+        const headerRow = worksheet.getRow(10); headerRow.height = 24;
 
         headers.forEach((h, idx) => {
-          const cell = headerRow.getCell(idx + 1);
-          cell.value = h;
-          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '059669' } };
-          cell.font = { name: 'Segoe UI', bold: true, color: { argb: 'FFFFFF' } };
-          cell.alignment = { horizontal: 'center', vertical: 'middle' };
-          cell.border = {
-            top: { style: 'thin', color: { argb: '10B981' } }, left: { style: 'thin', color: { argb: '10B981' } },
-            bottom: { style: 'thin', color: { argb: '10B981' } }, right: { style: 'thin', color: { argb: '10B981' } }
-          };
+          const cell = headerRow.getCell(idx + 1); cell.value = h; cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '059669' } }; cell.font = { name: 'Segoe UI', bold: true, color: { argb: 'FFFFFF' } }; cell.alignment = { horizontal: 'center', vertical: 'middle' };
+          cell.border = { top: { style: 'thin', color: { argb: '10B981' } }, left: { style: 'thin', color: { argb: '10B981' } }, bottom: { style: 'thin', color: { argb: '10B981' } }, right: { style: 'thin', color: { argb: '10B981' } } };
         });
 
         data.forEach((item, indeks) => {
-          const rowNum = 11 + indeks;
-          const dRow = worksheet.getRow(rowNum);
-          dRow.height = 20;
+          const rowNum = 11 + indeks; const dRow = worksheet.getRow(rowNum); dRow.height = 20;
+          const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : ""; const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
+          const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; const finColor = isMasuk ? '059669' : 'B91C1C';
+          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis); const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
+          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
 
-          const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
-          const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
-          const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; 
-          const finColor = isMasuk ? '059669' : 'B91C1C';
-          const txtJenisFixed = currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense');
-          
-          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
-          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
-          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : item.kategori;
-
-          dRow.getCell(1).value = indeks + 1;
-          dRow.getCell(2).value = formatTanggalFormal(item.tanggal);
-          dRow.getCell(3).value = item.keterangan || "-";
-          dRow.getCell(4).value = bersihkanIkonEmoji(katTerjemahan);
-          dRow.getCell(5).value = txtJenisFixed;
-          dRow.getCell(6).value = parseInt(item.nominal) || 0;
+          dRow.getCell(1).value = indeks + 1; dRow.getCell(2).value = formatTanggalFormal(item.tanggal); dRow.getCell(3).value = item.keterangan || "-"; dRow.getCell(4).value = bersihkanIkonEmoji(katTerjemahan); dRow.getCell(5).value = currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense'); dRow.getCell(6).value = parseInt(item.nominal) || 0;
 
           for (let col = 1; col <= 6; col++) {
-            const cell = dRow.getCell(col);
-            cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } };
-            cell.font = { name: 'Segoe UI', size: 10 };
-            cell.border = {
-              top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } },
-              bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } }
-            };
-
+            const cell = dRow.getCell(col); cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } }; cell.font = { name: 'Segoe UI', size: 10 };
+            cell.border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
             if (col === 1) cell.alignment = { horizontal: 'center' };
-            if (col === 5) {
-              cell.alignment = { horizontal: 'center' };
-              cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } };
-            }
-            if (col === 6) {
-              cell.alignment = { horizontal: 'right' };
-              cell.numFormat = '"Rp"#,##0'; 
-              cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } };
-            }
+            if (col === 5) { cell.alignment = { horizontal: 'center' }; cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } }; }
+            if (col === 6) { cell.alignment = { horizontal: 'right' }; cell.numFormat = '"Rp"#,##0'; cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } }; }
           }
         });
 
-        worksheet.autoFilter = {
-          from: { row: 10, column: 1 },
-          to: { row: 10 + data.length, column: 6 }
-        };
-
-        const konfigurasiLebarKolom = [
-          { width: 8 }, { width: 20 }, { width: 28 }, { width: 18 }, { width: 16 }, { width: 24 }   
-        ];
-
-        data.forEach(item => {
-          if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].width) {
-            konfigurasiLebarKolom[2].width = item.keterangan.length + 4;
-          }
-        });
+        worksheet.autoFilter = { from: { row: 10, column: 1 }, to: { row: 10 + data.length, column: 6 } };
+        const konfigurasiLebarKolom = [{ width: 8 }, { width: 20 }, { width: 28 }, { width: 18 }, { width: 16 }, { width: 24 }];
+        data.forEach(item => { if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].width) konfigurasiLebarKolom[2].width = item.keterangan.length + 4; });
         worksheet.columns = konfigurasiLebarKolom;
 
         workbook.xlsx.writeBuffer().then(function(buffer) {
-          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlUnduh = URL.createObjectURL(blob);
-          const tautanPemicu = document.createElement("a");
-          tautanPemicu.href = urlUnduh;
-          tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautanPemicu);
-          tautanPemicu.click();
-          document.body.removeChild(tautanPemicu);
-          Swal.close();
+          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
+          const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
-
-      } catch (error) {
-        Swal.close();
-        Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message });
-        console.error(error);
-      }
+      } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
+
+    // SUNTIKAN ENGINE ANTI-FREEZE & AUTO REFRESH CACHE PWA / APK
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            if (installingWorker == null) return;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('Kode baru terdeteksi! Mengosongkan cache lama...');
+                caches.keys().then(names => {
+                  for (let name of names) caches.delete(name);
+                }).then(() => {
+                  window.location.reload();
+                });
+              }
+            };
+          };
+        }).catch(err => console.error('Service Worker Gagal', err));
+      });
+    }
   </script>
 </body>
 
