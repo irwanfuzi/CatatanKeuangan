@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
 
+  <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#007a53">
 
@@ -321,14 +322,17 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
+  <!-- MAIN CANVAS CONTAINER -->
   <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.18)] overflow-x-hidden overflow-y-clip md:border md:border-slate-200/60 transition-all duration-300">
 
+    <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none">
       
       <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden flex-shrink-0">
         <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
         <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
         
+        <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
           <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5">
             <i class="fa-solid fa-globe text-white/80"></i>
@@ -360,6 +364,7 @@
         </div>
       </div>
 
+      <!-- CONTENT CONTAINER -->
       <div class="w-full px-4 mt-6 pb-2" id="mainContainer">
         
         <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
@@ -445,6 +450,7 @@
 
         <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-0 hidden">
           
+          <!-- CARD 1: ANALISIS PENGELUARAN -->
           <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -471,6 +477,7 @@
             <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
           </div>
 
+          <!-- CARD 2: TREN KEUANGAN BULANAN -->
           <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -482,6 +489,7 @@
             </div>
           </div>
 
+          <!-- CARD 3: TRANSAKSI TERAKHIR -->
           <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col mb-0">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -506,10 +514,12 @@
         </div>
       </div>
 
+      <!-- KAPSUL PENSTABIL STRUKTURAL KONSISTEN -->
       <div class="w-full h-[88px] flex-shrink-0 pointer-events-none"></div>
 
     </div>
 
+    <!-- MODAL DETAIL TRANSAKSI -->
     <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
       <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
         
@@ -550,8 +560,10 @@
       </div>
     </div>
 
+    <!-- CLEAN DECK NAVBAR GOPAY STYLE (2 TOMBOL SEIMBANG: 50% BERANDA & 50% RIWAYAT) -->
     <div id="mainFixedNavbar" class="bg-slate-900/90 border-t border-slate-800/60 shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.5)] flex flex-row items-center justify-between pb-[calc(10px+env(safe-area-inset-bottom))]">
       
+      <!-- MENU 1: BERANDA (SISI KIRI 50%) -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
         <button id="navHome" onclick="window.tukarHalaman('home')" class="w-full flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-[10px] tracking-wide text-emerald-400">
           <i class="fa-solid fa-house text-lg"></i>
@@ -559,6 +571,7 @@
         </button>
       </div>
       
+      <!-- MENU 2: RIWAYAT (SISI KANAN 50%) -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
         <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="w-full flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-[10px] tracking-wide text-slate-500">
           <i class="fa-solid fa-clock-rotate-left text-lg"></i>
@@ -1729,4 +1742,104 @@
         });
 
         Swal.close(); doc.save(`Financial_Report_${periodeText.replace(/ /g, "_")}.pdf`);
-      } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message
+      } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
+    };
+
+    window.unduhExcel = function() {
+      try {
+        const { data, periodeText } = dapatkanDataTerfilterModal();
+        if (data.length === 0) { Swal.fire({ icon: 'warning', title: 'Error', text: 'No data transactions to export.', confirmButtonColor: '#10b981' }); return; }
+
+        Swal.fire({ title: currentLang === 'id' ? 'Membangun Excel Premium...' : 'Building Premium Excel...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+        let sumMasuk = 0; let sumKeluar = 0;
+        data.forEach(item => {
+          const nom = parseInt(item.nominal) || 0;
+          const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
+          if (itemJenisClean === "pemasukan" || itemJenisClean === "income") sumMasuk += nom; else sumKeluar += nom;
+        });
+        const sumSaldoBersih = sumMasuk - sumKeluar;
+
+        const workbook = new ExcelJS.Workbook(); const worksheet = workbook.addWorksheet('Dashboard Statement');
+        worksheet.getCell('A1').value = translations[currentLang].pdfJudul; worksheet.getCell('A1').font = { name: 'Segoe UI', size: 16, bold: true, color: { argb: '047857' } };
+        worksheet.getCell('A2').value = `${translations[currentLang].pdfPeriode}: ${periodeText}`; worksheet.getCell('A2').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
+        worksheet.getCell('A3').value = `${translations[currentLang].pdfTglCetak}: ${new Date().toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}`; worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
+
+        worksheet.mergeCells('A5:C5'); worksheet.getCell('A5').value = translations[currentLang].excelTitle; worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } }; worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
+        worksheet.getCell('A5').border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
+
+        const isiRingkasan = [
+          { row: '6', text: translations[currentLang].excelIn, val: sumMasuk, color: '059669' }, { row: '7', text: translations[currentLang].excelOut, val: sumKeluar, color: 'B91C1C' }, { row: '8', text: translations[currentLang].excelNet, val: sumSaldoBersih, color: sumSaldoBersih >= 0 ? '059669' : 'B91C1C' }
+        ];
+
+        isiRingkasan.forEach(item => {
+          worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.getCell(`A${item.row}`).value = item.text; worksheet.getCell(`C${item.row}`).value = item.val;
+          worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: item.row === '8' };
+          [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => { worksheet.getCell(ref).border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } }; });
+          const valCell = worksheet.getCell(`C${item.row}`); valCell.numFormat = '"Rp"#,##0'; valCell.alignment = { horizontal: 'right' }; valCell.font = { name: 'Segoe UI', bold: true, color: { argb: item.color } };
+        });
+
+        const headers = [translations[currentLang].pdfTbodyNo, translations[currentLang].tglTrans, translations[currentLang].ketNota, translations[currentLang].posKategori, currentLang === 'id' ? 'Jenis Aliran' : 'Flow Type', currentLang === 'id' ? 'Nominal' : 'Amount'];
+        const headerRow = worksheet.getRow(10); headerRow.height = 24;
+
+        headers.forEach((h, idx) => {
+          const cell = headerRow.getCell(idx + 1); cell.value = h; cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '059669' } }; cell.font = { name: 'Segoe UI', bold: true, color: { argb: 'FFFFFF' } }; cell.alignment = { horizontal: 'center', vertical: 'middle' };
+          cell.border = { top: { style: 'thin', color: { argb: '10B981' } }, left: { style: 'thin', color: { argb: '10B981' } }, bottom: { style: 'thin', color: { argb: '10B981' } }, right: { style: 'thin', color: { argb: '10B981' } } };
+        });
+
+        data.forEach((item, indeks) => {
+          const rowNum = 11 + indeks; const dRow = worksheet.getRow(rowNum); dRow.height = 20;
+          const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : ""; const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
+          const bgRowColor = (indeks % 2 === 0) ? 'F8FAFC' : 'FFFFFF'; const finColor = isMasuk ? '059669' : 'B91C1C';
+          const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis); const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
+          const katTerjemahan = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
+
+          dRow.getCell(1).value = indeks + 1; dRow.getCell(2).value = formatTanggalFormal(item.tanggal); dRow.getCell(3).value = item.keterangan || "-"; dRow.getCell(4).value = bersihkanIkonEmoji(katTerjemahan); dRow.getCell(5).value = currentLang === 'id' ? item.jenis : (isMasuk ? 'Income' : 'Expense'); dRow.getCell(6).value = parseInt(item.nominal) || 0;
+
+          for (let col = 1; col <= 6; col++) {
+            const cell = dRow.getCell(col); cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } }; cell.font = { name: 'Segoe UI', size: 10 };
+            cell.border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
+            if (col === 1) cell.alignment = { horizontal: 'center' };
+            if (col === 5) { cell.alignment = { horizontal: 'center' }; cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } }; }
+            if (col === 6) { cell.alignment = { horizontal: 'right' }; cell.numFormat = '"Rp"#,##0'; cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } }; }
+          }
+        });
+
+        worksheet.autoFilter = { from: { row: 10, column: 1 }, to: { row: 10 + data.length, column: 6 } };
+        const konfigurasiLebarKolom = [{ width: 8 }, { width: 20 }, { width: 28 }, { width: 18 }, { width: 16 }, { width: 24 }];
+        data.forEach(item => { if(item.keterangan && item.keterangan.length > konfigurasiLebarKolom[2].width) konfigurasiLebarKolom[2].width = item.keterangan.length + 4; });
+        worksheet.columns = konfigurasiLebarKolom;
+
+        workbook.xlsx.writeBuffer().then(function(buffer) {
+          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
+          const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
+        });
+      } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
+    };
+
+    // SUNTIKAN ENGINE ANTI-FREEZE & AUTO REFRESH CACHE PWA / APK
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            if (installingWorker == null) return;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log('Kode baru terdeteksi! Mengosongkan cache lama...');
+                caches.keys().then(names => {
+                  for (let name of names) caches.delete(name);
+                }).then(() => {
+                  window.location.reload();
+                });
+              }
+            };
+          };
+        }).catch(err => console.error('Service Worker Gagal', err));
+      });
+    }
+  </script>
+</body>
+
+</html>
