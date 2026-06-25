@@ -63,24 +63,22 @@
       z-index: 999999 !important;
     }
 
-    /* ENGINE KONFIGURASI FLOATING NAVBAR MODERN & USER FRIENDLY */
+    /* ENGINE NAVBAR ALA GOPAY (image_2eddd0.jpg) - Menyatu penuh ke bodi bawah */
     #mainFixedNavbar {
       position: fixed !important;
-      bottom: calc(10px + env(safe-area-inset-bottom)) !important;
-      left: 16px !important;
-      right: 16px !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
       z-index: 9999 !important;
       display: flex !important;
-      min-height: 62px !important;
-      border-radius: 20px !important;
+      min-height: 68px !important;
+      border-radius: 16px 16px 0 0 !important; /* Lengkungan halus bagian atas saja */
     }
     
     @media (min-width: 768px) {
       #mainFixedNavbar {
         position: absolute !important;
-        bottom: 16px !important;
-        left: 20px !important;
-        right: 20px !important;
+        border-radius: 0 0 2.75rem 2.75rem !important; /* Mengikuti bodi pembungkus laptop mockup */
       }
     }
     
@@ -513,8 +511,8 @@
         </div>
       </div>
 
-      <!-- KAPSUL PENSTABIL STRUKTURAL KONSISTEN (Dioptimalkan menjadi h-[80px] agar pas menyisakan ruang napas di atas floating navbar) -->
-      <div class="w-full h-[80px] flex-shrink-0 pointer-events-none"></div>
+      <!-- KAPSUL PENSTABIL STRUKTURAL KONSISTEN (Dioptimalkan h-[94px] menyesuaikan tinggi bodi dek navbar gopay agar tidak terpotong) -->
+      <div class="w-full h-[94px] flex-shrink-0 pointer-events-none"></div>
 
     </div>
 
@@ -559,18 +557,42 @@
       </div>
     </div>
 
-    <!-- FLOATING FIXED NAVBAR ENGINE V4 (Sudah disesuaikan margin horizontal px-10 untuk 2 tombol agar makin compact) -->
-    <div id="mainFixedNavbar" class="bg-white/80 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/50 dark:border-slate-800/60 shadow-[0_12px_35px_-8px_rgba(51,65,85,0.12)] dark:shadow-[0_16px_40px_-10px_rgba(0,0,0,0.6)] py-3 px-10 flex justify-around items-center transition-all duration-300">
+    <!-- RE-DESIGN DECK NAVBAR GOPAY STYLE PREMIUM (Terinspirasi dari image_2eddd0.jpg) -->
+    <div id="mainFixedNavbar" class="bg-slate-900/90 border-t border-slate-800/60 shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.5)] flex flex-row items-end justify-between px-3 pb-[calc(10px+env(safe-area-inset-bottom))] relative">
       
-      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400">
-        <i class="fa-solid fa-house text-base"></i>
-        <span data-i18n="navHome">BERANDA</span>
-      </button>
+      <!-- SISI KIRI (BERANDA & KEUANGAN TIRUAN) -->
+      <div class="w-[42%] flex justify-around items-center h-[56px]">
+        <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-[10px] tracking-wide text-emerald-400">
+          <i class="fa-solid fa-house text-lg"></i>
+          <span data-i18n="navHome">Beranda</span>
+        </button>
+        
+        <button type="button" class="flex flex-col items-center justify-center gap-1 opacity-40 font-bold text-[10px] tracking-wide text-slate-400 cursor-not-allowed">
+          <i class="fa-solid fa-wallet text-lg"></i>
+          <span>Keuangan</span>
+        </button>
+      </div>
       
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-slate-400 dark:text-slate-500">
-        <i class="fa-solid fa-clock-rotate-left text-base"></i>
-        <span data-i18n="navRiwayat">RIWAYAT</span>
-      </button>
+      <!-- TOMBOL TENGAH: QRIS DOCK NYEMBUL (Bentuk Oval Khas GoPay) -->
+      <div class="absolute left-1/2 -translate-x-1/2 -top-5 flex flex-col items-center justify-center">
+        <button type="button" class="w-[68px] h-[46px] rounded-[22px] bg-gradient-to-r from-sky-400 to-blue-500 shadow-[0_8px_20px_-2px_rgba(14,165,233,0.45)] border-2 border-slate-900 flex items-center justify-center text-white active:scale-95 transition-all outline-none">
+          <i class="fa-solid fa-qrcode text-xl"></i>
+        </button>
+        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">QRIS</span>
+      </div>
+      
+      <!-- SISI KANAN (RIWAYAT & PROFIL TIRUAN) -->
+      <div class="w-[42%] flex justify-around items-center h-[56px]">
+        <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-[10px] tracking-wide text-slate-500">
+          <i class="fa-solid fa-clock-rotate-left text-lg"></i>
+          <span data-i18n="navRiwayat">Riwayat</span>
+        </button>
+        
+        <button type="button" class="flex flex-col items-center justify-center gap-1 opacity-40 font-bold text-[10px] tracking-wide text-slate-400 cursor-not-allowed">
+          <i class="fa-solid fa-circle-user text-lg"></i>
+          <span>Profil</span>
+        </button>
+      </div>
 
     </div>
 
@@ -1077,8 +1099,9 @@
 
       localStorage.setItem('active_tab', menu);
 
-      const activeClasses = "flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400";
-      const inactiveClasses = "flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-slate-400 dark:text-slate-500";
+      // Warna aktif/tidak aktif disesuaikan dengan tema gelap dasar gopay deck
+      const activeClasses = "flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-[10px] tracking-wide text-emerald-400";
+      const inactiveClasses = "flex flex-col items-center justify-center gap-1 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-[10px] tracking-wide text-slate-500";
 
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
