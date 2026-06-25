@@ -54,12 +54,20 @@
       z-index: 999999 !important;
     }
 
-    /* ENGINE NAVBAR COKOH RIGID (FIXED SHIFT: Diubah ke Flex alami agar rigid, anti-bouncing, dan bebas dari loncatan jarak) */
+    /* ENGINE NAVBAR ABSOLUTE OVERLAY (FIXED: Dipasang absolute layer agar 100% anti-hilang & presisi di HP/Desktop mockup) */
     #mainFixedNavbar {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: calc(62px + env(safe-area-inset-bottom)) !important;
+      padding-bottom: env(safe-area-inset-bottom) !important;
       display: flex !important;
-      min-height: 60px !important;
-      flex-shrink: 0 !important;
       z-index: 9999 !important;
+      background-color: rgba(255, 255, 255, 0.85) !important;
+    }
+    body.dark #mainFixedNavbar {
+      background-color: rgba(15, 23, 42, 0.85) !important;
     }
     
     /* BOTTOM SHEET CONFIGURATION - RESPONSIVE FOR LAPTOP */
@@ -338,7 +346,7 @@
         </div>
       </div>
 
-      <div class="w-full px-4 mt-6 pb-6" id="mainContainer">
+      <div class="w-full px-4 mt-6 pb-2" id="mainContainer">
         
         <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-6">
           <div class="flex items-center gap-2 mb-6">
@@ -483,6 +491,9 @@
           </div>
         </div>
       </div>
+
+      <div class="w-full h-[calc(62px+env(safe-area-inset-bottom))] flex-shrink-0 pointer-events-none"></div>
+
     </div>
 
     <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
@@ -525,7 +536,7 @@
       </div>
     </div>
 
-    <div id="mainFixedNavbar" class="w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg border-t border-slate-100/80 dark:border-slate-800/50 rounded-t-2xl shadow-[0_-12px_30px_-5px_rgba(51,65,85,0.06)] dark:shadow-[0_-12px_35px_-5px_rgba(0,0,0,0.5)] py-3 px-14 flex justify-around items-center pb-[calc(4px+env(safe-area-inset-bottom))] md:rounded-b-[2.75rem] transition-all duration-300">
+    <div id="mainFixedNavbar" class="w-full backdrop-blur-lg border-t border-slate-100/80 dark:border-slate-800/50 rounded-t-2xl shadow-[0_-12px_30px_-5px_rgba(51,65,85,0.06)] dark:shadow-[0_-12px_35px_-5px_rgba(0,0,0,0.5)] px-14 flex justify-around items-center md:rounded-b-[2.75rem] transition-all duration-300">
       
       <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400">
         <i class="fa-solid fa-house text-base"></i>
@@ -835,7 +846,6 @@
       
       window.updateKategoriOptions();
       
-      // STABLE INIT: Tukar halaman dijalankan pertama, baru fetch data agar cache terproses sempurna sekali saja
       const savedTab = localStorage.getItem('active_tab') || 'home';
       window.tukarHalaman(savedTab);
       window.loadSummary();
@@ -1047,7 +1057,6 @@
       const activeClasses = "flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-emerald-600 dark:text-emerald-400";
       const inactiveClasses = "flex flex-row items-center justify-center gap-2 py-1.5 transition-all duration-300 active:scale-95 focus:outline-none font-bold text-xs tracking-wider text-slate-400 dark:text-slate-500";
 
-      // STABLE NAVIGATION: Hilangkan pemanggilan window.loadSummary() di sini agar tidak memicu re-render cache berulang kali pas diklik
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
@@ -1094,7 +1103,6 @@
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
       
-      // Mengamankan visibilitas card transaksi terakhir sesuai halaman yang sedang aktif
       const currentTab = localStorage.getItem('active_tab') || 'home';
       const cardTransaksi = document.getElementById('cardTransaksiTerakhir');
       if (cardTransaksi) {
@@ -1586,7 +1594,7 @@
           if (instanceFlatpickr) {
             instanceFlatpickr.setDate(hariIni, false); 
           }
-          sinkronisasiNilaiTanggalMentah(hariIni);
+          sinkronizationsNilaiTanggalMentah(hariIni);
           
           window.pilihJenisTab('Pengeluaran'); 
           window.loadSummary();
