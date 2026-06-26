@@ -1097,7 +1097,7 @@
       const pageRiwayat = document.getElementById('pageRiwayat');
       const navHome = document.getElementById('navHome');
       const navRiwayat = document.getElementById('navRiwayat');
-      const cardTransaksi = document.getElementById('cardTransactionsTerakhir');
+      const cardTransactions = document.getElementById('cardTransactionsTerakhir');
 
       localStorage.setItem('active_tab', menu);
 
@@ -1107,7 +1107,7 @@
       if (menu === 'home') {
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
-        if(cardTransaksi) cardTransaksi.classList.add('hidden'); 
+        if(cardTransactions) cardTransactions.classList.add('hidden'); 
         
         navHome.className = activeClasses;
         navRiwayat.className = inactiveClasses;
@@ -1116,7 +1116,7 @@
       } else if (menu === 'riwayat') {
         pageHome.classList.add('hidden');
         pageRiwayat.classList.remove('hidden');
-        if(cardTransaksi && databaseRiwayatRaw.length > 0) cardTransaksi.classList.remove('hidden'); 
+        if(cardTransactions && databaseRiwayatRaw.length > 0) cardTransactions.classList.remove('hidden'); 
         
         navRiwayat.className = activeClasses;
         navHome.className = inactiveClasses;
@@ -1721,7 +1721,7 @@
         data.forEach(item => {
           const nominalInt = parseInt(item.nominal) || 0;
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
-          if (itemJenisClean === "pemasukan" || itemJenisClean === "income";) akumulasiMasuk += nominalInt;
+          if (itemJenisClean === "pemasukan" || itemJenisClean === "income") akumulasiMasuk += nominalInt;
           else akumulasiKeluar += nominalInt;
         });
         const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
