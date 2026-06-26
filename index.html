@@ -250,12 +250,6 @@
       color: #ffffff !important;
     }
     
-    body.dark .btn-reset-data {
-      background-color: rgba(244, 63, 94, 0.08) !important; 
-      border-color: rgba(244, 63, 94, 0.2) !important;
-      color: #fb7185 !important; 
-    }
-    
     body.dark .swal2-popup {
       background: #131b2e !important;
       border: 1px solid #1e293b !important;
@@ -387,7 +381,6 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
               <div class="relative">
                 <input type="hidden" id="tanggal_mentntah" value="">
-                <!-- DISERAGAMKAN: p-3 DAN text-base -->
                 <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-calendar-days"></i>
@@ -412,7 +405,6 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
               <div class="relative">
                 <input type="hidden" id="kategori" value="">
-                <!-- DISERAGAMKAN: p-3 DAN text-base -->
                 <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
                   <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
                   <i class="fa-solid fa-chevron-down text-sm text-slate-400"></i>
@@ -426,7 +418,6 @@
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
               <div class="relative">
-                <!-- DISERAGAMKAN: p-3 DAN text-base -->
                 <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12 pr-4" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base pointer-events-none">
                   Rp
@@ -437,7 +428,6 @@
             <div class="mb-5">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
               <div class="relative">
-                <!-- DISERAGAMKAN: p-3 DAN text-base -->
                 <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-base text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-pen-to-square"></i>
@@ -456,7 +446,8 @@
             </div>
           </form>
 
-          <button type="button" onclick="window.resetSemuaData()" class="btn-reset-data w-full mt-3 bg-red-50/60 hover:bg-red-100/70 text-red-600 font-bold p-3 rounded-2xl border border-red-100/40 active:scale-95 transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider">
+          <!-- OPSI 2 BERHASIL DIAPLIKASIKAN: MONOCHROME GHOST STYLE -->
+          <button type="button" onclick="window.resetSemuaData()" class="w-full mt-3 bg-transparent hover:bg-rose-50 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-400 dark:hover:bg-rose-950/20 font-bold p-3 rounded-2xl border border-transparent hover:border-rose-100/50 dark:hover:border-rose-900/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider">
             <i class="fa-solid fa-trash-can"></i> <span data-i18n="resetData">Reset Semua Data</span>
           </button>
         </div>
@@ -622,7 +613,6 @@
         posKategori: "Pos Kategori", pilihKategori: "Pilih Kategori", nominalTrans: "Nominal Transaksi (Rp)",
         ketNota: "Keterangan / Nota", contohNota: "Contoh: Jajan makan siang", simpanTrans: "Simpan Transaksi",
         resetData: "Reset Semua Data", analisisTitle: "Analisis Pengeluaran", trenTitle: "Tren Keuangan Bulanan",
-        trenTitle: "Tren Keuangan Bulanan",
         transTerakhir: "Transaksi Terakhir", terbaru: "Terbaru", bukaRiwayat: "Buka Riwayat Lengkap",
         riwayatLengkap: "Riwayat Lengkap", filterPeriode: "Filter Periode Laporan", tampilkanSemua: "Tampilkan Semua",
         total: "Total", noChartData: "Tidak ada pengeluaran periode ini", loadingServer: "Sinkronisasi data server...",
@@ -1840,7 +1830,7 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautenPemicu); Swal.close();
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
