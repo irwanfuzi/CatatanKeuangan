@@ -238,7 +238,7 @@
     body.dark input:-webkit-autofill:hover, 
     body.dark input:-webkit-autofill:focus {
       -webkit-text-fill-color: #f8fafc !important;
-      -webkit-box-shadow: 0 0 0px 1000px #1a2336 inset !important;
+      -webkit-box-shadow: 0 0px 0px 1000px #1a2336 inset !important;
       transition: background-color 5000s ease-in-out 0s;
     }
     
@@ -362,28 +362,28 @@
           </div>
         </div>
 
-        <!-- NEW NEXT-LEVEL BENTO-BOX FINTECH GRID CARD (KONSISTEN DI SEMUA MODE) -->
-        <div class="grid grid-cols-2 gap-3 relative z-10">
+        <!-- NEXT-LEVEL INTERACTIVE BENTO-BOX FINTECH GRID CARD (KONSISTEN DI SEMUA MODE) -->
+        <div class="grid grid-cols-2 gap-3 relative z-10 select-none">
           
-          <!-- SEKTOR PEMASUKAN POD -->
-          <div class="bg-white/12 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shadow-[0_4px_12px_rgba(16,185,129,0.15)] flex-shrink-0">
-              <i class="fa-solid fa-arrow-down-long text-xs"></i>
+          <!-- SEKTOR PEMASUKAN POD (HIGH MICRO-INTERACTION STATE) -->
+          <div class="group bg-gradient-to-br from-white/12 to-white/6 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:bg-white/18 hover:border-emerald-400/30 hover:shadow-[0_12px_24px_-8px_rgba(16,185,129,0.35)] active:scale-[0.96] cursor-pointer transform will-change-transform">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-400/20 flex items-center justify-center text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.35)] transition-all duration-300 group-hover:scale-105 group-hover:bg-emerald-500/30 group-hover:shadow-[0_0_20px_rgba(52,211,153,0.5)] flex-shrink-0">
+              <i class="fa-solid fa-arrow-down-long text-xs transition-transform duration-300 group-hover:translate-y-0.5"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-75 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
-              <p id="txtMasuk" class="font-black text-[14px] text-white tracking-wide truncate">Rp 0</p>
+              <span class="text-[10px] font-bold opacity-75 uppercase tracking-wider mb-0.5 transition-colors duration-300 group-hover:text-emerald-200" data-i18n="pemasukan">Pemasukan</span>
+              <p id="txtMasuk" class="font-black text-[14px] text-white tracking-wide truncate drop-shadow-sm">Rp 0</p>
             </div>
           </div>
           
-          <!-- SEKTOR PENGELUARAN POD -->
-          <div class="bg-white/12 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-            <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 shadow-[0_4px_12px_rgba(244,63,94,0.15)] flex-shrink-0">
-              <i class="fa-solid fa-arrow-up-long text-xs"></i>
+          <!-- SEKTOR PENGELUARAN POD (HIGH MICRO-INTERACTION STATE) -->
+          <div class="group bg-gradient-to-br from-white/12 to-white/6 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:bg-white/18 hover:border-rose-400/30 hover:shadow-[0_12px_24px_-8px_rgba(244,63,94,0.35)] active:scale-[0.96] cursor-pointer transform will-change-transform">
+            <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-400/20 flex items-center justify-center text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.35)] transition-all duration-300 group-hover:scale-105 group-hover:bg-rose-500/30 group-hover:shadow-[0_0_20px_rgba(251,113,133,0.5)] flex-shrink-0">
+              <i class="fa-solid fa-arrow-up-long text-xs transition-transform duration-300 group-hover:-translate-y-0.5"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-75 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
-              <p id="txtKeluar" class="font-black text-[14px] text-white tracking-wide truncate">Rp 0</p>
+              <span class="text-[10px] font-bold opacity-75 uppercase tracking-wider mb-0.5 transition-colors duration-300 group-hover:text-rose-200" data-i18n="pengeluaran">Pengeluaran</span>
+              <p id="txtKeluar" class="font-black text-[14px] text-white tracking-wide truncate drop-shadow-sm">Rp 0</p>
             </div>
           </div>
 
@@ -1853,7 +1853,7 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(taudanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
