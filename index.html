@@ -35,7 +35,7 @@
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* ANTI LAYOUT SHIFT: Kunci viewport terluar pada mobile agar address bar tidak memicu resize */
     @media (max-width: 767px) {
@@ -330,8 +330,8 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- FIXED BRAND IDENTITY HEADER: GRADIENT TETAP SAMA DI MODE TERANG & GELAP -->
-      <div class="w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-600 p-6 text-white rounded-b-[2.75rem] shadow-2xl shadow-emerald-900/20 flex flex-col relative overflow-hidden flex-shrink-0">
+      <!-- FIXED BRAND IDENTITY HEADER: GRADIENT ULTRA-MODERN MEWAH -->
+      <div class="w-full bg-gradient-to-tr from-[#024c32] via-[#007a53] to-[#0d9488] p-6 text-white rounded-b-[2.75rem] shadow-2xl shadow-emerald-900/20 flex flex-col relative overflow-hidden flex-shrink-0">
         <!-- Ambient Luxury Light Elements -->
         <div class="absolute -right-8 -top-8 w-44 h-44 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-teal-400/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -358,30 +358,33 @@
         <div class="flex flex-col mt-2 mb-5 relative z-10">
           <p class="text-[11px] opacity-75 font-bold tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
           <div class="flex items-baseline gap-2">
-            <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] bg-gradient-to-r from-white via-slate-100 to-emerald-100 bg-clip-text text-transparent">Rp 0</h2>
+            <h2 id="txtSaldo" class="text-3xl font-black tracking-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)] bg-gradient-to-r from-white via-slate-50 to-teal-50 bg-clip-text text-transparent">Rp 0</h2>
           </div>
         </div>
 
-        <!-- PREMIUM FROSTED GLASSMORPHISM BALANCES CARD (KONSISTEN TRANS-LIGHT) -->
-        <div class="bg-white/15 backdrop-blur-xl py-3.5 px-4 rounded-2xl border border-white/25 shadow-[0_12px_40px_rgba(0,0,0,0.08)] flex flex-row items-center relative z-10">
+        <!-- NEW NEXT-LEVEL BENTO-BOX FINTECH GRID CARD (KONSISTEN DI SEMUA MODE) -->
+        <div class="grid grid-cols-2 gap-3 relative z-10">
           
-          <!-- SISI KIRI: PEMASUKAN -->
-          <div class="flex-1 flex flex-col justify-center">
-            <span class="text-[11px] font-bold opacity-85 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span><span data-i18n="pemasukan">Pemasukan</span>
-            </span>
-            <p id="txtMasuk" class="font-extrabold text-base tracking-wide drop-shadow-sm text-white">Rp 0</p>
+          <!-- SEKTOR PEMASUKAN POD -->
+          <div class="bg-white/12 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 shadow-[0_4px_12px_rgba(16,185,129,0.15)] flex-shrink-0">
+              <i class="fa-solid fa-arrow-down-long text-xs"></i>
+            </div>
+            <div class="min-w-0 flex-1 flex flex-col">
+              <span class="text-[10px] font-bold opacity-75 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
+              <p id="txtMasuk" class="font-black text-[14px] text-white tracking-wide truncate">Rp 0</p>
+            </div>
           </div>
           
-          <!-- GARIS VERTIKAL DIVIDER PREMIUM -->
-          <div class="w-[1px] bg-white/25 h-8 mx-3 flex-shrink-0"></div>
-          
-          <!-- SISI KANAN: PENGELUARAN -->
-          <div class="flex-1 flex flex-col justify-center pl-1">
-            <span class="text-[11px] font-bold opacity-85 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.8)]"></span><span data-i18n="pengeluaran">Pengeluaran</span>
-            </span>
-            <p id="txtKeluar" class="font-extrabold text-base tracking-wide drop-shadow-sm text-white">Rp 0</p>
+          <!-- SEKTOR PENGELUARAN POD -->
+          <div class="bg-white/12 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 flex items-center gap-3 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+            <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 shadow-[0_4px_12px_rgba(244,63,94,0.15)] flex-shrink-0">
+              <i class="fa-solid fa-arrow-up-long text-xs"></i>
+            </div>
+            <div class="min-w-0 flex-1 flex flex-col">
+              <span class="text-[10px] font-bold opacity-75 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
+              <p id="txtKeluar" class="font-black text-[14px] text-white tracking-wide truncate">Rp 0</p>
+            </div>
           </div>
 
         </div>
@@ -1850,7 +1853,7 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
+          document.body.appendChild(taudanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
