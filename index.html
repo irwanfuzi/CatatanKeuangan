@@ -350,24 +350,28 @@
         <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
         <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-4">Rp 0</h2>
 
-        <!-- SWEET SPOT UPDATE: HURUF NYAMAN DIBACA, TINGGI TETAP SLIM PROPOREIONAL -->
-        <div class="grid grid-cols-2 gap-3 relative z-10">
+        <!-- NEW UPDATE: KARTU GABUNGAN PREMIUM DENGAN SEKAT VERTIKAL -->
+        <div class="bg-white/10 py-2.5 px-4 rounded-xl border border-white/10 shadow-inner flex flex-row items-center relative z-10">
           
-          <!-- KOTAK PEMASUKAN V4 -->
-          <div class="bg-white/10 py-1.5 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
+          <!-- SISI KIRI: PEMASUKAN -->
+          <div class="flex-1 flex flex-col justify-center">
             <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-0.5 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
             </span>
             <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
           </div>
           
-          <!-- KOTAK PENGELUARAN V4 -->
-          <div class="bg-white/10 py-1.5 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
+          <!-- GARIS VERTIKAL DIVIDER -->
+          <div class="w-[1px] bg-white/20 h-7 mx-3 flex-shrink-0"></div>
+          
+          <!-- SISI KANAN: PENGELUARAN -->
+          <div class="flex-1 flex flex-col justify-center pl-1">
             <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-0.5 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
             </span>
             <p id="txtKeluar" class="font-bold text-base tracking-wide">Rp 0</p>
           </div>
+
         </div>
       </div>
 
