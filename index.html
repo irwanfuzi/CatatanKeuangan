@@ -8,7 +8,7 @@
 
   <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#022c22">
+  <meta name="theme-color" content="#0d121f">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -330,17 +330,15 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- FIXED BRAND IDENTITY HEADER: MINIMALIST ALPINE GREEN CANVAS WITH SUBTLE TECH GRID -->
-      <div class="w-full bg-[#022c22] p-6 text-white rounded-b-[2.75rem] shadow-sm flex flex-col relative overflow-hidden flex-shrink-0 border-b border-emerald-950">
-        <!-- Subtle Architecture Dot Grid Overlay -->
-        <div class="absolute inset-0 opacity-[0.06] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+      <!-- FIXED BRAND IDENTITY HEADER: TITANIUM SATIN MATTE STYLE (CLEAN & ULTRA PREMIUM) -->
+      <div class="w-full bg-[#0d121f] p-6 text-white rounded-b-[2.75rem] shadow-sm flex flex-col relative flex-shrink-0 border-t border-white/10 border-b border-slate-950">
         
         <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
           <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
-            <i class="fa-solid fa-globe text-white/70"></i>
+            <i class="fa-solid fa-globe text-white/60"></i>
             <span id="txtLangLabel" class="text-white uppercase">ID</span>
-            <i class="fa-solid fa-chevron-down text-[9px] opacity-50"></i>
+            <i class="fa-solid fa-chevron-down text-[9px] opacity-40"></i>
           </button>
           <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
             <i id="iconDarkMode" class="fa-solid fa-sun text-white"></i>
@@ -348,20 +346,20 @@
         </div>
 
         <!-- APP BRANDING SUBTITLE -->
-        <div class="flex items-center gap-2 mb-1 opacity-75">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <div class="flex items-center gap-2 mb-1 opacity-60">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
           <h1 class="text-xs font-bold tracking-widest uppercase" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
         <!-- TOTAL SALDO HERO DISCOVERY UNIT -->
         <div class="flex flex-col mt-2 mb-5 relative z-10">
-          <p class="text-[10px] opacity-50 font-bold tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
+          <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
           <div class="flex items-baseline gap-2">
-            <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
+            <h2 id="txtSaldo" class="text-3xl font-semibold tracking-tight text-white">Rp 0</h2>
           </div>
         </div>
 
-        <!-- CLEAN FLAT BENTO BOX GRID CARD (MINIMALIS BERKELAS, NYAMAN DI MATA) -->
+        <!-- CLEAN FLAT BENTO BOX GRID CARD (MATERIAL ILUSION - FROSTED SATIN) -->
         <div class="grid grid-cols-2 gap-3 relative z-10">
           
           <!-- SEKTOR PEMASUKAN POD -->
@@ -370,7 +368,7 @@
               <i class="fa-solid fa-arrow-down text-xs"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-40 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
+              <span class="text-[10px] font-bold opacity-35 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
               <p id="txtMasuk" class="font-bold text-sm text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
@@ -381,7 +379,7 @@
               <i class="fa-solid fa-arrow-up text-xs"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-40 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
+              <span class="text-[10px] font-bold opacity-35 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
               <p id="txtKeluar" class="font-bold text-sm text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
@@ -482,7 +480,7 @@
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span>
               </h3>
-              <button onclick="window.bukaPilihanPeriideHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
+              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
                 <span id="labelPeriodeUtama">Bulan Ini</span>
                 <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
               </button>
@@ -810,7 +808,7 @@
       const vUtama = sUtama ? sUtama.value : "ALL";
       const vModal = sModal ? sModal.value : "ALL";
       
-      window.buatOpsiFilterBulanModal();
+      window.updateOpsiFilterBulanModal();
       
       if(sUtama) { sUtama.value = vUtama; document.getElementById('labelPeriodeUtama').innerText = sUtama.options[sUtama.selectedIndex] ? sUtama.options[sUtama.selectedIndex].text : translations[currentLang].semuaPeriode; }
       if(sModal) { sModal.value = vModal; document.getElementById('labelPeriodeTerpilih').innerText = sModal.options[sModal.selectedIndex] ? sModal.options[sModal.selectedIndex].text : translations[currentLang].tampilkanSemua; }
@@ -1150,7 +1148,7 @@
       
       databaseRiwayatRaw = res.riwayat || [];
       trenBulananRawGlobal = res.trenBulananRaw || {}; 
-      window.buatOpsiFilterBulanModal();
+      window.updateOpsiFilterBulanModal();
       
       const hariIni = new Date();
       const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
@@ -1457,7 +1455,7 @@
       });
     };
 
-    window.buatOpsiFilterBulanModal = function() {
+    window.updateOpsiFilterBulanModal = function() {
       const selectUtama = document.getElementById('filterBulanUtamaHidden');
       const selectModal = document.getElementById('filterBulanModal');
       if (!selectUtama || !selectModal) return;
@@ -1570,7 +1568,6 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item);
           
           const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis);
-          const listKey = isMasuk ? "pemasukan" : "pengeluaran";
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
           
@@ -1680,7 +1677,7 @@
     
     window.bukaModalDetailSemua = () => { 
       const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
-      window.buatOpsiFilterBulanModal();
+      window.updateOpsiFilterBulanModal();
       
       const hariIni = new Date(); const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
       const select = document.getElementById('filterBulanModal'); const triggerLabel = document.getElementById('labelPeriodeTerpilih');
