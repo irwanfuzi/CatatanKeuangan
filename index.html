@@ -8,7 +8,7 @@
 
   <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#007a53">
+  <meta name="theme-color" content="#022c22">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -330,35 +330,46 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <div class="w-full bg-gradient-to-b from-emerald-600 to-emerald-700 p-6 text-white rounded-b-[2.75rem] shadow-xl shadow-emerald-900/10 flex flex-col relative overflow-hidden flex-shrink-0">
-        <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
-        <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
+      <!-- HEADER LAYER REMODEL: FINTECH MESH DEEP LUXURY STYLE -->
+      <div class="w-full bg-gradient-to-b from-[#022c22] via-[#064e3b] to-[#022c22] p-6 text-white rounded-b-[2.75rem] shadow-[0_20px_40px_rgba(2,44,34,0.15)] flex flex-col relative overflow-hidden flex-shrink-0 border-b border-emerald-500/10">
+        <!-- Luxury Glowing Nodes -->
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-400/20 rounded-full blur-2xl pointer-events-none animate-pulse"></div>
+        <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
         
         <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
-          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5">
+          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-white/10 dark:bg-slate-900/80 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-sm">
             <i class="fa-solid fa-globe text-white/80"></i>
             <span id="txtLangLabel" class="text-white uppercase">ID</span>
             <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
           </button>
-          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-emerald-800/60 dark:bg-slate-900/80 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none">
+          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-white/10 dark:bg-slate-900/80 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-sm">
             <i id="iconDarkMode" class="fa-solid fa-sun text-white"></i>
           </button>
         </div>
 
-        <h1 class="text-sm font-semibold opacity-75 tracking-wide" data-i18n="halo">Halo, Pengguna!</h1>
-        <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
-        <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-4">Rp 0</h2>
+        <h1 class="text-xs font-semibold uppercase tracking-widest text-emerald-400/90 flex items-center gap-1.5" data-i18n="halo">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Halo, Pengguna!
+        </h1>
+        
+        <!-- UPGRADE ULTRA MODERN: FLOATING BALANCE CARD WITH CHROME GLASS EFFECT -->
+        <div class="w-full mt-4 mb-4 p-5 rounded-2xl bg-gradient-to-br from-white/[0.14] to-white/[0.03] border border-white/[0.18] shadow-[0_12px_32px_0_rgba(0,0,0,0.18),inset_0_1px_2px_rgba(255,255,255,0.25)] backdrop-blur-xl relative overflow-hidden">
+          <!-- Card Abstract Pattern Decoration -->
+          <div class="absolute right-4 top-4 text-[10px] font-black tracking-widest text-white/10 select-none pointer-events-none">MYKAS GOLD</div>
+          
+          <p class="text-[10px] font-bold text-white/60 tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
+          <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-200 bg-clip-text text-transparent drop-shadow-sm">Rp 0</h2>
+        </div>
 
-        <!-- NEW ULTRA MODERN UPDATE: FROSTED GLASSMORPHISM WITH INNER LIGHTING -->
-        <div class="bg-gradient-to-br from-white/[0.14] to-white/[0.03] backdrop-blur-lg py-3 px-4 rounded-2xl border border-white/[0.18] shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_12px_24px_-4px_rgba(0,0,0,0.08)] flex flex-row items-center relative z-10">
+        <!-- LOWER HUB: INSIDE ACCOUNT STATEMENT SHEET -->
+        <div class="bg-black/20 backdrop-blur-md py-3 px-4 rounded-xl border border-white/5 shadow-inner flex flex-row items-center relative z-10">
           
           <!-- SISI KIRI: PEMASUKAN -->
           <div class="flex-1 flex flex-col justify-center">
-            <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+            <span class="text-[11px] font-bold text-white/70 uppercase tracking-wider mb-0.5 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span><span data-i18n="pemasukan">Pemasukan</span>
             </span>
-            <p id="txtMasuk" class="font-bold text-base tracking-wide drop-shadow-sm">Rp 0</p>
+            <p id="txtMasuk" class="font-bold text-base tracking-wide drop-shadow-sm text-emerald-300">Rp 0</p>
           </div>
           
           <!-- GARIS VERTIKAL DIVIDER PREMIUM -->
@@ -366,10 +377,10 @@
           
           <!-- SISI KANAN: PENGELUARAN -->
           <div class="flex-1 flex flex-col justify-center pl-1">
-            <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+            <span class="text-[11px] font-bold text-white/70 uppercase tracking-wider mb-0.5 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]"></span><span data-i18n="pengeluaran">Pengeluaran</span>
             </span>
-            <p id="txtKeluar" class="font-bold text-base tracking-wide drop-shadow-sm">Rp 0</p>
+            <p id="txtKeluar" class="font-bold text-base tracking-wide drop-shadow-sm text-rose-300">Rp 0</p>
           </div>
 
         </div>
