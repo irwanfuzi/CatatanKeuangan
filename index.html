@@ -348,27 +348,25 @@
 
         <h1 class="text-sm font-semibold opacity-75 tracking-wide" data-i18n="halo">Halo, Pengguna!</h1>
         <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
-        
-        <!-- ADJUSTED: JARAK DIKORANGI JADI mb-4 BIAR MERAPAT -->
         <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-4">Rp 0</h2>
 
-        <!-- ADJUSTED: GAP DIKECILKAN JADI gap-3 UNTUK OPTIMALISASI RUANG MOBILE -->
+        <!-- SWEET SPOT UPDATE: HURUF NYAMAN DIBACA, TINGGI TETAP SLIM PROPOREIONAL -->
         <div class="grid grid-cols-2 gap-3 relative z-10">
           
-          <!-- KOTAK PEMASUKAN (SLIM VERSION) -->
-          <div class="bg-white/10 py-2 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
-            <span class="text-[9px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+          <!-- KOTAK PEMASUKAN V4 -->
+          <div class="bg-white/10 py-1.5 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
+            <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-0.5 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
             </span>
-            <p id="txtMasuk" class="font-bold text-[14px] tracking-wide">Rp 0</p>
+            <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
           </div>
           
-          <!-- KOTAK PENGELUARAN (SLIM VERSION) -->
-          <div class="bg-white/10 py-2 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
-            <span class="text-[9px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+          <!-- KOTAK PENGELUARAN V4 -->
+          <div class="bg-white/10 py-1.5 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
+            <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-0.5 flex items-center gap-1">
               <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
             </span>
-            <p id="txtKeluar" class="font-bold text-[14px] tracking-wide">Rp 0</p>
+            <p id="txtKeluar" class="font-bold text-base tracking-wide">Rp 0</p>
           </div>
         </div>
       </div>
@@ -501,7 +499,7 @@
           </div>
 
           <!-- CARD 3: TRANSAKSI TERAKHIR -->
-          <div id="cardTransaksiTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col mb-0">
+          <div id="cardTransactionsTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col mb-0">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span>
@@ -836,14 +834,14 @@
       if (dateObj instanceof Date && !isNaN(dateObj.getTime())) {
         const yyyy = dateObj.getFullYear();
         const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const dd = String(dateObj.getDate()).padStart(2, '0');
-        document.getElementById('tanggal_mentntah').value = `${yyyy}-${mm}-${dd}`;
+        const roundedDd = String(dateObj.getDate()).padStart(2, '0');
+        document.getElementById('tanggal_mentntah').value = `${yyyy}-${mm}-${roundedDd}`;
       } else {
         const hariIni = new Date();
         const yyyy = hariIni.getFullYear();
         const mm = String(hariIni.getMonth() + 1).padStart(2, '0');
-        const dd = String(hariIni.getDate()).padStart(2, '0');
-        document.getElementById('tanggal_mentntah').value = `${yyyy}-${mm}-${dd}`;
+        const roundedDd = String(hariIni.getDate()).padStart(2, '0');
+        document.getElementById('tanggal_mentntah').value = `${yyyy}-${mm}-${roundedDd}`;
       }
     }
 
@@ -1095,7 +1093,7 @@
       const pageRiwayat = document.getElementById('pageRiwayat');
       const navHome = document.getElementById('navHome');
       const navRiwayat = document.getElementById('navRiwayat');
-      const cardTransaksi = document.getElementById('cardTransaksiTerakhir');
+      const cardTransaksi = document.getElementById('cardTransactionsTerakhir');
 
       localStorage.setItem('active_tab', menu);
 
