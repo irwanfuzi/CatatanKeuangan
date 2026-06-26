@@ -352,43 +352,33 @@
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Halo, Pengguna!
         </h1>
         
-        <!-- FIXED UNIFIED MASTER CARD: ALL-IN-ONE FINTECH STATEMENT -->
-        <div class="w-full mt-4 p-5 rounded-3xl bg-gradient-to-br from-white/[0.14] to-white/[0.03] border border-white/[0.18] shadow-[0_15px_35px_0_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.25)] backdrop-blur-xl relative overflow-hidden flex flex-col gap-4">
-          <!-- Card Decorative Brand Accent -->
-          <div class="absolute right-4 top-4 text-[9px] font-black tracking-widest text-white/10 select-none pointer-events-none">MYKAS PREMIUM</div>
+        <!-- SEKTOR ATAS: TOTAL SALDO CLEAN (TANPA SEKAT BOX) -->
+        <div class="mt-4 mb-5">
+          <p class="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
+          <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-200 bg-clip-text text-transparent drop-shadow-sm">Rp 0</h2>
+        </div>
+        
+        <!-- SEKTOR BAWAH: 2 KOLOM KOALISI ARUS KAS (USER-FRIENDLY SELEKTIF) -->
+        <div class="w-full grid grid-cols-2 gap-3 relative z-10">
           
-          <!-- SEKTOR ATAS: TOTAL SALDO UTAMA -->
-          <div>
-            <p class="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
-            <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-200 bg-clip-text text-transparent drop-shadow-sm">Rp 0</h2>
+          <!-- KOLOM 1: PEMASUKAN -->
+          <div class="p-3.5 rounded-2xl bg-gradient-to-br from-white/[0.12] to-white/[0.02] border border-white/[0.15] shadow-[0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-md flex flex-col justify-center">
+            <span class="text-[10px] font-bold text-white/60 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]"></span>
+              <span data-i18n="pemasukan">Pemasukan</span>
+            </span>
+            <p id="txtMasuk" class="font-bold text-sm tracking-wide text-emerald-300 truncate">Rp 0</p>
           </div>
           
-          <!-- MINIMALIST HORIZONTAL SEPARATOR -->
-          <div class="w-full h-[1px] bg-white/10"></div>
-          
-          <!-- SEKTOR BAWAH: DATA ARUS KAS LURUS KIRI-KANAN (TANPA BACKGROUND BOX TERPISAH) -->
-          <div class="w-full flex flex-row items-center justify-between">
-            
-            <!-- SUB-KOLOM 1: PEMASUKAN -->
-            <div class="flex-1 flex flex-col justify-center">
-              <span class="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-                <span class="w-1 h-1 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
-              </span>
-              <p id="txtMasuk" class="font-bold text-base tracking-wide text-emerald-300 drop-shadow-sm">Rp 0</p>
-            </div>
-            
-            <!-- THIN LIGHT DIVIDER VERTICAL -->
-            <div class="w-[1px] bg-white/10 h-7 mx-4 flex-shrink-0"></div>
-            
-            <!-- SUB-KOLOM 2: PENGELUARAN -->
-            <div class="flex-1 flex flex-col justify-center pl-1">
-              <span class="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-                <span class="w-1 h-1 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
-              </span>
-              <p id="txtKeluar" class="font-bold text-base tracking-wide text-rose-300 drop-shadow-sm">Rp 0</p>
-            </div>
+          <!-- KOLOM 2: PENGELUARAN -->
+          <div class="p-3.5 rounded-2xl bg-gradient-to-br from-white/[0.12] to-white/[0.02] border border-white/[0.15] shadow-[0_8px_24px_rgba(0,0,0,0.12)] backdrop-blur-md flex flex-col justify-center">
+            <span class="text-[10px] font-bold text-white/60 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.5)]"></span>
+              <span data-i18n="pengeluaran">Pengeluaran</span>
+            </span>
+            <p id="txtKeluar" class="font-bold text-sm tracking-wide text-rose-300 truncate">Rp 0</p>
+          </div>
 
-          </div>
         </div>
         
       </div>
