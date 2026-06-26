@@ -350,26 +350,26 @@
         <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
         <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-4">Rp 0</h2>
 
-        <!-- NEW UPDATE: KARTU GABUNGAN PREMIUM DENGAN SEKAT VERTIKAL -->
-        <div class="bg-white/10 py-2.5 px-4 rounded-xl border border-white/10 shadow-inner flex flex-row items-center relative z-10">
+        <!-- NEW ULTRA MODERN UPDATE: FROSTED GLASSMORPHISM WITH INNER LIGHTING -->
+        <div class="bg-gradient-to-br from-white/[0.14] to-white/[0.03] backdrop-blur-lg py-3 px-4 rounded-2xl border border-white/[0.18] shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_12px_24px_-4px_rgba(0,0,0,0.08)] flex flex-row items-center relative z-10">
           
           <!-- SISI KIRI: PEMASUKAN -->
           <div class="flex-1 flex flex-col justify-center">
-            <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
+            <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span><span data-i18n="pemasukan">Pemasukan</span>
             </span>
-            <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
+            <p id="txtMasuk" class="font-bold text-base tracking-wide drop-shadow-sm">Rp 0</p>
           </div>
           
-          <!-- GARIS VERTIKAL DIVIDER -->
-          <div class="w-[1px] bg-white/20 h-7 mx-3 flex-shrink-0"></div>
+          <!-- GARIS VERTIKAL DIVIDER PREMIUM -->
+          <div class="w-[1px] bg-white/[0.15] h-7 mx-3 flex-shrink-0"></div>
           
           <!-- SISI KANAN: PENGELUARAN -->
           <div class="flex-1 flex flex-col justify-center pl-1">
-            <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
+            <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]"></span><span data-i18n="pengeluaran">Pengeluaran</span>
             </span>
-            <p id="txtKeluar" class="font-bold text-base tracking-wide">Rp 0</p>
+            <p id="txtKeluar" class="font-bold text-base tracking-wide drop-shadow-sm">Rp 0</p>
           </div>
 
         </div>
@@ -1721,7 +1721,7 @@
         data.forEach(item => {
           const nominalInt = parseInt(item.nominal) || 0;
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : "";
-          if (itemJenisClean === "pemasukan" || itemJenisClean === "income") akumulasiMasuk += nominalInt;
+          if (itemJenisClean === "pemasukan" || itemJenisClean === "income";) akumulasiMasuk += nominalInt;
           else akumulasiKeluar += nominalInt;
         });
         const netSaldoBersih = akumulasiMasuk - akumulasiKeluar;
