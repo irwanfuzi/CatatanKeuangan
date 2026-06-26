@@ -348,20 +348,27 @@
 
         <h1 class="text-sm font-semibold opacity-75 tracking-wide" data-i18n="halo">Halo, Pengguna!</h1>
         <p class="text-xs opacity-60 mt-2 mb-0.5 font-medium tracking-wide uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
-        <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-6">Rp 0</h2>
+        
+        <!-- ADJUSTED: JARAK DIKORANGI JADI mb-4 BIAR MERAPAT -->
+        <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight mb-4">Rp 0</h2>
 
-        <div class="grid grid-cols-2 gap-4 relative z-10">
-          <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
-            <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
+        <!-- ADJUSTED: GAP DIKECILKAN JADI gap-3 UNTUK OPTIMALISASI RUANG MOBILE -->
+        <div class="grid grid-cols-2 gap-3 relative z-10">
+          
+          <!-- KOTAK PEMASUKAN (SLIM VERSION) -->
+          <div class="bg-white/10 py-2 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
+            <span class="text-[9px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
             </span>
-            <p id="txtMasuk" class="font-bold text-base tracking-wide">Rp 0</p>
+            <p id="txtMasuk" class="font-bold text-[14px] tracking-wide">Rp 0</p>
           </div>
-          <div class="bg-white/10 p-3.5 rounded-2xl border border-white/10 shadow-inner flex flex-col">
-            <span class="text-[11px] font-bold opacity-75 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
+          
+          <!-- KOTAK PENGELUARAN (SLIM VERSION) -->
+          <div class="bg-white/10 py-2 px-3.5 rounded-xl border border-white/10 shadow-inner flex flex-col justify-center">
+            <span class="text-[9px] font-bold opacity-75 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
             </span>
-            <p id="txtKeluar" class="font-bold text-base tracking-wide">Rp 0</p>
+            <p id="txtKeluar" class="font-bold text-[14px] tracking-wide">Rp 0</p>
           </div>
         </div>
       </div>
@@ -440,7 +447,7 @@
                 <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
               </button>
               
-              <!-- RACIKAN OPSI 1 BERHASIL DIAPLIKASIKAN: ADAPTIF SKEW SLATE REFRESH BUTTON -->
+              <!-- REFRESH UTILITY: SLEEK SLATE NEUTRAL STYLE -->
               <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100/80 hover:bg-slate-200/60 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-bold px-5 p-3 rounded-2xl border border-slate-200/50 dark:border-slate-700/80 shadow-sm transition-all active:scale-95 flex items-center justify-center">
                 <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
               </button>
