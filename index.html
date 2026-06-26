@@ -330,20 +330,20 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- HEADER CONTEXT: FLUID FINTECH DEEP GRADIENT WITH GLOW EFFECTS -->
-      <div class="w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-600 dark:from-slate-900 dark:via-emerald-950 dark:to-slate-900 p-6 text-white rounded-b-[2.75rem] shadow-2xl shadow-emerald-900/20 flex flex-col relative overflow-hidden flex-shrink-0 transition-all duration-500">
+      <!-- FIXED BRAND IDENTITY HEADER: GRADIENT TETAP SAMA DI MODE TERANG & GELAP -->
+      <div class="w-full bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-600 p-6 text-white rounded-b-[2.75rem] shadow-2xl shadow-emerald-900/20 flex flex-col relative overflow-hidden flex-shrink-0">
         <!-- Ambient Luxury Light Elements -->
-        <div class="absolute -right-8 -top-8 w-44 h-44 bg-white/10 dark:bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-teal-400/20 dark:bg-slate-950/50 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -right-8 -top-8 w-44 h-44 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-teal-400/20 rounded-full blur-3xl pointer-events-none"></div>
         
         <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
-          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-white/15 border border-white/20 dark:bg-slate-800/60 dark:border-slate-700 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
+          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-white/15 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
             <i class="fa-solid fa-globe text-white/80"></i>
             <span id="txtLangLabel" class="text-white uppercase">ID</span>
             <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
           </button>
-          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-white/15 border border-white/20 dark:bg-slate-800/60 dark:border-slate-700 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
+          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-white/15 border border-white/20 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
             <i id="iconDarkMode" class="fa-solid fa-sun text-white"></i>
           </button>
         </div>
@@ -362,23 +362,23 @@
           </div>
         </div>
 
-        <!-- NEW PREMIUM GLASSMORPHISM BALANCES CARD -->
-        <div class="bg-white/12 dark:bg-slate-950/40 backdrop-blur-xl py-3.5 px-4 rounded-2xl border border-white/20 dark:border-slate-800/60 shadow-[0_12px_40px_rgba(0,0,0,0.1)] flex flex-row items-center relative z-10">
+        <!-- PREMIUM FROSTED GLASSMORPHISM BALANCES CARD (KONSISTEN TRANS-LIGHT) -->
+        <div class="bg-white/15 backdrop-blur-xl py-3.5 px-4 rounded-2xl border border-white/25 shadow-[0_12px_40px_rgba(0,0,0,0.08)] flex flex-row items-center relative z-10">
           
           <!-- SISI KIRI: PEMASUKAN -->
           <div class="flex-1 flex flex-col justify-center">
-            <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span class="text-[11px] font-bold opacity-85 uppercase tracking-wider mb-1 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span><span data-i18n="pemasukan">Pemasukan</span>
             </span>
             <p id="txtMasuk" class="font-extrabold text-base tracking-wide drop-shadow-sm text-white">Rp 0</p>
           </div>
           
           <!-- GARIS VERTIKAL DIVIDER PREMIUM -->
-          <div class="w-[1px] bg-white/20 dark:bg-slate-800/60 h-8 mx-3 flex-shrink-0"></div>
+          <div class="w-[1px] bg-white/25 h-8 mx-3 flex-shrink-0"></div>
           
           <!-- SISI KANAN: PENGELUARAN -->
           <div class="flex-1 flex flex-col justify-center pl-1">
-            <span class="text-[11px] font-bold opacity-80 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span class="text-[11px] font-bold opacity-85 uppercase tracking-wider mb-1 flex items-center gap-1.5">
               <span class="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(251,113,133,0.8)]"></span><span data-i18n="pengeluaran">Pengeluaran</span>
             </span>
             <p id="txtKeluar" class="font-extrabold text-base tracking-wide drop-shadow-sm text-white">Rp 0</p>
