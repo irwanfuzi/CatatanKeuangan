@@ -8,7 +8,7 @@
 
   <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d121f">
+  <meta name="theme-color" content="#01261c">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -64,6 +64,14 @@
     
     .swal2-container {
       z-index: 999999 !important;
+    }
+
+    /* MATRIKS LATER BACKGROUND LUXURY ISOMORPHIC LINES */
+    .bg-luxury-lines {
+      background-color: #01261c;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'><path d='M-60,90 Q120,-10 320,130 T720,30' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1.5'/><path d='M-20,130 Q160,30 360,180 T760,80' fill='none' stroke='rgba(255,255,255,0.02)' stroke-width='1.2'/></svg>");
+      background-size: cover;
+      background-position: center;
     }
 
     /* ENGINE NAVBAR DECK MODERN - Menyatu penuh ke bodi bawah layar */
@@ -330,8 +338,8 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- FIXED BRAND IDENTITY HEADER: TITANIUM SATIN MATTE STYLE (CLEAN & ULTRA PREMIUM) -->
-      <div class="w-full bg-[#0d121f] p-6 text-white rounded-b-[2.75rem] shadow-sm flex flex-col relative flex-shrink-0 border-t border-white/10 border-b border-slate-950">
+      <!-- FIXED BRAND IDENTITY HEADER: LUXURY ISOMORPHIC LINES PATTERN (PRIORITY FINANCIAL LOUNGE STYLE) -->
+      <div class="w-full bg-luxury-lines p-6 text-white rounded-b-[2.75rem] shadow-sm flex flex-col relative flex-shrink-0 border-b border-emerald-950/80">
         
         <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
@@ -346,8 +354,8 @@
         </div>
 
         <!-- APP BRANDING SUBTITLE -->
-        <div class="flex items-center gap-2 mb-1 opacity-60">
-          <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+        <div class="flex items-center gap-2 mb-1 opacity-70">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <h1 class="text-xs font-bold tracking-widest uppercase" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
@@ -359,7 +367,7 @@
           </div>
         </div>
 
-        <!-- CLEAN FLAT BENTO BOX GRID CARD (MATERIAL ILUSION - FROSTED SATIN) -->
+        <!-- CLEAN FLAT BENTO BOX GRID CARD (MATERIAL ILUSION - ISOMORPHIC CANVAS) -->
         <div class="grid grid-cols-2 gap-3 relative z-10">
           
           <!-- SEKTOR PEMASUKAN POD -->
@@ -1849,7 +1857,7 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
+          document.body.appendChild(taudanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
