@@ -375,7 +375,7 @@
       <!-- CONTENT CONTAINER -->
       <div class="w-full px-4 mt-6 pb-2" id="mainContainer">
         
-        <!-- COMPACT HOME CONTAINER - SET TO mb-0 FOR PIXEL PERFECT NAVBAR DECK SPACING -->
+        <!-- COMPACT HOME CONTAINER -->
         <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-0">
           <div class="flex items-center gap-2 mb-5">
             <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -387,9 +387,9 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
               <div class="relative">
                 <input type="hidden" id="tanggal_mentntah" value="">
-                <!-- ACUAN UTAMA: p-3 DAN text-sm -->
-                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer" required>
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
+                <!-- DISERAGAMKAN: p-3 DAN text-base -->
+                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer" required>
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-calendar-days"></i>
                 </div>
               </div>
@@ -397,7 +397,6 @@
 
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="jenisAliran">Jenis Aliran Dana</label>
-              <!-- MENGGUNAKAN SEBARAN ALAMI p-1 DAN py-2.5 PADA TOMBOL -->
               <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
                 <input type="hidden" id="jenis" value="Pengeluaran">
                 <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400" data-i18n="tabKeluar">
@@ -413,12 +412,12 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
               <div class="relative">
                 <input type="hidden" id="kategori" value="">
-                <!-- DISAMAKAN: p-3 DAN text-sm -->
-                <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
+                <!-- DISERAGAMKAN: p-3 DAN text-base -->
+                <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
                   <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
-                  <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                  <i class="fa-solid fa-chevron-down text-sm text-slate-400"></i>
                 </button>
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-solid fa-tags"></i>
                 </div>
               </div>
@@ -427,9 +426,9 @@
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
               <div class="relative">
-                <!-- UKURAN DISERAGAMKAN MENJADI text-sm & p-3 SESUAI KALENDER -->
-                <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-sm text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12 pr-4" required>
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm pointer-events-none">
+                <!-- DISERAGAMKAN: p-3 DAN text-base -->
+                <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12 pr-4" required>
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base pointer-events-none">
                   Rp
                 </div>
               </div>
@@ -438,16 +437,15 @@
             <div class="mb-5">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
               <div class="relative">
-                <!-- DISAMAKAN: p-3 DAN text-sm -->
-                <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4" required>
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-sm">
+                <!-- DISERAGAMKAN: p-3 DAN text-base -->
+                <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-base text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4" required>
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-pen-to-square"></i>
                 </div>
               </div>
             </div>
 
             <div class="flex gap-3 w-full">
-              <!-- TOMBOL SIMPAN & RELOAD DISIMETRISKAN DENGAN FORM -->
               <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-3 rounded-2xl shadow-md shadow-emerald-600/10 hover:bg-emerald-700 hover:shadow-emerald-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
                 <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
               </button>
@@ -624,6 +622,7 @@
         posKategori: "Pos Kategori", pilihKategori: "Pilih Kategori", nominalTrans: "Nominal Transaksi (Rp)",
         ketNota: "Keterangan / Nota", contohNota: "Contoh: Jajan makan siang", simpanTrans: "Simpan Transaksi",
         resetData: "Reset Semua Data", analisisTitle: "Analisis Pengeluaran", trenTitle: "Tren Keuangan Bulanan",
+        trenTitle: "Tren Keuangan Bulanan",
         transTerakhir: "Transaksi Terakhir", terbaru: "Terbaru", bukaRiwayat: "Buka Riwayat Lengkap",
         riwayatLengkap: "Riwayat Lengkap", filterPeriode: "Filter Periode Laporan", tampilkanSemua: "Tampilkan Semua",
         total: "Total", noChartData: "Tidak ada pengeluaran periode ini", loadingServer: "Sinkronisasi data server...",
@@ -1031,7 +1030,6 @@
       const btnKeluar = document.getElementById('btnTabPengeluaran');
       const btnMasuk = document.getElementById('btnTabPemasukan');
       
-      // LOGIKA DINAMIS DIKEMBALIKAN KE py-2.5 SEPERTI SEMULA
       if (jenisTerpilih === 'Pengeluaran') {
         btnKeluar.className = "w-full py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400";
         btnMasuk.className = "w-full py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 text-slate-500 hover:text-slate-700 dark:text-slate-400";
@@ -1617,7 +1615,6 @@
 
     window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
     
-    // RE-ENGINE LIVE REFRESH PWA TANPA MENAHAN CACHE INTERNET
     window.tombolReloadPintar = function() { 
       document.getElementById('iconReload').classList.add('animate-spin'); 
       localStorage.removeItem('app_keuangan_cache');
@@ -1843,12 +1840,11 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautenPemicu); tautanPemicu.click(); document.body.removeChild(tautenPemicu); Swal.close();
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautenPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
 
-    // CORE ENGINE ANTI-STUCK: AUTO REFRESH JIKA ADALAH UPDATE SERVICE WORKER BARU
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').then(reg => {
