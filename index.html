@@ -8,7 +8,7 @@
 
   <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#01261c">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -49,7 +49,7 @@
 
     body {
       font-family: 'Urbanist', sans-serif;
-      background-color: #f1f5f9; 
+      background-color: #f8fafc; 
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     body::-webkit-scrollbar {
@@ -64,6 +64,16 @@
     
     .swal2-container {
       z-index: 999999 !important;
+    }
+
+    /* PREMIUM ISOMORPHIC CANVAS DENGAN GLOW RADIAL GRADIENT EFFECT */
+    .bg-modern-luxury-lines {
+      background-color: #01261c;
+      background-image: 
+        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 55%),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'><path d='M-40,110 Q140,10 340,150 T740,50' fill='none' stroke='rgba(255,255,255,0.035)' stroke-width='1.5'/><path d='M0,140 Q180,40 380,190 T780,90' fill='none' stroke='rgba(255,255,255,0.015)' stroke-width='1.2'/></svg>");
+      background-size: cover;
+      background-position: center;
     }
 
     /* ENGINE NAVBAR DECK MODERN - Menyatu penuh ke bodi bawah layar */
@@ -325,72 +335,62 @@
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
   <!-- MAIN CANVAS CONTAINER -->
-  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.18)] overflow-x-hidden overflow-y-clip md:border md:border-slate-200/60 transition-all duration-300">
+  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.15)] overflow-x-hidden overflow-y-clip md:border md:border-slate-200/60 transition-all duration-300">
 
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- FIXED BRAND IDENTITY HEADER: MINIMALIST ARCHITECTURE GRID STYLE (VERCEL / LINEAR PRO VIBES) -->
-      <div class="w-full bg-[#0f172a] p-6 text-white rounded-b-[2.75rem] shadow-sm flex flex-col relative overflow-hidden flex-shrink-0 border-b border-slate-950">
-        
-        <!-- Architectural Pure Linear Grid Overlay -->
-        <div class="absolute inset-0 pointer-events-none grid grid-cols-3 grid-rows-2">
-          <div class="border-r border-b border-white/[0.025]"></div>
-          <div class="border-r border-b border-white/[0.025]"></div>
-          <div class="border-b border-white/[0.025]"></div>
-          <div class="border-r border-white/[0.025]"></div>
-          <div class="border-r border-white/[0.025]"></div>
-          <div></div>
-        </div>
+      <!-- BRAND IDENTITY HEADER: UPGRADED LUXURY ISOMORPHIC PATTERN + RADIAL GLOW MINT DEPT EFFECT -->
+      <div class="w-full bg-modern-luxury-lines p-6 pb-7 text-white rounded-b-[2.5rem] shadow-md flex flex-col relative flex-shrink-0">
         
         <!-- CONTROLLER SECTION V3 -->
-        <div class="absolute right-6 top-5 flex items-center gap-2 z-[99]">
-          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-9 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
-            <i class="fa-solid fa-globe text-white/50"></i>
-            <span id="txtLangLabel" class="text-white uppercase">ID</span>
-            <i class="fa-solid fa-chevron-down text-[9px] opacity-30"></i>
+        <div class="absolute right-6 top-5 flex items-center gap-1.5 z-[99]">
+          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-8.5 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
+            <i class="fa-solid fa-globe text-emerald-400/70"></i>
+            <span id="txtLangLabel" class="text-white uppercase tracking-wider">ID</span>
+            <i class="fa-solid fa-chevron-down text-[8px] opacity-30"></i>
           </button>
-          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-9 h-9 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
+          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-8.5 h-8.5 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
             <i id="iconDarkMode" class="fa-solid fa-sun text-white"></i>
           </button>
         </div>
 
         <!-- APP BRANDING SUBTITLE -->
-        <div class="flex items-center gap-2 mb-1 opacity-60 relative z-10">
-          <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-          <h1 class="text-xs font-bold tracking-widest uppercase" data-i18n="halo">Halo, Pengguna!</h1>
+        <div class="flex items-center gap-1.5 mb-1 opacity-70 relative z-10">
+          <span class="w-1 h-3 bg-emerald-400 rounded-full"></span>
+          <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
         <!-- TOTAL SALDO HERO DISCOVERY UNIT -->
-        <div class="flex flex-col mt-2 mb-5 relative z-10">
-          <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
+        <div class="flex flex-col mt-2 mb-6 relative z-10">
+          <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase mb-0.5" data-i18n="totalSaldo">Total Saldo Kamu</p>
           <div class="flex items-baseline gap-2">
-            <h2 id="txtSaldo" class="text-3xl font-semibold tracking-tight text-white">Rp 0</h2>
+            <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
           </div>
         </div>
 
-        <!-- CLEAN FLAT BENTO BOX GRID CARD (ARCHITECTURAL BOX MATRICES) -->
+        <!-- CLEAN FLAT BENTO BOX GRID CARD (MATERIAL ILUSION - FLUID BLUR PADS) -->
         <div class="grid grid-cols-2 gap-3 relative z-10">
           
           <!-- SEKTOR PEMASUKAN POD -->
-          <div class="bg-white/[0.04] border border-white/10 rounded-2xl p-3.5 flex items-center gap-3 backdrop-blur-sm">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
+          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3.5 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-down text-xs"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-35 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
-              <p id="txtMasuk" class="font-bold text-sm text-white tracking-wide truncate">Rp 0</p>
+              <span class="text-[10px] font-bold opacity-40 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
+              <p id="txtMasuk" class="font-bold text-[13px] text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
           
           <!-- SEKTOR PENGELUARAN POD -->
-          <div class="bg-white/[0.04] border border-white/10 rounded-2xl p-3.5 flex items-center gap-3 backdrop-blur-sm">
-            <div class="w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center text-rose-400 flex-shrink-0">
+          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3.5 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-up text-xs"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-35 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
-              <p id="txtKeluar" class="font-bold text-sm text-white tracking-wide truncate">Rp 0</p>
+              <span class="text-[10px] font-bold opacity-40 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
+              <p id="txtKeluar" class="font-bold text-[13px] text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
 
@@ -1126,6 +1126,7 @@
       const inactiveClasses = "w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-semibold tracking-wide text-slate-400 dark:text-slate-500 scale-100 opacity-60";
 
       if (menu === 'home') {
+        pageHome.text = "";
         pageHome.classList.remove('hidden');
         pageRiwayat.classList.add('hidden');
         if(cardTransactions) cardTransactions.classList.add('hidden'); 
@@ -1600,14 +1601,14 @@
             </div>`;
         });
 
-        listModalContainer.insertAdjacentHTML('beforeend', `
+        listModalContainer.innerHTML += `
           <div class="bg-white dark:bg-[#131b2e] p-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
             <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 dark:border-slate-800/60 pb-2 mb-1 flex justify-between items-center">
               <span>${formatTanggalIndo(tgl)}</span>
               <span class="text-[11px] font-semibold text-slate-300 dark:text-slate-500">${tgl}</span>
             </div>
             <div class="divide-y divide-slate-100/60 dark:divide-slate-800/30">${susunanHTMLItemModal}</div>
-          </div>`);
+          </div>`;
       });
     };
 
