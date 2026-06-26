@@ -330,7 +330,7 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- HEADER LAYER REMODEL: FINTECH MESH DEEP LUXURY STYLE -->
+      <!-- HEADER LAYER: FINTECH MESH DEEP LUXURY STYLE -->
       <div class="w-full bg-gradient-to-b from-[#022c22] via-[#064e3b] to-[#022c22] p-6 text-white rounded-b-[2.75rem] shadow-[0_20px_40px_rgba(2,44,34,0.15)] flex flex-col relative overflow-hidden flex-shrink-0 border-b border-emerald-500/10">
         <!-- Luxury Glowing Nodes -->
         <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-400/20 rounded-full blur-2xl pointer-events-none animate-pulse"></div>
@@ -352,38 +352,45 @@
           <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Halo, Pengguna!
         </h1>
         
-        <!-- UPGRADE ULTRA MODERN: FLOATING BALANCE CARD WITH CHROME GLASS EFFECT -->
-        <div class="w-full mt-4 mb-4 p-5 rounded-2xl bg-gradient-to-br from-white/[0.14] to-white/[0.03] border border-white/[0.18] shadow-[0_12px_32px_0_rgba(0,0,0,0.18),inset_0_1px_2px_rgba(255,255,255,0.25)] backdrop-blur-xl relative overflow-hidden">
-          <!-- Card Abstract Pattern Decoration -->
-          <div class="absolute right-4 top-4 text-[10px] font-black tracking-widest text-white/10 select-none pointer-events-none">MYKAS GOLD</div>
+        <!-- FIXED UNIFIED MASTER CARD: ALL-IN-ONE FINTECH STATEMENT -->
+        <div class="w-full mt-4 p-5 rounded-3xl bg-gradient-to-br from-white/[0.14] to-white/[0.03] border border-white/[0.18] shadow-[0_15px_35px_0_rgba(0,0,0,0.2),inset_0_1px_2px_rgba(255,255,255,0.25)] backdrop-blur-xl relative overflow-hidden flex flex-col gap-4">
+          <!-- Card Decorative Brand Accent -->
+          <div class="absolute right-4 top-4 text-[9px] font-black tracking-widest text-white/10 select-none pointer-events-none">MYKAS PREMIUM</div>
           
-          <p class="text-[10px] font-bold text-white/60 tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
-          <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-200 bg-clip-text text-transparent drop-shadow-sm">Rp 0</h2>
-        </div>
-
-        <!-- LOWER HUB: INSIDE ACCOUNT STATEMENT SHEET -->
-        <div class="bg-black/20 backdrop-blur-md py-3 px-4 rounded-xl border border-white/5 shadow-inner flex flex-row items-center relative z-10">
-          
-          <!-- SISI KIRI: PEMASUKAN -->
-          <div class="flex-1 flex flex-col justify-center">
-            <span class="text-[11px] font-bold text-white/70 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></span><span data-i18n="pemasukan">Pemasukan</span>
-            </span>
-            <p id="txtMasuk" class="font-bold text-base tracking-wide drop-shadow-sm text-emerald-300">Rp 0</p>
+          <!-- SEKTOR ATAS: TOTAL SALDO UTAMA -->
+          <div>
+            <p class="text-[10px] font-bold text-white/50 tracking-wider uppercase mb-1" data-i18n="totalSaldo">Total Saldo Kamu</p>
+            <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-200 bg-clip-text text-transparent drop-shadow-sm">Rp 0</h2>
           </div>
           
-          <!-- GARIS VERTIKAL DIVIDER PREMIUM -->
-          <div class="w-[1px] bg-white/[0.15] h-7 mx-3 flex-shrink-0"></div>
+          <!-- MINIMALIST HORIZONTAL SEPARATOR -->
+          <div class="w-full h-[1px] bg-white/10"></div>
           
-          <!-- SISI KANAN: PENGELUARAN -->
-          <div class="flex-1 flex flex-col justify-center pl-1">
-            <span class="text-[11px] font-bold text-white/70 uppercase tracking-wider mb-0.5 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.6)]"></span><span data-i18n="pengeluaran">Pengeluaran</span>
-            </span>
-            <p id="txtKeluar" class="font-bold text-base tracking-wide drop-shadow-sm text-rose-300">Rp 0</p>
-          </div>
+          <!-- SEKTOR BAWAH: DATA ARUS KAS LURUS KIRI-KANAN (TANPA BACKGROUND BOX TERPISAH) -->
+          <div class="w-full flex flex-row items-center justify-between">
+            
+            <!-- SUB-KOLOM 1: PEMASUKAN -->
+            <div class="flex-1 flex flex-col justify-center">
+              <span class="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+                <span class="w-1 h-1 rounded-full bg-emerald-400"></span><span data-i18n="pemasukan">Pemasukan</span>
+              </span>
+              <p id="txtMasuk" class="font-bold text-base tracking-wide text-emerald-300 drop-shadow-sm">Rp 0</p>
+            </div>
+            
+            <!-- THIN LIGHT DIVIDER VERTICAL -->
+            <div class="w-[1px] bg-white/10 h-7 mx-4 flex-shrink-0"></div>
+            
+            <!-- SUB-KOLOM 2: PENGELUARAN -->
+            <div class="flex-1 flex flex-col justify-center pl-1">
+              <span class="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-0.5 flex items-center gap-1">
+                <span class="w-1 h-1 rounded-full bg-rose-400"></span><span data-i18n="pengeluaran">Pengeluaran</span>
+              </span>
+              <p id="txtKeluar" class="font-bold text-base tracking-wide text-rose-300 drop-shadow-sm">Rp 0</p>
+            </div>
 
+          </div>
         </div>
+        
       </div>
 
       <!-- CONTENT CONTAINER -->
@@ -531,7 +538,7 @@
             
             <div id="listRiwayat" class="divide-y divide-slate-100/60 dark:divide-slate-800/30 hidden"></div>
             
-            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
+            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
               <span data-i18n="bukaRiwayat">Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </button>
           </div>
