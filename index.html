@@ -49,7 +49,7 @@
 
     body {
       font-family: 'Urbanist', sans-serif;
-      background-color: #f8fafc; 
+      background-color: #f1f5f9; /* MODERN LIGHT GRAY BACKGROUND (SLATE-100) */
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     body::-webkit-scrollbar {
@@ -138,7 +138,7 @@
       width: 3px;
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #e2e8f0;
+      background: #cbd5e1;
       border-radius: 10px;
     }
     
@@ -161,12 +161,12 @@
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
-      box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.15) !important;
-      border: 1px solid #f1f5f9 !important;
+      box-shadow: 0 15px 35px -5px rgba(51, 65, 85, 0.1) !important;
+      border: 1px solid #e2e8f0 !important;
       padding: 14px !important;
       width: 336px !important;
       box-sizing: border-box !important;
-      background: #ffffff !important;
+      background: #f8fafc !important;
     }
     
     .flatpickr-current-month {
@@ -185,8 +185,8 @@
     }
 
     .btn-pemicu-bulan, .btn-pemicu-tahun {
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
       padding: 6px 12px;
       border-radius: 10px;
       font-size: 13px;
@@ -212,7 +212,7 @@
     body.dark #pageHome,
     body.dark #pageRiwayat > div,
     body.dark #modalDetailTransaksi > div,
-    body.dark #modalDetailTransaksi .bg-white,
+    body.dark #modalDetailTransaksi .bg-slate-50,
     body.dark #listRiwayatPenuhModal > div {
       background: linear-gradient(145deg, #131b2e, #111827) !important;
       border-color: #1e293b !important;
@@ -252,7 +252,7 @@
       transition: background-color 5000s ease-in-out 0s;
     }
     
-    body.dark .bg-white { background: #131b2e !important; }
+    body.dark .bg-slate-50 { background: #131b2e !important; }
     
     body.dark #btnSimpan {
       background-color: #059669 !important;
@@ -335,13 +335,13 @@
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
   <!-- MAIN CANVAS CONTAINER -->
-  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f8fafc] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.15)] overflow-x-hidden overflow-y-clip md:border md:border-slate-200/60 transition-all duration-300">
+  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f1f5f9] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.12)] overflow-x-hidden overflow-y-clip md:border md:border-slate-300/40 transition-all duration-300">
 
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
       <!-- BRAND IDENTITY HEADER: UPGRADED LUXURY ISOMORPHIC PATTERN + RADIAL GLOW MINT DEPT EFFECT -->
-      <div class="w-full bg-modern-luxury-lines p-6 pb-7 text-white rounded-b-[2.5rem] shadow-md flex flex-col relative flex-shrink-0">
+      <div class="w-full bg-modern-luxury-lines p-6 pb-7 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
         
         <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-1.5 z-[99]">
@@ -369,7 +369,7 @@
           </div>
         </div>
 
-        <!-- CLEAN FLAT BENTO BOX GRID CARD (MATERIAL ILUSION - FLUID BLUR PADS) -->
+        <!-- CLEAN FLAT BENTO BOX GRID CARD -->
         <div class="grid grid-cols-2 gap-3 relative z-10">
           
           <!-- SEKTOR PEMASUKAN POD -->
@@ -398,10 +398,10 @@
       </div>
 
       <!-- CONTENT CONTAINER -->
-      <div class="w-full px-4 mt-6 pb-2" id="mainContainer">
+      <div class="w-full px-4 mt-5 pb-2" id="mainContainer">
         
-        <!-- COMPACT HOME CONTAINER -->
-        <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-100 mb-0">
+        <!-- COMPACT HOME CONTAINER (BG CHANGER TO BG-SLATE-50 PREMIUM FOR EXTRA DEPTH) -->
+        <div id="pageHome" class="w-full bg-slate-50 p-6 rounded-[2.25rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40 mb-0">
           <div class="flex items-center gap-2 mb-5">
             <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
             <h3 class="text-lg font-bold text-slate-800 tracking-tight" data-i18n="tambahTrans">Tambah Transaksi</h3>
@@ -412,7 +412,7 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
               <div class="relative">
                 <input type="hidden" id="tanggal_mentntah" value="">
-                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer" required>
+                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-white rounded-2xl border border-slate-200/70 font-bold text-base text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500 dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer shadow-sm" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-calendar-days"></i>
                 </div>
@@ -421,7 +421,7 @@
 
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="jenisAliran">Jenis Aliran Dana</label>
-              <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
+              <div class="w-full p-1 bg-slate-200/60 dark:bg-slate-800 rounded-2xl grid grid-cols-2 gap-1">
                 <input type="hidden" id="jenis" value="Pengeluaran">
                 <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-2.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 bg-white text-rose-600 shadow-sm dark:bg-[#0b0f19] dark:text-rose-400" data-i18n="tabKeluar">
                   💸 Pengeluaran
@@ -436,7 +436,7 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
               <div class="relative">
                 <input type="hidden" id="kategori" value="">
-                <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:bg-white dark:focus:bg-[#1a2336] transition-all pl-11 pr-4">
+                <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-white rounded-2xl border border-slate-200/70 font-bold text-base text-slate-700 dark:text-slate-200 text-left flex justify-between items-center outline-none focus:border-emerald-500 dark:focus:bg-[#1a2336] transition-all pl-11 pr-4 shadow-sm">
                   <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
                   <i class="fa-solid fa-chevron-down text-sm text-slate-400"></i>
                 </button>
@@ -449,7 +449,7 @@
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
               <div class="relative">
-                <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-bold text-base text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-12 pr-4" required>
+                <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-white rounded-2xl border border-slate-200/70 font-bold text-base text-slate-800 dark:text-slate-200 placeholder-slate-300 focus:border-emerald-500 dark:focus:bg-[#1a2336] outline-none transition-all pl-12 pr-4 shadow-sm" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-base pointer-events-none">
                   Rp
                 </div>
@@ -459,7 +459,7 @@
             <div class="mb-5">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
               <div class="relative">
-                <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-slate-50 rounded-2xl border border-slate-200/60 font-semibold text-base text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:bg-white dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4" required>
+                <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-white rounded-2xl border border-slate-200/70 font-semibold text-base text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:border-emerald-500 dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 shadow-sm" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-pen-to-square"></i>
                 </div>
@@ -467,11 +467,11 @@
             </div>
 
             <div class="flex gap-3 w-full">
-              <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-3 rounded-2xl shadow-sm hover:bg-emerald-700 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
+              <button type="submit" id="btnSimpan" class="flex-grow bg-emerald-600 text-white font-bold p-3 rounded-2xl shadow-md hover:bg-emerald-700 transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
                 <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
               </button>
               
-              <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100/80 hover:bg-slate-200/60 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-bold px-5 p-3 rounded-2xl border border-slate-200/50 dark:border-slate-700/80 shadow-sm transition-all active:scale-95 flex items-center justify-center">
+              <button type="button" onclick="window.tombolReloadPintar()" class="bg-white hover:bg-slate-50 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-bold px-5 p-3 rounded-2xl border border-slate-200 shadow-sm transition-all active:scale-95 flex items-center justify-center">
                 <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
               </button>
             </div>
@@ -485,12 +485,12 @@
         <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-0 hidden">
           
           <!-- CARD 1: ANALISIS PENGELUARAN -->
-          <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
+          <div class="w-full bg-slate-50 p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span>
               </h3>
-              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all">
+              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-white dark:bg-slate-800/80 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all shadow-sm">
                 <span id="labelPeriodeUtama">Bulan Ini</span>
                 <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
               </button>
@@ -508,11 +508,11 @@
               <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[125px] overflow-y-auto pl-4 hide-scrollbar">
               </div>
             </div>
-            <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
+            <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-white rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
           </div>
 
           <!-- CARD 2: TREN KEUANGAN BULANAN -->
-          <div class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80">
+          <div class="w-full bg-slate-50 p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-blue-500 rounded-full"></span><span data-i18n="trenTitle">Tren Keuangan Bulanan</span>
@@ -524,12 +524,12 @@
           </div>
 
           <!-- CARD 3: TRANSAKSI TERAKHIR -->
-          <div id="cardTransactionsTerakhir" class="w-full bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100/80 flex flex-col mb-0">
+          <div id="cardTransactionsTerakhir" class="w-full bg-slate-50 p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40 flex flex-col mb-0">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span>
               </h3>
-              <span class="px-2.5 py-0.5 bg-slate-50 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200/40 dark:border-slate-700/50" data-i18n="terbaru">
+              <span class="px-2.5 py-0.5 bg-white dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200 shadow-sm" data-i18n="terbaru">
                 Terbaru
               </span>
             </div>
@@ -539,9 +539,9 @@
               <span class="font-semibold text-slate-400" data-i18n="loadingServer">Sinkronisasi data server...</span>
             </div>
             
-            <div id="listRiwayat" class="divide-y divide-slate-100/60 dark:divide-slate-800/30 hidden"></div>
+            <div id="listRiwayat" class="divide-y divide-slate-100 dark:divide-slate-800/30 hidden"></div>
             
-            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-slate-50 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 hidden">
+            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white dark:bg-slate-800/40 border border-slate-200 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 shadow-sm">
               <span data-i18n="bukaRiwayat">Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </button>
           </div>
@@ -555,22 +555,22 @@
 
     <!-- MODAL DETAIL TRANSAKSI -->
     <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
-      <div class="w-full h-[88vh] bg-white rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+      <div class="w-full h-[88vh] bg-[#f1f5f9] dark:bg-[#0b0f19] rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
         
-        <div class="w-full bg-white px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100">
+        <div class="w-full bg-slate-50 px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-200/60">
           <div class="flex items-center gap-3">
-            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all">
+            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all border border-slate-200/50 shadow-sm">
               <i class="fa-solid fa-xmark text-base"></i>
             </button>
             <h3 class="text-base font-bold text-slate-800" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
           </div>
-          <span id="txtTotalDataModal" class="text-slate-400 font-bold text-[11px] uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-full">0 Transaksi</span>
+          <span id="txtTotalDataModal" class="text-slate-500 font-bold text-[11px] uppercase tracking-widest bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200/50 shadow-sm">0 Transaksi</span>
         </div>
 
-        <div class="w-full bg-white px-6 py-4 border-b border-slate-100 flex-shrink-0 flex flex-col gap-3">
+        <div class="w-full bg-slate-50 px-6 py-4 border-b border-slate-200/60 flex-shrink-0 flex flex-col gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider" data-i18n="filterPeriode">Filter Periode Laporan</label>
-            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100/70 dark:hover:bg-slate-700/50 border border-slate-200/80 dark:border-slate-700 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none">
+            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-white dark:bg-slate-800/50 hover:bg-slate-50 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none shadow-sm">
               <span id="labelPeriodeTerpilih" class="text-sm" data-i18n="tampilkanSemua">Tampilkan Semua</span>
               <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
             </button>
@@ -578,16 +578,16 @@
           </div>
 
           <div class="grid grid-cols-2 gap-3 pt-1">
-            <button onclick="window.unduhPDF()" class="bg-rose-50 dark:bg-rose-950/20 border border-rose-100/80 dark:border-rose-900/30 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
+            <button onclick="window.unduhPDF()" class="bg-white border border-slate-200 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
               <i class="fa-solid fa-file-pdf"></i> PDF
             </button>
-            <button onclick="window.unduhExcel()" class="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100/80 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none">
+            <button onclick="window.unduhExcel()" class="bg-white border border-slate-200 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
               <i class="fa-solid fa-file-excel"></i> Excel
             </button>
           </div>
         </div>
 
-        <div class="w-full flex-grow p-4 overflow-y-auto pb-12 bg-slate-50/60 hide-scrollbar">
+        <div class="w-full flex-grow p-4 overflow-y-auto pb-12 hide-scrollbar">
           <div id="listRiwayatPenuhModal" class="space-y-4"></div>
         </div>
 
@@ -595,7 +595,7 @@
     </div>
 
     <!-- ADAPTIF FIXED NAVBAR GOPAY STYLE WITH GLASSMORPHISM EFFECT -->
-    <div id="mainFixedNavbar" class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/50 dark:border-slate-800/50 shadow-[0_-10px_30px_rgba(51,65,85,0.03)] dark:shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.4)] flex flex-row items-center justify-between pb-[calc(8px+env(safe-area-inset-bottom))] pt-2">
+    <div id="mainFixedNavbar" class="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800/50 shadow-[0_-10px_30px_rgba(51,65,85,0.04)] dark:shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.4)] flex flex-row items-center justify-between pb-[calc(8px+env(safe-area-inset-bottom))] pt-2">
       
       <!-- MENU 1: BERANDA -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
@@ -982,7 +982,7 @@
           <button type="button" onclick="window.setBulanKalenderDariSheet(${indeks})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
             isSelected 
               ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' 
-              : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
+              : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${namaBulan}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1018,7 +1018,7 @@
           <button type="button" onclick="window.setTahunKalenderDariSheet(${y})" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
             isSelected 
               ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' 
-              : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
+              : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${currentLang === 'id' ? 'Tahun' : 'Year'} ${y}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1080,7 +1080,7 @@
         
         htmlPilihanKategori += `
           <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-100 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${kat}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1237,7 +1237,7 @@
           const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
           
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50/80 dark:hover:bg-slate-700/20 border-b border-slate-100 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-3 hover:bg-white dark:hover:bg-slate-700/20 border-b border-slate-200/60 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer bg-white/40 mb-1 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
               <div class="flex items-center gap-3 min-w-[70%]">
                 <div class="w-10 h-10 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -1344,7 +1344,7 @@
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'doughnut',
-        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#131b2e' : '#ffffff' }] },
+        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#131b2e' : '#f1f5f9' }] },
         options: {
           cutout: '75%', responsive: true, maintainAspectRatio: false,
           animation: biarkanAnimasi ? { duration: 800, animateRotate: true, animateScale: false } : false,
@@ -1375,8 +1375,8 @@
       if (myBarChartInstance !== null) myBarChartInstance.destroy();
 
       const apaModeGelap = document.body.classList.contains('dark');
-      const warnaGarisGrid = apaModeGelap ? '#1e293b' : '#f8fafc';
-      const warnaLabelTeks = apaModeGelap ? '#94a3b8' : '#1e293b';
+      const warnaGarisGrid = apaModeGelap ? '#1e293b' : '#e2e8f0';
+      const warnaLabelTeks = apaModeGelap ? '#94a3b8' : '#334155';
 
       myBarChartInstance = new Chart(canvasCtx, {
         type: 'bar',
@@ -1496,7 +1496,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-100 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1524,7 +1524,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-slate-50 dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-100 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1583,7 +1583,7 @@
           const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
           
           susunanHTMLItemModal += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/40 dark:hover:bg-slate-700/40 border-b border-slate-50 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/40 border-b border-slate-100 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
                 <div class="w-10 h-10 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
@@ -1602,12 +1602,12 @@
         });
 
         listModalContainer.innerHTML += `
-          <div class="bg-white dark:bg-[#131b2e] p-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-[0_4px_16px_rgba(51,65,85,0.02)] flex flex-col mb-4">
-            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100/80 dark:border-slate-800/60 pb-2 mb-1 flex justify-between items-center">
+          <div class="bg-white dark:bg-[#131b2e] p-4 rounded-3xl border border-slate-200/60 dark:border-slate-800 shadow-[0_4px_16px_rgba(51,65,85,0.01)] flex flex-col mb-4">
+            <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 dark:border-slate-800/60 pb-2 mb-1 flex justify-between items-center">
               <span>${formatTanggalIndo(tgl)}</span>
               <span class="text-[11px] font-semibold text-slate-300 dark:text-slate-500">${tgl}</span>
             </div>
-            <div class="divide-y divide-slate-100/60 dark:divide-slate-800/30">${susunanHTMLItemModal}</div>
+            <div class="divide-y divide-slate-100 dark:divide-slate-800/30">${susunanHTMLItemModal}</div>
           </div>`;
       });
     };
