@@ -1,0 +1,50 @@
+name: Ubah HTML-JS Jadi APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Tarik Code HTML/JS
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js (Untuk compiler JS)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Setup Java JDK (Untuk Android)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Install Compiler
+        run: |
+          npm install
+          npx cap init MyKas com.mykas.app --web-dir=.
+          npx cap add android
+
+      - name: Copy Android Firebase Config
+        run: |
+          # Memastikan folder android terbuat lalu copy file firebase jika ada
+          mkdir -p android/app/
+          # Jika kamu punya google-services.json, taruh di root repo GitHubmu, nanti otomatis ter-copy ke sini:
+          [ -f google-services.json ] && cp google-services.json android/app/ || echo "No Firebase config found, skipping."
+
+      - name: Rakit Jadi APK Android
+        run: |
+          npx cap sync
+          cd android && ./gradlew assembleRelease
+
+      - name: Upload APK Jadi
+        uses: actions/upload-artifact@v3
+        with:
+          name: Aplikasi-HTML-JS-Jadi-APK
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
