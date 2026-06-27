@@ -37,7 +37,7 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ANTI LAYOUT SHIFT: Kunci viewport terluar pada mobile agar address bar tidak memicu resize */
+    /* ANTI LAYOUT SHIFT */
     @media (max-width: 767px) {
       html, body {
         position: fixed !important;
@@ -49,14 +49,13 @@
 
     body {
       font-family: 'Urbanist', sans-serif;
-      background-color: #f1f5f9; /* MODERN LIGHT GRAY BACKGROUND (SLATE-100) */
+      background-color: #f1f5f9;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     body::-webkit-scrollbar {
       display: none;
     }
     
-    /* ANTI-BOX TAP INJECTION */
     button, a, input, select {
       -webkit-tap-highlight-color: transparent !important;
       outline: none !important;
@@ -66,7 +65,7 @@
       z-index: 999999 !important;
     }
 
-    /* PREMIUM ISOMORPHIC CANVAS DENGAN GLOW RADIAL GRADIENT EFFECT */
+    /* PREMIUM ISOMORPHIC CANVAS WITH GLOW RADIAL EFFECT */
     .bg-modern-luxury-lines {
       background-color: #01261c;
       background-image: 
@@ -76,7 +75,7 @@
       background-position: center;
     }
 
-    /* ENGINE NAVBAR DECK MODERN - Menyatu penuh ke bodi bawah layar */
+    /* ENGINE NAVBAR DECK MODERN */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -96,7 +95,7 @@
       }
     }
     
-    /* BOTTOM SHEET CONFIGURATION - RESPONSIVE FOR LAPTOP */
+    /* BOTTOM SHEET CONFIGURATION */
     .premium-bottom-sheet {
       position: fixed !important;
       bottom: 0 !important;
@@ -125,7 +124,6 @@
       }
     }
     
-    /* ENGINE STANDARDIZATION ANTI-SCROLLBAR LAPTOP */
     .hide-scrollbar::-webkit-scrollbar {
       display: none !important;
     }
@@ -150,14 +148,13 @@
       will-change: transform, background-color;
     }
     
-    /* ENGINE AKSESLERASI SCROLL SMOOTH PREMIUM */
     .flex-1.overflow-y-auto {
       -webkit-overflow-scrolling: touch !important; 
       transform: translateZ(0); 
       will-change: scroll-position; 
     }
     
-    /* CONFIG ENGINE RE-DESIGN KALENDER FLATPICKR (LIGHT MODE) */
+    /* FLATPICKR DESIGN RE-MODEL (LIGHT MODE) */
     .flatpickr-calendar {
       font-family: 'Urbanist', sans-serif !important;
       border-radius: 1.75rem !important;
@@ -201,7 +198,7 @@
       scale: 0.95;
     }
 
-    /* ENGINE MODE GELAP PREMIUM */
+    /* PREMIUM DARK MODE ENGINE OVERRIDES */
     body.dark {
       background-color: #060913; 
     }
@@ -245,46 +242,6 @@
       color: #f8fafc !important;
     }
     
-    /* FIX FOR RELOAD BUTTON BORDER IN DARK MODE */
-    body.dark button[onclick="window.tombolReloadPintar()"] {
-      background-color: #1a2336 !important;
-      border-color: #24324d !important;
-      color: #cbd5e1 !important;
-    }
-    
-    /* FIX FOR MAIN ANALYSIS PERIOD FILTER BUTTON IN DARK MODE */
-    body.dark button[onclick="window.bukaPilihanPeriodeHalamanUtama()"] {
-      background-color: #1a2336 !important;
-      border-color: #24324d !important;
-      color: #cbd5e1 !important;
-    }
-
-    /* FIX FOR DOWNLOAD BUTTONS (PDF & EXCEL) IN DARK MODE */
-    body.dark button[onclick="window.unduhPDF()"],
-    body.dark button[onclick="window.unduhExcel()"] {
-      background-color: #1a2336 !important;
-      border-color: #24324d !important;
-    }
-    
-    /* FIX FOR "TERBARU" CAPSULE BORDER & BG IN DARK MODE */
-    body.dark [data-i18n="terbaru"] {
-      background-color: #1a2336 !important;
-      border-color: #24324d !important;
-      color: #94a3b8 !important;
-    }
-
-    /* FIX FOR HISTORY FULLMODAL TITLE CONTROLLER IN DARK MODE */
-    body.dark #modalDetailTransaksi .bg-slate-50 {
-      background-color: #131b2e !important;
-      border-color: #1e293b !important;
-    }
-    body.dark #modalDetailTransaksi .bg-slate-50 button,
-    body.dark #modalDetailTransaksi .bg-slate-50 span {
-      background-color: #1a2336 !important;
-      border-color: #24324d !important;
-      color: #cbd5e1 !important;
-    }
-
     body.dark input:-webkit-autofill,
     body.dark input:-webkit-autofill:hover, 
     body.dark input:-webkit-autofill:focus {
@@ -317,7 +274,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
 
-    /* CALENDAR ENGINE RE-DESIGN FOR DARK MODE */
+    /* FLATPICKR DARK MODE CONFIG */
     body.dark .flatpickr-calendar {
       background: #131b2e !important;
       border-color: #1e293b !important;
@@ -382,7 +339,7 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- BRAND IDENTITY HEADER: UPGRADED LUXURY ISOMORPHIC PATTERN + RADIAL GLOW MINT DEPT EFFECT -->
+      <!-- BRAND IDENTITY HEADER -->
       <div class="w-full bg-modern-luxury-lines p-6 pb-7 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
         
         <!-- CONTROLLER SECTION V3 -->
@@ -513,7 +470,7 @@
                 <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
               </button>
               
-              <button type="button" onclick="window.tombolReloadPintar()" class="bg-white hover:bg-slate-50 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 font-bold px-5 p-3 rounded-2xl border border-slate-200 shadow-sm transition-all active:scale-95 flex items-center justify-center">
+              <button type="button" onclick="window.tombolReloadPintar()" class="bg-white hover:bg-slate-50 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 dark:border-[#24324d] font-bold px-5 p-3 rounded-2xl border border-slate-200 shadow-sm transition-all active:scale-95 flex items-center justify-center">
                 <i id="iconReload" class="fa-solid fa-rotate text-base"></i>
               </button>
             </div>
@@ -532,7 +489,7 @@
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span>
               </h3>
-              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all shadow-sm">
+              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-[#24324d] rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all shadow-sm">
                 <span id="labelPeriodeUtama">Bulan Ini</span>
                 <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
               </button>
@@ -571,7 +528,7 @@
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span>
               </h3>
-              <span class="px-2.5 py-0.5 bg-white text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200 shadow-sm" data-i18n="terbaru">
+              <span class="px-2.5 py-0.5 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-[#24324d] rounded-md text-[11px] font-bold tracking-wider uppercase shadow-sm" data-i18n="terbaru">
                 Terbaru
               </span>
             </div>
@@ -583,7 +540,7 @@
             
             <div id="listRiwayat" class="divide-y divide-slate-100 dark:divide-slate-800/30 hidden"></div>
             
-            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 shadow-sm">
+            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-[#24324d] text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 shadow-sm">
               <span data-i18n="bukaRiwayat">Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </button>
           </div>
@@ -599,20 +556,20 @@
     <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
       <div class="w-full h-[88vh] bg-[#f1f5f9] dark:bg-[#0b0f19] rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
         
-        <div class="w-full bg-slate-50 px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-200/60">
+        <div class="w-full bg-slate-50 px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-200/60 dark:border-slate-800/60">
           <div class="flex items-center gap-3">
-            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-white text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all border border-slate-200/50 shadow-sm">
+            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all border border-slate-200/50 dark:border-[#24324d] shadow-sm">
               <i class="fa-solid fa-xmark text-base"></i>
             </button>
-            <h3 class="text-base font-bold text-slate-800" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
+            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
           </div>
-          <span id="txtTotalDataModal" class="text-slate-500 font-bold text-[11px] uppercase tracking-widest bg-white px-3 py-1.5 rounded-full border border-slate-200/50 shadow-sm">0 Transaksi</span>
+          <span id="txtTotalDataModal" class="text-slate-500 font-bold text-[11px] uppercase tracking-widest bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200/50 dark:border-[#24324d] shadow-sm">0 Transaksi</span>
         </div>
 
-        <div class="w-full bg-slate-50 px-6 py-4 border-b border-slate-200/60 flex-shrink-0 flex flex-col gap-3">
+        <div class="w-full bg-slate-50 px-6 py-4 border-b border-slate-200/60 dark:border-slate-800/60 flex-shrink-0 flex flex-col gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider" data-i18n="filterPeriode">Filter Periode Laporan</label>
-            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none shadow-sm">
+            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-white dark:bg-slate-800/50 hover:bg-slate-50 border border-slate-200 dark:border-[#24324d] rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none shadow-sm">
               <span id="labelPeriodeTerpilih" class="text-sm" data-i18n="tampilkanSemua">Tampilkan Semua</span>
               <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
             </button>
@@ -620,10 +577,10 @@
           </div>
 
           <div class="grid grid-cols-2 gap-3 pt-1">
-            <button onclick="window.unduhPDF()" class="bg-white border border-slate-200 text-rose-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
+            <button onclick="window.unduhPDF()" class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-[#24324d] text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
               <i class="fa-solid fa-file-pdf"></i> PDF
             </button>
-            <button onclick="window.unduhExcel()" class="bg-white border border-slate-200 text-emerald-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
+            <button onclick="window.unduhExcel()" class="bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-[#24324d] text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
               <i class="fa-solid fa-file-excel"></i> Excel
             </button>
           </div>
@@ -688,7 +645,7 @@
         transTerakhir: "Transaksi Terakhir", terbaru: "Terbaru", bukaRiwayat: "Buka Riwayat Lengkap",
         riwayatLengkap: "Riwayat Lengkap", filterPeriode: "Filter Periode Laporan", tampilkanSemua: "Tampilkan Semua",
         total: "Total", noChartData: "Tidak ada pengeluaran periode ini", loadingServer: "Sinkronisasi data server...",
-        noTransModal: "Tidak ada transaksi di periode ini.", belomAda data: "Belum ada data transaksi kas tercatat.",
+        noTransModal: "Tidak ada transaksi di periode ini.", belomAdaData: "Belum ada data transaksi kas tercatat.",
         bulanIni: "Bulan Ini", semuaPeriode: "Semua Periode", txtTotalTransaksi: "Transaksi", actionTitle: "Kelola Transaksi",
         btnEdit: "Edit Data", btnHapus: "Hapus", btnBatal: "Batal", editTitle: "Edit Data Keuangan", inputKetBaru: "Keterangan Baru",
         inputNomBaru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
@@ -980,6 +937,7 @@
     };
 
     window.buatPemicuKapsulKalenderCustom = function(instance) {
+      if (!instance || !instance.calendarContainer) return;
       const containerHeader = instance.calendarContainer.querySelector('.flatpickr-current-month');
       if (!containerHeader) return;
       
@@ -1105,10 +1063,6 @@
       window.updateKategoriOptions();
     };
 
-    window.bukaBottomSheetCN = function() {
-      // Intentional Fallback
-    };
-
     window.bukaBottomSheetPilihanKategori = function() {
       const jenis = document.getElementById('jenis').value;
       const listKey = (jenis.toString().trim().toLowerCase() === "pemasukan") ? "pemasukan" : "pengeluaran";
@@ -1170,33 +1124,33 @@
       const inactiveClasses = "w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-semibold tracking-wide text-slate-400 dark:text-slate-500 scale-100 opacity-60";
 
       if (menu === 'home') {
-        pageHome.text = "";
-        pageHome.classList.remove('hidden');
-        pageRiwayat.classList.add('hidden');
+        if(pageHome) pageHome.classList.remove('hidden');
+        if(pageRiwayat) pageRiwayat.classList.add('hidden');
         if(cardTransactions) cardTransactions.classList.add('hidden'); 
         
-        navHome.className = activeClasses;
-        navRiwayat.className = inactiveClasses;
+        if(navHome) navHome.className = activeClasses;
+        if(navRiwayat) navRiwayat.className = inactiveClasses;
         
         window.loadSummary(); 
       } else if (menu === 'riwayat') {
-        pageHome.classList.add('hidden');
-        pageRiwayat.classList.remove('hidden');
+        if(pageHome) pageHome.classList.add('hidden');
+        if(pageRiwayat) pageRiwayat.classList.remove('hidden');
         if(cardTransactions && databaseRiwayatRaw.length > 0) cardTransactions.classList.remove('hidden'); 
         
-        navRiwayat.className = activeClasses;
-        navHome.className = inactiveClasses;
+        if(navRiwayat) navRiwayat.className = activeClasses;
+        if(navHome) navHome.className = inactiveClasses;
         
         window.loadSummary();
 
         setTimeout(() => {
           if (myChartInstance) myChartInstance.resize();
           if (myBarChartInstance) myBarChartInstance.resize();
-        }, 40);
+        }, 50);
       }
     };
 
     window.aplikasikanDataKeUI = function(res, biarkanAnimasi = true) {
+      if(!res) return;
       document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
@@ -1209,15 +1163,15 @@
       const formatKunciBulanIni = hariIni.getFullYear() + "-" + String(hariIni.getMonth() + 1).padStart(2, '0');
       const selectUtama = document.getElementById('filterBulanUtamaHidden');
       
-      if (selectUtama) {
+      if (selectUtama && selectUtama.options.length > 0) {
         const adaBulanIni = Array.from(selectUtama.options).some(o => o.value === formatKunciBulanIni);
         if (adaBulanIni) {
           selectUtama.value = formatKunciBulanIni;
           const opsiDitemukan = Array.from(selectUtama.options).find(o => o.value === formatKunciBulanIni).text;
           document.getElementById('labelPeriodeUtama').innerText = opsiDitemukan;
         } else {
-          selectUtama.value = selectUtama.options[0] ? selectUtama.options[0].value : "ALL";
-          document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0] ? selectUtama.options[0].text : translations[currentLang].semuaPeriode;
+          selectUtama.value = selectUtama.options[0].value;
+          document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0].text;
         }
       }
       
@@ -1248,9 +1202,13 @@
     window.handleGoogleData = function(res) {
       const icon = document.getElementById('iconReload');
       if (icon) icon.classList.remove('animate-spin');
-      if (res) {
+      
+      if (res && typeof res === 'object') {
         localStorage.setItem('app_keuangan_cache', JSON.stringify(res));
         window.aplikasikanDataKeUI(res, true);
+      } else {
+        console.error("Data server bermasalah!");
+        window.aplikasikanDataKeUI({saldo: "Rp 0", pemasukan: "Rp 0", pengeluaran: "Rp 0", riwayat: [], trenBulananRaw: {}}, false);
       }
     };
 
@@ -1280,7 +1238,6 @@
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
           
-          /* COMFORT ENGINE DYNAMIC TRANSITION - CLEAN STYLING */
           susunanHTMLItemRingkas += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-3 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800/40 last:border-b-0 transition-all rounded-xl cursor-pointer bg-white/40 dark:bg-[#1a2336]/40 mb-1 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
               <div class="flex items-center gap-3 min-w-[70%]">
@@ -1304,10 +1261,10 @@
         });
 
         listContainer.innerHTML = susunanHTMLItemRingkas;
-        document.getElementById('loadingRiwayat').classList.add('hidden');
+        if(document.getElementById('loadingRiwayat')) document.getElementById('loadingRiwayat').classList.add('hidden');
         listContainer.classList.remove('hidden');
       } else {
-        document.getElementById('loadingRiwayat').classList.add('hidden');
+        if(document.getElementById('loadingRiwayat')) document.getElementById('loadingRiwayat').classList.add('hidden');
         if (btnBukaDetail) btnBukaDetail.classList.add('hidden');
         listContainer.innerHTML = `
           <div class="text-center py-6">
@@ -1318,7 +1275,9 @@
     };
 
     window.prosesFilterKategoriBulanUtama = function(biarkanAnimasi = true) {
-      const bulanTerpilih = document.getElementById('filterBulanUtamaHidden').value;
+      const selectElement = document.getElementById('filterBulanUtamaHidden');
+      if(!selectElement) return;
+      const bulanTerpilih = selectElement.value || "ALL";
       const dataKategoriGrafik = {};
       const opsiKategoriSekarang = kategoriTranslations[currentLang].pengeluaran;
       
@@ -1356,16 +1315,16 @@
       legendContainer.innerHTML = "";
       const labels = Object.keys(dataKategori), values = Object.values(dataKategori);
       const total = values.reduce((a, b) => a + b, 0);
-      textCenterTotal.innerText = "Rp " + total.toLocaleString('id-ID');
+      if(textCenterTotal) textCenterTotal.innerText = "Rp " + total.toLocaleString('id-ID');
 
       if (total === 0) { 
         canvasCtx.parentNode.style.display = 'none'; 
-        noDataMsg.classList.remove('hidden'); 
+        if(noDataMsg) noDataMsg.classList.remove('hidden'); 
         return; 
       }
       
       canvasCtx.parentNode.style.display = 'flex'; 
-      noDataMsg.classList.add('hidden');
+      if(noDataMsg) noDataMsg.classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
 
       const labelsAktif = labels.filter((_, idx) => values[idx] > 0);
@@ -1535,6 +1494,7 @@
 
     window.bukaPilihanPeriodeHalamanUtama = function() {
       const select = document.getElementById('filterBulanUtamaHidden');
+      if(!select) return;
       const nilaiSekarang = select.value;
       let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       for (let i = 0; i < select.options.length; i++) {
@@ -1556,13 +1516,14 @@
 
     window.setPeriodeHalamanUtamaDariList = function(val, txt) {
       document.getElementById('filterBulanUtamaHidden').value = val;
-      document.getElementById('labelPeriodeUtama').innerText = txt;
+      if(document.getElementById('labelPeriodeUtama')) document.getElementById('labelPeriodeUtama').innerText = txt;
       window.prosesFilterKategoriBulanUtama(false); 
       Swal.close();
     };
 
     window.bukaPilihanPeriodeModal = function() {
       const select = document.getElementById('filterBulanModal');
+      if(!select) return;
       const nilaiSekarang = select.value;
       let listHTML = `<div class="flex flex-col gap-2.5 text-left max-h-[50vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       for (let i = 0; i < select.options.length; i++) {
@@ -1584,15 +1545,16 @@
 
     window.setPeriodeModalDariList = function(val, txt) {
       document.getElementById('filterBulanModal').value = val;
-      document.getElementById('labelPeriodeTerpilih').innerText = txt;
+      if(document.getElementById('labelPeriodeTerpilih')) document.getElementById('labelPeriodeTerpilih').innerText = txt;
       window.renderListModalSesuaiBulan();
       Swal.close();
     };
 
     window.renderListModalSesuaiBulan = function() {
       const listModalContainer = document.getElementById('listRiwayatPenuhModal');
-      const bulanTerpilih = document.getElementById('filterBulanModal').value;
-      if (!listModalContainer) return;
+      const selectModal = document.getElementById('filterBulanModal');
+      if (!listModalContainer || !selectModal) return;
+      const bulanTerpilih = selectModal.value || "ALL";
       listModalContainer.innerHTML = "";
 
       let dataHasilFilterBulan = databaseRiwayatRaw || [];
@@ -1600,7 +1562,9 @@
         dataHasilFilterBulan = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
       }
 
-      document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " " + translations[currentLang].txtTotalTransaksi;
+      if(document.getElementById('txtTotalDataModal')) {
+        document.getElementById('txtTotalDataModal').innerText = dataHasilFilterBulan.length + " " + translations[currentLang].txtTotalTransaksi;
+      }
 
       if(dataHasilFilterBulan.length === 0) {
         listModalContainer.innerHTML = `<div class='text-slate-400 py-6 text-center text-xs font-semibold'>${translations[currentLang].noTransModal}</div>`;
@@ -1681,7 +1645,7 @@
     window.formatInputRupiah = (i) => i.value = parseInt(i.value.replace(/[^0-9]/g, '') || 0).toLocaleString('id-ID');
     
     window.tombolReloadPintar = function() { 
-      document.getElementById('iconReload').classList.add('animate-spin'); 
+      if(document.getElementById('iconReload')) document.getElementById('iconReload').classList.add('animate-spin'); 
       localStorage.removeItem('app_keuangan_cache');
       
       if (navigator.onLine && 'serviceWorker' in navigator) {
@@ -1742,25 +1706,27 @@
         if (opsiTersedia) { select.value = formatKunciBulanIni; if (triggerLabel) triggerLabel.innerText = Array.from(select.options).find(option => option.value === formatKunciBulanIni).text; } 
         else { select.value = "ALL"; if (triggerLabel) triggerLabel.innerText = translations[currentLang].tampilkanSemua; }
       }
-      window.renderListModalSesuaiBulan(); modal.classList.remove('hidden'); 
-      setTimeout(() => { modal.classList.remove('opacity-0'); if(box) box.classList.remove('translate-y-full'); }, 20); 
+      window.renderListModalSesuaiBulan(); 
+      if(modal) modal.classList.remove('hidden'); 
+      setTimeout(() => { if(modal) modal.classList.remove('opacity-0'); if(box) box.classList.remove('translate-y-full'); }, 20); 
     };
 
     window.tutupModalDetailSemua = () => { 
       const modal = document.getElementById('modalDetailTransaksi'); const box = modal.querySelector('div');
-      modal.classList.add('opacity-0'); if(box) box.classList.add('translate-y-full');
-      setTimeout(() => { modal.classList.add('hidden'); }, 300); 
+      if(modal) modal.classList.add('opacity-0'); if(box) box.classList.add('translate-y-full');
+      setTimeout(() => { if(modal) modal.classList.add('hidden'); }, 300); 
     };
     
     function dapatkanDataTerfilterModal() {
-      const bulanTerpilih = document.getElementById('filterBulanModal').value;
+      const selectModal = document.getElementById('filterBulanModal');
+      const bulanTerpilih = selectModal ? selectModal.value : "ALL";
       let dataHasilFilter = databaseRiwayatRaw || [];
       if (bulanTerpilih !== "ALL") {
         dataHasilFilter = databaseRiwayatRaw.filter(item => item.tanggal && item.tanggal.toString().startsWith(bulanTerpilih));
       }
       return {
         data: dataHasilFilter,
-        periodeText: document.getElementById('labelPeriodeTerpilih').innerText
+        periodeText: document.getElementById('labelPeriodeTerpilih') ? document.getElementById('labelPeriodeTerpilih').innerText : "Semua"
       };
     }
 
@@ -1918,7 +1884,6 @@
             if (installingWorker == null) return;
             installingWorker.onstatechange = () => {
               if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                console.log('Update terdeteksi, membersihkan memori dan memuat ulang...');
                 caches.keys().then(names => {
                   for (let name of names) caches.delete(name);
                 }).then(() => {
@@ -1933,4 +1898,4 @@
   </script>
 </body>
 
-  </html>
+              </html>
