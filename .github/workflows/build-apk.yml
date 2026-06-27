@@ -40,6 +40,16 @@ jobs:
           npx cap init CatatanKeuangan com.irwan.catatankeuangan --web-dir=www
           npx cap add android
 
+      - name: Generate Icon Aplikasi Resmi
+        run: |
+          # Menginstall tool pemotong logo otomatis dan mengesekusi file icon.png
+          npm install -g @capacitor/assets
+          if [ -f icon.png ]; then
+            npx capacitor-assets generate --android
+          else
+            echo "File icon.png tidak ditemukan, menggunakan logo default."
+          fi
+
       - name: Sinkronisasi Aset Web
         run: npx cap sync
 
