@@ -241,9 +241,50 @@
 
     body.dark input:focus {
       background-color: #1a2336 !important;
+      border-color: #059669 !important;
       color: #f8fafc !important;
     }
     
+    /* FIX FOR RELOAD BUTTON BORDER IN DARK MODE */
+    body.dark button[onclick="window.tombolReloadPintar()"] {
+      background-color: #1a2336 !important;
+      border-color: #24324d !important;
+      color: #cbd5e1 !important;
+    }
+    
+    /* FIX FOR MAIN ANALYSIS PERIOD FILTER BUTTON IN DARK MODE */
+    body.dark button[onclick="window.bukaPilihanPeriodeHalamanUtama()"] {
+      background-color: #1a2336 !important;
+      border-color: #24324d !important;
+      color: #cbd5e1 !important;
+    }
+
+    /* FIX FOR DOWNLOAD BUTTONS (PDF & EXCEL) IN DARK MODE */
+    body.dark button[onclick="window.unduhPDF()"],
+    body.dark button[onclick="window.unduhExcel()"] {
+      background-color: #1a2336 !important;
+      border-color: #24324d !important;
+    }
+    
+    /* FIX FOR "TERBARU" CAPSULE BORDER & BG IN DARK MODE */
+    body.dark [data-i18n="terbaru"] {
+      background-color: #1a2336 !important;
+      border-color: #24324d !important;
+      color: #94a3b8 !important;
+    }
+
+    /* FIX FOR HISTORY FULLMODAL TITLE CONTROLLER IN DARK MODE */
+    body.dark #modalDetailTransaksi .bg-slate-50 {
+      background-color: #131b2e !important;
+      border-color: #1e293b !important;
+    }
+    body.dark #modalDetailTransaksi .bg-slate-50 button,
+    body.dark #modalDetailTransaksi .bg-slate-50 span {
+      background-color: #1a2336 !important;
+      border-color: #24324d !important;
+      color: #cbd5e1 !important;
+    }
+
     body.dark input:-webkit-autofill,
     body.dark input:-webkit-autofill:hover, 
     body.dark input:-webkit-autofill:focus {
@@ -276,6 +317,7 @@
       border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
 
+    /* CALENDAR ENGINE RE-DESIGN FOR DARK MODE */
     body.dark .flatpickr-calendar {
       background: #131b2e !important;
       border-color: #1e293b !important;
@@ -490,7 +532,7 @@
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span>
               </h3>
-              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-white dark:bg-slate-800/80 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all shadow-sm">
+              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all shadow-sm">
                 <span id="labelPeriodeUtama">Bulan Ini</span>
                 <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
               </button>
@@ -529,7 +571,7 @@
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                 <span class="w-1.5 h-4 bg-emerald-500 rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span>
               </h3>
-              <span class="px-2.5 py-0.5 bg-white dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200 shadow-sm" data-i18n="terbaru">
+              <span class="px-2.5 py-0.5 bg-white text-slate-500 dark:text-slate-400 rounded-md text-[11px] font-bold tracking-wider uppercase border border-slate-200 shadow-sm" data-i18n="terbaru">
                 Terbaru
               </span>
             </div>
@@ -541,7 +583,7 @@
             
             <div id="listRiwayat" class="divide-y divide-slate-100 dark:divide-slate-800/30 hidden"></div>
             
-            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white dark:bg-slate-800/40 border border-slate-200 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 shadow-sm">
+            <button id="btnBukaDetail" onclick="window.bukaModalDetailSemua()" class="w-full bg-white border border-slate-200 text-emerald-600 dark:text-emerald-400 font-bold p-3.5 rounded-2xl text-xs tracking-wide transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4 shadow-sm">
               <span data-i18n="bukaRiwayat">Buka Riwayat Lengkap</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </button>
           </div>
@@ -559,18 +601,18 @@
         
         <div class="w-full bg-slate-50 px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-200/60">
           <div class="flex items-center gap-3">
-            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all border border-slate-200/50 shadow-sm">
+            <button onclick="window.tutupModalDetailSemua()" class="w-10 h-10 flex items-center justify-center bg-white text-slate-600 dark:text-slate-300 rounded-xl active:scale-95 transition-all border border-slate-200/50 shadow-sm">
               <i class="fa-solid fa-xmark text-base"></i>
             </button>
             <h3 class="text-base font-bold text-slate-800" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
           </div>
-          <span id="txtTotalDataModal" class="text-slate-500 font-bold text-[11px] uppercase tracking-widest bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200/50 shadow-sm">0 Transaksi</span>
+          <span id="txtTotalDataModal" class="text-slate-500 font-bold text-[11px] uppercase tracking-widest bg-white px-3 py-1.5 rounded-full border border-slate-200/50 shadow-sm">0 Transaksi</span>
         </div>
 
         <div class="w-full bg-slate-50 px-6 py-4 border-b border-slate-200/60 flex-shrink-0 flex flex-col gap-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider" data-i18n="filterPeriode">Filter Periode Laporan</label>
-            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-white dark:bg-slate-800/50 hover:bg-slate-50 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none shadow-sm">
+            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-3.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-left font-bold text-slate-700 dark:text-slate-300 flex justify-between items-center transition-all active:scale-[0.99] focus:outline-none shadow-sm">
               <span id="labelPeriodeTerpilih" class="text-sm" data-i18n="tampilkanSemua">Tampilkan Semua</span>
               <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
             </button>
@@ -578,10 +620,10 @@
           </div>
 
           <div class="grid grid-cols-2 gap-3 pt-1">
-            <button onclick="window.unduhPDF()" class="bg-white border border-slate-200 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
+            <button onclick="window.unduhPDF()" class="bg-white border border-slate-200 text-rose-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
               <i class="fa-solid fa-file-pdf"></i> PDF
             </button>
-            <button onclick="window.unduhExcel()" class="bg-white border border-slate-200 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
+            <button onclick="window.unduhExcel()" class="bg-white border border-slate-200 text-emerald-600 font-bold text-xs uppercase tracking-wider p-3 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-all focus:outline-none shadow-sm">
               <i class="fa-solid fa-file-excel"></i> Excel
             </button>
           </div>
@@ -646,7 +688,7 @@
         transTerakhir: "Transaksi Terakhir", terbaru: "Terbaru", bukaRiwayat: "Buka Riwayat Lengkap",
         riwayatLengkap: "Riwayat Lengkap", filterPeriode: "Filter Periode Laporan", tampilkanSemua: "Tampilkan Semua",
         total: "Total", noChartData: "Tidak ada pengeluaran periode ini", loadingServer: "Sinkronisasi data server...",
-        noTransModal: "Tidak ada transaksi di periode ini.", belomAdaData: "Belum ada data transaksi kas tercatat.",
+        noTransModal: "Tidak ada transaksi di periode ini.", belomAda data: "Belum ada data transaksi kas tercatat.",
         bulanIni: "Bulan Ini", semuaPeriode: "Semua Periode", txtTotalTransaksi: "Transaksi", actionTitle: "Kelola Transaksi",
         btnEdit: "Edit Data", btnHapus: "Hapus", btnBatal: "Batal", editTitle: "Edit Data Keuangan", inputKetBaru: "Keterangan Baru",
         inputNomBaru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
@@ -1238,7 +1280,7 @@
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
           
-          /* FIX COMFORT ENGINE DYNAMIC TRANSITION (LIGHT COMPACT WHITE VS DARK BOX SOLID) */
+          /* COMFORT ENGINE DYNAMIC TRANSITION - CLEAN STYLING */
           susunanHTMLItemRingkas += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-3 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800/40 last:border-b-0 transition-all rounded-xl cursor-pointer bg-white/40 dark:bg-[#1a2336]/40 mb-1 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
               <div class="flex items-center gap-3 min-w-[70%]">
@@ -1585,7 +1627,6 @@
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
           
-          /* FIX COMFORT ENGINE DYNAMIC TRANSITION (LIGHT COMPACT WHITE VS DARK BOX SOLID FOR MODAL HISTORY) */
           susunanHTMLItemModal += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
