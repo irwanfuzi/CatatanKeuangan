@@ -198,10 +198,16 @@
       scale: 0.95;
     }
 
-    /* GLOBAL STANDARDIZATION FONT CENTER GRAPHIC */
+    /* PREMIUM FINTECH KARTU ACCENTS (LIGHT & DARK ACCENTS) */
+    #pageRiwayat > div {
+      border: 1px solid rgba(226, 232, 240, 0.8) !important;
+      box-shadow: 0 10px 30px -5px rgba(51, 65, 85, 0.04) !important;
+    }
+
     #chartCenterTotal {
       font-size: 16px !important;
       font-weight: 800 !important;
+      letter-spacing: -0.02em;
     }
 
     /* PREMIUM DARK MODE ENGINE OVERRIDES */
@@ -213,7 +219,6 @@
       border-color: #1e293b !important;
     }
     body.dark #pageHome,
-    body.dark #pageRiwayat > div,
     body.dark #modalDetailTransaksi > div,
     body.dark #modalDetailTransaksi .bg-slate-50,
     body.dark #listRiwayatPenuhModal > div {
@@ -221,6 +226,14 @@
       border-color: #1e293b !important;
       box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
     }
+    
+    /* FINTECH REFACTOR: Kapsul kartu halaman riwayat mode gelap */
+    body.dark #pageRiwayat > div {
+      background: linear-gradient(145deg, #0f172a, #0b1329) !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.5) !important;
+    }
+
     body.dark h3,
     body.dark h4,
     body.dark #chartCenterTotal,
@@ -1307,7 +1320,7 @@
           const idx = dapatkanIndeksKategori(item.kategori, "Pengeluaran");
           if (idx !== -1 && idx < opsiKategoriSekarang.length) {
             const katTargetTerjemahan = opsiKategoriSekarang[idx];
-            dataKategoriGrafik[katTargetTerjemahan] = (dataKategoriGrafik[katTargetTerjemahan] || 0) + parseInt(item.nominal || 0);
+            dataKategoriGrafik[katTargetTargetTerjemahan] = (dataKategoriGrafik[katTargetTerjemahan] || 0) + parseInt(item.nominal || 0);
           } else {
             const katDefaultLainnya = opsiKategoriSekarang[opsiKategoriSekarang.length - 1];
             dataKategoriGrafik[katDefaultLainnya] = (dataKategoriGrafik[katDefaultLainnya] || 0) + parseInt(item.nominal || 0);
@@ -1349,25 +1362,25 @@
 
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
-          // KALIBRASI: Ukuran teks legenda diseragamkan ke 13px & 12px (text-xs) agar proporsional dan presisi
+          // REFACTOR: Menggunakan border-b pembatas dan pewarnaan text yang adaptif di dark mode
           legendContainer.insertAdjacentHTML('beforeend', `
-            <div class="flex items-center justify-between w-full py-1 font-semibold">
-              <div class="flex items-center gap-1.5 min-w-[45%]">
-                <span class="w-2 h-2 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
-                <span class="text-slate-600 font-bold tracking-tight dark:text-slate-300 truncate text-[13px]">${kat}</span>
+            <div class="flex items-center justify-between w-full py-1.5 font-semibold border-b border-slate-100/50 dark:border-slate-800/40 last:border-0">
+              <div class="flex items-center gap-2 min-w-[50%]">
+                <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background-color:${warnaTerpakai[i]}"></span>
+                <span class="text-slate-600 dark:text-slate-300 font-bold tracking-tight truncate text-[13px]">${kat}</span>
               </div>
-              <div class="flex items-center gap-1.5 flex-shrink-0 ml-1 text-right">
-                <span class="text-slate-800 dark:text-slate-200 font-bold text-[13px]">${persen}%</span>
-                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold">(${Math.round(valuesAktif[i]/1000)}k)</span>
+              <div class="flex items-center gap-1 flex-shrink-0 text-right">
+                <span class="text-slate-800 dark:text-slate-100 font-extrabold text-[13px]">${persen}%</span>
+                <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </div>
             </div>`);
       });
 
       myChartInstance = new Chart(canvasCtx, {
         type: 'doughnut',
-        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#131b2e' : '#f1f5f9' }] },
+        data: { labels: labelsAktif, datasets: [{ data: valuesAktif, backgroundColor: warnaTerpakai, borderWidth: 2, borderColor: document.body.classList.contains('dark') ? '#0f172a' : '#ffffff' }] },
         options: {
-          cutout: '75%', responsive: true, maintainAspectRatio: false,
+          cutout: '78%', responsive: true, maintainAspectRatio: false,
           animation: biarkanAnimasi ? { duration: 800, animateRotate: true, animateScale: false } : false,
           plugins: {
             legend: { display: false },
