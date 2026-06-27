@@ -19,41 +19,37 @@ jobs:
         with:
           node-version: 20
 
-      - name: Setup Java JDK (Untuk Android)
+      - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Siapkan Folder Aset Web
+      - name: Siapkan Folder Aset
         run: |
           mkdir -p www
           cp index.html www/
-          [ -f sw.js ] && cp sw.js www/ || echo "No sw.js found"
-          [ -f manifest.json ] && cp manifest.json www/ || echo "No manifest found"
-          [ -f icon-192.png ] && cp icon-192.png www/ || echo "No icon 192 found"
-          [ -f icon-512.png ] && cp icon-512.png www/ || echo "No icon 512 found"
-
-      - name: Install Compiler Android
+          [ -f sw.js ] && cp sw.js www/ || echo "No sw.js"
+          [ -f manifest.json ] && cp manifest.json www/ || echo "No manifest"
+          
+      - name: Install & Init Project
         run: |
           npm install
-          # Menggunakan nama resmi langsung saat inisialisasi awal
-          npx cap init "MyKas - Money Tracker" com.irwan.catatankeuangan --web-dir=www
+          # MENGUBAH ID MENJADI com.mykas.moneytracker BIAR TIDAK BENTROK
+          npx cap init "MyKas - Money Tracker" com.mykas.moneytracker --web-dir=www
           npx cap add android
 
-      - name: Generate Icon Aplikasi Resmi
+      - name: Pasang Ikon Manual
         run: |
-          npm install -g @capacitor/assets
           if [ -f icon.png ]; then
-            npx capacitor-assets generate --android
-          else
-            echo "File icon.png tidak ditemukan, menggunakan logo default."
+            cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+            cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
           fi
 
-      - name: Sinkronisasi Aset Web
+      - name: Sinkronisasi
         run: npx cap sync
 
-      - name: Rakit Jadi APK Android
+      - name: Rakit APK
         run: |
           cd android
           ./gradlew assembleRelease
@@ -61,5 +57,5 @@ jobs:
       - name: Upload APK Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: MyKas-Money-Tracker-APK
+          name: MyKas-Final-APK
           path: android/app/build/outputs/apk/release/
