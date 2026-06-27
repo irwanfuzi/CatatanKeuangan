@@ -37,7 +37,7 @@ jobs:
       - name: Install Compiler Android
         run: |
           npm install
-          # KITA FORCE INISIALISASI ULANG DENGAN NAMA BARU
+          # Menggunakan nama resmi langsung saat inisialisasi awal
           npx cap init "MyKas - Money Tracker" com.irwan.catatankeuangan --web-dir=www
           npx cap add android
 
@@ -49,11 +49,6 @@ jobs:
           else
             echo "File icon.png tidak ditemukan, menggunakan logo default."
           fi
-
-      - name: Paksa Ganti Nama Aplikasi di Sistem Android
-        run: |
-          # Perintah ini untuk memaksa sistem Android mengubah string label nama aplikasi menjadi MyKas - Money Tracker
-          sed -i 's/<string name="app_name">.*<\/string>/<string name="app_name">MyKas - Money Tracker<\/string>/g' android/app/src/main/res/values/strings.xml
 
       - name: Sinkronisasi Aset Web
         run: npx cap sync
