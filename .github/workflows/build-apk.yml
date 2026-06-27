@@ -25,10 +25,19 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Siapkan Folder Aset Web
+        run: |
+          mkdir -p www
+          cp index.html www/
+          [ -f sw.js ] && cp sw.js www/ || echo "No sw.js found"
+          [ -f manifest.json ] && cp manifest.json www/ || echo "No manifest found"
+          [ -f icon-192.png ] && cp icon-192.png www/ || echo "No icon 192 found"
+          [ -f icon-512.png ] && cp icon-512.png www/ || echo "No icon 512 found"
+
       - name: Install Compiler Android
         run: |
           npm install
-          npx cap init CatatanKeuangan com.irwan.catatankeuangan --web-dir=.
+          npx cap init CatatanKeuangan com.irwan.catatankeuangan --web-dir=www
           npx cap add android
 
       - name: Sinkronisasi Aset Web
@@ -42,5 +51,5 @@ jobs:
       - name: Upload APK Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: Aplikasi-Catatan-Keuangan-Jadi
+          name: MyKas - Money Tracker
           path: android/app/build/outputs/apk/release/
