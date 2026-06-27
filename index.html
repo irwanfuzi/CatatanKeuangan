@@ -198,6 +198,12 @@
       scale: 0.95;
     }
 
+    /* GLOBAL STANDARDIZATION FONT CENTER GRAPHIC */
+    #chartCenterTotal {
+      font-size: 16px !important;
+      font-weight: 800 !important;
+    }
+
     /* PREMIUM DARK MODE ENGINE OVERRIDES */
     body.dark {
       background-color: #060913; 
@@ -501,7 +507,7 @@
                 <canvas id="chartPengeluaran"></canvas>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-1">
                   <span class="text-[10px] font-bold text-slate-400 tracking-wider uppercase" data-i18n="total">Total</span>
-                  <span id="chartCenterTotal" class="text-[14px] font-bold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
+                  <span id="chartCenterTotal" class="text-[16px] font-extrabold text-slate-800 text-center truncate max-w-[95px]">Rp 0</span>
                 </div>
               </div>
               <div id="customLegendContainer" class="w-[62%] flex flex-col gap-1.5 max-h-[125px] overflow-y-auto pl-4 hide-scrollbar">
@@ -1212,6 +1218,9 @@
       }
     };
 
+    // ==========================================
+    // KARTU 3: REFACTOR DAFTAR LIST TRANSAKSI TERAKHIR (FINTECH STYLE)
+    // ==========================================
     window.renderHalamanRiwayatUtama = function() {
       const listContainer = document.getElementById('listRiwayat');
       if (!listContainer) return;
@@ -1238,23 +1247,27 @@
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
           
+          // MODERNHUT TARGET: Padding py-4 & px-3.5 agar area hit sentuh jempol nyaman dan legibel
           susunanHTMLItemRingkas += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-3 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800/40 last:border-b-0 transition-all rounded-xl cursor-pointer bg-white/40 dark:bg-[#1a2336]/40 mb-1 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
-              <div class="flex items-center gap-3 min-w-[70%]">
+            <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-4 px-3.5 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800/40 last:border-b-0 transition-all rounded-xl cursor-pointer bg-white/40 dark:bg-[#1a2336]/40 mb-1 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
+              <div class="flex items-center gap-3 min-w-[65%]">
                 <div class="w-10 h-10 flex items-center justify-center rounded-xl text-xs flex-shrink-0 ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' : 'text-rose-600 bg-rose-50 dark:bg-rose-500/10'}">
                   <i class="fa-solid ${isMasuk ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>
                 </div>
                 <div class="truncate">
-                  <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
+                  <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1 leading-tight">${item.keterangan || "-"}</h4>
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
+                    <!-- KALIBRASI: Diangkat ke 12px (text-xs) agar scannable sempurna -->
+                    <span class="inline-block text-xs font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
                       ${kategoriVisual}
                     </span>
-                    <span class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">${formatTanggalIndo(item.tanggal)}</span>
+                    <!-- KALIBRASI: Diangkat ke 12px (text-xs) -->
+                    <span class="text-xs font-semibold text-slate-400 dark:text-slate-500">${formatTanggalIndo(item.tanggal)}</span>
                   </div>
                 </div>
               </div>
-              <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
+              <!-- KALIBRASI: Teks nominal uang dinaikkan ke 15px font-extrabold agar menonjol instan -->
+              <span class="text-[15px] font-extrabold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
@@ -1305,6 +1318,9 @@
       window.renderGrafik(dataKategoriGrafik, biarkanAnimasi);
     };
 
+    // ==========================================
+    // KARTU 1: CHART & LEGENDA (FINTECH CALIBRATED)
+    // ==========================================
     window.renderGrafik = function(dataKategori, biarkanAnimasi = true) {
       const canvasCtx = document.getElementById('chartPengeluaran');
       const legendContainer = document.getElementById('customLegendContainer');
@@ -1333,6 +1349,7 @@
 
       labelsAktif.forEach((kat, i) => {
           const persen = ((valuesAktif[i] / total) * 100).toFixed(1);
+          // KALIBRASI: Ukuran teks legenda diseragamkan ke 13px & 12px (text-xs) agar proporsional dan presisi
           legendContainer.insertAdjacentHTML('beforeend', `
             <div class="flex items-center justify-between w-full py-1 font-semibold">
               <div class="flex items-center gap-1.5 min-w-[45%]">
@@ -1341,7 +1358,7 @@
               </div>
               <div class="flex items-center gap-1.5 flex-shrink-0 ml-1 text-right">
                 <span class="text-slate-800 dark:text-slate-200 font-bold text-[13px]">${persen}%</span>
-                <span class="text-[12px] text-slate-400 dark:text-slate-500 font-semibold">(${Math.round(valuesAktif[i]/1000)}k)</span>
+                <span class="text-xs text-slate-400 dark:text-slate-500 font-semibold">(${Math.round(valuesAktif[i]/1000)}k)</span>
               </div>
             </div>`);
       });
@@ -1361,6 +1378,9 @@
       });
     };
 
+    // ==========================================
+    // KARTU 2: GRAPH TREN BULANAN AXIS (SIZE: 12 TUNED)
+    // ==========================================
     window.renderGrafikTrenBulanan = function(dataTrenObj, biarkanAnimasi = true) {
       const canvasCtx = document.getElementById('chartTrenBulanan');
       if (!canvasCtx) return;
@@ -1395,11 +1415,13 @@
           responsive: true, maintainAspectRatio: false,
           animation: biarkanAnimasi ? { duration: 800 } : false,
           scales: {
-            y: { ticks: { font: { family: 'Urbanist', size: 11, weight: 'bold' }, color: warnaLabelTeks, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: warnaGarisGrid } },
-            x: { ticks: { font: { family: 'Urbanist', size: 11, weight: '700' }, color: warnaLabelTeks }, grid: { display: false } }
+            // TUNED: Ukuran label nilai sumbu Y diangkat ke size: 12 biar scannable
+            y: { ticks: { font: { family: 'Urbanist', size: 12, weight: 'bold' }, color: warnaLabelTeks, callback: (v) => v >= 1000000 ? (v/1000000) + 'M' : v.toLocaleString('id-ID') }, grid: { color: warnaGarisGrid } },
+            // TUNED: Ukuran teks penunjuk bulan sumbu X diangkat ke size: 12
+            x: { ticks: { font: { family: 'Urbanist', size: 12, weight: '700' }, color: warnaLabelTeks }, grid: { display: false } }
           },
           plugins: {
-            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 11, weight: 'bold' }, color: warnaLabelTeks } },
+            legend: { position: 'top', labels: { boxWidth: 8, font: { family: 'Urbanist', size: 12, weight: 'bold' }, color: warnaLabelTeks } },
             datalabels: { display: false },
             tooltip: { callbacks: { label: (ctx) => " " + ctx.dataset.label + ": Rp " + ctx.raw.toLocaleString('id-ID') } }
           }
@@ -1599,12 +1621,12 @@
                 </div>
                 <div class="truncate">
                   <h4 class="text-[15px] font-bold text-slate-800 dark:text-slate-200 truncate mb-1.5 leading-tight">${item.keterangan || "-"}</h4>
-                  <span class="inline-block text-[11px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
+                  <span class="inline-block text-xs font-bold px-2 py-0.5 rounded-md uppercase tracking-wide ${isMasuk ? 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/15 dark:text-emerald-400' : 'text-slate-600 bg-slate-100 dark:bg-slate-800/90 dark:text-slate-300 dark:border dark:border-slate-700/60'}">
                     ${kategoriVisualModal}
                   </span>
                 </div>
               </div>
-              <span class="text-sm font-bold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
+              <span class="text-[15px] font-extrabold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
                 ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
               </span>
             </div>`;
@@ -1898,4 +1920,4 @@
   </script>
 </body>
 
-              </html>
+</html>
