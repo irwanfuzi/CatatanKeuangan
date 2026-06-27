@@ -25,7 +25,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Siapkan Folder Aset
+      - name: Siapkan Folder Aset Web
         run: |
           mkdir -p www
           cp index.html www/
@@ -35,16 +35,22 @@ jobs:
       - name: Install & Init Project
         run: |
           npm install
-          # MENGUBAH ID MENJADI com.mykas.moneytracker BIAR TIDAK BENTROK
           npx cap init "MyKas - Money Tracker" com.mykas.moneytracker --web-dir=www
           npx cap add android
 
-      - name: Pasang Ikon Manual
+      - name: Pasang Ikon Otomatis
         run: |
+          npm install -g @capacitor/assets
           if [ -f icon.png ]; then
-            cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-            cp icon.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+            npx capacitor-assets generate --android
+          else
+            echo "File icon.png tidak ditemukan, menggunakan logo default."
           fi
+
+      - name: Sesuaikan Versi Android
+        run: |
+          # Memastikan minimum SDK adalah 21 agar kompatibel dengan semua HP
+          sed -i 's/minSdkVersion 22/minSdkVersion 21/g' android/app/build.gradle || echo "minSdkVersion sudah disesuaikan"
 
       - name: Sinkronisasi
         run: npx cap sync
@@ -57,5 +63,5 @@ jobs:
       - name: Upload APK Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: MyKas-Final-APK
+          name: MyKas-Money-Tracker-APK
           path: android/app/build/outputs/apk/release/
