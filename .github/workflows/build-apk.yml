@@ -12,39 +12,35 @@ jobs:
 
     steps:
       - name: Tarik Code HTML/JS
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js (Untuk compiler JS)
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Setup Java JDK (Untuk Android)
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Install Compiler
+      - name: Install Compiler Android
         run: |
           npm install
-          npx cap init MyKas com.mykas.app --web-dir=.
+          npx cap init CatatanKeuangan com.irwan.catatankeuangan --web-dir=.
           npx cap add android
 
-      - name: Copy Android Firebase Config
-        run: |
-          # Memastikan folder android terbuat lalu copy file firebase jika ada
-          mkdir -p android/app/
-          # Jika kamu punya google-services.json, taruh di root repo GitHubmu, nanti otomatis ter-copy ke sini:
-          [ -f google-services.json ] && cp google-services.json android/app/ || echo "No Firebase config found, skipping."
+      - name: Sinkronisasi Aset Web
+        run: npx cap sync
 
       - name: Rakit Jadi APK Android
         run: |
-          npx cap sync
-          cd android && ./gradlew assembleRelease
+          cd android
+          ./gradlew assembleRelease
 
       - name: Upload APK Jadi
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Aplikasi-HTML-JS-Jadi-APK
-          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+          name: Aplikasi-Catatan-Keuangan-Jadi
+          path: android/app/build/outputs/apk/release/
