@@ -411,8 +411,8 @@
           </div>
         </div>
 
-        <!-- 🔥 FITUR PREMIUM: PANEL MULTI WALLET BREAKDOWN DENGAN LIVE ID EFFECTS -->
-        <div class="grid grid-cols-3 gap-2 mt-3 relative z-10">
+        <!-- 🔥 UPDATE UX: PANEL MULTI WALLET BREAKDOWN (2x2 GRID UNTUK 4 DOMPET) -->
+        <div class="grid grid-cols-2 gap-2 mt-3 relative z-10">
           <!-- Kartu Tunai -->
           <div id="cardWalletTunai" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
             <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">💵 Tunai</span>
@@ -427,6 +427,11 @@
           <div id="cardWalletDigital" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
             <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">📱 Digital</span>
             <p id="txtWalletDigital" class="font-bold text-[12px] text-white tracking-wide truncate w-full">Rp 0</p>
+          </div>
+          <!-- Kartu Tabungan (DOMPET BARU) -->
+          <div id="cardWalletTabungan" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
+            <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">💰 Tabungan</span>
+            <p id="txtWalletTabungan" class="font-bold text-[12px] text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
         </div>
 
@@ -467,19 +472,22 @@
               </div>
             </div>
 
-            <!-- SELEKTOR PILIHAN MULTI DOMPET (TUNAI, BANK, DIGITAL) -->
+            <!-- 🔥 UPDATE UX: SELEKTOR PILIHAN MULTI DOMPET (GRID 4 UNTUK TABUNGAN) -->
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Penyimpanan / Dompet</label>
-              <div class="w-full p-1 bg-slate-200/60 dark:bg-slate-800 rounded-2xl grid grid-cols-3 gap-1">
+              <div class="w-full p-1 bg-slate-200/60 dark:bg-slate-800 rounded-2xl grid grid-cols-4 gap-1">
                 <input type="hidden" id="dompet" value="💳 Kantong Tunai">
-                <button type="button" id="btnDompetTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="w-full py-2.5 rounded-xl font-bold text-xs transition-all bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400">
+                <button type="button" id="btnDompetTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="w-full py-2.5 rounded-xl font-bold text-[10px] transition-all bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400">
                   💵 Tunai
                 </button>
-                <button type="button" id="btnDompetBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="w-full py-2.5 rounded-xl font-bold text-xs transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400">
+                <button type="button" id="btnDompetBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="w-full py-2.5 rounded-xl font-bold text-[10px] transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400">
                   🏦 Bank
                 </button>
-                <button type="button" id="btnDompetDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="w-full py-2.5 rounded-xl font-bold text-xs transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400">
+                <button type="button" id="btnDompetDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="w-full py-2.5 rounded-xl font-bold text-[10px] transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400">
                   📱 Digital
+                </button>
+                <button type="button" id="btnDompetTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="w-full py-2.5 rounded-xl font-bold text-[10px] transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400">
+                  💰 Tabung
                 </button>
               </div>
             </div>
@@ -901,32 +909,36 @@
       }
     }
 
-    /* 🔥 FITUR PREMIUM: ENGINE DOMPET TAB DENGAN LIVE GLOW & SCALE EFFECT */
+    /* 🔥 FITUR PREMIUM: ENGINE DOMPET TAB DENGAN LIVE GLOW & SCALE EFFECT (SUPPORT 4 DOMPET) */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       const btnTunai = document.getElementById('btnDompetTunai');
       const btnBank = document.getElementById('btnDompetBank');
       const btnDigital = document.getElementById('btnDompetDigital');
+      const btnTabungan = document.getElementById('btnDompetTabungan');
       
-      const activeClasses = "w-full py-2.5 rounded-xl font-bold text-xs transition-all bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
-      const inactiveClasses = "w-full py-2.5 rounded-xl font-bold text-xs transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400";
+      const activeClasses = "w-full py-2.5 rounded-xl font-bold text-[10px] transition-all bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
+      const inactiveClasses = "w-full py-2.5 rounded-xl font-bold text-[10px] transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400";
       
-      btnTunai.className = dompetTerpilih === '💳 Kantong Tunai' ? activeClasses : inactiveClasses;
-      btnBank.className = dompetTerpilih === '🏦 Rekening Bank' ? activeClasses : inactiveClasses;
-      btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeClasses : inactiveClasses;
+      if (btnTunai) btnTunai.className = dompetTerpilih === '💳 Kantong Tunai' ? activeClasses : inactiveClasses;
+      if (btnBank) btnBank.className = dompetTerpilih === '🏦 Rekening Bank' ? activeClasses : inactiveClasses;
+      if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeClasses : inactiveClasses;
+      if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeClasses : inactiveClasses;
 
       // AMBIL ELEMEN KARTU DASHBOARD UTAMA
       const cardTunai = document.getElementById('cardWalletTunai');
       const cardBank = document.getElementById('cardWalletBank');
       const cardDigital = document.getElementById('cardWalletDigital');
+      const cardTabungan = document.getElementById('cardWalletTabungan');
 
-      if (!cardTunai || !cardBank || !cardDigital) return;
+      if (!cardTunai || !cardBank || !cardDigital || !cardTabungan) return;
 
-      // REFRESH: Kembalikan semua kartu ke mode normal/sedikit redup (fokus pasif)
+      // REFRESH: Kembalikan semua kartu ke mode normal/sedikit redup
       const kelasNormal = "bg-white/[0.02] border border-white/5 opacity-50 scale-95 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 shadow-none";
       cardTunai.className = kelasNormal;
       cardBank.className = kelasNormal;
       cardDigital.className = kelasNormal;
+      cardTabungan.className = kelasNormal;
 
       // TEMBAK EFEK NEON GLOW & SCALE UP KE KARTU YANG SEDANG AKTIF
       const kelasAktifGlow = "bg-emerald-500/15 border border-emerald-400/40 opacity-100 scale-105 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
@@ -934,6 +946,7 @@
       if (dompetTerpilih === '💳 Kantong Tunai') cardTunai.className = kelasAktifGlow;
       if (dompetTerpilih === '🏦 Rekening Bank') cardBank.className = kelasAktifGlow;
       if (dompetTerpilih === '📱 Dompet Digital') cardDigital.className = kelasAktifGlow;
+      if (dompetTerpilih === '💰 Dompet Tabungan') cardTabungan.className = kelasAktifGlow;
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1112,11 +1125,12 @@
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
-      // INJEKSI SALDO PECAHAN PER DOMPET
+      // INJEKSI SALDO PECAHAN PER 4 DOMPET
       if(res.dompet) {
         document.getElementById('txtWalletTunai').innerText = res.dompet.tunai || "Rp 0";
         document.getElementById('txtWalletBank').innerText = res.dompet.bank || "Rp 0";
         document.getElementById('txtWalletDigital').innerText = res.dompet.digital || "Rp 0";
+        document.getElementById('txtWalletTabungan').innerText = res.dompet.tabungan || "Rp 0"; // CONNECTED
       }
 
       databaseRiwayatRaw = res.riwayat || [];
@@ -1299,6 +1313,7 @@
                 <option value="💳 Kantong Tunai" ${item.dompet === '💳 Kantong Tunai' ? 'selected' : ''}>💵 Kantong Tunai</option>
                 <option value="🏦 Rekening Bank" ${item.dompet === '🏦 Rekening Bank' ? 'selected' : ''}>🏦 Rekening Bank</option>
                 <option value="📱 Dompet Digital" ${item.dompet === '📱 Dompet Digital' ? 'selected' : ''}>📱 Dompet Digital</option>
+                <option value="💰 Dompet Tabungan" ${item.dompet === '💰 Dompet Tabungan' ? 'selected' : ''}>💰 Dompet Tabungan</option>
               </select>
             </div>
           </div>`,
@@ -1314,7 +1329,7 @@
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: translations[currentLang].swalStatusUpdate, allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-          const indexBalikBarisSheet = parseInt(indexDataAsli) + 2; // Mempertahankan hitungan + 2 asli lo
+          const indexBalikBarisSheet = parseInt(indexDataAsli) + 2; 
           fetch(API_URL + "?action=update&index=" + indexBalikBarisSheet, { method: "POST", body: JSON.stringify(result.value) }).then(() => {
             Swal.fire({ icon: 'success', title: translations[currentLang].swalStatusSuccess, timer: 1500, showConfirmButton: false }); window.loadSummary();
           });
@@ -1329,7 +1344,7 @@
       }).then((result) => {
         if (result.isConfirmed) {
           Swal.fire({ title: translations[currentLang].swalStatusHapus, allowOutsideClick: false, didOpen: () => Swal.showLoading() });
-          const indexBalikBarisSheet = parseInt(indexDataAsli) + 2; // Mempertahankan hitungan + 2 asli lo
+          const indexBalikBarisSheet = parseInt(indexDataAsli) + 2; 
           fetch(API_URL + "?action=delete&index=" + indexBalikBarisSheet, { method: "POST" }).then(() => {
             Swal.fire({ icon: 'success', title: translations[currentLang].swalSuccessHapus, timer: 1500, showConfirmButton: false }); window.loadSummary();
           });
@@ -1575,7 +1590,7 @@
         isiRingkasan.forEach(item => {
           worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.getCell(`A${item.row}`).value = item.text; worksheet.getCell(`C${item.row}`).value = item.val; worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: item.row === '8' };
           [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => { worksheet.getCell(ref).border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } }; });
-          const valCell = worksheet.getCell(`C${item.row}`); valCell.numFormat = '"Rp"#,##0'; valCell.alignment = { horizontal: 'right' }; valCell.font = { name: 'Segoe UI', bold: true, color: { argb: item.color } };
+          const valCell = worksheet.getCell(`C${item.row}`); valCell.numFormat = '"Rp"#,##0'; valCell.alignment = { horizontal: 'right' }; valCell.font = { name: 'Segoe UI', bold: true, color: { argb: 'CBD5E1' } };
         });
 
         const headers = [translations[currentLang].pdfTbodyNo, translations[currentLang].tglTrans, translations[currentLang].ketNota, translations[currentLang].posKategori, "Dompet Penyimpanan", currentLang === 'id' ? 'Nominal' : 'Amount'];
@@ -1609,7 +1624,7 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautenPemicu); tautanPemicu.click(); document.body.removeChild(tautenPemicu); Swal.close();
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
