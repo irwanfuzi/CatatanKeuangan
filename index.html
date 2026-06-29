@@ -401,8 +401,9 @@
           </div>
         </div>
 
-        <div id="walletDeckCarousel" class="flex gap-3 mt-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory py-2 px-6 -mx-6 relative z-10 scroll-smooth">
-          <div id="cardWalletTunai" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+        <div id="walletStackContainer" class="relative w-full h-40 mt-4 mb-1 z-10 flex justify-center">
+          
+          <div id="cardWalletTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="absolute w-full h-28 rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-500 will-change-transform border backdrop-blur-md cursor-pointer bg-white/[0.02] border-white/5">
             <div class="flex justify-between items-start w-full">
               <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">💵 Tunai</span>
               <i class="fa-solid fa-wallet text-emerald-400 opacity-40 text-sm"></i>
@@ -410,7 +411,7 @@
             <p id="txtWalletTunai" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
           
-          <div id="cardWalletBank" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+          <div id="cardWalletBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="absolute w-full h-28 rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-500 will-change-transform border backdrop-blur-md cursor-pointer bg-white/[0.02] border-white/5">
             <div class="flex justify-between items-start w-full">
               <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">🏦 Bank</span>
               <i class="fa-solid fa-building-columns text-blue-400 opacity-40 text-sm"></i>
@@ -418,7 +419,7 @@
             <p id="txtWalletBank" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
           
-          <div id="cardWalletDigital" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+          <div id="cardWalletDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="absolute w-full h-28 rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-500 will-change-transform border backdrop-blur-md cursor-pointer bg-white/[0.02] border-white/5">
             <div class="flex justify-between items-start w-full">
               <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">📱 Digital</span>
               <i class="fa-solid fa-mobile-screen text-purple-400 opacity-40 text-sm"></i>
@@ -426,13 +427,14 @@
             <p id="txtWalletDigital" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
           
-          <div id="cardWalletTabungan" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+          <div id="cardWalletTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="absolute w-full h-28 rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-500 will-change-transform border backdrop-blur-md cursor-pointer bg-white/[0.02] border-white/5">
             <div class="flex justify-between items-start w-full">
               <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">💰 Tabungan</span>
               <i class="fa-solid fa-piggy-bank text-amber-400 opacity-40 text-sm"></i>
             </div>
             <p id="txtWalletTabungan" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
+
         </div>
 
       </div>
@@ -898,7 +900,7 @@
       }
     }
 
-    /* 🔥 OPSI 1: ENGINE CAROUSEL DECK DENGAN SMART AUTO-SCROLL DAN GLOW GRADIEN MASING-MASING */
+    /* 🔥 OPSI 2: ENGINE OVERLAPPING 3D STACKED DECK DENGAN FLY-FLIP INTERACTIVE ROTATION */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       const btnTunai = document.getElementById('btnDompetTunai');
@@ -906,15 +908,14 @@
       const btnDigital = document.getElementById('btnDompetDigital');
       const btnTabungan = document.getElementById('btnDompetTabungan');
       
-      const activeClasses = "w-full py-2.5 rounded-xl font-bold text-[10px] transition-all bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
-      const inactiveClasses = "w-full py-2.5 rounded-xl font-bold text-[10px] transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400";
+      const activeBtnClasses = "w-full py-2.5 rounded-xl font-bold text-[10px] transition-all bg-white text-emerald-600 shadow-sm dark:bg-[#0b0f19] dark:text-emerald-400";
+      const inactiveBtnClasses = "w-full py-2.5 rounded-xl font-bold text-[10px] transition-all text-slate-500 hover:text-slate-700 dark:text-slate-400";
       
-      if (btnTunai) btnTunai.className = dompetTerpilih === '💳 Kantong Tunai' ? activeClasses : inactiveClasses;
-      if (btnBank) btnBank.className = dompetTerpilih === '🏦 Rekening Bank' ? activeClasses : inactiveClasses;
-      if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeClasses : inactiveClasses;
-      if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeClasses : inactiveClasses;
+      if (btnTunai) btnTunai.className = dompetTerpilih === '💳 Kantong Tunai' ? activeBtnClasses : inactiveBtnClasses;
+      if (btnBank) btnBank.className = dompetTerpilih === '🏦 Rekening Bank' ? activeBtnClasses : inactiveBtnClasses;
+      if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeBtnClasses : inactiveBtnClasses;
+      if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeBtnClasses : inactiveBtnClasses;
 
-      // AMBIL ELEMEN KARTU DASHBOARD CAROUSEL DECK
       const cardTunai = document.getElementById('cardWalletTunai');
       const cardBank = document.getElementById('cardWalletBank');
       const cardDigital = document.getElementById('cardWalletDigital');
@@ -922,29 +923,33 @@
 
       if (!cardTunai || !cardBank || !cardDigital || !cardTabungan) return;
 
-      // REFRESH CASING: Kembalikan semua kartu ke mode normal carousel (pasif & mengecil)
-      const kelasNormal = "w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none";
-      cardTunai.className = kelasNormal;
-      cardBank.className = kelasNormal;
-      cardDigital.className = kelasNormal;
-      cardTabungan.className = kelasNormal;
+      // Kapsul Class Dasar Isomorphic Stack Deck
+      const shared = "absolute w-full h-28 rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-500 will-change-transform border backdrop-blur-md ";
 
-      // SINKRONISASI AKTIF: Berikan efek neon glow unik & gerakkan kartu otomatis ke tengah
+      // ALGORITMA STACK LAYER FLIPPING (Active z-40 y-0 -> Layer 1 z-30 y-3 -> Layer 2 z-20 y-6 -> Layer 3 z-10 y-9)
       if (dompetTerpilih === '💳 Kantong Tunai') {
-        cardTunai.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-emerald-500/15 to-transparent border border-emerald-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(16,185,129,0.25)]";
-        cardTunai.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        cardTunai.className = shared + "z-40 scale-100 translate-y-0 opacity-100 bg-gradient-to-br from-emerald-500/20 to-emerald-950/40 border-emerald-400/40 shadow-[0_12px_30px_rgba(16,185,129,0.3)]";
+        cardBank.className  = shared + "z-30 scale-95 translate-y-3 opacity-60 bg-white/[0.02] border-white/5 shadow-none pointer-events-auto";
+        cardDigital.className = shared + "z-20 scale-90 translate-y-6 opacity-35 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
+        cardTabungan.className = shared + "z-10 scale-85 translate-y-9 opacity-15 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
       }
-      if (dompetTerpilih === '🏦 Rekening Bank') {
-        cardBank.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-blue-500/15 to-transparent border border-blue-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(59,130,246,0.25)]";
-        cardBank.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      else if (dompetTerpilih === '🏦 Rekening Bank') {
+        cardBank.className  = shared + "z-40 scale-100 translate-y-0 opacity-100 bg-gradient-to-br from-blue-500/20 to-blue-950/40 border-blue-400/40 shadow-[0_12px_30px_rgba(59,130,246,0.3)]";
+        cardDigital.className = shared + "z-30 scale-95 translate-y-3 opacity-60 bg-white/[0.02] border-white/5 shadow-none pointer-events-auto";
+        cardTabungan.className = shared + "z-20 scale-90 translate-y-6 opacity-35 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
+        cardTunai.className = shared + "z-10 scale-85 translate-y-9 opacity-15 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
       }
-      if (dompetTerpilih === '📱 Dompet Digital') {
-        cardDigital.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-purple-500/15 to-transparent border border-purple-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(168,85,247,0.25)]";
-        cardDigital.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      else if (dompetTerpilih === '📱 Dompet Digital') {
+        cardDigital.className = shared + "z-40 scale-100 translate-y-0 opacity-100 bg-gradient-to-br from-purple-500/20 to-purple-950/40 border-purple-400/40 shadow-[0_12px_30px_rgba(168,85,247,0.3)]";
+        cardTabungan.className = shared + "z-30 scale-95 translate-y-3 opacity-60 bg-white/[0.02] border-white/5 shadow-none pointer-events-auto";
+        cardTunai.className = shared + "z-20 scale-90 translate-y-6 opacity-35 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
+        cardBank.className  = shared + "z-10 scale-85 translate-y-9 opacity-15 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
       }
-      if (dompetTerpilih === '💰 Dompet Tabungan') {
-        cardTabungan.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-amber-500/15 to-transparent border border-amber-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(245,158,11,0.25)]";
-        cardTabungan.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      else if (dompetTerpilih === '💰 Dompet Tabungan') {
+        cardTabungan.className = shared + "z-40 scale-100 translate-y-0 opacity-100 bg-gradient-to-br from-amber-500/20 to-amber-950/40 border-amber-400/40 shadow-[0_12px_30px_rgba(245,158,11,0.3)]";
+        cardTunai.className = shared + "z-30 scale-95 translate-y-3 opacity-60 bg-white/[0.02] border-white/5 shadow-none pointer-events-auto";
+        cardBank.className  = shared + "z-20 scale-90 translate-y-6 opacity-35 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
+        cardDigital.className = shared + "z-10 scale-85 translate-y-9 opacity-15 bg-white/[0.01] border-white/5 shadow-none pointer-events-auto";
       }
     };
 
@@ -967,7 +972,7 @@
       const savedTab = localStorage.getItem('active_tab') || 'home';
       window.tukarHalaman(savedTab);
 
-      // FORCE START: Pemicu awal biar dompet pertama langsung tersorot di deck
+      // INISIALISASI AWAL TURUNAN DECK STACK
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     });
 
@@ -1124,7 +1129,7 @@
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
-      // INJEKSI DATA AKUMULASI PADA CAROUSEL DECK
+      // INJEKSI DATA EMEDDED STACK DATA
       if(res.dompet) {
         document.getElementById('txtWalletTunai').innerText = res.dompet.tunai || "Rp 0";
         document.getElementById('txtWalletBank').innerText = res.dompet.bank || "Rp 0";
@@ -1151,7 +1156,7 @@
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
       
-      // MEMASTIKAN DECK UPDATE POSISI TERAKHIR SETELAH PULL REFRESH
+      // RE-SYNC POSISI TUMPUKAN KARTU SETELAH DATA SELESAI SINKRONISASI
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     };
 
@@ -1626,19 +1631,14 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautenPemicu); Swal.close();
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(reg => {
-          reg.onupdatefound = () => {
-            const installingWorker = reg.installing; if (installingWorker == null) return;
-            installingWorker.onstatechange = () => { if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) { caches.keys().then(names => { for (let name of names) caches.delete(name); }).then(() => { window.location.reload(); }); } };
-          };
-        }).catch(err => console.error('Service Worker Gagal', err));
+        navigator.serviceWorker.register('sw.js').then(reg => {reg.onupdatefound = () => {const installingWorker = reg.installing; if (installingWorker == null) return; installingWorker.onstatechange = () => { if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) { caches.keys().then(names => { for (let name of names) caches.delete(name); }).then(() => { window.location.reload(); }); } }; };}).catch(err => console.error('Service Worker Gagal', err));
       });
     }
   </script>
