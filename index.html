@@ -227,7 +227,6 @@
       box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
     }
     
-    /* Kapsul kartu halaman riwayat mode gelap */
     body.dark #pageRiwayat > div {
       background: linear-gradient(145deg, #0f172a, #0b1329) !important;
       border: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -379,16 +378,23 @@
           <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
-        <!-- TOTAL SALDO HERO DISCOVERY UNIT -->
+        <!-- TOTAL SALDO HERO DISCOVERY UNIT (DENGAN SAKELAR GLOBAL PRIVACY MODE) -->
         <div class="flex flex-col mt-1.5 mb-4 relative z-10">
-          <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase mb-0.5" data-i18n="totalSaldo">Total Saldo Kamu</p>
+          <div class="flex justify-between items-center mb-1 pr-0.5">
+            <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
+            <!-- ⚡ DIUBAH MENJADI TOMBOL GLOBAL PRIVACY MODE UNTUK SEMBUNYIKAN SEMUA NOMINAL -->
+            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-[10px] text-white/50 hover:text-white flex items-center gap-1 font-bold transition-all outline-none">
+              <span id="txtToggleSaldoLabel">Sembunyikan</span>
+              <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-xs"></i>
+            </button>
+          </div>
           <div class="flex items-baseline gap-2">
             <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
           </div>
         </div>
 
         <!-- CLEAN FLAT BENTO BOX GRID CARD -->
-        <div class="grid grid-cols-2 gap-3 relative z-10 mb-5">
+        <div class="grid grid-cols-2 gap-3 relative z-10 mb-6">
           <!-- SEKTOR PEMASUKAN POD -->
           <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
@@ -417,19 +423,15 @@
         <input type="hidden" id="txtWalletDigitalHidden" value="Rp 0">
         <input type="hidden" id="txtWalletTabunganHidden" value="Rp 0">
 
-        <!-- 🔥 BARU: PREMIUM BANKING DECK LAYOUT (INSPIRASI FILE: image_95235d.png) -->
+        <!-- 🔥 BARU: LAYOUT PREMIUM BANKING DECK (SESUAI ALUR image_95235d.png) -->
         <div id="walletListContainer" class="w-full flex flex-col z-10 relative">
           
-          <!-- Bagian Header Dompet + Switcher Sembunyikan Saldo -->
-          <div class="flex justify-between items-center mb-2.5 px-0.5">
-            <h3 class="text-[14px] font-extrabold tracking-wide text-white">Penyimpanan</h3>
-            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-[11px] text-white/60 hover:text-white flex items-center gap-1 font-bold transition-colors">
-              <span id="txtToggleSaldoLabel">Sembunyikan</span>
-              <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-xs"></i>
-            </button>
+          <!-- Bagian Judul Section -->
+          <div class="flex justify-between items-center mb-2 px-0.5">
+            <h3 class="text-[13px] font-extrabold tracking-wide text-white/70 uppercase">Penyimpanan / Dompet</h3>
           </div>
 
-          <!-- Baris Navigasi Tombol Utama (Horizontal Clean Tabs) -->
+          <!-- Baris Navigasi Tombol Utama (Di Atas Saldo Dompet - Sesuai image_95235d.png) -->
           <div class="grid grid-cols-4 gap-0.5 border-b border-white/10 pb-1.5 mb-3.5">
             <!-- Tombol Tunai -->
             <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
@@ -800,7 +802,13 @@
     let databaseRiwayatRaw = []; 
     let instanceFlatpickr = null;
     let trenBulananRawGlobal = {}; 
-    window.statusSaldoTersembunyi = false; // ENGINE CONTROLLER VISIBILITY SENSOR
+
+    // GLOBAL PRIVACY MODE STATE ENGINES
+    window.statusSaldoTersembunyi = false;
+    window.rawTotalSaldo = "Rp 0";
+    window.rawPemasukan = "Rp 0";
+    window.rawPengeluaran = "Rp 0";
+    window.rawChartTotal = "Rp 0";
 
     Chart.register(ChartDataLabels);
 
@@ -875,6 +883,9 @@
 
       const switcherBtn = document.getElementById('txtLangLabel');
       if (switcherBtn) switcherBtn.innerText = currentLang.toUpperCase();
+      
+      const label = document.getElementById('txtToggleSaldoLabel');
+      if(label) label.innerText = window.statusSaldoTersembunyi ? (currentLang === 'id' ? "Tampilkan" : "Show") : (currentLang === 'id' ? "Sembunyikan" : "Hide");
     };
 
     window.bukaBottomSheetBahasa = function() {
@@ -922,8 +933,7 @@
       window.updateOpsiFilterBulanModal();
       if(sUtama) { sUtama.value = vUtama; document.getElementById('labelPeriodeUtama').innerText = sUtama.options[sUtama.selectedIndex] ? sUtama.options[sUtama.selectedIndex].text : translations[currentLang].semuaPeriode; }
       if(sModal) { sModal.value = vModal; document.getElementById('labelPeriodeTerpilih').innerText = sModal.options[sModal.selectedIndex] ? sModal.options[sModal.selectedIndex].text : translations[currentLang].tampilkanSemua; }
-      window.renderHalamanRiwayatUtama();
-      window.renderListModalSesuaiBulan();
+      window.refreshSemuaNominalUI();
       window.prosesFilterKategoriBulanUtama(false);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, false);
       Swal.close();
@@ -960,7 +970,7 @@
       }
     }
 
-    /* 🔥 MODIFIKASI SELEKTOR TOMBOL REKENING TAB DAN DISPLAY BALANCES SIFAT REAL-TIME */
+    /* ⚡ RE-RENDERING DECK DAN DISPLAY SALDO DOMPET BERDASARKAN FILTER TAB */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       
@@ -977,7 +987,6 @@
       if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeBtnClasses : inactiveBtnClasses;
       if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeBtnClasses : inactiveBtnClasses;
 
-      // UPDATE PREMIUM INTERACTIVE TABS & CARDS ENGINE (image_95235d.png STYLE)
       const tabTunai = document.getElementById('tabIconTunai');
       const tabBank = document.getElementById('tabIconBank');
       const tabDigital = document.getElementById('tabIconDigital');
@@ -993,7 +1002,6 @@
       const dispPercentage = document.getElementById('displayWalletPercentage');
       const meshOverlay = document.getElementById('cardMeshOverlay');
 
-      // Reset all tab indicators & classes
       [tabTunai, tabBank, tabDigital, tabTabungan].forEach(t => {
         if(t) t.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40";
       });
@@ -1039,16 +1047,11 @@
       if(dispName) dispName.innerText = walletLabelString;
       if(meshOverlay) meshOverlay.style.backgroundImage = activeMeshStyle;
       
-      // INJEKSI DAN PENGENDALIAN VISIBILITY SENSOR SALDO
+      // SENSOR KEAMANAN KARTU DOMPET AKTIF
       if(dispBalance) {
-        if(window.statusSaldoTersembunyi) {
-          dispBalance.innerText = "Rp •••••";
-        } else {
-          dispBalance.innerText = currentRawWalletText || "Rp 0";
-        }
+        dispBalance.innerText = window.statusSaldoTersembunyi ? "Rp •••••" : (currentRawWalletText || "Rp 0");
       }
 
-      // HITUNG PERSENTASE PORSI ALOKASI DANA SECARA INSTANT
       const valTunai = parseInt((document.getElementById('txtWalletTunaiHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
       const valBank = parseInt((document.getElementById('txtWalletBankHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
       const valDigital = parseInt((document.getElementById('txtWalletDigitalHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
@@ -1069,16 +1072,40 @@
       }
     };
 
-    /* 🔥 FUNGSI SAKELAR TOGGLE SHOW/HIDE SALDO */
+    /* ⚡ ENGINE UTAMA SAKELAR GLOBAL PRIVACY MODE (SEMBUNYIKAN SEMUA NOMINAL) */
     window.toggleSembunyikanSaldo = function() {
       window.statusSaldoTersembunyi = !window.statusSaldoTersembunyi;
+      
       const label = document.getElementById('txtToggleSaldoLabel');
       const icon = document.getElementById('iconToggleSaldo');
       if(label) label.innerText = window.statusSaldoTersembunyi ? (currentLang === 'id' ? "Tampilkan" : "Show") : (currentLang === 'id' ? "Sembunyikan" : "Hide");
       if(icon) icon.className = window.statusSaldoTersembunyi ? "fa-regular fa-eye" : "fa-regular fa-eye-slash";
       
-      // Refresh deck state
+      window.refreshSemuaNominalUI();
+    };
+
+    window.refreshSemuaNominalUI = function() {
+      const txtSaldo = document.getElementById('txtSaldo');
+      const txtMasuk = document.getElementById('txtMasuk');
+      const txtKeluar = document.getElementById('txtKeluar');
+      const chartCenterTotal = document.getElementById('chartCenterTotal');
+
+      if (window.statusSaldoTersembunyi) {
+        if(txtSaldo) txtSaldo.innerText = "Rp •••••";
+        if(txtMasuk) txtMasuk.innerText = "Rp •••••";
+        if(txtKeluar) txtKeluar.innerText = "Rp •••••";
+        if(chartCenterTotal) chartCenterTotal.innerText = "Rp •••••";
+      } else {
+        if(txtSaldo) txtSaldo.innerText = window.rawTotalSaldo || "Rp 0";
+        if(txtMasuk) txtMasuk.innerText = window.rawPemasukan || "Rp 0";
+        if(txtKeluar) txtKeluar.innerText = window.rawPengeluaran || "Rp 0";
+        if(chartCenterTotal) chartCenterTotal.innerText = window.rawChartTotal || "Rp 0";
+      }
+
+      // Re-Sync Deck dan List Transaksi
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
+      window.renderHalamanRiwayatUtama();
+      window.renderListModalSesuaiBulan();
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1099,8 +1126,6 @@
       window.updateKategoriOptions();
       const savedTab = localStorage.getItem('active_tab') || 'home';
       window.tukarHalaman(savedTab);
-
-      // INTRANET RESYNC STATE DECK INITIALIZATION
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     });
 
@@ -1108,8 +1133,7 @@
       const modeGelapAktif = document.body.classList.toggle('dark');
       localStorage.setItem('app_dark_mode', modeGelapAktif ? 'enabled' : 'disabled');
       window.updateIconVisualModeGelap(modeGelapAktif);
-      window.renderHalamanRiwayatUtama();
-      window.renderListModalSesuaiBulan();
+      window.refreshSemuaNominalUI();
       window.prosesFilterKategoriBulanUtama(false);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, false);
     };
@@ -1253,11 +1277,12 @@
 
     window.aplikasikanDataKeUI = function(res, biarkanAnimasi = true) {
       if(!res) return;
-      document.getElementById('txtSaldo').innerText = res.saldo || "Rp 0";
-      document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
-      document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
-      // INJEKSI DAN SYNC NILAI VALUE TERSEMBUNYI SECARA SINKRON
+      // ALOKASI CACHE RAW DANA UNTUK PRIVACY MASKING SENSOR
+      window.rawTotalSaldo = res.saldo || "Rp 0";
+      window.rawPemasukan = res.pemasukan || "Rp 0";
+      window.rawPengeluaran = res.pengeluaran || "Rp 0";
+      
       if(res.dompet) {
         document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp 0";
         document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp 0";
@@ -1280,12 +1305,10 @@
           selectUtama.value = selectUtama.options[0].value; document.getElementById('labelPeriodeUtama').innerText = selectUtama.options[0].text;
         }
       }
-      window.renderHalamanRiwayatUtama();
+      
+      window.refreshSemuaNominalUI();
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
-      
-      // RE-SYNC AKTIVITAS KARTU PILIHAN SESUAI SELEKTOR HAK ASLI DOMPET
-      window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     };
 
     window.loadSummary = function() {
@@ -1315,6 +1338,9 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item); const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis); const listKey = isMasuk ? "pemasukan" : "pengeluaran";
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General"; const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
           
+          // MASKING TRANSAKSI DI HALAMAN DEPAN
+          const teksNominalTampil = window.statusSaldoTersembunyi ? "Rp •••••" : `${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}`;
+          
           susunanHTMLItemRingkas += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-4 px-3.5 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800/40 last:border-b-0 transition-all rounded-xl cursor-pointer bg-white/40 dark:bg-[#1a2336]/40 mb-1 shadow-[0_2px_8px_rgba(0,0,0,0.01)]">
               <div class="flex items-center gap-3 min-w-[65%]">
@@ -1335,7 +1361,7 @@
                 </div>
               </div>
               <span class="text-[14px] font-extrabold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
-                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
+                ${teksNominalTampil}
               </span>
             </div>`;
         });
@@ -1375,7 +1401,9 @@
       if (!canvasCtx || !legendContainer) return;
       
       legendContainer.innerHTML = ""; const labels = Object.keys(dataKategori), values = Object.values(dataKategori); const total = values.reduce((a, b) => a + b, 0);
-      if(textCenterTotal) textCenterTotal.innerText = "Rp " + total.toLocaleString('id-ID');
+      
+      window.rawChartTotal = "Rp " + total.toLocaleString('id-ID');
+      if(textCenterTotal) textCenterTotal.innerText = window.statusSaldoTersembunyi ? "Rp •••••" : window.rawChartTotal;
 
       if (total === 0) { canvasCtx.parentNode.style.display = 'none'; if(noDataMsg) noDataMsg.classList.remove('hidden'); return; }
       canvasCtx.parentNode.style.display = 'flex'; if(noDataMsg) noDataMsg.classList.add('hidden');
@@ -1562,6 +1590,9 @@
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item); const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis); const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
           
+          // MASKING TRANSAKSI DI DALAM MODAL LENGKAP
+          const teksNominalTampilModal = window.statusSaldoTersembunyi ? "Rp •••••" : `${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}`;
+          
           susunanHTMLItemModal += `
             <div onclick="window.bukaOpsiAksiTransaksi(${indexAsli})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 border-b border-slate-100 dark:border-slate-800/30 last:border-b-0 transition-all rounded-xl cursor-pointer">
               <div class="flex items-center gap-3 min-w-[70%]">
@@ -1581,7 +1612,7 @@
                 </div>
               </div>
               <span class="text-[14px] font-extrabold flex-shrink-0 text-right ${isMasuk ? 'text-emerald-600' : 'text-slate-800 dark:text-slate-200'}">
-                ${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}
+                ${teksNominalTampilModal}
               </span>
             </div>`;
         });
