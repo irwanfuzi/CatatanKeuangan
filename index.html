@@ -6,7 +6,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#01261c">
 
@@ -352,16 +351,12 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <!-- MAIN CANVAS CONTAINER -->
   <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-[#f1f5f9] flex flex-col relative shadow-[0_25px_60px_-15px_rgba(51,65,85,0.12)] overflow-x-hidden overflow-y-clip md:border md:border-slate-300/40 transition-all duration-300">
 
-    <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- BRAND IDENTITY HEADER -->
       <div class="w-full bg-modern-luxury-lines p-6 pb-7 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
         
-        <!-- CONTROLLER SECTION V3 -->
         <div class="absolute right-6 top-5 flex items-center gap-1.5 z-[99]">
           <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-8.5 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
             <i class="fa-solid fa-globe text-emerald-400/70"></i>
@@ -373,13 +368,11 @@
           </button>
         </div>
 
-        <!-- APP BRANDING SUBTITLE -->
         <div class="flex items-center gap-1.5 mb-1 opacity-70 relative z-10">
           <span class="w-1 h-3 bg-emerald-400 rounded-full"></span>
           <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
-        <!-- TOTAL SALDO HERO DISCOVERY UNIT -->
         <div class="flex flex-col mt-2 mb-4 relative z-10">
           <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase mb-0.5" data-i18n="totalSaldo">Total Saldo Kamu</p>
           <div class="flex items-baseline gap-2">
@@ -387,9 +380,7 @@
           </div>
         </div>
 
-        <!-- CLEAN FLAT BENTO BOX GRID CARD -->
         <div class="grid grid-cols-2 gap-3 relative z-10">
-          <!-- SEKTOR PEMASUKAN POD -->
           <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3.5 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-down text-xs"></i>
@@ -399,7 +390,6 @@
               <p id="txtMasuk" class="font-bold text-[13px] text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
-          <!-- SEKTOR PENGELUARAN POD -->
           <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3.5 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-up text-xs"></i>
@@ -411,36 +401,44 @@
           </div>
         </div>
 
-        <!-- 🔥 UPDATE UX: PANEL MULTI WALLET BREAKDOWN (2x2 GRID UNTUK 4 DOMPET) -->
-        <div class="grid grid-cols-2 gap-2 mt-3 relative z-10">
-          <!-- Kartu Tunai -->
-          <div id="cardWalletTunai" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
-            <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">💵 Tunai</span>
-            <p id="txtWalletTunai" class="font-bold text-[12px] text-white tracking-wide truncate w-full">Rp 0</p>
+        <div id="walletDeckCarousel" class="flex gap-3 mt-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory py-2 px-6 -mx-6 relative z-10 scroll-smooth">
+          <div id="cardWalletTunai" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">💵 Tunai</span>
+              <i class="fa-solid fa-wallet text-emerald-400 opacity-40 text-sm"></i>
+            </div>
+            <p id="txtWalletTunai" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
-          <!-- Kartu Bank -->
-          <div id="cardWalletBank" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
-            <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">🏦 Bank</span>
-            <p id="txtWalletBank" class="font-bold text-[12px] text-white tracking-wide truncate w-full">Rp 0</p>
+          
+          <div id="cardWalletBank" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">🏦 Bank</span>
+              <i class="fa-solid fa-building-columns text-blue-400 opacity-40 text-sm"></i>
+            </div>
+            <p id="txtWalletBank" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
-          <!-- Kartu Digital -->
-          <div id="cardWalletDigital" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
-            <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">📱 Digital</span>
-            <p id="txtWalletDigital" class="font-bold text-[12px] text-white tracking-wide truncate w-full">Rp 0</p>
+          
+          <div id="cardWalletDigital" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">📱 Digital</span>
+              <i class="fa-solid fa-mobile-screen text-purple-400 opacity-40 text-sm"></i>
+            </div>
+            <p id="txtWalletDigital" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
-          <!-- Kartu Tabungan (DOMPET BARU) -->
-          <div id="cardWalletTabungan" class="bg-white/[0.03] border border-white/5 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 will-change-transform">
-            <span class="text-[9px] opacity-40 font-bold uppercase tracking-wider">💰 Tabungan</span>
-            <p id="txtWalletTabungan" class="font-bold text-[12px] text-white tracking-wide truncate w-full">Rp 0</p>
+          
+          <div id="cardWalletTabungan" class="w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none will-change-transform">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] opacity-60 font-bold uppercase tracking-wider">💰 Tabungan</span>
+              <i class="fa-solid fa-piggy-bank text-amber-400 opacity-40 text-sm"></i>
+            </div>
+            <p id="txtWalletTabungan" class="font-extrabold text-lg text-white tracking-wide truncate w-full">Rp 0</p>
           </div>
         </div>
 
       </div>
 
-      <!-- CONTENT CONTAINER -->
       <div class="w-full px-4 mt-5 pb-2" id="mainContainer">
         
-        <!-- COMPACT HOME CONTAINER -->
         <div id="pageHome" class="w-full bg-slate-50 p-6 rounded-[2.25rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40 mb-0">
           <div class="flex items-center gap-2 mb-5">
             <div class="w-1.5 h-6 bg-emerald-600 rounded-full"></div>
@@ -472,7 +470,6 @@
               </div>
             </div>
 
-            <!-- 🔥 UPDATE UX: SELEKTOR PILIHAN MULTI DOMPET (GRID 4 UNTUK TABUNGAN) -->
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Penyimpanan / Dompet</label>
               <div class="w-full p-1 bg-slate-200/60 dark:bg-slate-800 rounded-2xl grid grid-cols-4 gap-1">
@@ -544,7 +541,6 @@
 
         <div id="pageRiwayat" class="w-full flex flex-col gap-6 mb-0 hidden">
           
-          <!-- CARD 1: ANALISIS PENGELUARAN -->
           <div class="w-full bg-slate-50 p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -571,7 +567,6 @@
             <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-white rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
           </div>
 
-          <!-- CARD 2: TREN KEUANGAN BULANAN -->
           <div class="w-full bg-slate-50 p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -583,7 +578,6 @@
             </div>
           </div>
 
-          <!-- CARD 3: TRANSAKSI TERAKHIR -->
           <div id="cardTransactionsTerakhir" class="w-full bg-slate-50 p-5 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/40 flex flex-col mb-0">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-[15px] font-bold text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -608,12 +602,10 @@
         </div>
       </div>
 
-      <!-- KAPSUL PENSTABIL STRUKTURAL KONSISTEN -->
       <div class="w-full h-[88px] flex-shrink-0 pointer-events-none"></div>
 
     </div>
 
-    <!-- MODAL DETAIL TRANSAKSI -->
     <div id="modalDetailTransaksi" class="absolute inset-0 bg-slate-900/40 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
       <div class="w-full h-[88vh] bg-[#f1f5f9] dark:bg-[#0b0f19] rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
         
@@ -654,10 +646,8 @@
       </div>
     </div>
 
-    <!-- ADAPTIF FIXED NAVBAR GOPAY STYLE WITH GLASSMORPHISM EFFECT -->
     <div id="mainFixedNavbar" class="bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800/50 shadow-[0_-10px_30px_rgba(51,65,85,0.04)] dark:shadow-[0_-10px_35px_-5px_rgba(0,0,0,0.4)] flex flex-row items-center justify-between pb-[calc(8px+env(safe-area-inset-bottom))] pt-2">
       
-      <!-- MENU 1: BERANDA -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
         <button id="navHome" onclick="window.tukarHalaman('home')" class="w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-extrabold tracking-wide text-emerald-600 dark:text-emerald-400 scale-105 opacity-100">
           <i class="fa-solid fa-house text-xl"></i>
@@ -665,7 +655,6 @@
         </button>
       </div>
       
-      <!-- MENU 2: RIWAYAT -->
       <div class="w-1/2 flex justify-center items-center h-[56px]">
         <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="w-full flex flex-col items-center justify-center gap-1.5 transition-all duration-300 active:scale-95 focus:outline-none text-[11px] font-semibold tracking-wide text-slate-400 dark:text-slate-500 opacity-60">
           <i class="fa-solid fa-receipt text-xl"></i>
@@ -909,7 +898,7 @@
       }
     }
 
-    /* 🔥 FITUR PREMIUM: ENGINE DOMPET TAB DENGAN LIVE GLOW & SCALE EFFECT (SUPPORT 4 DOMPET) */
+    /* 🔥 OPSI 1: ENGINE CAROUSEL DECK DENGAN SMART AUTO-SCROLL DAN GLOW GRADIEN MASING-MASING */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       const btnTunai = document.getElementById('btnDompetTunai');
@@ -925,7 +914,7 @@
       if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeClasses : inactiveClasses;
       if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeClasses : inactiveClasses;
 
-      // AMBIL ELEMEN KARTU DASHBOARD UTAMA
+      // AMBIL ELEMEN KARTU DASHBOARD CAROUSEL DECK
       const cardTunai = document.getElementById('cardWalletTunai');
       const cardBank = document.getElementById('cardWalletBank');
       const cardDigital = document.getElementById('cardWalletDigital');
@@ -933,20 +922,30 @@
 
       if (!cardTunai || !cardBank || !cardDigital || !cardTabungan) return;
 
-      // REFRESH: Kembalikan semua kartu ke mode normal/sedikit redup
-      const kelasNormal = "bg-white/[0.02] border border-white/5 opacity-50 scale-95 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 shadow-none";
+      // REFRESH CASING: Kembalikan semua kartu ke mode normal carousel (pasif & mengecil)
+      const kelasNormal = "w-[80%] h-28 flex-shrink-0 snap-center bg-white/[0.02] border border-white/5 opacity-40 scale-95 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-none";
       cardTunai.className = kelasNormal;
       cardBank.className = kelasNormal;
       cardDigital.className = kelasNormal;
       cardTabungan.className = kelasNormal;
 
-      // TEMBAK EFEK NEON GLOW & SCALE UP KE KARTU YANG SEDANG AKTIF
-      const kelasAktifGlow = "bg-emerald-500/15 border border-emerald-400/40 opacity-100 scale-105 backdrop-blur-md rounded-xl p-2.5 flex flex-col items-center justify-center text-center transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.3)]";
-      
-      if (dompetTerpilih === '💳 Kantong Tunai') cardTunai.className = kelasAktifGlow;
-      if (dompetTerpilih === '🏦 Rekening Bank') cardBank.className = kelasAktifGlow;
-      if (dompetTerpilih === '📱 Dompet Digital') cardDigital.className = kelasAktifGlow;
-      if (dompetTerpilih === '💰 Dompet Tabungan') cardTabungan.className = kelasAktifGlow;
+      // SINKRONISASI AKTIF: Berikan efek neon glow unik & gerakkan kartu otomatis ke tengah
+      if (dompetTerpilih === '💳 Kantong Tunai') {
+        cardTunai.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-emerald-500/15 to-transparent border border-emerald-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(16,185,129,0.25)]";
+        cardTunai.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      if (dompetTerpilih === '🏦 Rekening Bank') {
+        cardBank.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-blue-500/15 to-transparent border border-blue-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(59,130,246,0.25)]";
+        cardBank.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      if (dompetTerpilih === '📱 Dompet Digital') {
+        cardDigital.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-purple-500/15 to-transparent border border-purple-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(168,85,247,0.25)]";
+        cardDigital.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      if (dompetTerpilih === '💰 Dompet Tabungan') {
+        cardTabungan.className = "w-[80%] h-28 flex-shrink-0 snap-center bg-gradient-to-br from-amber-500/15 to-transparent border border-amber-400/40 opacity-100 scale-100 backdrop-blur-md rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 shadow-[0_8px_25px_rgba(245,158,11,0.25)]";
+        cardTabungan.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -968,7 +967,7 @@
       const savedTab = localStorage.getItem('active_tab') || 'home';
       window.tukarHalaman(savedTab);
 
-      // INISIALISASI EFEK DOMPET DEFAULT BIAR LANGSUNG MENYALA
+      // FORCE START: Pemicu awal biar dompet pertama langsung tersorot di deck
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     });
 
@@ -1125,12 +1124,12 @@
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
-      // INJEKSI SALDO PECAHAN PER 4 DOMPET
+      // INJEKSI DATA AKUMULASI PADA CAROUSEL DECK
       if(res.dompet) {
         document.getElementById('txtWalletTunai').innerText = res.dompet.tunai || "Rp 0";
         document.getElementById('txtWalletBank').innerText = res.dompet.bank || "Rp 0";
         document.getElementById('txtWalletDigital').innerText = res.dompet.digital || "Rp 0";
-        document.getElementById('txtWalletTabungan').innerText = res.dompet.tabungan || "Rp 0"; // CONNECTED
+        document.getElementById('txtWalletTabungan').innerText = res.dompet.tabungan || "Rp 0";
       }
 
       databaseRiwayatRaw = res.riwayat || [];
@@ -1151,6 +1150,9 @@
       window.renderHalamanRiwayatUtama();
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
+      
+      // MEMASTIKAN DECK UPDATE POSISI TERAKHIR SETELAH PULL REFRESH
+      window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     };
 
     window.loadSummary = function() {
@@ -1496,7 +1498,7 @@
           const hariIni = new Date(); if (instanceFlatpickr) { instanceFlatpickr.setDate(hariIni, false); }
           sinkronisasiNilaiTanggalMentah(hariIni);
           window.pilihJenisTab('Pengeluaran'); 
-          window.pilihDompetTab('💳 Kantong Tunai'); // Reset ke Default Tunai
+          window.pilihDompetTab('💳 Kantong Tunai'); 
           window.loadSummary(); Swal.close();
         }).catch((err) => { btn.disabled = false; Swal.fire({ icon: 'error', title: 'Error', text: err.toString() }); });
     };
@@ -1624,7 +1626,7 @@
         workbook.xlsx.writeBuffer().then(function(buffer) {
           const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }); const urlUnduh = URL.createObjectURL(blob);
           const tautanPemicu = document.createElement("a"); tautanPemicu.href = urlUnduh; tautanPemicu.download = `Financial_Report_${periodeText.replace(/ /g, "_")}.xlsx`;
-          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautanPemicu); Swal.close();
+          document.body.appendChild(tautanPemicu); tautanPemicu.click(); document.body.removeChild(tautenPemicu); Swal.close();
         });
       } catch (error) { Swal.close(); Swal.fire({ icon: 'error', title: 'Export Failed', text: error.message }); }
     };
