@@ -224,7 +224,7 @@
     body.dark #listRiwayatPenuhModal > div {
       background: linear-gradient(145deg, #131b2e, #111827) !important;
       border-color: #1e293b !important;
-      box-shadow: 0 12px 35px -12 rgba(0, 0, 0, 0.6) !important;
+      box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
     }
     
     /* Kapsul kartu halaman riwayat mode gelap */
@@ -411,70 +411,75 @@
           </div>
         </div>
 
-        <!-- 🔥 BARU: PREMIUM BENTO GRID CARD DECK (2x2 ISOMORPHIC FINTECH CARDS) -->
-        <div id="walletListContainer" class="w-full grid grid-cols-2 gap-3 z-10 relative">
+        <!-- HIDDEN CACHE STORE FOR DATA REAL-TIME RE-SYNCING -->
+        <input type="hidden" id="txtWalletTunaiHidden" value="Rp 0">
+        <input type="hidden" id="txtWalletBankHidden" value="Rp 0">
+        <input type="hidden" id="txtWalletDigitalHidden" value="Rp 0">
+        <input type="hidden" id="txtWalletTabunganHidden" value="Rp 0">
+
+        <!-- 🔥 BARU: PREMIUM BANKING DECK LAYOUT (INSPIRASI FILE: image_95235d.png) -->
+        <div id="walletListContainer" class="w-full flex flex-col z-10 relative">
           
-          <!-- Kartu Tunai -->
-          <div id="itemWalletTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
-            <div class="flex justify-between items-start w-full">
-              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">💵 Tunai</span>
-              <div class="w-6 h-6 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs">
+          <!-- Bagian Header Dompet + Switcher Sembunyikan Saldo -->
+          <div class="flex justify-between items-center mb-2.5 px-0.5">
+            <h3 class="text-[14px] font-extrabold tracking-wide text-white">Penyimpanan</h3>
+            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-[11px] text-white/60 hover:text-white flex items-center gap-1 font-bold transition-colors">
+              <span id="txtToggleSaldoLabel">Sembunyikan</span>
+              <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-xs"></i>
+            </button>
+          </div>
+
+          <!-- Baris Navigasi Tombol Utama (Horizontal Clean Tabs) -->
+          <div class="grid grid-cols-4 gap-0.5 border-b border-white/10 pb-1.5 mb-3.5">
+            <!-- Tombol Tunai -->
+            <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
                 <i class="fa-solid fa-wallet"></i>
               </div>
-            </div>
-            <div class="w-full mt-2">
-              <p id="txtWalletTunai" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
-              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
-                <div id="barWalletTunai" class="bg-emerald-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Kartu Bank -->
-          <div id="itemWalletBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
-            <div class="flex justify-between items-start w-full">
-              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">🏦 Bank</span>
-              <div class="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs">
+              <span class="text-[10px] font-bold tracking-wide">Tunai</span>
+              <div id="indicatorTunai" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-emerald-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+
+            <!-- Tombol Bank -->
+            <button type="button" id="tabIconBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
                 <i class="fa-solid fa-building-columns"></i>
               </div>
-            </div>
-            <div class="w-full mt-2">
-              <p id="txtWalletBank" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
-              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
-                <div id="barWalletBank" class="bg-blue-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Kartu Digital -->
-          <div id="itemWalletDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
-            <div class="flex justify-between items-start w-full">
-              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">📱 Digital</span>
-              <div class="w-6 h-6 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 text-xs">
+              <span class="text-[10px] font-bold tracking-wide">Bank</span>
+              <div id="indicatorBank" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-blue-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+
+            <!-- Tombol Digital -->
+            <button type="button" id="tabIconDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
                 <i class="fa-solid fa-mobile-screen"></i>
               </div>
-            </div>
-            <div class="w-full mt-2">
-              <p id="txtWalletDigital" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
-              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
-                <div id="barWalletDigital" class="bg-purple-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Kartu Tabungan -->
-          <div id="itemWalletTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
-            <div class="flex justify-between items-start w-full">
-              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">💰 Tabung</span>
-              <div class="w-6 h-6 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 text-xs">
+              <span class="text-[10px] font-bold tracking-wide">Digital</span>
+              <div id="indicatorDigital" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-purple-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+
+            <!-- Tombol Tabungan -->
+            <button type="button" id="tabIconTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
                 <i class="fa-solid fa-piggy-bank"></i>
               </div>
+              <span class="text-[10px] font-bold tracking-wide">Tabungan</span>
+              <div id="indicatorTabungan" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-amber-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+          </div>
+
+          <!-- Wadah Kartu Tampilan Saldo Aktif Sesuai Tombol Terpilih -->
+          <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px]">
+            <div id="cardMeshOverlay" class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent transition-all duration-500 pointer-events-none"></div>
+            
+            <div class="flex flex-col min-w-0 z-10">
+              <span id="displayWalletName" class="text-[11px] font-bold text-white/50 tracking-wider uppercase">💵 Kantong Tunai</span>
+              <h4 id="displayWalletBalance" class="text-[17px] font-extrabold text-white mt-0.5 tracking-wide truncate">Rp 0</h4>
             </div>
-            <div class="w-full mt-2">
-              <p id="txtWalletTabungan" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
-              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
-                <div id="barWalletTabungan" class="bg-amber-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-              </div>
+            
+            <div class="flex flex-col items-end justify-center z-10 flex-shrink-0">
+              <span id="displayWalletPercentage" class="text-[10px] font-black text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg">0%</span>
+              <span class="text-[8px] text-white/30 font-bold uppercase tracking-wider mt-1">Porsi</span>
             </div>
           </div>
 
@@ -497,7 +502,7 @@
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
               <div class="relative">
                 <input type="hidden" id="tanggal_mentntah" value="">
-                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-white rounded-2xl border border-slate-200/70 font-bold text-base text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500 dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 cursor-pointer shadow-sm" required>
+                <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-white rounded-2xl border border-slate-200/70 font-bold text-base text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500 dark:focus:bg-[#1a2336] outline-none transition-all pl-11 pr-4 shadow-sm" required>
                 <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-base">
                   <i class="fa-regular fa-calendar-days"></i>
                 </div>
@@ -795,6 +800,7 @@
     let databaseRiwayatRaw = []; 
     let instanceFlatpickr = null;
     let trenBulananRawGlobal = {}; 
+    window.statusSaldoTersembunyi = false; // ENGINE CONTROLLER VISIBILITY SENSOR
 
     Chart.register(ChartDataLabels);
 
@@ -954,9 +960,10 @@
       }
     }
 
-    /* 🔥 MODIFIKASI SELEKTOR BENTO CARD ENGINE DECK */
+    /* 🔥 MODIFIKASI SELEKTOR TOMBOL REKENING TAB DAN DISPLAY BALANCES SIFAT REAL-TIME */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
+      
       const btnTunai = document.getElementById('btnDompetTunai');
       const btnBank = document.getElementById('btnDompetBank');
       const btnDigital = document.getElementById('btnDompetDigital');
@@ -970,20 +977,108 @@
       if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeBtnClasses : inactiveBtnClasses;
       if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeBtnClasses : inactiveBtnClasses;
 
-      const cardTunai = document.getElementById('itemWalletTunai');
-      const cardBank = document.getElementById('itemWalletBank');
-      const cardDigital = document.getElementById('itemWalletDigital');
-      const cardTabungan = document.getElementById('itemWalletTabungan');
+      // UPDATE PREMIUM INTERACTIVE TABS & CARDS ENGINE (image_95235d.png STYLE)
+      const tabTunai = document.getElementById('tabIconTunai');
+      const tabBank = document.getElementById('tabIconBank');
+      const tabDigital = document.getElementById('tabIconDigital');
+      const tabTabungan = document.getElementById('tabIconTabungan');
 
-      if (!cardTunai || !cardBank || !cardDigital || !cardTabungan) return;
+      const indTunai = document.getElementById('indicatorTunai');
+      const indBank = document.getElementById('indicatorBank');
+      const indDigital = document.getElementById('indicatorDigital');
+      const indTabungan = document.getElementById('indicatorTabungan');
 
-      const baseCardClasses = "rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border relative overflow-hidden ";
+      const dispName = document.getElementById('displayWalletName');
+      const dispBalance = document.getElementById('displayWalletBalance');
+      const dispPercentage = document.getElementById('displayWalletPercentage');
+      const meshOverlay = document.getElementById('cardMeshOverlay');
 
-      // ALGORITMA HIGH-READABILITY ACTIVE NEON GLOW DECK
-      cardTunai.className = baseCardClasses + (dompetTerpilih === '💳 Kantong Tunai' ? "bg-white/15 border-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
-      cardBank.className = baseCardClasses + (dompetTerpilih === '🏦 Rekening Bank' ? "bg-white/15 border-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
-      cardDigital.className = baseCardClasses + (dompetTerpilih === '📱 Dompet Digital' ? "bg-white/15 border-purple-400 shadow-[0_0_20px_rgba(192,132,252,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
-      cardTabungan.className = baseCardClasses + (dompetTerpilih === '💰 Dompet Tabungan' ? "bg-white/15 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
+      // Reset all tab indicators & classes
+      [tabTunai, tabBank, tabDigital, tabTabungan].forEach(t => {
+        if(t) t.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40";
+      });
+      [indTunai, indBank, indDigital, indTabungan].forEach(i => {
+        if(i) { i.style.opacity = "0"; i.style.transform = "scaleX(0.5)"; }
+      });
+
+      let currentRawWalletText = "Rp 0";
+      let badgeColorClass = "text-emerald-400 bg-emerald-500/10";
+      let activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.12), transparent)";
+      let walletLabelString = "";
+
+      if (dompetTerpilih === '💳 Kantong Tunai') {
+        if(tabTunai) tabTunai.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-emerald-400 font-extrabold";
+        if(indTunai) { indTunai.style.opacity = "1"; indTunai.style.transform = "scaleX(1)"; }
+        currentRawWalletText = document.getElementById('txtWalletTunaiHidden').value || "Rp 0";
+        walletLabelString = currentLang === 'id' ? "💵 Kantong Tunai" : "💵 Cash Wallet";
+        badgeColorClass = "text-emerald-400 bg-emerald-500/10";
+        activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent)";
+      } else if (dompetTerpilih === '🏦 Rekening Bank') {
+        if(tabBank) tabBank.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-blue-400 font-extrabold";
+        if(indBank) { indBank.style.opacity = "1"; indBank.style.transform = "scaleX(1)"; }
+        currentRawWalletText = document.getElementById('txtWalletBankHidden').value || "Rp 0";
+        walletLabelString = currentLang === 'id' ? "🏦 Rekening Bank" : "🏦 Bank Account";
+        badgeColorClass = "text-blue-400 bg-blue-500/10";
+        activeMeshStyle = "linear-gradient(to right, rgba(59, 130, 246, 0.15), transparent)";
+      } else if (dompetTerpilih === '📱 Dompet Digital') {
+        if(tabDigital) tabDigital.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-purple-400 font-extrabold";
+        if(indDigital) { indDigital.style.opacity = "1"; indDigital.style.transform = "scaleX(1)"; }
+        currentRawWalletText = document.getElementById('txtWalletDigitalHidden').value || "Rp 0";
+        walletLabelString = currentLang === 'id' ? "📱 Dompet Digital" : "📱 E-Wallet";
+        badgeColorClass = "text-purple-400 bg-purple-500/10";
+        activeMeshStyle = "linear-gradient(to right, rgba(168, 85, 247, 0.15), transparent)";
+      } else if (dompetTerpilih === '💰 Dompet Tabungan') {
+        if(tabTabungan) tabTabungan.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-amber-400 font-extrabold";
+        if(indTabungan) { indTabungan.style.opacity = "1"; indTabungan.style.transform = "scaleX(1)"; }
+        currentRawWalletText = document.getElementById('txtWalletTabunganHidden').value || "Rp 0";
+        walletLabelString = currentLang === 'id' ? "💰 Dompet Tabungan" : "💰 Savings Account";
+        badgeColorClass = "text-amber-400 bg-amber-500/10";
+        activeMeshStyle = "linear-gradient(to right, rgba(245, 158, 11, 0.15), transparent)";
+      }
+
+      if(dispName) dispName.innerText = walletLabelString;
+      if(meshOverlay) meshOverlay.style.backgroundImage = activeMeshStyle;
+      
+      // INJEKSI DAN PENGENDALIAN VISIBILITY SENSOR SALDO
+      if(dispBalance) {
+        if(window.statusSaldoTersembunyi) {
+          dispBalance.innerText = "Rp •••••";
+        } else {
+          dispBalance.innerText = currentRawWalletText || "Rp 0";
+        }
+      }
+
+      // HITUNG PERSENTASE PORSI ALOKASI DANA SECARA INSTANT
+      const valTunai = parseInt((document.getElementById('txtWalletTunaiHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
+      const valBank = parseInt((document.getElementById('txtWalletBankHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
+      const valDigital = parseInt((document.getElementById('txtWalletDigitalHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
+      const valTabungan = parseInt((document.getElementById('txtWalletTabunganHidden').value || "0").replace(/[^0-9]/g, '')) || 0;
+      const totalDompet = valTunai + valBank + valDigital + valTabungan;
+
+      let targetVal = 0;
+      if(dompetTerpilih === '💳 Kantong Tunai') targetVal = valTunai;
+      else if(dompetTerpilih === '🏦 Rekening Bank') targetVal = valBank;
+      else if(dompetTerpilih === '📱 Dompet Digital') targetVal = valDigital;
+      else if(dompetTerpilih === '💰 Dompet Tabungan') targetVal = valTabungan;
+
+      let pct = 0;
+      if(totalDompet > 0) pct = Math.round((targetVal / totalDompet) * 100);
+      if(dispPercentage) {
+        dispPercentage.innerText = pct + "%";
+        dispPercentage.className = `text-[10px] font-black px-2.5 py-1 rounded-lg ${badgeColorClass}`;
+      }
+    };
+
+    /* 🔥 FUNGSI SAKELAR TOGGLE SHOW/HIDE SALDO */
+    window.toggleSembunyikanSaldo = function() {
+      window.statusSaldoTersembunyi = !window.statusSaldoTersembunyi;
+      const label = document.getElementById('txtToggleSaldoLabel');
+      const icon = document.getElementById('iconToggleSaldo');
+      if(label) label.innerText = window.statusSaldoTersembunyi ? (currentLang === 'id' ? "Tampilkan" : "Show") : (currentLang === 'id' ? "Sembunyikan" : "Hide");
+      if(icon) icon.className = window.statusSaldoTersembunyi ? "fa-regular fa-eye" : "fa-regular fa-eye-slash";
+      
+      // Refresh deck state
+      window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1005,7 +1100,7 @@
       const savedTab = localStorage.getItem('active_tab') || 'home';
       window.tukarHalaman(savedTab);
 
-      // FORCE INITIAL DRAW
+      // INTRANET RESYNC STATE DECK INITIALIZATION
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     });
 
@@ -1113,7 +1208,7 @@
         const idxTarget = dapatkanIndeksKategori(kat, jenis); const idxAktif = dapatkanIndeksKategori(kategoriSaatIni, jenis); const isSelected = idxTarget === idxAktif && idxTarget !== -1;
         htmlPilihanKategori += `
           <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${kat}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1162,30 +1257,12 @@
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
-      // INJEKSI NILAI NOMINAL
+      // INJEKSI DAN SYNC NILAI VALUE TERSEMBUNYI SECARA SINKRON
       if(res.dompet) {
-        document.getElementById('txtWalletTunai').innerText = res.dompet.tunai || "Rp 0";
-        document.getElementById('txtWalletBank').innerText = res.dompet.bank || "Rp 0";
-        document.getElementById('txtWalletDigital').innerText = res.dompet.digital || "Rp 0";
-        document.getElementById('txtWalletTabungan').innerText = res.dompet.tabungan || "Rp 0";
-
-        // ENGINE PERHITUNGAN METRIK ALOKASI DANA SECARA REAL-TIME
-        const valTunai = parseInt((res.dompet.tunai || "0").replace(/[^0-9]/g, '')) || 0;
-        const valBank = parseInt((res.dompet.bank || "0").replace(/[^0-9]/g, '')) || 0;
-        const valDigital = parseInt((res.dompet.digital || "0").replace(/[^0-9]/g, '')) || 0;
-        const valTabungan = parseInt((res.dompet.tabungan || "0").replace(/[^0-9]/g, '')) || 0;
-        const totalDompet = valTunai + valBank + valDigital + valTabungan;
-
-        if (totalDompet > 0) {
-          if(document.getElementById('barWalletTunai')) document.getElementById('barWalletTunai').style.width = ((valTunai / totalDompet) * 100) + "%";
-          if(document.getElementById('barWalletBank')) document.getElementById('barWalletBank').style.width = ((valBank / totalDompet) * 100) + "%";
-          if(document.getElementById('barWalletDigital')) document.getElementById('barWalletDigital').style.width = ((valDigital / totalDompet) * 100) + "%";
-          if(document.getElementById('barWalletTabungan')) document.getElementById('barWalletTabungan').style.width = ((valTabungan / totalDompet) * 100) + "%";
-        } else {
-          ['barWalletTunai', 'barWalletBank', 'barWalletDigital', 'barWalletTabungan'].forEach(id => {
-            if(document.getElementById(id)) document.getElementById(id).style.width = "0%";
-          });
-        }
+        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp 0";
+        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp 0";
+        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp 0";
+        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp 0";
       }
 
       databaseRiwayatRaw = res.riwayat || [];
@@ -1207,7 +1284,7 @@
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
       
-      // RE-SYNC THE INITIAL STATE OF BENTO GLOW DECK
+      // RE-SYNC AKTIVITAS KARTU PILIHAN SESUAI SELEKTOR HAK ASLI DOMPET
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     };
 
@@ -1425,7 +1502,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1449,7 +1526,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
