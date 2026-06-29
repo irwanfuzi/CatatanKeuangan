@@ -224,7 +224,7 @@
     body.dark #listRiwayatPenuhModal > div {
       background: linear-gradient(145deg, #131b2e, #111827) !important;
       border-color: #1e293b !important;
-      box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.6) !important;
+      box-shadow: 0 12px 35px -12 rgba(0, 0, 0, 0.6) !important;
     }
     
     /* Kapsul kartu halaman riwayat mode gelap */
@@ -359,10 +359,10 @@
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
       <!-- BRAND IDENTITY HEADER -->
-      <div class="w-full bg-modern-luxury-lines p-6 pb-7 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
+      <div class="w-full bg-modern-luxury-lines p-5 pb-6 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
         
         <!-- CONTROLLER SECTION V3 -->
-        <div class="absolute right-6 top-5 flex items-center gap-1.5 z-[99]">
+        <div class="absolute right-5 top-5 flex items-center gap-1.5 z-[99]">
           <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-8.5 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
             <i class="fa-solid fa-globe text-emerald-400/70"></i>
             <span id="txtLangLabel" class="text-white uppercase tracking-wider">ID</span>
@@ -380,7 +380,7 @@
         </div>
 
         <!-- TOTAL SALDO HERO DISCOVERY UNIT -->
-        <div class="flex flex-col mt-2 mb-4 relative z-10">
+        <div class="flex flex-col mt-1.5 mb-4 relative z-10">
           <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase mb-0.5" data-i18n="totalSaldo">Total Saldo Kamu</p>
           <div class="flex items-baseline gap-2">
             <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
@@ -388,9 +388,9 @@
         </div>
 
         <!-- CLEAN FLAT BENTO BOX GRID CARD -->
-        <div class="grid grid-cols-2 gap-3 relative z-10">
+        <div class="grid grid-cols-2 gap-3 relative z-10 mb-5">
           <!-- SEKTOR PEMASUKAN POD -->
-          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3.5 flex items-center gap-3">
+          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-down text-xs"></i>
             </div>
@@ -400,7 +400,7 @@
             </div>
           </div>
           <!-- SEKTOR PENGELUARAN POD -->
-          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3.5 flex items-center gap-3">
+          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-up text-xs"></i>
             </div>
@@ -411,71 +411,71 @@
           </div>
         </div>
 
-        <!-- 🔥 BARU: MINIMALIST LIST WITH MICRO-METRICS (NOTION / LINEAR METRIC VIEWS) -->
-        <div id="walletListContainer" class="w-full flex flex-col gap-1.5 mt-4 mb-1 z-10 relative">
+        <!-- 🔥 BARU: PREMIUM BENTO GRID CARD DECK (2x2 ISOMORPHIC FINTECH CARDS) -->
+        <div id="walletListContainer" class="w-full grid grid-cols-2 gap-3 z-10 relative">
           
-          <!-- Row Tunai -->
-          <div id="itemWalletTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="w-full rounded-xl p-2.5 flex items-center justify-between transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-60">
-            <div class="flex items-center gap-2.5 min-w-[55%]">
-              <div class="w-7 h-7 rounded-lg bg-emerald-500/15 flex items-center justify-center text-emerald-400 text-xs flex-shrink-0">
+          <!-- Kartu Tunai -->
+          <div id="itemWalletTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">💵 Tunai</span>
+              <div class="w-6 h-6 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 text-xs">
                 <i class="fa-solid fa-wallet"></i>
               </div>
-              <div class="flex flex-col flex-grow min-w-0">
-                <span class="text-[11px] font-bold text-white/90">💵 Tunai</span>
-                <div class="w-full bg-white/10 h-[3px] rounded-full mt-1 overflow-hidden">
-                  <div id="barWalletTunai" class="bg-emerald-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-                </div>
+            </div>
+            <div class="w-full mt-2">
+              <p id="txtWalletTunai" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
+              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
+                <div id="barWalletTunai" class="bg-emerald-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
               </div>
             </div>
-            <p id="txtWalletTunai" class="font-bold text-[13px] text-white tracking-wide truncate pl-2 text-right">Rp 0</p>
           </div>
           
-          <!-- Row Bank -->
-          <div id="itemWalletBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="w-full rounded-xl p-2.5 flex items-center justify-between transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-60">
-            <div class="flex items-center gap-2.5 min-w-[55%]">
-              <div class="w-7 h-7 rounded-lg bg-blue-500/15 flex items-center justify-center text-blue-400 text-xs flex-shrink-0">
+          <!-- Kartu Bank -->
+          <div id="itemWalletBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">🏦 Bank</span>
+              <div class="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs">
                 <i class="fa-solid fa-building-columns"></i>
               </div>
-              <div class="flex flex-col flex-grow min-w-0">
-                <span class="text-[11px] font-bold text-white/90">🏦 Bank</span>
-                <div class="w-full bg-white/10 h-[3px] rounded-full mt-1 overflow-hidden">
-                  <div id="barWalletBank" class="bg-blue-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-                </div>
+            </div>
+            <div class="w-full mt-2">
+              <p id="txtWalletBank" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
+              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
+                <div id="barWalletBank" class="bg-blue-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
               </div>
             </div>
-            <p id="txtWalletBank" class="font-bold text-[13px] text-white tracking-wide truncate pl-2 text-right">Rp 0</p>
           </div>
           
-          <!-- Row Digital -->
-          <div id="itemWalletDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="w-full rounded-xl p-2.5 flex items-center justify-between transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-60">
-            <div class="flex items-center gap-2.5 min-w-[55%]">
-              <div class="w-7 h-7 rounded-lg bg-purple-500/15 flex items-center justify-center text-purple-400 text-xs flex-shrink-0">
+          <!-- Kartu Digital -->
+          <div id="itemWalletDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">📱 Digital</span>
+              <div class="w-6 h-6 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 text-xs">
                 <i class="fa-solid fa-mobile-screen"></i>
               </div>
-              <div class="flex flex-col flex-grow min-w-0">
-                <span class="text-[11px] font-bold text-white/90">📱 Digital</span>
-                <div class="w-full bg-white/10 h-[3px] rounded-full mt-1 overflow-hidden">
-                  <div id="barWalletDigital" class="bg-purple-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-                </div>
+            </div>
+            <div class="w-full mt-2">
+              <p id="txtWalletDigital" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
+              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
+                <div id="barWalletDigital" class="bg-purple-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
               </div>
             </div>
-            <p id="txtWalletDigital" class="font-bold text-[13px] text-white tracking-wide truncate pl-2 text-right">Rp 0</p>
           </div>
           
-          <!-- Row Tabungan -->
-          <div id="itemWalletTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="w-full rounded-xl p-2.5 flex items-center justify-between transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-60">
-            <div class="flex items-center gap-2.5 min-w-[55%]">
-              <div class="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center text-amber-400 text-xs flex-shrink-0">
+          <!-- Kartu Tabungan -->
+          <div id="itemWalletTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border bg-white/[0.02] border-white/5 opacity-40 relative overflow-hidden">
+            <div class="flex justify-between items-start w-full">
+              <span class="text-[10px] font-bold text-white/50 tracking-wider uppercase">💰 Tabung</span>
+              <div class="w-6 h-6 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 text-xs">
                 <i class="fa-solid fa-piggy-bank"></i>
               </div>
-              <div class="flex flex-col flex-grow min-w-0">
-                <span class="text-[11px] font-bold text-white/90">💰 Tabungan</span>
-                <div class="w-full bg-white/10 h-[3px] rounded-full mt-1 overflow-hidden">
-                  <div id="barWalletTabungan" class="bg-amber-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
-                </div>
+            </div>
+            <div class="w-full mt-2">
+              <p id="txtWalletTabungan" class="font-extrabold text-[14px] text-white tracking-wide truncate">Rp 0</p>
+              <div class="w-full bg-white/10 h-[3px] rounded-full mt-1.5 overflow-hidden">
+                <div id="barWalletTabungan" class="bg-amber-400 h-full transition-all duration-500 rounded-full" style="width: 0%"></div>
               </div>
             </div>
-            <p id="txtWalletTabungan" class="font-bold text-[13px] text-white tracking-wide truncate pl-2 text-right">Rp 0</p>
           </div>
 
         </div>
@@ -954,7 +954,7 @@
       }
     }
 
-    /* 🔥 OPSI 3: ENGINE MINIMALIST LIST DENGAN SUBTLE HIGH-SCANNABILITY SELECTION STATES */
+    /* 🔥 MODIFIKASI SELEKTOR BENTO CARD ENGINE DECK */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       const btnTunai = document.getElementById('btnDompetTunai');
@@ -970,20 +970,20 @@
       if (btnDigital) btnDigital.className = dompetTerpilih === '📱 Dompet Digital' ? activeBtnClasses : inactiveBtnClasses;
       if (btnTabungan) btnTabungan.className = dompetTerpilih === '💰 Dompet Tabungan' ? activeBtnClasses : inactiveBtnClasses;
 
-      const itemTunai = document.getElementById('itemWalletTunai');
-      const itemBank = document.getElementById('itemWalletBank');
-      const itemDigital = document.getElementById('itemWalletDigital');
-      const itemTabungan = document.getElementById('itemWalletTabungan');
+      const cardTunai = document.getElementById('itemWalletTunai');
+      const cardBank = document.getElementById('itemWalletBank');
+      const cardDigital = document.getElementById('itemWalletDigital');
+      const cardTabungan = document.getElementById('itemWalletTabungan');
 
-      if (!itemTunai || !itemBank || !itemDigital || !itemTabungan) return;
+      if (!cardTunai || !cardBank || !cardDigital || !cardTabungan) return;
 
-      const baseItemClasses = "w-full rounded-xl p-2.5 flex items-center justify-between transition-all duration-300 cursor-pointer border ";
+      const baseCardClasses = "rounded-2xl p-3.5 flex flex-col justify-between h-[86px] transition-all duration-300 cursor-pointer border relative overflow-hidden ";
 
-      // ALGORITMA HIGH-READABILITY ACTIVE HIGHLIGHT
-      itemTunai.className = baseItemClasses + (dompetTerpilih === '💳 Kantong Tunai' ? "bg-white/10 border-emerald-400/60 shadow-[0_4px_12px_rgba(16,185,129,0.12)] scale-[1.01] opacity-100" : "bg-white/[0.02] border-white/5 opacity-50 scale-100");
-      itemBank.className = baseItemClasses + (dompetTerpilih === '🏦 Rekening Bank' ? "bg-white/10 border-blue-400/60 shadow-[0_4px_12px_rgba(59,130,246,0.12)] scale-[1.01] opacity-100" : "bg-white/[0.02] border-white/5 opacity-50 scale-100");
-      itemDigital.className = baseItemClasses + (dompetTerpilih === '📱 Dompet Digital' ? "bg-white/10 border-purple-400/60 shadow-[0_4px_12px_rgba(168,85,247,0.12)] scale-[1.01] opacity-100" : "bg-white/[0.02] border-white/5 opacity-50 scale-100");
-      itemTabungan.className = baseItemClasses + (dompetTerpilih === '💰 Dompet Tabungan' ? "bg-white/10 border-amber-400/60 shadow-[0_4px_12px_rgba(245,158,11,0.12)] scale-[1.01] opacity-100" : "bg-white/[0.02] border-white/5 opacity-50 scale-100");
+      // ALGORITMA HIGH-READABILITY ACTIVE NEON GLOW DECK
+      cardTunai.className = baseCardClasses + (dompetTerpilih === '💳 Kantong Tunai' ? "bg-white/15 border-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
+      cardBank.className = baseCardClasses + (dompetTerpilih === '🏦 Rekening Bank' ? "bg-white/15 border-blue-400 shadow-[0_0_20px_rgba(96,165,250,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
+      cardDigital.className = baseCardClasses + (dompetTerpilih === '📱 Dompet Digital' ? "bg-white/15 border-purple-400 shadow-[0_0_20px_rgba(192,132,252,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
+      cardTabungan.className = baseCardClasses + (dompetTerpilih === '💰 Dompet Tabungan' ? "bg-white/15 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.35)] opacity-100 scale-[1.02]" : "bg-white/[0.02] border-white/5 opacity-40 scale-100");
     };
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1005,7 +1005,7 @@
       const savedTab = localStorage.getItem('active_tab') || 'home';
       window.tukarHalaman(savedTab);
 
-      // FORCE STARTING DECK LINE HIGHLIGHTS
+      // FORCE INITIAL DRAW
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     });
 
@@ -1162,14 +1162,14 @@
       document.getElementById('txtMasuk').innerText = res.pemasukan || "Rp 0";
       document.getElementById('txtKeluar').innerText = res.pengeluaran || "Rp 0";
       
-      // INJEKSI NILAI NOMINAL HORIZONTAL LIST
+      // INJEKSI NILAI NOMINAL
       if(res.dompet) {
         document.getElementById('txtWalletTunai').innerText = res.dompet.tunai || "Rp 0";
         document.getElementById('txtWalletBank').innerText = res.dompet.bank || "Rp 0";
         document.getElementById('txtWalletDigital').innerText = res.dompet.digital || "Rp 0";
         document.getElementById('txtWalletTabungan').innerText = res.dompet.tabungan || "Rp 0";
 
-        // ENGINE PERHITUNGAN METRIK ALOKASI DANA SECARA REAL-TIME TANPA MERUSAK STRUKTUR SPREADSHEET
+        // ENGINE PERHITUNGAN METRIK ALOKASI DANA SECARA REAL-TIME
         const valTunai = parseInt((res.dompet.tunai || "0").replace(/[^0-9]/g, '')) || 0;
         const valBank = parseInt((res.dompet.bank || "0").replace(/[^0-9]/g, '')) || 0;
         const valDigital = parseInt((res.dompet.digital || "0").replace(/[^0-9]/g, '')) || 0;
@@ -1207,7 +1207,7 @@
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
       window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
       
-      // RE-SYNC THE INITIAL TARGET LINE ITEMS AFTER PULLING UPDATED DATA
+      // RE-SYNC THE INITIAL STATE OF BENTO GLOW DECK
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
     };
 
