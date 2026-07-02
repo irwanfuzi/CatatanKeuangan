@@ -379,16 +379,17 @@
           <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
-        <!-- TOTAL SALDO HERO UNIT (IKON MATA MINIMALIS DI SAMPING NOMINAL UTAMA) -->
+        <!-- TOTAL SALDO HERO UNIT (⚡ MODERN LUXURY MASKING BUTTON DI SAMPING ANGKA) -->
         <div class="flex flex-col mt-1.5 mb-4 relative z-10">
           <div class="flex justify-between items-center mb-0.5">
             <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
           </div>
-          <div class="flex items-center gap-3">
+          <!-- CONTAINER SEJAJAR DENGAN IKON MATA TANPA BOX BACKGROUND -->
+          <div class="flex items-center gap-2.5">
             <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
-            <!-- MASTER PRIVACY SWITCH BUTTON (ICON ONLY - SUPER CLEAN) -->
-            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="w-7 h-7 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all outline-none">
-              <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-xs"></i>
+            <!-- ✨ CLEAN FINTECH PRIVACY MODE CONFIGURATION -->
+            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-white/35 hover:text-white active:scale-90 transition-all outline-none border-none bg-transparent py-1 px-1 flex items-center justify-center">
+              <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-sm"></i>
             </button>
           </div>
         </div>
@@ -1518,7 +1519,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1542,7 +1543,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
