@@ -8,7 +8,7 @@
 
   <!-- IDENTITAS RESMI PWA MYKAS -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#01261c">
+  <meta name="theme-color" content="#07624c">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -66,14 +66,9 @@
       z-index: 999999 !important;
     }
 
-    /* PREMIUM ISOMORPHIC CANVAS WITH GLOW RADIAL EFFECT */
-    .bg-modern-luxury-lines {
-      background-color: #01261c;
-      background-image: 
-        radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 55%),
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'><path d='M-40,110 Q140,10 340,150 T740,50' fill='none' stroke='rgba(255,255,255,0.035)' stroke-width='1.5'/><path d='M0,140 Q180,40 380,190 T780,90' fill='none' stroke='rgba(255,255,255,0.015)' stroke-width='1.2'/></svg>");
-      background-size: cover;
-      background-position: center;
+    /* PREMIUM BRAND COLORS MATCHING 1000183915_2.png */
+    .bg-mykas-brand-header {
+      background-color: #07624c;
     }
 
     /* ENGINE NAVBAR DECK MODERN */
@@ -199,7 +194,7 @@
       scale: 0.95;
     }
 
-    /* PREMIUM FINTECH KARTU ACCENTS (LIGHT & DARK ACCENTS) */
+    /* PREMIUM FINTECH KARTU ACCENTS */
     #pageRiwayat > div {
       border: 1px solid rgba(226, 232, 240, 0.8) !important;
       box-shadow: 0 10px 30px -5px rgba(51, 65, 85, 0.04) !important;
@@ -337,16 +332,6 @@
       border-color: #059669 !important;
       color: white !important;
     }
-    body.dark .btn-pemicu-bulan, body.dark .btn-pemicu-tahun {
-      background: #1a2336 !important;
-      border-color: #24324d !important;
-      color: #f8fafc !important;
-    }
-    body.dark .flatpickr-months .flatpickr-prev-month, 
-    body.dark .flatpickr-months .flatpickr-next-month {
-      color: #f8fafc !important;
-      fill: #f8fafc !important;
-    }
   </style>
 </head>
 
@@ -358,82 +343,77 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- BRAND IDENTITY HEADER (HERO CONTAINER) -->
-      <div class="w-full bg-modern-luxury-lines p-5 pb-6 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
+      <!-- BRAND IDENTITY HEADER (HERO CONTAINER MATCHING IMAGE) -->
+      <div class="w-full bg-mykas-brand-header p-5 pb-6 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0 pt-12">
         
-        <!-- CONTROLLER SECTION V3 -->
-        <div class="absolute right-5 top-5 flex items-center gap-1.5 z-[99]">
-          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-3 h-8.5 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-xs gap-1.5 backdrop-blur-md">
-            <i class="fa-solid fa-globe text-emerald-400/70"></i>
+        <!-- CONTROLLER SECTION (TOP CORNER) -->
+        <div class="absolute right-4 top-4 flex items-center gap-1.5 z-[99]">
+          <button onclick="window.bukaBottomSheetBahasa()" class="tombol-kontrol-stabil px-2.5 h-8 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none font-bold text-[11px] gap-1 backdrop-blur-md">
+            <i class="fa-solid fa-globe opacity-80"></i>
             <span id="txtLangLabel" class="text-white uppercase tracking-wider">ID</span>
-            <i class="fa-solid fa-chevron-down text-[8px] opacity-30"></i>
           </button>
-          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-8.5 h-8.5 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
-            <i id="iconDarkMode" class="fa-solid fa-sun text-white"></i>
+          <button onclick="window.toggleDarkMode()" class="tombol-kontrol-stabil w-8 h-8 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none backdrop-blur-md">
+            <i id="iconDarkMode" class="fa-solid fa-sun text-white text-xs"></i>
           </button>
         </div>
 
-        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL DENGAN RE-SYNC KE 1000183915_2.png) -->
-        <div class="flex items-center gap-3 mb-3.5 relative z-10 select-none">
-          <!-- Frame Logo Premium -->
-          <div class="w-11 h-11 flex items-center justify-center flex-shrink-0 bg-transparent rounded-xl overflow-hidden border border-white/10 shadow-sm">
-            <!-- Langsung memanggil file 1000183915_2.png -->
-            <img src="1000183915_2.png" alt="Logo MyKas" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover">
-            
-            <!-- FALLBACK FAILSAFE SVG (Mengkloning visual 1000183915_2.png jika gambar gagal load) -->
-            <div class="w-full h-full hidden items-center justify-center bg-[#07624c]">
-              <svg viewBox="0 0 100 100" class="w-7 h-7 text-white fill-none stroke-current" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round">
-                <!-- 2 Koin di atas -->
-                <circle cx="48" cy="30" r="14" stroke-width="5" />
-                <circle cx="66" cy="24" r="14" stroke-width="5" />
-                <!-- Kerangka Dompet -->
-                <path d="M22 40 h54 a6 6 0 0 1 6 6 v32 a6 6 0 0 1 -6 6 h-54 a6 6 0 0 1 -6 -6 v-32 a6 6 0 0 1 6 -6 z" />
-                <!-- Pengunci Dompet -->
-                <path d="M74 52 h10 a4 4 0 0 1 4 4 v8 a4 4 0 0 1 -4 4 h-10 z" />
-                <circle cx="80" cy="60" r="2" fill="currentColor" />
-                <!-- Tren Garis Grafik Naik Zig-zag -->
-                <path d="M20 68 l18 -18 l14 12 l26 -28" stroke-width="6" />
-              </svg>
-            </div>
+        <!-- ✨ CORE IDENTITY CENTER DECK (100% IDENTIK DENGAN 1000183915_2.png) -->
+        <div class="w-full flex flex-col items-center justify-center mb-6 select-none mt-2">
+          
+          <!-- IMAGE RENDER (Prioritas Utama memuat berkas aset) -->
+          <img src="1000183915_2.png" alt="MyKas Brand Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-28 h-28 object-contain">
+          
+          <!-- FALLBACK SVG HIGH ACCURACY LAYER (Akan muncul otomatis jika file png tidak sefolder) -->
+          <div class="w-28 h-28 hidden flex-col items-center justify-center">
+            <svg viewBox="0 0 140 140" class="w-full h-full text-white fill-none stroke-current" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Dua Koin Putih Atas -->
+              <circle cx="64" cy="46" r="17" stroke-width="5" />
+              <circle cx="86" cy="38" r="17" stroke-width="5" />
+              <!-- Kerangka Box Dompet Utama -->
+              <path d="M34 58 h72 a6 6 0 0 1 6 6 v36 a6 6 0 0 1 -6 6 h-72 a6 6 0 0 1 -6 -6 v-36 a6 6 0 0 1 6 -6 z" />
+              <!-- Pengunci Kantong Kanan -->
+              <path d="M100 70 h12 a4 4 0 0 1 4 4 v10 a4 4 0 0 1 -4 4 h-12 z" />
+              <circle cx="107" cy="79" r="2" fill="currentColor" />
+              <!-- Garis Grafik Zig-zag Naik FinTech -->
+              <path d="M32 90 l22 -22 l16 14 l32 -32" stroke-width="5.5" />
+            </svg>
+            <span class="text-2xl font-bold tracking-tight text-white font-urbanist mt-1">MyKas</span>
           </div>
-          <!-- Teks Rata Kanan -->
-          <div class="flex flex-col justify-center">
-            <span class="text-xl font-extrabold tracking-tight text-white font-urbanist leading-none">MyKas</span>
-          </div>
+
         </div>
 
         <!-- TOTAL SALDO HERO UNIT -->
-        <div class="flex flex-col mt-1 mb-4 relative z-10">
+        <div class="flex flex-col mt-2 mb-4 relative z-10 px-1">
           <div class="flex justify-between items-center mb-0.5">
-            <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
+            <p class="text-[10px] opacity-50 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
           </div>
           <div class="flex items-center gap-2.5">
             <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
-            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-white/35 hover:text-white active:scale-90 transition-all outline-none border-none bg-transparent py-1 px-1 flex items-center justify-center">
+            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-white/40 hover:text-white active:scale-90 transition-all outline-none border-none bg-transparent py-1 px-1 flex items-center justify-center">
               <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-sm"></i>
             </button>
           </div>
         </div>
 
         <!-- KAPSUL PEMASUKAN & PENGELUARAN (BENTO LAYERING) -->
-        <div class="grid grid-cols-2 gap-3 relative z-10 mb-5">
+        <div class="grid grid-cols-2 gap-3 relative z-10 mb-2 px-1">
           <!-- SEKTOR PEMASUKAN POD -->
-          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
+          <div class="bg-white/[0.06] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-down text-xs"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-40 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
+              <span class="text-[10px] font-bold opacity-50 uppercase tracking-wider mb-0.5" data-i18n="pemasukan">Pemasukan</span>
               <p id="txtMasuk" class="font-bold text-[13px] text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
           <!-- SEKTOR PENGELUARAN POD -->
-          <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
+          <div class="bg-white/[0.06] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400 flex-shrink-0">
               <i class="fa-solid fa-arrow-up text-xs"></i>
             </div>
             <div class="min-w-0 flex-1 flex flex-col">
-              <span class="text-[10px] font-bold opacity-40 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
+              <span class="text-[10px] font-bold opacity-50 uppercase tracking-wider mb-0.5" data-i18n="pengeluaran">Pengeluaran</span>
               <p id="txtKeluar" class="font-bold text-[13px] text-white tracking-wide truncate">Rp 0</p>
             </div>
           </div>
@@ -446,24 +426,24 @@
         <input type="hidden" id="txtWalletTabunganHidden" value="Rp 0">
 
         <!-- MODERN DECK LAYOUT (SALDO DOMPET DI ATAS TOMBOL KONTROL) -->
-        <div id="walletListContainer" class="w-full flex flex-col z-10 relative">
+        <div id="walletListContainer" class="w-full flex flex-col z-10 relative mt-3 px-1">
           
           <div class="flex justify-between items-center mb-2 px-0.5">
-            <h3 class="text-[10px] font-black tracking-widest text-white/40 uppercase">Penyimpanan / Dompet</h3>
+            <h3 class="text-[10px] font-black tracking-widest text-white/50 uppercase">Penyimpanan / Dompet</h3>
           </div>
 
           <!-- 1. Wadah Tampilan Kartu Saldo Terpilih -->
-          <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px] mb-3">
+          <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px] mb-3">
             <div id="cardMeshOverlay" class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent transition-all duration-500 pointer-events-none"></div>
             
             <div class="flex flex-col min-w-0 z-10">
-              <span id="displayWalletName" class="text-[11px] font-bold text-white/50 tracking-wider uppercase">💵 Kantong Tunai</span>
+              <span id="displayWalletName" class="text-[11px] font-bold text-white/60 tracking-wider uppercase">💵 Kantong Tunai</span>
               <h4 id="displayWalletBalance" class="text-[17px] font-extrabold text-white mt-0.5 tracking-wide truncate">Rp 0</h4>
             </div>
             
             <div class="flex flex-col items-end justify-center z-10 flex-shrink-0">
-              <span id="displayWalletPercentage" class="text-[10px] font-black text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg">0%</span>
-              <span class="text-[8px] text-white/30 font-bold uppercase tracking-wider mt-1">Porsi</span>
+              <span id="displayWalletPercentage" class="text-[10px] font-black text-emerald-300 bg-emerald-500/20 px-2.5 py-1 rounded-lg">0%</span>
+              <span class="text-[8px] text-white/40 font-bold uppercase tracking-wider mt-1">Porsi</span>
             </div>
           </div>
 
@@ -1026,38 +1006,38 @@
       });
 
       let currentRawWalletText = "Rp 0";
-      let badgeColorClass = "text-emerald-400 bg-emerald-500/10";
-      let activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.12), transparent)";
+      let badgeColorClass = "text-emerald-300 bg-emerald-500/20";
+      let activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent)";
       let walletLabelString = "";
 
       if (dompetTerpilih === '💳 Kantong Tunai') {
-        if(tabTunai) tabTunai.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-emerald-400 font-extrabold";
+        if(tabTunai) tabTunai.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-emerald-300 font-extrabold";
         if(indTunai) { indTunai.style.opacity = "1"; indTunai.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletTunaiHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "💵 Kantong Tunai" : "💵 Cash Wallet";
-        badgeColorClass = "text-emerald-400 bg-emerald-500/10";
-        activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent)";
+        badgeColorClass = "text-emerald-300 bg-emerald-500/20";
+        activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.2), transparent)";
       } else if (dompetTerpilih === '🏦 Rekening Bank') {
-        if(tabBank) tabBank.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-blue-400 font-extrabold";
+        if(tabBank) tabBank.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-blue-300 font-extrabold";
         if(indBank) { indBank.style.opacity = "1"; indBank.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletBankHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "🏦 Rekening Bank" : "🏦 Bank Account";
-        badgeColorClass = "text-blue-400 bg-blue-500/10";
-        activeMeshStyle = "linear-gradient(to right, rgba(59, 130, 246, 0.15), transparent)";
+        badgeColorClass = "text-blue-300 bg-blue-500/20";
+        activeMeshStyle = "linear-gradient(to right, rgba(59, 130, 246, 0.2), transparent)";
       } else if (dompetTerpilih === '📱 Dompet Digital') {
-        if(tabDigital) tabDigital.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-purple-400 font-extrabold";
+        if(tabDigital) tabDigital.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-purple-300 font-extrabold";
         if(indDigital) { indDigital.style.opacity = "1"; indDigital.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletDigitalHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "📱 Dompet Digital" : "📱 E-Wallet";
-        badgeColorClass = "text-purple-400 bg-purple-500/10";
-        activeMeshStyle = "linear-gradient(to right, rgba(168, 85, 247, 0.15), transparent)";
+        badgeColorClass = "text-purple-300 bg-purple-500/20";
+        activeMeshStyle = "linear-gradient(to right, rgba(168, 85, 247, 0.2), transparent)";
       } else if (dompetTerpilih === '💰 Dompet Tabungan') {
-        if(tabTabungan) tabTabungan.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-amber-400 font-extrabold";
+        if(tabTabungan) tabTabungan.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-amber-300 font-extrabold";
         if(indTabungan) { indTabungan.style.opacity = "1"; indTabungan.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletTabunganHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "💰 Dompet Tabungan" : "💰 Savings Account";
-        badgeColorClass = "text-amber-400 bg-amber-500/10";
-        activeMeshStyle = "linear-gradient(to right, rgba(245, 158, 11, 0.15), transparent)";
+        badgeColorClass = "text-amber-300 bg-amber-500/20";
+        activeMeshStyle = "linear-gradient(to right, rgba(245, 158, 11, 0.2), transparent)";
       }
 
       if(dispName) dispName.innerText = walletLabelString;
@@ -1118,7 +1098,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jsPDF; }
+      if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
       const statusModeGelapSimpanan = localStorage.getItem('app_dark_mode');
       if (statusModeGelapSimpanan === 'enabled') { document.body.classList.add('dark'); window.updateIconVisualModeGelap(true); }
       const savedLang = localStorage.getItem('app_lang_choice');
@@ -1149,7 +1129,7 @@
 
     window.updateIconVisualModeGelap = function(apakahGelap) {
       const icon = document.getElementById('iconDarkMode');
-      if (icon) { icon.className = apakahGelap ? "fa-solid fa-sun text-white" : "fa-solid fa-moon text-white"; }
+      if (icon) { icon.className = apakahGelap ? "fa-solid fa-sun text-white text-xs" : "fa-solid fa-moon text-white text-xs"; }
     };
 
     window.buatPemicuKapsulKalenderCustom = function(instance) {
