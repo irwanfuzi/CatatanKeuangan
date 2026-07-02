@@ -373,18 +373,35 @@
           </button>
         </div>
 
-        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL DENGAN FALLBACK FAILSAFE) -->
+        <!-- ✨ PREMIUM PURE CSS LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL) -->
         <div class="flex items-center gap-3 mb-3.5 relative z-10 select-none">
-          <!-- Frame Logo Premium -->
-          <div class="w-11 h-11 flex items-center justify-center flex-shrink-0 bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-sm border border-white/20">
-            <!-- Jika gambar corrupt/error, otomatis panggil fungsi onerror untuk sembunyikan img dan tampilin ikon wallet -->
-            <img src="1000183915.png" alt="Logo MyKas" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover">
-            <!-- Ikon cadangan premium -->
-            <div class="w-full h-full hidden items-center justify-center bg-emerald-500/20">
-              <i class="fa-solid fa-wallet text-emerald-400 text-lg"></i>
+          <!-- Frame Base Hijau Premium -->
+          <div class="w-11 h-11 relative flex items-center justify-center flex-shrink-0 bg-[#0e3a2f] rounded-xl overflow-hidden shadow-md border border-emerald-500/20">
+            
+            <!-- Elemen 1: Dua Garis Horizontal Background (Atas & Bawah) -->
+            <div class="absolute top-[28%] left-0 w-full h-[3px] bg-emerald-400/20"></div>
+            <div class="absolute bottom-[28%] left-0 w-full h-[3px] bg-emerald-400/20"></div>
+            
+            <!-- Elemen 2: Dua Uang Koin Emas FinTech (Saling Menumpuk Sempurna) -->
+            <!-- Koin 1 (Belakang/Kiri Atas) -->
+            <div class="absolute top-[26%] left-[24%] w-[18px] h-[18px] rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500 border border-amber-200 shadow-sm flex items-center justify-center z-10 transform -rotate-12">
+              <!-- Detail Garis Lingkar Dalam Koin -->
+              <div class="w-[12px] h-[12px] rounded-full border border-amber-600/30 flex items-center justify-center">
+                <span class="text-[8px] font-black text-amber-800/60 leading-none">$</span>
+              </div>
             </div>
+
+            <!-- Koin 2 (Depan/Kanan Bawah - Menumpuk) -->
+            <div class="absolute bottom-[22%] right-[22%] w-[20px] h-[20px] rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-yellow-500 border border-yellow-200 shadow-md flex items-center justify-center z-20 transform rotate-12">
+              <!-- Detail Garis Lingkar Dalam Koin -->
+              <div class="w-[14px] h-[14px] rounded-full border border-yellow-600/40 flex items-center justify-center">
+                <span class="text-[9px] font-black text-amber-900/70 leading-none">Rp</span>
+              </div>
+            </div>
+
           </div>
-          <!-- Teks Rata Kanan -->
+          
+          <!-- Teks Rata Kanan (Dijejerin Sempurna Semisalnya) -->
           <div class="flex flex-col justify-center">
             <span class="text-xl font-extrabold tracking-tight text-white font-urbanist leading-none">MyKas</span>
           </div>
@@ -899,7 +916,7 @@
         { kode: 'id', nama: 'Bahasa Indonesia', bendera: 'https://flagcdn.com/24x18/id.png' },
         { kode: 'en', nama: 'English', bendera: 'https://flagcdn.com/24x18/gb.png' }
       ];
-      opsiBahasa.forEach(lang => {
+      opsocBahasa = opsiBahasa.forEach(lang => {
         const isSelected = currentLang === lang.kode;
         htmlListBahasa += `
           <button type="button" onclick="window.pilihBahasaDariSheet('${lang.kode}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
