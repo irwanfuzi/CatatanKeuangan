@@ -373,26 +373,35 @@
           </button>
         </div>
 
-        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS -->
-        <div class="flex items-center gap-2 mb-1.5 relative z-10">
-          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-sm shadow-emerald-950/40">
-            <i class="fa-solid fa-money-check-dollar text-[13px]"></i>
+        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS (RE-MODEL DARI 1000183915.png TANPA SAPAAN LOGIN) -->
+        <div class="flex items-center gap-2.5 mb-3.5 relative z-10 select-none">
+          <div class="w-8 h-8 flex items-center justify-center flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-full h-full text-white fill-current">
+              <!-- Koin Belakang -->
+              <circle cx="280" cy="110" r="55" fill="none" stroke="currentColor" stroke-width="28"/>
+              <!-- Koin Depan -->
+              <circle cx="205" cy="130" r="55" fill="none" stroke="currentColor" stroke-width="28"/>
+              <!-- Badan Utama Dompet -->
+              <path d="M400 176H96a40 40 0 0 0-40 40v200a40 40 0 0 0 40 40h304a40 40 0 0 0 40-40V216a40 40 0 0 0-40-40z" fill="none" stroke="currentColor" stroke-width="28" stroke-linejoin="round"/>
+              <!-- Kancing Dompet -->
+              <path d="M440 296h24a16 16 0 0 1 16 16v32a16 16 0 0 1-16 16h-24" fill="none" stroke="currentColor" stroke-width="28" stroke-linecap="round"/>
+              <circle cx="444" cy="328" r="10" />
+              <!-- Grafik Naik (Growth) -->
+              <path d="M80 410l100-95 80 65 140-130" fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
           <div class="flex flex-col justify-center">
-            <span class="text-xs font-black tracking-wider text-emerald-400 leading-none mb-0.5">MyKas</span>
-            <h1 class="text-[9px] font-bold tracking-widest uppercase text-white/50 leading-none" data-i18n="halo">Halo, Pengguna!</h1>
+            <span class="text-lg font-extrabold tracking-tight text-white font-urbanist leading-none">MyKas</span>
           </div>
         </div>
 
         <!-- TOTAL SALDO HERO UNIT -->
-        <div class="flex flex-col mt-2.5 mb-4 relative z-10">
+        <div class="flex flex-col mt-1 mb-4 relative z-10">
           <div class="flex justify-between items-center mb-0.5">
             <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
           </div>
-          <!-- CONTAINER SEJAJAR DENGAN IKON MATA TANPA BOX BACKGROUND -->
           <div class="flex items-center gap-2.5">
             <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
-            <!-- ✨ CLEAN FINTECH PRIVACY MODE CONFIGURATION -->
             <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-white/35 hover:text-white active:scale-90 transition-all outline-none border-none bg-transparent py-1 px-1 flex items-center justify-center">
               <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-sm"></i>
             </button>
@@ -754,7 +763,7 @@
     
     const translations = {
       id: {
-        halo: "Halo, Pengguna!", totalSaldo: "Total Saldo Kamu", pemasukan: "Pemasukan", pengeluaran: "Pengeluaran",
+        totalSaldo: "Total Saldo Kamu", pemasukan: "Pemasukan", pengeluaran: "Pengeluaran",
         tambahTrans: "Tambah Transaksi", tglTrans: "Tanggal Transaksi", pilihTgl: "Pilih Tanggal Transaksi",
         jenisAliran: "Jenis Aliran Dana", tabKeluar: "💸 Pengeluaran", tabMasuk: "💰 Pemasukan",
         posKategori: "Pos Kategori", pilihKategori: "Pilih Kategori", nominalTrans: "Nominal Transaksi (Rp)",
@@ -777,7 +786,7 @@
         navHome: "BERANDA", navRiwayat: "RIWAYAT"
       },
       en: {
-        halo: "Hello, User!", totalSaldo: "Your Total Balance", pemasukan: "Income", pengeluaran: "Expense",
+        totalSaldo: "Your Total Balance", pemasukan: "Income", pengeluaran: "Expense",
         tambahTrans: "Add Transaction", tglTrans: "Transaction Date", pilihTgl: "Select Transaction Date",
         jenisAliran: "Cash Flow Type", tabKeluar: "💸 Expense", tabMasuk: "💰 Income",
         posKategori: "Category Post", pilihKategori: "Select Category", nominalTrans: "Transaction Amount (Rp)",
@@ -808,7 +817,6 @@
     let instanceFlatpickr = null;
     let trenBulananRawGlobal = {}; 
 
-    // GLOBAL PRIVACY APP DATA RE-STORES
     window.statusSaldoTersembunyi = false;
     window.rawTotalSaldo = "Rp 0";
     window.rawPemasukan = "Rp 0";
@@ -972,9 +980,8 @@
       }
     }
 
-    /* RENDERING PRE-BUILT INTERACTIVE DECK */
     window.pilihDompetTab = function(dompetTerpilih) {
-      document.getElementById('dompet').value = dompetTerpourd;
+      document.getElementById('dompet').value = dompetTerpilih;
       
       const btnTunai = document.getElementById('btnDompetTunai');
       const btnBank = document.getElementById('btnDompetBank');
@@ -1049,7 +1056,6 @@
       if(dispName) dispName.innerText = walletLabelString;
       if(meshOverlay) meshOverlay.style.backgroundImage = activeMeshStyle;
       
-      // SENSOR KEAMANAN KARTU DOMPET DENGAN GLOBAL PRIVACY SWITCH
       if(dispBalance) {
         dispBalance.innerText = window.statusSaldoTersembunyi ? "Rp •••••" : (currentRawWalletText || "Rp 0");
       }
@@ -1074,7 +1080,6 @@
       }
     };
 
-    /* SAKELAR GLOBAL PRIVACY MODE */
     window.toggleSembunyikanSaldo = function() {
       window.statusSaldoTersembunyi = !window.statusSaldoTersembunyi;
       const icon = document.getElementById('iconToggleSaldo');
