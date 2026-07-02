@@ -357,7 +357,7 @@
     <!-- SCROLLABLE CONTENT LAYER -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
-      <!-- BRAND IDENTITY HEADER -->
+      <!-- BRAND IDENTITY HEADER (HERO CONTAINER) -->
       <div class="w-full bg-modern-luxury-lines p-5 pb-6 text-white rounded-b-[2.5rem] shadow-sm flex flex-col relative flex-shrink-0">
         
         <!-- CONTROLLER SECTION V3 -->
@@ -378,23 +378,22 @@
           <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
-        <!-- TOTAL SALDO HERO DISCOVERY UNIT (DENGAN SAKELAR GLOBAL PRIVACY MODE) -->
+        <!-- TOTAL SALDO HERO UNIT (⚡ IKON MATA MINIMALIS DI SAMPING NOMINAL UTAMA) -->
         <div class="flex flex-col mt-1.5 mb-4 relative z-10">
-          <div class="flex justify-between items-center mb-1 pr-0.5">
+          <div class="flex justify-between items-center mb-0.5">
             <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
-            <!-- ⚡ DIUBAH MENJADI TOMBOL GLOBAL PRIVACY MODE UNTUK SEMBUNYIKAN SEMUA NOMINAL -->
-            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-[10px] text-white/50 hover:text-white flex items-center gap-1 font-bold transition-all outline-none">
-              <span id="txtToggleSaldoLabel">Sembunyikan</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
+            <!-- 👁️ MASTER PRIVACY SWITCH BUTTON (ICON ONLY - SUPER CLEAN) -->
+            <button type="button" onclick="window.toggleSembunyikanSaldo()" class="w-7 h-7 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all outline-none">
               <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-xs"></i>
             </button>
           </div>
-          <div class="flex items-baseline gap-2">
-            <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
-          </div>
         </div>
 
-        <!-- CLEAN FLAT BENTO BOX GRID CARD -->
-        <div class="grid grid-cols-2 gap-3 relative z-10 mb-6">
+        <!-- KAPSUL PEMASUKAN & PENGELUARAN (BENTO LAYERING) -->
+        <div class="grid grid-cols-2 gap-3 relative z-10 mb-5">
           <!-- SEKTOR PEMASUKAN POD -->
           <div class="bg-white/[0.04] backdrop-blur-md rounded-2xl p-3 flex items-center gap-3">
             <div class="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 flex-shrink-0">
@@ -423,55 +422,15 @@
         <input type="hidden" id="txtWalletDigitalHidden" value="Rp 0">
         <input type="hidden" id="txtWalletTabunganHidden" value="Rp 0">
 
-        <!-- 🔥 BARU: LAYOUT PREMIUM BANKING DECK (SESUAI ALUR image_95235d.png) -->
+        <!-- 🔥 NEW MODERN DECK LAYOUT (SALDO DOMPET SEKARANG DI ATAS TOMBOL KONTROL) -->
         <div id="walletListContainer" class="w-full flex flex-col z-10 relative">
           
-          <!-- Bagian Judul Section -->
           <div class="flex justify-between items-center mb-2 px-0.5">
-            <h3 class="text-[13px] font-extrabold tracking-wide text-white/70 uppercase">Penyimpanan / Dompet</h3>
+            <h3 class="text-[10px] font-black tracking-widest text-white/40 uppercase">Penyimpanan / Dompet</h3>
           </div>
 
-          <!-- Baris Navigasi Tombol Utama (Di Atas Saldo Dompet - Sesuai image_95235d.png) -->
-          <div class="grid grid-cols-4 gap-0.5 border-b border-white/10 pb-1.5 mb-3.5">
-            <!-- Tombol Tunai -->
-            <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
-              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
-                <i class="fa-solid fa-wallet"></i>
-              </div>
-              <span class="text-[10px] font-bold tracking-wide">Tunai</span>
-              <div id="indicatorTunai" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-emerald-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
-            </button>
-
-            <!-- Tombol Bank -->
-            <button type="button" id="tabIconBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
-              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
-                <i class="fa-solid fa-building-columns"></i>
-              </div>
-              <span class="text-[10px] font-bold tracking-wide">Bank</span>
-              <div id="indicatorBank" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-blue-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
-            </button>
-
-            <!-- Tombol Digital -->
-            <button type="button" id="tabIconDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
-              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
-                <i class="fa-solid fa-mobile-screen"></i>
-              </div>
-              <span class="text-[10px] font-bold tracking-wide">Digital</span>
-              <div id="indicatorDigital" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-purple-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
-            </button>
-
-            <!-- Tombol Tabungan -->
-            <button type="button" id="tabIconTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40">
-              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
-                <i class="fa-solid fa-piggy-bank"></i>
-              </div>
-              <span class="text-[10px] font-bold tracking-wide">Tabungan</span>
-              <div id="indicatorTabungan" class="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-amber-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
-            </button>
-          </div>
-
-          <!-- Wadah Kartu Tampilan Saldo Aktif Sesuai Tombol Terpilih -->
-          <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px]">
+          <!-- 💳 1. Wadah Tampilan Kartu Saldo Terpilih (Dekat dengan Pemasukan/Pengeluaran) -->
+          <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px] mb-3">
             <div id="cardMeshOverlay" class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent transition-all duration-500 pointer-events-none"></div>
             
             <div class="flex flex-col min-w-0 z-10">
@@ -483,6 +442,45 @@
               <span id="displayWalletPercentage" class="text-[10px] font-black text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg">0%</span>
               <span class="text-[8px] text-white/30 font-bold uppercase tracking-wider mt-1">Porsi</span>
             </div>
+          </div>
+
+          <!-- 🕹️ 2. Baris Navigasi Tombol Switcher (Pindah ke BAWAH Kartu Saldo - GOPAY Style) -->
+          <div class="grid grid-cols-4 gap-0.5 border-t border-white/10 pt-2">
+            <!-- Tombol Tunai -->
+            <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
+                <i class="fa-solid fa-wallet"></i>
+              </div>
+              <span class="text-[10px] font-bold tracking-wide">Tunai</span>
+              <div id="indicatorTunai" class="absolute top-0 left-1/4 right-1/4 h-[2px] bg-emerald-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+
+            <!-- Tombol Bank -->
+            <button type="button" id="tabIconBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
+                <i class="fa-solid fa-building-columns"></i>
+              </div>
+              <span class="text-[10px] font-bold tracking-wide">Bank</span>
+              <div id="indicatorBank" class="absolute top-0 left-1/4 right-1/4 h-[2px] bg-blue-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+
+            <!-- Tombol Digital -->
+            <button type="button" id="tabIconDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
+                <i class="fa-solid fa-mobile-screen"></i>
+              </div>
+              <span class="text-[10px] font-bold tracking-wide">Digital</span>
+              <div id="indicatorDigital" class="absolute top-0 left-1/4 right-1/4 h-[2px] bg-purple-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
+
+            <!-- Tombol Tabungan -->
+            <button type="button" id="tabIconTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40">
+              <div class="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center mb-1 text-xs">
+                <i class="fa-solid fa-piggy-bank"></i>
+              </div>
+              <span class="text-[10px] font-bold tracking-wide">Tabungan</span>
+              <div id="indicatorTabungan" class="absolute top-0 left-1/4 right-1/4 h-[2px] bg-amber-400 rounded-full transition-all" style="opacity:0; transform:scaleX(0.5);"></div>
+            </button>
           </div>
 
         </div>
@@ -524,7 +522,7 @@
               </div>
             </div>
 
-            <!-- SELEKTOR PILIHAN MULTI DOMPET (GRID 4 UNTUK TABUNGAN) -->
+            <!-- SELEKTOR PILIHAN MULTI DOMPET -->
             <div class="mb-4">
               <label class="block text-[10px] font-bold text-slate-400 mb-2 tracking-wider uppercase">Penyimpanan / Dompet</label>
               <div class="w-full p-1 bg-slate-200/60 dark:bg-slate-800 rounded-2xl grid grid-cols-4 gap-1">
@@ -761,7 +759,7 @@
         noTransModal: "Tidak ada transaksi di periode ini.", belomAdaData: "Belum ada data transaksi kas tercatat.",
         bulanIni: "Bulan Ini", semuaPeriode: "Semua Periode", txtTotalTransaksi: "Transaksi", actionTitle: "Kelola Transaksi",
         btnEdit: "Edit Data", btnHapus: "Hapus", btnBatal: "Batal", editTitle: "Edit Data Keuangan", inputKetBaru: "Keterangan Baru",
-        inputNomBaru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
+        inputNom Baru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
         swalStatusUpdate: "Memperbarui...", swalStatusSuccess: "Diubah!", swalConfirmHapus: "Hapus Transaksi?",
         swalDetailHapus: "Data akan hilang permanen.", swalStatusHapus: "Menghapus...", swalSuccessHapus: "Terhapus!",
         swalConfirmReset: "Reset Semua Data?", swalDetailReset: "Tindakan ini menghapus permanen data.", swalStatusReset: "Cleaning...",
@@ -803,7 +801,7 @@
     let instanceFlatpickr = null;
     let trenBulananRawGlobal = {}; 
 
-    // GLOBAL PRIVACY MODE STATE ENGINES
+    // GLOBAL PRIVACY APP DATA RE-STORES
     window.statusSaldoTersembunyi = false;
     window.rawTotalSaldo = "Rp 0";
     window.rawPemasukan = "Rp 0";
@@ -883,9 +881,6 @@
 
       const switcherBtn = document.getElementById('txtLangLabel');
       if (switcherBtn) switcherBtn.innerText = currentLang.toUpperCase();
-      
-      const label = document.getElementById('txtToggleSaldoLabel');
-      if(label) label.innerText = window.statusSaldoTersembunyi ? (currentLang === 'id' ? "Tampilkan" : "Show") : (currentLang === 'id' ? "Sembunyikan" : "Hide");
     };
 
     window.bukaBottomSheetBahasa = function() {
@@ -970,7 +965,7 @@
       }
     }
 
-    /* ⚡ RE-RENDERING DECK DAN DISPLAY SALDO DOMPET BERDASARKAN FILTER TAB */
+    /* ⚡ RENDERING PRE-BUILT INTERACTIVE DECK (CONTROLS AT BOTTOM FLOW) */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       
@@ -1003,7 +998,7 @@
       const meshOverlay = document.getElementById('cardMeshOverlay');
 
       [tabTunai, tabBank, tabDigital, tabTabungan].forEach(t => {
-        if(t) t.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-white/40";
+        if(t) t.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40";
       });
       [indTunai, indBank, indDigital, indTabungan].forEach(i => {
         if(i) { i.style.opacity = "0"; i.style.transform = "scaleX(0.5)"; }
@@ -1015,28 +1010,28 @@
       let walletLabelString = "";
 
       if (dompetTerpilih === '💳 Kantong Tunai') {
-        if(tabTunai) tabTunai.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-emerald-400 font-extrabold";
+        if(tabTunai) tabTunai.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-emerald-400 font-extrabold";
         if(indTunai) { indTunai.style.opacity = "1"; indTunai.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletTunaiHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "💵 Kantong Tunai" : "💵 Cash Wallet";
         badgeColorClass = "text-emerald-400 bg-emerald-500/10";
         activeMeshStyle = "linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent)";
       } else if (dompetTerpilih === '🏦 Rekening Bank') {
-        if(tabBank) tabBank.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-blue-400 font-extrabold";
+        if(tabBank) tabBank.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-blue-400 font-extrabold";
         if(indBank) { indBank.style.opacity = "1"; indBank.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletBankHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "🏦 Rekening Bank" : "🏦 Bank Account";
         badgeColorClass = "text-blue-400 bg-blue-500/10";
         activeMeshStyle = "linear-gradient(to right, rgba(59, 130, 246, 0.15), transparent)";
       } else if (dompetTerpilih === '📱 Dompet Digital') {
-        if(tabDigital) tabDigital.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-purple-400 font-extrabold";
+        if(tabDigital) tabDigital.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-purple-400 font-extrabold";
         if(indDigital) { indDigital.style.opacity = "1"; indDigital.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletDigitalHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "📱 Dompet Digital" : "📱 E-Wallet";
         badgeColorClass = "text-purple-400 bg-purple-500/10";
         activeMeshStyle = "linear-gradient(to right, rgba(168, 85, 247, 0.15), transparent)";
       } else if (dompetTerpilih === '💰 Dompet Tabungan') {
-        if(tabTabungan) tabTabungan.className = "flex flex-col items-center justify-center py-2 relative transition-all duration-300 text-amber-400 font-extrabold";
+        if(tabTabungan) tabTabungan.className = "flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-amber-400 font-extrabold";
         if(indTabungan) { indTabungan.style.opacity = "1"; indTabungan.style.transform = "scaleX(1)"; }
         currentRawWalletText = document.getElementById('txtWalletTabunganHidden').value || "Rp 0";
         walletLabelString = currentLang === 'id' ? "💰 Dompet Tabungan" : "💰 Savings Account";
@@ -1047,7 +1042,7 @@
       if(dispName) dispName.innerText = walletLabelString;
       if(meshOverlay) meshOverlay.style.backgroundImage = activeMeshStyle;
       
-      // SENSOR KEAMANAN KARTU DOMPET AKTIF
+      // SENSOR KEAMANAN KARTU DOMPET DENGAN GLOBAL PRIVACY SWITCH
       if(dispBalance) {
         dispBalance.innerText = window.statusSaldoTersembunyi ? "Rp •••••" : (currentRawWalletText || "Rp 0");
       }
@@ -1072,13 +1067,11 @@
       }
     };
 
-    /* ⚡ ENGINE UTAMA SAKELAR GLOBAL PRIVACY MODE (SEMBUNYIKAN SEMUA NOMINAL) */
+    /* ⚡ SAKELAR GLOBAL PRIVACY MODE (MENYENSOR SELURUH ANGKA DI LAYAR) */
     window.toggleSembunyikanSaldo = function() {
       window.statusSaldoTersembunyi = !window.statusSaldoTersembunyi;
       
-      const label = document.getElementById('txtToggleSaldoLabel');
       const icon = document.getElementById('iconToggleSaldo');
-      if(label) label.innerText = window.statusSaldoTersembunyi ? (currentLang === 'id' ? "Tampilkan" : "Show") : (currentLang === 'id' ? "Sembunyikan" : "Hide");
       if(icon) icon.className = window.statusSaldoTersembunyi ? "fa-regular fa-eye" : "fa-regular fa-eye-slash";
       
       window.refreshSemuaNominalUI();
@@ -1278,7 +1271,7 @@
     window.aplikasikanDataKeUI = function(res, biarkanAnimasi = true) {
       if(!res) return;
       
-      // ALOKASI CACHE RAW DANA UNTUK PRIVACY MASKING SENSOR
+      // STORAGE ASLI NOMINAL UNTUK DETEKSI MASKING PRIVACY LOGIC
       window.rawTotalSaldo = res.saldo || "Rp 0";
       window.rawPemasukan = res.pemasukan || "Rp 0";
       window.rawPengeluaran = res.pengeluaran || "Rp 0";
@@ -1750,11 +1743,12 @@
         worksheet.getCell('A3').value = `${translations[currentLang].pdfTglCetak}: ${new Date().toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}`; worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
 
         worksheet.mergeCells('A5:C5'); worksheet.getCell('A5').value = translations[currentLang].excelTitle; worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } }; worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
+        worksheet.mergeCells('A5:C5'); worksheet.getCell('A5').value = translations[currentLang].excelTitle; worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } }; worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
         worksheet.getCell('A5').border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
 
         const isiRingkasan = [ { row: '6', text: translations[currentLang].excelIn, val: sumMasuk, color: '059669' }, { row: '7', text: translations[currentLang].excelOut, val: sumKeluar, color: 'B91C1C' }, { row: '8', text: translations[currentLang].excelNet, val: sumSaldoBersih, color: sumSaldoBersih >= 0 ? '059669' : 'B91C1C' } ];
         isiRingkasan.forEach(item => {
-          worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.getCell(`A${item.row}`).value = item.text; worksheet.getCell(`C${item.row}`).value = item.val; worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: item.row === '8' };
+          worksheet.mergeCells(`A${item.row}:B${item.row}`); worksheet.getCell(`A${item.row}`).value = item.text; worksheet.getCell(`C${item.row}`).value = item.val; worksheet.getCell(`A${item.row}`).font = { name: 'Segoe UI', bold: item.row === '8' };
           [`A${item.row}`, `B${item.row}`, `C${item.row}`].forEach(ref => { worksheet.getCell(ref).border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } }; });
           const valCell = worksheet.getCell(`C${item.row}`); valCell.numFormat = '"Rp"#,##0'; valCell.alignment = { horizontal: 'right' }; valCell.font = { name: 'Segoe UI', bold: true, color: { argb: 'CBD5E1' } };
         });
@@ -1775,7 +1769,7 @@
           dRow.getCell(1).value = indeks + 1; dRow.getCell(2).value = formatTanggalFormal(item.tanggal); dRow.getCell(3).value = item.keterangan || "-"; dRow.getCell(4).value = bersihkanIkonEmoji(katTerjemahan); dRow.getCell(5).value = item.dompet ? bersihkanIkonEmoji(item.dompet) : "Tunai"; dRow.getCell(6).value = parseInt(item.nominal) || 0;
 
           for (let col = 1; col <= 6; col++) {
-            const cell = dRow.getCell(col); cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } }; cell.font = { name: 'Segoe UI', size: 10 }; cell.border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
+            const cell = dRow.getCell(col); cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } }; cell.font = { name: 'Segoe UI', size: 10 }; cell.border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } };
             if (col === 1) cell.alignment = { horizontal: 'center' };
             if (col === 5) cell.alignment = { horizontal: 'center' };
             if (col === 6) { cell.alignment = { horizontal: 'right' }; cell.numFormat = '"Rp"#,##0'; cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } }; }
