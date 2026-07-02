@@ -37,13 +37,14 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ANTI LAYOUT SHIFT */
+    /* OPTIMASI ANTI-FREEZE TOUCH MOBILE SCROLLING */
     @media (max-width: 767px) {
       html, body {
-        position: fixed !important;
         overflow: hidden !important;
         width: 100% !important;
         height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
       }
     }
 
@@ -378,14 +379,14 @@
           <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
         </div>
 
-        <!-- TOTAL SALDO HERO UNIT (⚡ IKON MATA MINIMALIS DI SAMPING NOMINAL UTAMA) -->
+        <!-- TOTAL SALDO HERO UNIT (IKON MATA MINIMALIS DI SAMPING NOMINAL UTAMA) -->
         <div class="flex flex-col mt-1.5 mb-4 relative z-10">
           <div class="flex justify-between items-center mb-0.5">
             <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
           </div>
           <div class="flex items-center gap-3">
             <h2 id="txtSaldo" class="text-3xl font-bold tracking-tight text-white">Rp 0</h2>
-            <!-- 👁️ MASTER PRIVACY SWITCH BUTTON (ICON ONLY - SUPER CLEAN) -->
+            <!-- MASTER PRIVACY SWITCH BUTTON (ICON ONLY - SUPER CLEAN) -->
             <button type="button" onclick="window.toggleSembunyikanSaldo()" class="w-7 h-7 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg flex items-center justify-center text-white/40 hover:text-white transition-all outline-none">
               <i id="iconToggleSaldo" class="fa-regular fa-eye-slash text-xs"></i>
             </button>
@@ -422,14 +423,14 @@
         <input type="hidden" id="txtWalletDigitalHidden" value="Rp 0">
         <input type="hidden" id="txtWalletTabunganHidden" value="Rp 0">
 
-        <!-- 🔥 NEW MODERN DECK LAYOUT (SALDO DOMPET SEKARANG DI ATAS TOMBOL KONTROL) -->
+        <!-- MODERN DECK LAYOUT (SALDO DOMPET DI ATAS TOMBOL KONTROL) -->
         <div id="walletListContainer" class="w-full flex flex-col z-10 relative">
           
           <div class="flex justify-between items-center mb-2 px-0.5">
             <h3 class="text-[10px] font-black tracking-widest text-white/40 uppercase">Penyimpanan / Dompet</h3>
           </div>
 
-          <!-- 💳 1. Wadah Tampilan Kartu Saldo Terpilih (Dekat dengan Pemasukan/Pengeluaran) -->
+          <!-- 1. Wadah Tampilan Kartu Saldo Terpilih (Dekat dengan Pemasukan/Pengeluaran) -->
           <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px] mb-3">
             <div id="cardMeshOverlay" class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent transition-all duration-500 pointer-events-none"></div>
             
@@ -444,7 +445,7 @@
             </div>
           </div>
 
-          <!-- 🕹️ 2. Baris Navigasi Tombol Switcher (Pindah ke BAWAH Kartu Saldo - GOPAY Style) -->
+          <!-- 2. Baris Navigasi Tombol Switcher (Pindah ke BAWAH Kartu Saldo - GOPAY Style) -->
           <div class="grid grid-cols-4 gap-0.5 border-t border-white/10 pt-2">
             <!-- Tombol Tunai -->
             <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40">
@@ -759,7 +760,7 @@
         noTransModal: "Tidak ada transaksi di periode ini.", belomAdaData: "Belum ada data transaksi kas tercatat.",
         bulanIni: "Bulan Ini", semuaPeriode: "Semua Periode", txtTotalTransaksi: "Transaksi", actionTitle: "Kelola Transaksi",
         btnEdit: "Edit Data", btnHapus: "Hapus", btnBatal: "Batal", editTitle: "Edit Data Keuangan", inputKetBaru: "Keterangan Baru",
-        inputNom Baru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
+        inputNomBaru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
         swalStatusUpdate: "Memperbarui...", swalStatusSuccess: "Diubah!", swalConfirmHapus: "Hapus Transaksi?",
         swalDetailHapus: "Data akan hilang permanen.", swalStatusHapus: "Menghapus...", swalSuccessHapus: "Terhapus!",
         swalConfirmReset: "Reset Semua Data?", swalDetailReset: "Tindakan ini menghapus permanen data.", swalStatusReset: "Cleaning...",
@@ -965,7 +966,7 @@
       }
     }
 
-    /* ⚡ RENDERING PRE-BUILT INTERACTIVE DECK (CONTROLS AT BOTTOM FLOW) */
+    /* RENDERING PRE-BUILT INTERACTIVE DECK */
     window.pilihDompetTab = function(dompetTerpilih) {
       document.getElementById('dompet').value = dompetTerpilih;
       
@@ -1067,13 +1068,11 @@
       }
     };
 
-    /* ⚡ SAKELAR GLOBAL PRIVACY MODE (MENYENSOR SELURUH ANGKA DI LAYAR) */
+    /* SAKELAR GLOBAL PRIVACY MODE */
     window.toggleSembunyikanSaldo = function() {
       window.statusSaldoTersembunyi = !window.statusSaldoTersembunyi;
-      
       const icon = document.getElementById('iconToggleSaldo');
       if(icon) icon.className = window.statusSaldoTersembunyi ? "fa-regular fa-eye" : "fa-regular fa-eye-slash";
-      
       window.refreshSemuaNominalUI();
     };
 
@@ -1095,7 +1094,6 @@
         if(chartCenterTotal) chartCenterTotal.innerText = window.rawChartTotal || "Rp 0";
       }
 
-      // Re-Sync Deck dan List Transaksi
       window.pilihDompetTab(document.getElementById('dompet').value || '💳 Kantong Tunai');
       window.renderHalamanRiwayatUtama();
       window.renderListModalSesuaiBulan();
@@ -1225,7 +1223,7 @@
         const idxTarget = dapatkanIndeksKategori(kat, jenis); const idxAktif = dapatkanIndeksKategori(kategoriSaatIni, jenis); const isSelected = idxTarget === idxAktif && idxTarget !== -1;
         htmlPilihanKategori += `
           <button type="button" onclick="window.setKategoriDariBottomSheet('${kat}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${kat}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-4 h-4 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1271,7 +1269,6 @@
     window.aplikasikanDataKeUI = function(res, biarkanAnimasi = true) {
       if(!res) return;
       
-      // STORAGE ASLI NOMINAL UNTUK DETEKSI MASKING PRIVACY LOGIC
       window.rawTotalSaldo = res.saldo || "Rp 0";
       window.rawPemasukan = res.pemasukan || "Rp 0";
       window.rawPengeluaran = res.pengeluaran || "Rp 0";
@@ -1330,8 +1327,6 @@
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : ""; const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item); const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis); const listKey = isMasuk ? "pemasukan" : "pengeluaran";
           const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General"; const kategoriVisual = (idxKat !== -1) ? kategoriTranslations[currentLang][listKey][idxKat] : (item.kategori || fallbackKategoriText);
-          
-          // MASKING TRANSAKSI DI HALAMAN DEPAN
           const teksNominalTampil = window.statusSaldoTersembunyi ? "Rp •••••" : `${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}`;
           
           susunanHTMLItemRingkas += `
@@ -1523,7 +1518,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeHalamanUtamaDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1547,7 +1542,7 @@
         const val = select.options[i].value; const txt = select.options[i].text; const isSelected = val === nilaiSekarang;
         listHTML += `
           <button onclick="window.setPeriodeModalDariList('${val}', '${txt}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
-            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
+            isSelected ? 'bg-emerald-50 dark:bg-emerald-500/20 border-emerald-300 dark:border-emerald-500 text-emerald-800 dark:text-emerald-300 font-bold' : 'bg-white dark:bg-slate-800/60 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-medium active:bg-slate-50 dark:active:bg-slate-700'
           }">
             <span class="text-sm">${txt}</span>
             ${isSelected ? '<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i>' : '<div class="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white dark:bg-slate-800 dark:border-slate-700"></div>'}
@@ -1582,8 +1577,6 @@
           const itemJenisClean = item.jenis ? item.jenis.toString().trim().toLowerCase() : ""; const isMasuk = itemJenisClean === "pemasukan" || itemJenisClean === "income";
           const indexAsli = databaseRiwayatRaw.findIndex(x => x === item); const idxKat = dapatkanIndeksKategori(item.kategori, item.jenis); const fallbackKategoriText = currentLang === 'id' ? "Umum" : "General";
           const kategoriVisualModal = (idxKat !== -1) ? kategoriTranslations[currentLang][isMasuk ? "pemasukan" : "pengeluaran"][idxKat] : (item.kategori || fallbackKategoriText);
-          
-          // MASKING TRANSAKSI DI DALAM MODAL LENGKAP
           const teksNominalTampilModal = window.statusSaldoTersembunyi ? "Rp •••••" : `${isMasuk ? '+' : '-'} Rp ${parseInt(item.nominal || 0).toLocaleString('id-ID')}`;
           
           susunanHTMLItemModal += `
@@ -1743,7 +1736,6 @@
         worksheet.getCell('A3').value = `${translations[currentLang].pdfTglCetak}: ${new Date().toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}`; worksheet.getCell('A3').font = { name: 'Segoe UI', size: 10, color: { argb: '64748B' } };
 
         worksheet.mergeCells('A5:C5'); worksheet.getCell('A5').value = translations[currentLang].excelTitle; worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } }; worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
-        worksheet.mergeCells('A5:C5'); worksheet.getCell('A5').value = translations[currentLang].excelTitle; worksheet.getCell('A5').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'E2E8F0' } }; worksheet.getCell('A5').font = { name: 'Segoe UI', size: 11, bold: true, color: { argb: '1E293B' } };
         worksheet.getCell('A5').border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
 
         const isiRingkasan = [ { row: '6', text: translations[currentLang].excelIn, val: sumMasuk, color: '059669' }, { row: '7', text: translations[currentLang].excelOut, val: sumKeluar, color: 'B91C1C' }, { row: '8', text: translations[currentLang].excelNet, val: sumSaldoBersih, color: sumSaldoBersih >= 0 ? '059669' : 'B91C1C' } ];
@@ -1769,7 +1761,7 @@
           dRow.getCell(1).value = indeks + 1; dRow.getCell(2).value = formatTanggalFormal(item.tanggal); dRow.getCell(3).value = item.keterangan || "-"; dRow.getCell(4).value = bersihkanIkonEmoji(katTerjemahan); dRow.getCell(5).value = item.dompet ? bersihkanIkonEmoji(item.dompet) : "Tunai"; dRow.getCell(6).value = parseInt(item.nominal) || 0;
 
           for (let col = 1; col <= 6; col++) {
-            const cell = dRow.getCell(col); cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } }; cell.font = { name: 'Segoe UI', size: 10 }; cell.border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } };
+            const cell = dRow.getCell(col); cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: bgRowColor } }; cell.font = { name: 'Segoe UI', size: 10 }; cell.border = { top: { style: 'thin', color: { argb: 'CBD5E1' } }, left: { style: 'thin', color: { argb: 'CBD5E1' } }, bottom: { style: 'thin', color: { argb: 'CBD5E1' } }, right: { style: 'thin', color: { argb: 'CBD5E1' } } };
             if (col === 1) cell.alignment = { horizontal: 'center' };
             if (col === 5) cell.alignment = { horizontal: 'center' };
             if (col === 6) { cell.alignment = { horizontal: 'right' }; cell.numFormat = '"Rp"#,##0'; cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: finColor } }; }
