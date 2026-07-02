@@ -373,11 +373,16 @@
           </button>
         </div>
 
-        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL MEMANGGIL 1000183915.png) -->
+        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL DENGAN FALLBACK FAILSAFE) -->
         <div class="flex items-center gap-3 mb-3.5 relative z-10 select-none">
-          <!-- Frame Logo Mulus -->
+          <!-- Frame Logo Premium -->
           <div class="w-11 h-11 flex items-center justify-center flex-shrink-0 bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden shadow-sm border border-white/20">
-            <img src="1000183915.png" alt="Logo MyKas" class="w-full h-full object-cover">
+            <!-- Jika gambar corrupt/error, otomatis panggil fungsi onerror untuk sembunyikan img dan tampilin ikon wallet -->
+            <img src="1000183915.png" alt="Logo MyKas" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover">
+            <!-- Ikon cadangan premium -->
+            <div class="w-full h-full hidden items-center justify-center bg-emerald-500/20">
+              <i class="fa-solid fa-wallet text-emerald-400 text-lg"></i>
+            </div>
           </div>
           <!-- Teks Rata Kanan -->
           <div class="flex flex-col justify-center">
