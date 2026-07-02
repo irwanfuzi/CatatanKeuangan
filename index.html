@@ -373,35 +373,30 @@
           </button>
         </div>
 
-        <!-- ✨ PREMIUM PURE CSS LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL) -->
+        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS (RATA HORIZONTAL DENGAN RE-SYNC KE 1000183915_2.png) -->
         <div class="flex items-center gap-3 mb-3.5 relative z-10 select-none">
-          <!-- Frame Base Hijau Premium -->
-          <div class="w-11 h-11 relative flex items-center justify-center flex-shrink-0 bg-[#0e3a2f] rounded-xl overflow-hidden shadow-md border border-emerald-500/20">
+          <!-- Frame Logo Premium -->
+          <div class="w-11 h-11 flex items-center justify-center flex-shrink-0 bg-transparent rounded-xl overflow-hidden border border-white/10 shadow-sm">
+            <!-- Langsung memanggil file 1000183915_2.png -->
+            <img src="1000183915_2.png" alt="Logo MyKas" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="w-full h-full object-cover">
             
-            <!-- Elemen 1: Dua Garis Horizontal Background (Atas & Bawah) -->
-            <div class="absolute top-[28%] left-0 w-full h-[3px] bg-emerald-400/20"></div>
-            <div class="absolute bottom-[28%] left-0 w-full h-[3px] bg-emerald-400/20"></div>
-            
-            <!-- Elemen 2: Dua Uang Koin Emas FinTech (Saling Menumpuk Sempurna) -->
-            <!-- Koin 1 (Belakang/Kiri Atas) -->
-            <div class="absolute top-[26%] left-[24%] w-[18px] h-[18px] rounded-full bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500 border border-amber-200 shadow-sm flex items-center justify-center z-10 transform -rotate-12">
-              <!-- Detail Garis Lingkar Dalam Koin -->
-              <div class="w-[12px] h-[12px] rounded-full border border-amber-600/30 flex items-center justify-center">
-                <span class="text-[8px] font-black text-amber-800/60 leading-none">$</span>
-              </div>
+            <!-- FALLBACK FAILSAFE SVG (Mengkloning visual 1000183915_2.png jika gambar gagal load) -->
+            <div class="w-full h-full hidden items-center justify-center bg-[#07624c]">
+              <svg viewBox="0 0 100 100" class="w-7 h-7 text-white fill-none stroke-current" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round">
+                <!-- 2 Koin di atas -->
+                <circle cx="48" cy="30" r="14" stroke-width="5" />
+                <circle cx="66" cy="24" r="14" stroke-width="5" />
+                <!-- Kerangka Dompet -->
+                <path d="M22 40 h54 a6 6 0 0 1 6 6 v32 a6 6 0 0 1 -6 6 h-54 a6 6 0 0 1 -6 -6 v-32 a6 6 0 0 1 6 -6 z" />
+                <!-- Pengunci Dompet -->
+                <path d="M74 52 h10 a4 4 0 0 1 4 4 v8 a4 4 0 0 1 -4 4 h-10 z" />
+                <circle cx="80" cy="60" r="2" fill="currentColor" />
+                <!-- Tren Garis Grafik Naik Zig-zag -->
+                <path d="M20 68 l18 -18 l14 12 l26 -28" stroke-width="6" />
+              </svg>
             </div>
-
-            <!-- Koin 2 (Depan/Kanan Bawah - Menumpuk) -->
-            <div class="absolute bottom-[22%] right-[22%] w-[20px] h-[20px] rounded-full bg-gradient-to-br from-yellow-300 via-amber-400 to-yellow-500 border border-yellow-200 shadow-md flex items-center justify-center z-20 transform rotate-12">
-              <!-- Detail Garis Lingkar Dalam Koin -->
-              <div class="w-[14px] h-[14px] rounded-full border border-yellow-600/40 flex items-center justify-center">
-                <span class="text-[9px] font-black text-amber-900/70 leading-none">Rp</span>
-              </div>
-            </div>
-
           </div>
-          
-          <!-- Teks Rata Kanan (Dijejerin Sempurna Semisalnya) -->
+          <!-- Teks Rata Kanan -->
           <div class="flex flex-col justify-center">
             <span class="text-xl font-extrabold tracking-tight text-white font-urbanist leading-none">MyKas</span>
           </div>
@@ -916,7 +911,7 @@
         { kode: 'id', nama: 'Bahasa Indonesia', bendera: 'https://flagcdn.com/24x18/id.png' },
         { kode: 'en', nama: 'English', bendera: 'https://flagcdn.com/24x18/gb.png' }
       ];
-      opsocBahasa = opsiBahasa.forEach(lang => {
+      opsiBahasa.forEach(lang => {
         const isSelected = currentLang === lang.kode;
         htmlListBahasa += `
           <button type="button" onclick="window.pilihBahasaDariSheet('${lang.kode}')" class="w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${
@@ -1123,7 +1118,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
+      if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jsPDF; }
       const statusModeGelapSimpanan = localStorage.getItem('app_dark_mode');
       if (statusModeGelapSimpanan === 'enabled') { document.body.classList.add('dark'); window.updateIconVisualModeGelap(true); }
       const savedLang = localStorage.getItem('app_lang_choice');
@@ -1321,7 +1316,7 @@
       
       window.refreshSemuaNominalUI();
       window.prosesFilterKategoriBulanUtama(biarkanAnimasi);
-      window.renderGrafikTrenBulanan(trenBulananRawGlobal, biarkanAnimasi);
+      window.renderGrafikTrenBulanan(trenBulananRawGlobal, true);
     };
 
     window.loadSummary = function() {
