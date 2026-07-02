@@ -373,14 +373,19 @@
           </button>
         </div>
 
-        <!-- APP BRANDING SUBTITLE -->
-        <div class="flex items-center gap-1.5 mb-1 opacity-70 relative z-10">
-          <span class="w-1 h-3 bg-emerald-400 rounded-full"></span>
-          <h1 class="text-[11px] font-extrabold tracking-widest uppercase text-emerald-300" data-i18n="halo">Halo, Pengguna!</h1>
+        <!-- ✨ PREMIUM LOGO & IDENTITY DECK MYKAS -->
+        <div class="flex items-center gap-2 mb-1.5 relative z-10">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white shadow-sm shadow-emerald-950/40">
+            <i class="fa-solid fa-money-check-dollar text-[13px]"></i>
+          </div>
+          <div class="flex flex-col justify-center">
+            <span class="text-xs font-black tracking-wider text-emerald-400 leading-none mb-0.5">MyKas</span>
+            <h1 class="text-[9px] font-bold tracking-widest uppercase text-white/50 leading-none" data-i18n="halo">Halo, Pengguna!</h1>
+          </div>
         </div>
 
-        <!-- TOTAL SALDO HERO UNIT (⚡ MODERN LUXURY MASKING BUTTON DI SAMPING ANGKA) -->
-        <div class="flex flex-col mt-1.5 mb-4 relative z-10">
+        <!-- TOTAL SALDO HERO UNIT -->
+        <div class="flex flex-col mt-2.5 mb-4 relative z-10">
           <div class="flex justify-between items-center mb-0.5">
             <p class="text-[10px] opacity-40 font-bold tracking-wider uppercase" data-i18n="totalSaldo">Total Saldo Kamu</p>
           </div>
@@ -431,7 +436,7 @@
             <h3 class="text-[10px] font-black tracking-widest text-white/40 uppercase">Penyimpanan / Dompet</h3>
           </div>
 
-          <!-- 1. Wadah Tampilan Kartu Saldo Terpilih (Dekat dengan Pemasukan/Pengeluaran) -->
+          <!-- 1. Wadah Tampilan Kartu Saldo Terpilih -->
           <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 flex items-center justify-between relative overflow-hidden shadow-md min-h-[72px] mb-3">
             <div id="cardMeshOverlay" class="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent transition-all duration-500 pointer-events-none"></div>
             
@@ -446,7 +451,7 @@
             </div>
           </div>
 
-          <!-- 2. Baris Navigasi Tombol Switcher (Pindah ke BAWAH Kartu Saldo - GOPAY Style) -->
+          <!-- 2. Baris Navigasi Tombol Switcher -->
           <div class="grid grid-cols-4 gap-0.5 border-t border-white/10 pt-2">
             <!-- Tombol Tunai -->
             <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-white/40">
@@ -969,7 +974,7 @@
 
     /* RENDERING PRE-BUILT INTERACTIVE DECK */
     window.pilihDompetTab = function(dompetTerpilih) {
-      document.getElementById('dompet').value = dompetTerpilih;
+      document.getElementById('dompet').value = dompetTerpourd;
       
       const btnTunai = document.getElementById('btnDompetTunai');
       const btnBank = document.getElementById('btnDompetBank');
