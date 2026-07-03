@@ -294,35 +294,12 @@
           </button>
         </div>
 
-        <!-- ✨ LOGO BARU DAN NAMA SEJAJAR KIRI ATAS (100% IDENTIK DENGAN icon-512.svg) -->
+        <!-- ✨ LOGO DAN NAMA SEJAJAR (LANGSUNG MEMANGGIL FILE ASLI icon-512 (1).svg) -->
         <div class="flex items-center gap-3 mb-6 select-none pl-1">
           <div class="w-10 h-10 flex items-center justify-center">
-            <!-- ENGINE LOGO DIBAANGUN ULANG SESUAI ASSET ASLI -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-full h-full fill-none stroke-white" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Koin Belakang -->
-              <circle cx="286" cy="144" r="54" stroke-width="24" />
-              <path d="M260 184 A 54 54 0 0 1 326 112" stroke-width="24" />
-
-              <!-- Koin Depan -->
-              <circle cx="206" cy="174" r="54" stroke-width="24" fill="#07624c" />
-              <circle cx="206" cy="174" r="22" stroke-width="24" />
-
-              <!-- Badan Dompet Model Rounded & Open-Flap -->
-              <path d="M166 214 H 390 C 420 214, 434 228, 434 258 V 390 C 434 420, 420 434, 390 434 H 122 C 92 434, 78 420, 78 390 V 270" stroke-width="28" />
-              
-              <!-- Lipatan Atas Tempat Keluar Koin -->
-              <path d="M78 270 C 78 234, 100 214, 136 214 H 186" stroke-width="28" />
-
-              <!-- Kancing Pengunci Rounded Khas Kanan -->
-              <rect x="374" y="294" width="76" height="60" rx="30" ry="30" fill="none" stroke-width="26" />
-              <circle cx="420" cy="324" r="10" fill="#ffffff" stroke-width="0" />
-
-              <!-- Grafik Tren Menyatu Tanpa Putus -->
-              <path d="M92 414 L 194 306 L 272 366 L 396 226" stroke-width="32" />
-              <path d="M336 226 H 396 V 286" stroke-width="32" />
-            </svg>
+            <!-- Menampilkan file SVG bawaan lu secara utuh tanpa distorsi -->
+            <img src="icon-512 (1).svg" alt="Logo MyKas" class="w-full h-full object-contain">
           </div>
-          <!-- Tipografi MyKas Yang Solid Khas Gambar -->
           <span class="text-2xl font-bold tracking-tight text-white font-urbanist" style="letter-spacing: -0.03em;">MyKas</span>
         </div>
 
