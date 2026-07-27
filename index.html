@@ -646,6 +646,15 @@
   </div>
 
   <script>                                                                                                                                                                                                                                                                                                                                
+    // REGISTRASI SERVICE WORKER PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('MyKas Service Worker terdaftar:', reg.scope))
+          .catch((err) => console.error('Gagal daftar Service Worker:', err));
+      });
+    }
+
     const API_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     
     const kategoriTranslations = {
