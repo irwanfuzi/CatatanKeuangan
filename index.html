@@ -268,6 +268,65 @@
       border-color: #1e293b !important;
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
     }
+
+    /* --- ANIMASI STORYBOARD SPLASH SCREEN --- */
+    @keyframes dotAppear {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes drawOutline {
+      0% { stroke-dashoffset: 400; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes fillGlow {
+      0% { fill-opacity: 0; filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)); }
+      100% { fill-opacity: 1; filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.7)); }
+    }
+    @keyframes shinePulse {
+      0%, 100% { filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.7)); }
+      50% { filter: drop-shadow(0 0 28px rgba(255, 255, 255, 1)); }
+    }
+    @keyframes textFadeUp {
+      0% { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmerMove {
+      0% { background-position: -200% 0; opacity: 0; }
+      20% { opacity: 1; }
+      100% { background-position: 200% 0; opacity: 1; }
+    }
+    .splash-exit {
+      animation: splashFadeOut 130ms forwards ease-in-out;
+    }
+    @keyframes splashFadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; visibility: hidden; }
+    }
+
+    .anim-dot {
+      animation: dotAppear 150ms ease-out forwards;
+    }
+    .anim-outline {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      animation: drawOutline 250ms ease-in-out 150ms forwards;
+    }
+    .anim-glow {
+      fill-opacity: 0;
+      animation: 
+        fillGlow 250ms ease-out 400ms forwards,
+        shinePulse 100ms ease-in-out 650ms forwards;
+    }
+    .anim-text {
+      opacity: 0;
+      animation: textFadeUp 100ms ease-out 750ms forwards;
+    }
+    .anim-shimmer {
+      opacity: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.1) 100%);
+      background-size: 200% 100%;
+      animation: shimmerMove 170ms linear 850ms forwards;
+    }
   </style>
 
   <script>
@@ -285,26 +344,26 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#07624c] flex flex-col items-center justify-center transition-opacity duration-500 ease-out">
-    <div class="flex flex-col items-center gap-4 animate-pulse">
-      <div class="w-20 h-20 flex items-center justify-center">
-        <svg viewBox="0 0 100 100" class="w-full h-full fill-none" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="50" cy="22" r="12" stroke="#ffffff" stroke-width="5"/>
-          <circle cx="50" cy="22" r="4" fill="#ffffff" stroke-width="0"/>
-          <path d="M36 24 A 13 13 0 0 1 58 17" stroke="#ffffff" stroke-width="5"/>
-          <path d="M20 28 H 80 C 85 28, 88 31, 88 36 V 68 C 88 73, 85 76, 80 76 H 20 C 15 76, 12 73, 12 68 V 36 C 12 31, 15 28, 20 28 Z" stroke="#ffffff" stroke-width="5.5"/>
-          <path d="M76 43 H 86 C 89 43, 90 45, 90 48 V 56 C 90 59, 89 61, 86 61 H 76 Z" fill="#ffffff" stroke-width="0"/>
-          <circle cx="83" cy="52" r="2" fill="#044a36" stroke-width="0" />
-          <path d="M22 64 L 34 52 L 46 58 L 66 38" stroke="#ffffff" stroke-width="6"/>
-          <path d="M54 38 H 66 V 50" stroke="#ffffff" stroke-width="6"/>
+  <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#07624c] flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center gap-4">
+      
+      <div class="w-24 h-24 relative flex items-center justify-center">
+        <div class="absolute w-3 h-3 bg-white rounded-full anim-dot"></div>
+
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-none relative z-10 anim-glow stroke-white" stroke-linecap="round" stroke-linejoin="round">
+          <path class="anim-outline" stroke-width="5" d="M20 28 H 80 C 85 28, 88 31, 88 36 V 68 C 88 73, 85 76, 80 76 H 20 C 15 76, 12 73, 12 68 V 36 C 12 31, 15 28, 20 28 Z"/>
+          <path class="anim-outline" stroke-width="5" d="M36 24 A 13 13 0 0 1 58 17"/>
+          <circle class="anim-outline" cx="50" cy="22" r="12" stroke-width="5"/>
+          <path class="anim-outline" stroke-width="6" d="M22 64 L 34 52 L 46 58 L 66 38"/>
+          <path class="anim-outline" stroke-width="6" d="M54 38 H 66 V 50"/>
         </svg>
       </div>
-      <span class="text-3xl font-black tracking-tight text-white font-urbanist">MyKas</span>
+
+      <span class="text-3xl font-black tracking-tight text-white font-urbanist anim-text">MyKas</span>
     </div>
-    
-    <div class="absolute bottom-10 flex flex-col items-center gap-2">
-      <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-      <span class="text-xs text-white/60 font-semibold tracking-wider uppercase">Memuat Keuangan Kamu...</span>
+
+    <div class="absolute bottom-12 w-32 h-1 bg-white/20 rounded-full overflow-hidden">
+      <div class="w-full h-full anim-shimmer rounded-full"></div>
     </div>
   </div>
 
@@ -669,13 +728,13 @@
     Chart.register(ChartDataLabels);
     if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
 
-    // Fungsi Pengatur Splash Screen Sekali Sesi
+    // FUNGSI PENUTUP SPLASH SCREEN (STORYBOARD ANIMATED + SESSION STORAGE)
     window.tutupSplashScreen = function() {
       const splash = document.getElementById('mykasSplashScreen');
-      if (splash) {
-        splash.classList.add('opacity-0', 'pointer-events-none');
+      if (splash && !splash.classList.contains('splash-exit')) {
+        splash.classList.add('splash-exit');
         sessionStorage.setItem('mykas_splash_shown', 'true');
-        setTimeout(() => splash.remove(), 500);
+        setTimeout(() => splash.remove(), 150);
       }
     };
 
@@ -822,9 +881,9 @@
       });
       window.updateKategoriOptions(); window.tukarHalaman(localStorage.getItem('active_tab') || 'home');
 
-      // Backup pengaman splash screen agar otomatis tertutup maksimal dalam 2.5 detik
+      // TEPAT DI 1150ms ANIMASI STORYBOARD SELESAI & HILANG
       if (!sessionStorage.getItem('mykas_splash_shown')) {
-        setTimeout(() => { window.tutupSplashScreen(); }, 2500);
+        setTimeout(() => { window.tutupSplashScreen(); }, 1150);
       }
     });
 
@@ -918,7 +977,7 @@
       }
       window.refreshSemuaNominalUI(); window.prosesFilterKategoriBulanUtama(anim); window.renderGrafikTrenBulanan(trenBulananRawGlobal, anim);
       
-      // Sembunyikan Splash Screen otomatis begitu data berhasil dimuat
+      // Sembunyikan Splash Screen otomatis begitu data dirender
       window.tutupSplashScreen();
     };
 
