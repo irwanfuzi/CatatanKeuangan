@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes">
 
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#07624c">
+  <meta name="theme-color" content="#0b0f19">
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -66,7 +66,7 @@
     }
 
     .bg-mykas-brand-header {
-      background-color: #07624c;
+      background-color: #0b0f19;
     }
 
     /* ENGINE NAVBAR DECK MODERN */
@@ -269,82 +269,67 @@
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
     }
 
-    /* --- ANIMASI PREMIUM STORYBOARD SPLASH SCREEN --- */
-    @keyframes dotAppear {
-      0% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    /* =========================================================================
+       ANIMASI SPLASH SCREEN EXTRA SMOOTH & FLUID
+       ========================================================================= */
+    @keyframes dotPulseGlow {
+      0% { transform: scale(0); opacity: 0; filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)); }
+      50% { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9)); }
+      100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)); }
     }
-    @keyframes drawOutline {
-      0% { stroke-dashoffset: 400; }
-      100% { stroke-dashoffset: 0; }
+    @keyframes drawSvgOutline {
+      0% { stroke-dashoffset: 400; opacity: 0; }
+      10% { opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 1; }
     }
-    @keyframes fillGlow {
+    @keyframes fillLogoGlow {
       0% { fill-opacity: 0; filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)); }
-      100% { fill-opacity: 1; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); }
+      100% { fill-opacity: 1; filter: drop-shadow(0 0 24px rgba(255, 255, 255, 0.85)); }
     }
-    @keyframes shinePulse {
-      0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); }
-      50% { filter: drop-shadow(0 0 32px rgba(255, 255, 255, 1)); }
+    @keyframes textSlideFadeUp {
+      0% { opacity: 0; transform: translateY(18px) scale(0.96); filter: blur(4px); }
+      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
     }
-    @keyframes textFadeUp {
-      0% { opacity: 0; transform: translateY(14px); }
-      100% { opacity: 1; transform: translateY(0); }
+    @keyframes shimmerBarMove {
+      0% { transform: translateX(-100%); opacity: 0; }
+      30% { opacity: 1; }
+      100% { transform: translateX(100%); opacity: 1; }
     }
-    @keyframes shimmerMove {
-      0% { background-position: -200% 0; opacity: 0; }
-      20% { opacity: 1; }
-      100% { background-position: 200% 0; opacity: 1; }
-    }
+    
+    /* Transisi keluar splash screen (Scale + Fade + Blur halus) */
     .splash-exit {
-      animation: splashFadeOut 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation: smoothSplashFadeOut 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
     }
-    @keyframes splashFadeOut {
-      0% { opacity: 1; transform: scale(1); }
-      100% { opacity: 0; transform: scale(1.03); pointer-events: none; visibility: hidden; }
+    @keyframes smoothSplashFadeOut {
+      0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+      100% { opacity: 0; transform: scale(1.05); filter: blur(8px); pointer-events: none; visibility: hidden; }
     }
 
     .anim-dot {
-      animation: dotAppear 150ms ease-out forwards;
+      animation: dotPulseGlow 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .anim-outline {
       stroke-dasharray: 400;
       stroke-dashoffset: 400;
-      animation: drawOutline 300ms ease-in-out 150ms forwards;
+      animation: drawSvgOutline 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms forwards;
     }
     .anim-glow {
       fill-opacity: 0;
-      animation: 
-        fillGlow 300ms ease-out 450ms forwards,
-        shinePulse 150ms ease-in-out 750ms forwards;
+      animation: fillLogoGlow 500ms cubic-bezier(0.16, 1, 0.3, 1) 650ms forwards;
     }
     .anim-text {
       opacity: 0;
-      animation: textFadeUp 150ms ease-out 850ms forwards;
+      animation: textSlideFadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) 750ms forwards;
     }
     .anim-shimmer {
-      opacity: 0;
-      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.1) 100%);
-      background-size: 200% 100%;
-      animation: shimmerMove 300ms linear 950ms forwards;
+      animation: shimmerBarMove 1200ms cubic-bezier(0.4, 0, 0.2, 1) 400ms infinite;
     }
   </style>
-
-  <script>
-    (function() {
-      const isAlreadyShown = sessionStorage.getItem('mykas_splash_shown');
-      if (isAlreadyShown) {
-        document.addEventListener('DOMContentLoaded', () => {
-          const splash = document.getElementById('mykasSplashScreen');
-          if (splash) splash.remove();
-        });
-      }
-    })();
-  </script>
 </head>
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#07624c] flex flex-col items-center justify-center select-none">
+  <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#0b0f19] flex flex-col items-center justify-center select-none backdrop-blur-md">
     <div class="flex flex-col items-center gap-5">
       
       <div class="w-24 h-24 relative flex items-center justify-center">
@@ -362,8 +347,8 @@
       <span class="text-3xl font-black tracking-tight text-white font-urbanist anim-text">MyKas</span>
     </div>
 
-    <div class="absolute bottom-12 w-32 h-1 bg-white/20 rounded-full overflow-hidden">
-      <div class="w-full h-full anim-shimmer rounded-full"></div>
+    <div class="absolute bottom-12 w-36 h-1 bg-white/10 rounded-full overflow-hidden">
+      <div class="w-full h-full bg-gradient-to-r from-transparent via-white to-transparent anim-shimmer rounded-full"></div>
     </div>
   </div>
 
@@ -391,7 +376,7 @@
               <path d="M36 24 A 13 13 0 0 1 58 17" stroke="#ffffff" stroke-width="5"/>
               <path d="M20 28 H 80 C 85 28, 88 31, 88 36 V 68 C 88 73, 85 76, 80 76 H 20 C 15 76, 12 73, 12 68 V 36 C 12 31, 15 28, 20 28 Z" stroke="#ffffff" stroke-width="5.5"/>
               <path d="M76 43 H 86 C 89 43, 90 45, 90 48 V 56 C 90 59, 89 61, 86 61 H 76 Z" fill="#ffffff" stroke-width="0"/>
-              <circle cx="83" cy="52" r="2" fill="#044a36" stroke-width="0" />
+              <circle cx="83" cy="52" r="2" fill="#0b0f19" stroke-width="0" />
               <path d="M22 64 L 34 52 L 46 58 L 66 38" stroke="#ffffff" stroke-width="6"/>
               <path d="M54 38 H 66 V 50" stroke="#ffffff" stroke-width="6"/>
             </svg>
@@ -686,7 +671,7 @@
         noTransModal: "Tidak ada transaksi di periode ini.", belomAdaData: "Belum ada data transaksi kas tercatat.",
         bulanIni: "Bulan Ini", semuaPeriode: "Semua Periode", txtTotalTransaksi: "Transaksi", actionTitle: "Kelola Transaksi",
         btnEdit: "Edit Data", btnHapus: "Hapus", btnBatal: "Batal", editTitle: "Edit Data Keuangan", inputKetBaru: "Keterangan Baru",
-        inputNomBaru: "Nominal Baru (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
+        inputNomBaru: "New Amount (Rp)", swalMsgKetKosong: "Keterangan kosong!", swalMsgNomMinimal: "Nominal minimal 1!",
         swalStatusUpdate: "Memperbarui...", swalStatusSuccess: "Diubah!", swalConfirmHapus: "Hapus Transaksi?",
         swalDetailHapus: "Data akan hilang permanen.", swalStatusHapus: "Menghapus...", swalSuccessHapus: "Terhapus!",
         swalConfirmReset: "Reset Semua Data?", swalDetailReset: "Tindakan ini menghapus permanen data.", swalStatusReset: "Cleaning...",
@@ -738,19 +723,20 @@
     Chart.register(ChartDataLabels);
     if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
 
-    // FUNGSI PENUTUP SPLASH SCREEN (MENGGUNAKAN SESSION STORAGE + KALIBRASI DURASI PREMIUM)
+    /* =========================================================================
+       FUNGSI PENUTUP SPLASH SCREEN (AUTOLOAD & FLUID ANIMATION EXIT)
+       ========================================================================= */
     window.tutupSplashScreen = function() {
       const splash = document.getElementById('mykasSplashScreen');
       if (!splash || splash.classList.contains('splash-exit')) return;
 
       const timeElapsed = Date.now() - splashStartTime;
-      const minDuration = 1250; // Jaminan minimal durasi storyboard selesai sempurna (1.25 detik)
+      const minDuration = 1500; // Jaminan minimal durasi animasi sempurna (1.5 detik)
       const remainingTime = Math.max(0, minDuration - timeElapsed);
 
       setTimeout(() => {
         splash.classList.add('splash-exit');
-        sessionStorage.setItem('mykas_splash_shown', 'true');
-        setTimeout(() => splash.remove(), 300); // Hapus DOM setelah CSS transisi pudar selesai
+        setTimeout(() => splash.remove(), 500); // Hapus DOM setelah CSS transisi selesai
       }, remainingTime);
     };
 
@@ -897,10 +883,8 @@
       });
       window.updateKategoriOptions(); window.tukarHalaman(localStorage.getItem('active_tab') || 'home');
 
-      // BACKUP AUTOMATIC SAFETY NET TIMER UNTUK CLOSING SPLASH SCREEN
-      if (!sessionStorage.getItem('mykas_splash_shown')) {
-        setTimeout(() => { window.tutupSplashScreen(); }, 1400);
-      }
+      // AUTOMATIC TIMED CLOSE SAFETY NET FOR SPLASH SCREEN
+      setTimeout(() => { window.tutupSplashScreen(); }, 1600);
     });
 
     window.toggleDarkMode = function() { const m = document.body.classList.toggle('dark'); localStorage.setItem('app_dark_mode', m ? 'enabled' : 'disabled'); window.updateIconVisualModeGelap(m); window.refreshSemuaNominalUI(); window.prosesFilterKategoriBulanUtama(false); window.renderGrafikTrenBulanan(trenBulananRawGlobal, false); };
