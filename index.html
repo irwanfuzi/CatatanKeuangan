@@ -269,7 +269,7 @@
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7) !important;
     }
 
-    /* --- ANIMASI STORYBOARD SPLASH SCREEN --- */
+    /* --- ANIMASI PREMIUM STORYBOARD SPLASH SCREEN --- */
     @keyframes dotAppear {
       0% { transform: scale(0); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
@@ -280,14 +280,14 @@
     }
     @keyframes fillGlow {
       0% { fill-opacity: 0; filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0)); }
-      100% { fill-opacity: 1; filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.7)); }
+      100% { fill-opacity: 1; filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); }
     }
     @keyframes shinePulse {
-      0%, 100% { filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.7)); }
-      50% { filter: drop-shadow(0 0 28px rgba(255, 255, 255, 1)); }
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8)); }
+      50% { filter: drop-shadow(0 0 32px rgba(255, 255, 255, 1)); }
     }
     @keyframes textFadeUp {
-      0% { opacity: 0; transform: translateY(12px); }
+      0% { opacity: 0; transform: translateY(14px); }
       100% { opacity: 1; transform: translateY(0); }
     }
     @keyframes shimmerMove {
@@ -296,11 +296,11 @@
       100% { background-position: 200% 0; opacity: 1; }
     }
     .splash-exit {
-      animation: splashFadeOut 130ms forwards ease-in-out;
+      animation: splashFadeOut 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
     @keyframes splashFadeOut {
-      0% { opacity: 1; }
-      100% { opacity: 0; pointer-events: none; visibility: hidden; }
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.03); pointer-events: none; visibility: hidden; }
     }
 
     .anim-dot {
@@ -309,23 +309,23 @@
     .anim-outline {
       stroke-dasharray: 400;
       stroke-dashoffset: 400;
-      animation: drawOutline 250ms ease-in-out 150ms forwards;
+      animation: drawOutline 300ms ease-in-out 150ms forwards;
     }
     .anim-glow {
       fill-opacity: 0;
       animation: 
-        fillGlow 250ms ease-out 400ms forwards,
-        shinePulse 100ms ease-in-out 650ms forwards;
+        fillGlow 300ms ease-out 450ms forwards,
+        shinePulse 150ms ease-in-out 750ms forwards;
     }
     .anim-text {
       opacity: 0;
-      animation: textFadeUp 100ms ease-out 750ms forwards;
+      animation: textFadeUp 150ms ease-out 850ms forwards;
     }
     .anim-shimmer {
       opacity: 0;
-      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.1) 100%);
+      background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.1) 100%);
       background-size: 200% 100%;
-      animation: shimmerMove 170ms linear 850ms forwards;
+      animation: shimmerMove 300ms linear 950ms forwards;
     }
   </style>
 
@@ -344,8 +344,8 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-start items-center">
 
-  <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#07624c] flex flex-col items-center justify-center">
-    <div class="flex flex-col items-center gap-4">
+  <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#07624c] flex flex-col items-center justify-center select-none">
+    <div class="flex flex-col items-center gap-5">
       
       <div class="w-24 h-24 relative flex items-center justify-center">
         <div class="absolute w-3 h-3 bg-white rounded-full anim-dot"></div>
@@ -718,6 +718,7 @@
     let databaseRiwayatRaw = []; 
     let instanceFlatpickr = null;
     let trenBulananRawGlobal = {}; 
+    let splashStartTime = Date.now();
 
     window.statusSaldoTersembunyi = false;
     window.rawTotalSaldo = "Rp 0";
@@ -728,14 +729,20 @@
     Chart.register(ChartDataLabels);
     if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
 
-    // FUNGSI PENUTUP SPLASH SCREEN (STORYBOARD ANIMATED + SESSION STORAGE)
+    // FUNGSI PENUTUP SPLASH SCREEN (MENGGUNAKAN SESSION STORAGE + KALIBRASI DURASI PREMIUM)
     window.tutupSplashScreen = function() {
       const splash = document.getElementById('mykasSplashScreen');
-      if (splash && !splash.classList.contains('splash-exit')) {
+      if (!splash || splash.classList.contains('splash-exit')) return;
+
+      const timeElapsed = Date.now() - splashStartTime;
+      const minDuration = 1250; // Jaminan minimal durasi storyboard selesai sempurna (1.25 detik)
+      const remainingTime = Math.max(0, minDuration - timeElapsed);
+
+      setTimeout(() => {
         splash.classList.add('splash-exit');
         sessionStorage.setItem('mykas_splash_shown', 'true');
-        setTimeout(() => splash.remove(), 150);
-      }
+        setTimeout(() => splash.remove(), 300); // Hapus DOM setelah CSS transisi pudar selesai
+      }, remainingTime);
     };
 
     function parseKeTanggalObj(tglString) {
@@ -881,9 +888,9 @@
       });
       window.updateKategoriOptions(); window.tukarHalaman(localStorage.getItem('active_tab') || 'home');
 
-      // TEPAT DI 1150ms ANIMASI STORYBOARD SELESAI & HILANG
+      // BACKUP AUTOMATIC SAFETY NET TIMER UNTUK CLOSING SPLASH SCREEN
       if (!sessionStorage.getItem('mykas_splash_shown')) {
-        setTimeout(() => { window.tutupSplashScreen(); }, 1150);
+        setTimeout(() => { window.tutupSplashScreen(); }, 1400);
       }
     });
 
@@ -977,7 +984,7 @@
       }
       window.refreshSemuaNominalUI(); window.prosesFilterKategoriBulanUtama(anim); window.renderGrafikTrenBulanan(trenBulananRawGlobal, anim);
       
-      // Sembunyikan Splash Screen otomatis begitu data dirender
+      // Sembunyikan Splash Screen secara teratur begitu data dirender
       window.tutupSplashScreen();
     };
 
