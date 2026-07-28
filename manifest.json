@@ -2,7 +2,7 @@
   "name": "MyKas - Own Your Money",
   "short_name": "MyKas",
   "description": "MyKas - Own Your Money",
-  "start_url": "./",
+  "start_url": "https://irwanfuzi.github.io/CatatanKeuangan/",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
