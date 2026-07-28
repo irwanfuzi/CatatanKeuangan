@@ -39,7 +39,7 @@ jobs:
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init "MyKas - Money Tracker" com.mykas.moneytracker --web-dir=www
+          npx cap init "MyKas - Own Your Money" com.mykas.ownyourmoney --web-dir=www
           npx cap add android
 
       - name: Pasang Ikon Otomatis
