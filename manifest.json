@@ -1,25 +1,22 @@
 {
-  "short_name": "MyKas",
   "name": "MyKas - Own Your Money",
-  "description": "Aplikasi Pencatatan Keuangan Modern, Dompet Multi-Layering, dan Grafik Analisis",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/2953/2953361.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/2953/2953361.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
-  "start_url": "./index.html",
-  "background_color": "#fbaa01",
-  "theme_color": "#fbaa01",
+  "short_name": "MyKas",
+  "description": "MyKas - Own Your Money",
+  "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "scope": "./"
+  "background_color": "#ffffff",
+  "theme_color": "#F5A000",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
