@@ -1,35 +1,36 @@
-const CACHE_NAME = 'mykas-pwa-v1.0';
+const CACHE_NAME = 'mykas-pwa-v1';
+
+// Daftar semua aset penting yang wajib di-cache
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://cdn.jsdelivr.net/npm/sweetalert2@11',
-  'https://cdn.jsdelivr.net/npm/chart.js',
-  'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css',
-  'https://cdn.jsdelivr.net/npm/flatpickr',
-  'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700;800&display=swap'
+  './logo.svg',
+  './wallet-white.svg',
+  './mykas-text-white.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './icon.png'
 ];
 
-// 1. Install Event: Simpan aset-aset penting ke Cache Browser
+// 1. EVENT INSTALLATION (Simpan aset ke cache browser/HP)
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[MyKas Service Worker] Caching core app assets');
+      console.log('[Service Worker] Caching all PWA static assets');
       return cache.addAll(ASSETS_TO_CACHE);
     }).then(() => self.skipWaiting())
   );
 });
 
-// 2. Activate Event: Bersihkan Cache lama jika ada update versi
+// 2. EVENT ACTIVATION (Bersihkan cache versi lama jika ada update)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('[MyKas Service Worker] Removing old cache:', cache);
+            console.log('[Service Worker] Deleting old cache version:', cache);
             return caches.delete(cache);
           }
         })
@@ -38,28 +39,33 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. Fetch Event: Strategi Network First dengan Offline Fallback dari Cache
+// 3. EVENT FETCH (Cache First Strategy dengan Network Fallback)
 self.addEventListener('fetch', (event) => {
-  // Biarkan request ke Google Apps Script (API) tetap langsung lewat jaringan
+  // Biarkan request ke Google Apps Script (database) selalu mengambil data terbaru secara online
   if (event.request.url.includes('script.google.com')) {
     return;
   }
 
   event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        // Jika koneksi internet lancar, simpan copy data terbaru ke cache
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+    caches.match(event.request).then((cachedResponse) => {
+      // Jika file ada di cache, gunakan file dari cache
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // Jika tidak ada di cache, ambil dari jaringan lalu simpan otomatis
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
         }
+
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
         return networkResponse;
-      })
-      .catch(() => {
-        // Jika offline, ambil data dari cache
-        return caches.match(event.request);
-      })
+      });
+    })
   );
 });
