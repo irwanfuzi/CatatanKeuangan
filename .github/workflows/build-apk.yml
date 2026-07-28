@@ -28,13 +28,17 @@ jobs:
       - name: Siapkan Folder Aset Web
         run: |
           mkdir -p www
+          # Menyalin index, manifest, sw, dan seluruh file SVG/PNG ke folder www
           cp index.html www/
           [ -f sw.js ] && cp sw.js www/ || echo "No sw.js"
           [ -f manifest.json ] && cp manifest.json www/ || echo "No manifest"
-          
+          cp *.svg www/ 2>/dev/null || echo "Tidak ada file SVG tambahan"
+          cp *.png www/ 2>/dev/null || echo "Tidak ada file PNG tambahan"
+
       - name: Install & Init Project
         run: |
           npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "MyKas - Money Tracker" com.mykas.moneytracker --web-dir=www
           npx cap add android
 
