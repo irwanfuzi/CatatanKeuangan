@@ -25,47 +25,41 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Siapkan Folder Aset Web
+      - name: Bersihkan Build Lama & Siapkan Folder Aset
         run: |
+          rm -rf www android capacitor.config.json capacitor.config.ts
           mkdir -p www
-          # Menyalin index, manifest, sw, dan seluruh file SVG/PNG ke folder www
           cp index.html www/
           [ -f sw.js ] && cp sw.js www/ || echo "No sw.js"
           [ -f manifest.json ] && cp manifest.json www/ || echo "No manifest"
           cp *.svg www/ 2>/dev/null || echo "Tidak ada file SVG tambahan"
           cp *.png www/ 2>/dev/null || echo "Tidak ada file PNG tambahan"
 
-      - name: Install & Init Project
+      - name: Install & Init Project Capacitor
         run: |
           npm install
           npm install @capacitor/core @capacitor/cli @capacitor/android
           npx cap init "MyKas - Own Your Money" com.mykas.ownyourmoney --web-dir=www
           npx cap add android
 
-      - name: Pasang Ikon Otomatis
+      - name: Generasi Ikon Aplikasi
         run: |
-          npm install -g @capacitor/assets
           if [ -f icon.png ]; then
-            npx capacitor-assets generate --android
-          else
-            echo "File icon.png tidak ditemukan, menggunakan logo default."
+            npx --yes @capacitor/assets generate --android || echo "Menggunakan ikon bawaan Capacitor"
           fi
 
-      - name: Sesuaikan Versi Android
+      - name: Sinkronisasi & Beri Izin Gradlew
         run: |
-          # Memastikan minimum SDK adalah 21 agar kompatibel dengan semua HP
-          sed -i 's/minSdkVersion 22/minSdkVersion 21/g' android/app/build.gradle || echo "minSdkVersion sudah disesuaikan"
-
-      - name: Sinkronisasi
-        run: npx cap sync
+          npx cap sync
+          chmod +x android/gradlew
 
       - name: Rakit APK
         run: |
           cd android
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease --no-daemon
 
       - name: Upload APK Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: MyKas-Money-Tracker-APK
+          name: MyKas-Own-Your-Money-APK
           path: android/app/build/outputs/apk/release/
