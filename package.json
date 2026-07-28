@@ -1,13 +1,17 @@
 {
-  "name": "mykas-app",
+  "name": "mykas-pwa",
   "version": "1.0.0",
-  "description": "Aplikasi Web MyKas ke APK",
+  "description": "MyKas - Own Your Money (Aplikasi Catatan Keuangan PWA)",
   "main": "index.html",
-  "dependencies": {
-    "@capacitor/core": "^6.0.0",
-    "@capacitor/android": "^6.0.0"
+  "scripts": {
+    "start": "npx serve ."
   },
-  "devDependencies": {
-    "@capacitor/cli": "^6.0.0"
-  }
+  "keywords": [
+    "pwa",
+    "catatan-keuangan",
+    "mykas",
+    "finance"
+  ],
+  "author": "irwanfuzi",
+  "license": "MIT"
 }
