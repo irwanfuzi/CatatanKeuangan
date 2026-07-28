@@ -276,11 +276,11 @@
     }
 
     /* =========================================================================
-       ANIMASI SPLASH SCREEN EXTRA SMOOTH & FLUID (HONEY GOLD #fbaa01)
+       ANIMASI SPLASH SCREEN INSTANT (INLINE SVG)
        ========================================================================= */
     @keyframes textSlideFadeUp {
-      0% { opacity: 0; transform: translateY(18px) scale(0.96); filter: blur(4px); }
-      100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+      0% { opacity: 0; transform: translateY(16px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
     @keyframes shimmerBarMove {
       0% { transform: translateX(-100%); opacity: 0; }
@@ -288,21 +288,19 @@
       100% { transform: translateX(100%); opacity: 1; }
     }
     
-    /* Transisi keluar splash screen (Scale + Fade + Blur halus) */
     .splash-exit {
-      animation: smoothSplashFadeOut 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      animation: smoothSplashFadeOut 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
     }
     @keyframes smoothSplashFadeOut {
-      0% { opacity: 1; transform: scale(1); filter: blur(0px); }
-      100% { opacity: 0; transform: scale(1.05); filter: blur(8px); pointer-events: none; visibility: hidden; }
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.04); pointer-events: none; visibility: hidden; }
     }
 
     .anim-text {
-      opacity: 0;
-      animation: textSlideFadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
+      animation: textSlideFadeUp 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     .anim-shimmer {
-      animation: shimmerBarMove 1200ms cubic-bezier(0.4, 0, 0.2, 1) 400ms infinite;
+      animation: shimmerBarMove 1200ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
   </style>
 </head>
@@ -311,16 +309,25 @@
 
   <!-- ==================== ANIMASI SPLASH SCREEN ==================== -->
   <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#fbaa01] flex flex-col items-center justify-center select-none backdrop-blur-md">
-    <div class="flex flex-col items-center gap-4">
+    <div class="flex flex-col items-center gap-3">
       
-      <!-- 1. Ikon Dompet Vektor SVG -->
-      <div class="w-24 h-24 relative flex items-center justify-center anim-text">
-        <img src="wallet-white.svg" alt="Wallet Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" />
+      <!-- 1. Ikon Dompet Inline SVG (Langsung Tampil Instan) -->
+      <div class="w-20 h-20 relative flex items-center justify-center anim-text">
+        <svg viewBox="0 0 100 100" class="w-full h-full fill-none stroke-white filter drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="50" cy="22" r="12" stroke="#ffffff" stroke-width="5"/>
+          <circle cx="50" cy="22" r="4" fill="#ffffff" stroke-width="0"/>
+          <path d="M36 24 A 13 13 0 0 1 58 17" stroke="#ffffff" stroke-width="5"/>
+          <path d="M20 28 H 80 C 85 28, 88 31, 88 36 V 68 C 88 73, 85 76, 80 76 H 20 C 15 76, 12 73, 12 68 V 36 C 12 31, 15 28, 20 28 Z" stroke="#ffffff" stroke-width="5.5"/>
+          <path d="M76 43 H 86 C 89 43, 90 45, 90 48 V 56 C 90 59, 89 61, 86 61 H 76 Z" fill="#ffffff" stroke-width="0"/>
+          <circle cx="83" cy="52" r="2" fill="#fbaa01" stroke-width="0" />
+          <path d="M22 64 L 34 52 L 46 58 L 66 38" stroke="#ffffff" stroke-width="6"/>
+          <path d="M54 38 H 66 V 50" stroke="#ffffff" stroke-width="6"/>
+        </svg>
       </div>
 
-      <!-- 2. Teks Brand Vektor SVG -->
-      <div class="h-9 relative flex items-center justify-center anim-text" style="animation-delay: 350ms;">
-        <img src="mykas-text-white.svg" alt="MyKas" class="h-full object-contain" />
+      <!-- 2. Teks Brand MyKas -->
+      <div class="anim-text" style="animation-delay: 150ms;">
+        <span class="text-3xl font-black tracking-tight text-white font-urbanist drop-shadow-sm">MyKas</span>
       </div>
 
     </div>
@@ -350,7 +357,16 @@
 
         <div class="flex items-center gap-2.5 mb-6 select-none pl-1">
           <div class="w-9 h-9 flex items-center justify-center">
-            <img src="logo.svg" alt="MyKas Logo" class="w-full h-full object-contain" />
+            <svg viewBox="0 0 100 100" class="w-full h-full fill-none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="50" cy="22" r="12" stroke="#ffffff" stroke-width="5"/>
+              <circle cx="50" cy="22" r="4" fill="#ffffff" stroke-width="0"/>
+              <path d="M36 24 A 13 13 0 0 1 58 17" stroke="#ffffff" stroke-width="5"/>
+              <path d="M20 28 H 80 C 85 28, 88 31, 88 36 V 68 C 88 73, 85 76, 80 76 H 20 C 15 76, 12 73, 12 68 V 36 C 12 31, 15 28, 20 28 Z" stroke="#ffffff" stroke-width="5.5"/>
+              <path d="M76 43 H 86 C 89 43, 90 45, 90 48 V 56 C 90 59, 89 61, 86 61 H 76 Z" fill="#ffffff" stroke-width="0"/>
+              <circle cx="83" cy="52" r="2" fill="#fbaa01" stroke-width="0" />
+              <path d="M22 64 L 34 52 L 46 58 L 66 38" stroke="#ffffff" stroke-width="6"/>
+              <path d="M54 38 H 66 V 50" stroke="#ffffff" stroke-width="6"/>
+            </svg>
           </div>
           <span class="text-xl font-black tracking-tight text-white font-urbanist">MyKas</span>
         </div>
@@ -707,7 +723,7 @@
 
       setTimeout(() => {
         splash.classList.add('splash-exit');
-        setTimeout(() => splash.remove(), 500); // Hapus DOM setelah CSS transisi selesai
+        setTimeout(() => splash.remove(), 400); // Hapus DOM setelah CSS transisi selesai
       }, remainingTime);
     };
 
