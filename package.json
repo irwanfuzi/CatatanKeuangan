@@ -1,7 +1,7 @@
 {
   "name": "mykas-pwa",
   "version": "1.0.0",
-  "description": "MyKas - Own Your Money",
+  "description": "MyKas - Own Your Money (Aplikasi Catatan Keuangan PWA)",
   "main": "index.html",
   "scripts": {
     "start": "npx serve ."
