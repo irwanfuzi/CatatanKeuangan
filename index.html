@@ -264,11 +264,10 @@
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-center items-center bg-slate-900">
 
-  <!-- ==================== ANIMASI SPLASH SCREEN ==================== -->
+  <!-- ANIMASI SPLASH SCREEN -->
   <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#fbaa01] flex flex-col items-center justify-center select-none backdrop-blur-md">
     <div class="flex flex-col items-center gap-3">
       
-      <!-- Ikon Dompet Inline SVG -->
       <div class="w-20 h-20 relative flex items-center justify-center anim-text">
         <svg viewBox="0 0 100 100" class="w-full h-full fill-none stroke-white filter drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="50" cy="22" r="12" stroke="#ffffff" stroke-width="5"/>
@@ -282,30 +281,25 @@
         </svg>
       </div>
 
-      <!-- Teks Brand MyKas -->
       <div class="anim-text" style="animation-delay: 150ms;">
         <span class="text-3xl font-black tracking-tight text-white font-urbanist drop-shadow-sm">MyKas</span>
       </div>
 
     </div>
 
-    <!-- Shimmer Loading Bar -->
     <div class="absolute bottom-12 w-36 h-1 bg-white/20 rounded-full overflow-hidden">
       <div class="w-full h-full bg-gradient-to-r from-transparent via-white to-transparent anim-shimmer rounded-full"></div>
     </div>
   </div>
-  <!-- =============================================================== -->
 
   <!-- APP CANVAS CONTAINER -->
   <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.75rem] bg-slate-100 flex flex-col relative shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] overflow-x-hidden overflow-y-clip md:border md:border-slate-800 transition-all duration-300">
 
-    <!-- SCROLLABLE MAIN CONTENT AREA -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none [webkit-overflow-scrolling:touch]">
       
       <!-- HERO HEADER LAYOUT BARU -->
       <div class="w-full bg-slate-900 p-5 pb-7 text-white rounded-b-[2.75rem] shadow-lg flex flex-col relative flex-shrink-0 pt-8 border-b border-slate-800">
         
-        <!-- Header Top Control Buttons -->
         <div class="w-full flex items-center justify-between mb-5 px-1">
           <div class="flex items-center gap-2.5 select-none">
             <div class="w-9 h-9 flex items-center justify-center p-1 bg-mykas-brand/20 rounded-xl border border-mykas-brand/30">
@@ -371,7 +365,6 @@
           </div>
         </div>
 
-        <!-- HIDDEN INPUTS DOMPET -->
         <input type="hidden" id="txtWalletTunaiHidden" value="Rp 0">
         <input type="hidden" id="txtWalletBankHidden" value="Rp 0">
         <input type="hidden" id="txtWalletDigitalHidden" value="Rp 0">
@@ -391,7 +384,6 @@
             </div>
           </div>
 
-          <!-- WALLET TABS SELECTOR -->
           <div class="grid grid-cols-4 gap-1 bg-slate-800/50 p-1 rounded-2xl border border-slate-700/50">
             <button type="button" id="tabIconTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="flex flex-col items-center justify-center py-1.5 relative transition-all duration-300 text-slate-400">
               <div class="w-6 h-6 rounded-lg bg-slate-700/50 flex items-center justify-center mb-0.5 text-xs"><i class="fa-solid fa-wallet"></i></div>
@@ -421,7 +413,7 @@
       <!-- MAIN CONTAINER -->
       <div class="w-full px-4 mt-5 pb-2" id="mainContainer">
         
-        <!-- ================= PAGE HOME (FORM TRANSAKSI) ================= -->
+        <!-- PAGE HOME (FORM TRANSAKSI) -->
         <div id="pageHome" class="w-full bg-white p-6 rounded-[2.25rem] shadow-sm border border-slate-200/80 mb-0">
           <div class="flex items-center gap-2 mb-5">
             <div class="w-1.5 h-5 bg-mykas-brand rounded-full"></div>
@@ -497,10 +489,9 @@
           <button type="button" onclick="window.resetSemuaData()" class="w-full mt-3 bg-transparent hover:bg-rose-50 text-slate-400 hover:text-rose-600 dark:hover:bg-rose-950/20 font-bold p-3 rounded-2xl transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-wider"><i class="fa-solid fa-trash-can"></i> <span data-i18n="resetData">Reset Semua Data</span></button>
         </div>
 
-        <!-- ================= PAGE RIWAYAT (ANALISIS & HISTORY) ================= -->
+        <!-- PAGE RIWAYAT (ANALISIS & HISTORY) -->
         <div id="pageRiwayat" class="w-full flex flex-col gap-5 mb-0 hidden">
           
-          <!-- ANALISIS PENGELUARAN CARD -->
           <div class="w-full bg-white p-5 rounded-[2.25rem] shadow-sm border border-slate-200/80">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-sm font-extrabold text-slate-800 dark:text-slate-200 flex items-center gap-2"><span class="w-1.5 h-4 bg-rose-500 rounded-full"></span><span data-i18n="analisisTitle">Analisis Pengeluaran</span></h3>
@@ -521,7 +512,6 @@
             <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-1 hidden" data-i18n="noChartData">Tidak ada pengeluaran periode ini</div>
           </div>
 
-          <!-- TREN BULANAN CARD -->
           <div class="w-full bg-white p-5 rounded-[2.25rem] shadow-sm border border-slate-200/80">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-sm font-extrabold text-slate-800 dark:text-slate-200 flex items-center gap-2"><span class="w-1.5 h-4 bg-mykas-brand rounded-full"></span><span data-i18n="trenTitle">Tren Keuangan Bulanan</span></h3>
@@ -529,7 +519,6 @@
             <div class="w-full h-[180px]"><canvas id="chartTrenBulanan"></canvas></div>
           </div>
 
-          <!-- RECENT TRANSACTIONS FEED -->
           <div id="cardTransactionsTerakhir" class="w-full bg-white p-5 rounded-[2.25rem] shadow-sm border border-slate-200/80 flex flex-col mb-0">
             <div class="flex items-center justify-between mb-4 px-1">
               <h3 class="text-sm font-extrabold text-slate-800 dark:text-slate-200 flex items-center gap-2"><span class="w-1.5 h-4 bg-mykas-brand rounded-full"></span><span data-i18n="transTerakhir">Transaksi Terakhir</span></h3>
@@ -546,7 +535,6 @@
         </div>
       </div>
 
-      <!-- SPACER FOR FLOATING BOTTOM NAVBAR -->
       <div class="w-full h-[90px] flex-shrink-0 pointer-events-none"></div>
     </div>
 
@@ -596,9 +584,7 @@
 
   </div>
 
-  <!-- JAVASCRIPT ENGINE MYKAS -->
   <script>
-    // REGISTRASI SERVICE WORKER PWA
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
