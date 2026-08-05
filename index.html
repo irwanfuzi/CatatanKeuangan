@@ -80,17 +80,19 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* INTEGRATED DOCK NAVBAR (GOPAY / OVO / LINKAJA STYLE) */
+    /* FIXED DOCK NAVBAR PROPORSIONAL & LEBIH BESAR */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
       left: 0 !important;
       right: 0 !important;
       z-index: 9999 !important;
-      height: 64px !important;
-      padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+      height: 76px !important;
+      padding-top: 6px !important;
+      padding-bottom: max(16px, env(safe-area-inset-bottom, 16px)) !important;
       background: #ffffff;
       border-top: 1px solid #e2e8f0;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
       align-items: center !important;
@@ -210,7 +212,7 @@
       </div>
 
       <!-- MAIN CONTENT DASHBOARD -->
-      <div class="w-full px-5 pt-2 pb-32 flex flex-col gap-6">
+      <div class="w-full px-5 pt-2 pb-36 flex flex-col gap-6">
 
         <!-- 1. HERO CARD TOTAL ASET -->
         <div class="w-full bg-gradient-to-br from-[#0052FF] via-[#0047E0] to-[#0038B8] text-white rounded-[2rem] p-6 relative overflow-hidden shadow-xl shadow-blue-500/20">
@@ -529,37 +531,37 @@
       </div>
     </div>
 
-    <!-- ==================== FIXED DOCK NAVBAR (INTEGRATED) ==================== -->
+    <!-- ==================== FIXED DOCK NAVBAR (PROPORSIONAL & CLEAR) ==================== -->
     <div id="mainFixedNavbar" class="w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
       <!-- 1. Beranda -->
-      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full pt-1">
-        <i class="fa-solid fa-house text-lg mb-0.5"></i>
-        <span class="text-[11px] leading-none">Beranda</span>
+      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full">
+        <i class="fa-solid fa-house text-xl mb-1"></i>
+        <span class="text-xs font-bold leading-none">Beranda</span>
       </button>
 
       <!-- 2. Analisis -->
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full pt-1">
-        <i class="fa-solid fa-chart-pie text-lg mb-0.5"></i>
-        <span class="text-[11px] leading-none">Analisis</span>
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-semibold w-full h-full">
+        <i class="fa-solid fa-chart-pie text-xl mb-1"></i>
+        <span class="text-xs font-semibold leading-none">Analisis</span>
       </button>
 
-      <!-- 3. Integrated Center (+) Button (Integrated Dock - Half-Body Sticking Out, No Shadow) -->
+      <!-- 3. Integrated Center (+) Button (Proporsional - w-14 h-14) -->
       <div class="flex items-center justify-center w-full h-full relative">
-        <button onclick="window.bukaModalTambahTransaksi()" class="w-13 h-13 rounded-full bg-[#0052FF] text-white flex items-center justify-center text-2xl border-4 border-white dark:border-slate-900 -translate-y-1/2 absolute top-0 shadow-none active:scale-95 transition-transform">
+        <button onclick="window.bukaModalTambahTransaksi()" class="w-14 h-14 rounded-full bg-[#0052FF] text-white flex items-center justify-center text-2xl border-4 border-white dark:border-slate-900 -translate-y-6 shadow-none active:scale-95 transition-transform">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
 
       <!-- 4. Dompet -->
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full pt-1">
-        <i class="fa-solid fa-wallet text-lg mb-0.5"></i>
-        <span class="text-[11px] leading-none">Dompet</span>
+      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-semibold w-full h-full">
+        <i class="fa-solid fa-wallet text-xl mb-1"></i>
+        <span class="text-xs font-semibold leading-none">Dompet</span>
       </button>
 
       <!-- 5. Profil -->
-      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full pt-1">
-        <i class="fa-regular fa-user text-lg mb-0.5"></i>
-        <span class="text-[11px] leading-none">Profil</span>
+      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-semibold w-full h-full">
+        <i class="fa-regular fa-user text-xl mb-1"></i>
+        <span class="text-xs font-semibold leading-none">Profil</span>
       </button>
     </div>
 
@@ -813,12 +815,12 @@
       const navH = document.getElementById('navHome'), navR = document.getElementById('navRiwayat'), pR = document.getElementById('pageRiwayat');
       if (menu === 'home') {
         pR.classList.add('hidden');
-        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full pt-1";
-        navR.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full pt-1";
+        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full";
+        navR.className = "flex flex-col items-center justify-center text-slate-400 font-semibold w-full h-full";
       } else {
         pR.classList.remove('hidden');
-        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full pt-1";
-        navH.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full pt-1";
+        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full";
+        navH.className = "flex flex-col items-center justify-center text-slate-400 font-semibold w-full h-full";
       }
       window.loadSummary();
     };
