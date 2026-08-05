@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* FIXED DOCK NAVBAR FLEXIBEL & AMAN GESTURE BAR (SAMSUNG & IPHONE) */
+    /* FIXED DOCK NAVBAR FLEXIBEL & AMAN GESTURE BAR */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -252,81 +252,73 @@
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA (GRID 2x2 PREMIUM & RESPONSIVE) -->
+        <!-- 2. DOMPET SAYA (4 SEJAJAR SLIM & PRESISI SESUAI REFERENSI FOTO) -->
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
             <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Dompet Saya</h3>
             <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
           </div>
 
-          <!-- GRID 2 KOLOM (SEJAJAR & SANGAT PRESISI) -->
-          <div class="grid grid-cols-2 gap-3">
+          <!-- GRID 4 KOLOM PRESISI DENGAN KARTU TINGGI PAS -->
+          <div class="grid grid-cols-4 gap-2">
             
             <!-- 1. Tunai -->
-            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-amber-400 transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 flex items-center justify-center text-amber-500 font-bold text-sm">
-                  <span class="font-black">Rp</span>
-                </div>
-                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">1 dompet</span>
+            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all min-h-[142px]">
+              <div class="w-10 h-10 rounded-xl border-2 border-amber-400/80 bg-amber-50/40 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-extrabold text-xs my-1">
+                <span class="font-black text-amber-500">Rp</span>
               </div>
-              <div>
-                <span class="text-[11px] font-semibold text-slate-400 block truncate">Tunai</span>
-                <h4 id="displayTunaiMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
-                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 25%"></div>
-                </div>
+              <div class="w-full flex flex-col items-center">
+                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">Tunai</span>
+                <h4 id="displayTunaiMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-1">1 dompet</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 25%"></div>
               </div>
             </div>
 
             <!-- 2. Rekening Bank -->
-            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-blue-800 transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200/60 flex items-center justify-center text-blue-900 dark:text-blue-400 text-sm">
-                  <i class="fa-solid fa-building-columns"></i>
-                </div>
-                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">4 rekening</span>
+            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-blue-900 transition-all min-h-[142px]">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#1e3a8a] dark:text-blue-400 text-2xl my-1">
+                <i class="fa-solid fa-building-columns"></i>
               </div>
-              <div>
-                <span class="text-[11px] font-semibold text-slate-400 block truncate">Rekening Bank</span>
-                <h4 id="displayBankMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
-                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div id="barBankMini" class="bg-blue-900 dark:bg-blue-500 h-full rounded-full" style="width: 60%"></div>
-                </div>
+              <div class="w-full flex flex-col items-center">
+                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">Rekening Bank</span>
+                <h4 id="displayBankMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-1">4 rekening</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                <div id="barBankMini" class="bg-[#1e3a8a] dark:bg-blue-500 h-full rounded-full" style="width: 60%"></div>
               </div>
             </div>
 
             <!-- 3. E-Wallet -->
-            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-[#0052FF] transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200/60 flex items-center justify-center text-[#0052FF] text-sm">
-                  <i class="fa-solid fa-wallet"></i>
-                </div>
-                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">3 e-wallet</span>
+            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all min-h-[142px]">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#0052FF] text-2xl my-1">
+                <i class="fa-solid fa-wallet"></i>
               </div>
-              <div>
-                <span class="text-[11px] font-semibold text-slate-400 block truncate">E-Wallet</span>
-                <h4 id="displayDigitalMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
-                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 40%"></div>
-                </div>
+              <div class="w-full flex flex-col items-center">
+                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">E-Wallet</span>
+                <h4 id="displayDigitalMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-1">3 e-wallet</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 40%"></div>
               </div>
             </div>
 
             <!-- 4. Tabungan -->
-            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-purple-500 transition-all">
-              <div class="flex items-center justify-between mb-2">
-                <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200/60 flex items-center justify-center text-purple-600 text-sm">
-                  <i class="fa-solid fa-piggy-bank"></i>
-                </div>
-                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">1 tabungan</span>
+            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-500 transition-all min-h-[142px]">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-blue-500 dark:text-purple-400 text-2xl my-1">
+                <i class="fa-solid fa-piggy-bank"></i>
               </div>
-              <div>
-                <span class="text-[11px] font-semibold text-slate-400 block truncate">Tabungan</span>
-                <h4 id="displayTabunganMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
-                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <div id="barTabunganMini" class="bg-purple-500 h-full rounded-full" style="width: 20%"></div>
-                </div>
+              <div class="w-full flex flex-col items-center">
+                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">Tabungan</span>
+                <h4 id="displayTabunganMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-1">1 tabungan</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                <div id="barTabunganMini" class="bg-purple-500 h-full rounded-full" style="width: 20%"></div>
               </div>
             </div>
 
