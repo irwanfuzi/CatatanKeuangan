@@ -252,61 +252,81 @@
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA (4 DOMPET SEJAJAR 1 BARIS COMPACT) -->
+        <!-- 2. DOMPET SAYA (GRID 2x2 PREMIUM & RESPONSIVE) -->
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
             <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Dompet Saya</h3>
             <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
           </div>
 
-          <!-- GRID 4 KOLOM SEJAJAR (PRESISI TANPA SCROLL) -->
-          <div class="grid grid-cols-4 gap-1.5 sm:gap-2">
+          <!-- GRID 2 KOLOM (SEJAJAR & SANGAT PRESISI) -->
+          <div class="grid grid-cols-2 gap-3">
             
             <!-- 1. Tunai -->
-            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-amber-400 transition-all">
-              <div class="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 flex items-center justify-center text-amber-500 font-bold text-xs mb-1.5">
-                <span class="font-black">Rp</span>
+            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-amber-400 transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/60 flex items-center justify-center text-amber-500 font-bold text-sm">
+                  <span class="font-black">Rp</span>
+                </div>
+                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">1 dompet</span>
               </div>
-              <span class="text-[9px] sm:text-[10px] font-semibold text-slate-400 block truncate w-full">Tunai</span>
-              <h4 id="displayTunaiMini" class="text-[10px] sm:text-xs font-extrabold text-slate-800 dark:text-slate-100 truncate w-full">Rp 0</h4>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full mt-1.5 overflow-hidden">
-                <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 25%"></div>
+              <div>
+                <span class="text-[11px] font-semibold text-slate-400 block truncate">Tunai</span>
+                <h4 id="displayTunaiMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
+                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 25%"></div>
+                </div>
               </div>
             </div>
 
             <!-- 2. Rekening Bank -->
-            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-blue-800 transition-all">
-              <div class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200/60 flex items-center justify-center text-blue-900 dark:text-blue-400 text-xs mb-1.5">
-                <i class="fa-solid fa-building-columns"></i>
+            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-blue-800 transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200/60 flex items-center justify-center text-blue-900 dark:text-blue-400 text-sm">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">4 rekening</span>
               </div>
-              <span class="text-[9px] sm:text-[10px] font-semibold text-slate-400 block truncate w-full">Bank</span>
-              <h4 id="displayBankMini" class="text-[10px] sm:text-xs font-extrabold text-slate-800 dark:text-slate-100 truncate w-full">Rp 0</h4>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full mt-1.5 overflow-hidden">
-                <div id="barBankMini" class="bg-blue-900 dark:bg-blue-500 h-full rounded-full" style="width: 60%"></div>
+              <div>
+                <span class="text-[11px] font-semibold text-slate-400 block truncate">Rekening Bank</span>
+                <h4 id="displayBankMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
+                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div id="barBankMini" class="bg-blue-900 dark:bg-blue-500 h-full rounded-full" style="width: 60%"></div>
+                </div>
               </div>
             </div>
 
             <!-- 3. E-Wallet -->
-            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-[#0052FF] transition-all">
-              <div class="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200/60 flex items-center justify-center text-[#0052FF] text-xs mb-1.5">
-                <i class="fa-solid fa-wallet"></i>
+            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-[#0052FF] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200/60 flex items-center justify-center text-[#0052FF] text-sm">
+                  <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">3 e-wallet</span>
               </div>
-              <span class="text-[9px] sm:text-[10px] font-semibold text-slate-400 block truncate w-full">E-Wallet</span>
-              <h4 id="displayDigitalMini" class="text-[10px] sm:text-xs font-extrabold text-slate-800 dark:text-slate-100 truncate w-full">Rp 0</h4>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full mt-1.5 overflow-hidden">
-                <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 40%"></div>
+              <div>
+                <span class="text-[11px] font-semibold text-slate-400 block truncate">E-Wallet</span>
+                <h4 id="displayDigitalMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
+                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 40%"></div>
+                </div>
               </div>
             </div>
 
             <!-- 4. Tabungan -->
-            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center cursor-pointer hover:border-purple-500 transition-all">
-              <div class="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200/60 flex items-center justify-center text-purple-600 text-xs mb-1.5">
-                <i class="fa-solid fa-piggy-bank"></i>
+            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-3.5 sm:p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col justify-between cursor-pointer hover:border-purple-500 transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200/60 flex items-center justify-center text-purple-600 text-sm">
+                  <i class="fa-solid fa-piggy-bank"></i>
+                </div>
+                <span class="text-[9px] text-slate-400 font-medium bg-slate-100 dark:bg-slate-700/60 px-2 py-0.5 rounded-full">1 tabungan</span>
               </div>
-              <span class="text-[9px] sm:text-[10px] font-semibold text-slate-400 block truncate w-full">Tabungan</span>
-              <h4 id="displayTabunganMini" class="text-[10px] sm:text-xs font-extrabold text-slate-800 dark:text-slate-100 truncate w-full">Rp 0</h4>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full mt-1.5 overflow-hidden">
-                <div id="barTabunganMini" class="bg-purple-500 h-full rounded-full" style="width: 20%"></div>
+              <div>
+                <span class="text-[11px] font-semibold text-slate-400 block truncate">Tabungan</span>
+                <h4 id="displayTabunganMini" class="text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">Rp 0</h4>
+                <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div id="barTabunganMini" class="bg-purple-500 h-full rounded-full" style="width: 20%"></div>
+                </div>
               </div>
             </div>
 
