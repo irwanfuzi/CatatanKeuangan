@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* FIXED DOCK NAVBAR FLEXIBEL & TERBACA JELAS */
+    /* FIXED DOCK NAVBAR SESUAI REFERENSI */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -90,11 +90,11 @@
       
       height: auto !important;
       padding-top: 10px !important;
-      padding-bottom: max(22px, env(safe-area-inset-bottom, 22px)) !important;
+      padding-bottom: max(20px, env(safe-area-inset-bottom, 20px)) !important;
       
       background: #ffffff;
-      border-top: 1px solid #e2e8f0;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+      border-top: 1px solid #f1f5f9;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
       
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -190,7 +190,7 @@
   </div>
 
   <!-- APP CANVAS CONTAINER -->
-  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.5rem] bg-slate-50 flex flex-col relative shadow-2xl overflow-x-hidden overflow-y-clip md:border md:border-slate-800 transition-all duration-300">
+  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.5rem] bg-[#f8fafc] flex flex-col relative shadow-2xl overflow-x-hidden overflow-y-clip md:border md:border-slate-800 transition-all duration-300">
 
     <!-- MAIN SCROLLABLE AREA -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none">
@@ -216,34 +216,36 @@
       </div>
 
       <!-- MAIN CONTENT DASHBOARD -->
-      <div class="w-full px-5 pt-2 pb-40 flex flex-col gap-6">
+      <div class="w-full px-5 pt-2 pb-36 flex flex-col gap-5">
 
-        <!-- 1. HERO CARD TOTAL ASET -->
-        <div class="w-full bg-gradient-to-br from-[#0052FF] via-[#0047E0] to-[#0038B8] text-white rounded-[2rem] p-6 relative overflow-hidden shadow-xl shadow-blue-500/20">
-          <div class="absolute inset-0 bg-[radial-gradient(#rgba(255,255,255,0.15)_1px,transparent_1px)] [background-size:16px_16px] opacity-30 pointer-events-none"></div>
+        <!-- 1. HERO CARD TOTAL ASET (PERSIS REFERENSI) -->
+        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-[1.75rem] p-5 relative overflow-hidden shadow-lg shadow-blue-500/15">
+          <div class="absolute inset-0 bg-[radial-gradient(#rgba(255,255,255,0.15)_1px,transparent_1px)] [background-size:16px_16px] opacity-25 pointer-events-none"></div>
 
           <div class="flex justify-between items-start relative z-10">
             <div>
-              <div class="flex items-center gap-2 mb-1.5">
-                <span class="text-xs font-semibold text-blue-100/90 tracking-wide">Total Aset</span>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-xs font-medium text-blue-100/90 tracking-wide">Total Aset</span>
                 <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-blue-100/80 hover:text-white transition-all">
                   <i id="iconToggleSaldo" class="fa-regular fa-eye text-xs"></i>
                 </button>
               </div>
-              <h2 id="txtSaldo" class="text-3xl font-black tracking-tight text-white mb-3">Rp 0</h2>
+              <h2 id="txtSaldo" class="text-3xl font-extrabold tracking-tight text-white mb-2.5">Rp12.500.000</h2>
               
               <div class="flex flex-col gap-2">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-400/20 backdrop-blur-md rounded-full border border-emerald-300/30 text-emerald-300 text-[11px] font-bold w-fit">
-                  <i class="fa-solid fa-arrow-up text-[10px]"></i>
-                  <span>12,5% <span class="font-normal text-emerald-200/90">dari bulan lalu</span></span>
+                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-400/20 backdrop-blur-md rounded-full text-emerald-300 text-[11px] font-bold w-fit">
+                  <i class="fa-solid fa-arrow-up text-[9px]"></i>
+                  <span>12,5%</span>
+                  <span class="font-normal text-blue-100/90 ml-0.5">dari bulan lalu</span>
                 </div>
-                <div class="flex items-center gap-1.5 text-[10px] text-blue-100/80">
-                  <i class="fa-regular fa-clock"></i>
+                <div class="flex items-center gap-1.5 text-[11px] text-blue-100/80">
+                  <i class="fa-regular fa-clock text-[10px]"></i>
                   <span>Diperbarui 09.30 WIB</span>
                 </div>
               </div>
             </div>
 
+            <!-- DOMPET 3D GRAFIK RIGHT -->
             <div class="w-20 h-20 relative flex-shrink-0 flex items-center justify-center">
               <div class="w-16 h-16 bg-white/10 rounded-2xl border border-white/20 backdrop-blur-md flex items-center justify-center transform rotate-6 shadow-inner">
                 <i class="fa-solid fa-wallet text-amber-300 text-3xl filter drop-shadow-md"></i>
@@ -253,71 +255,71 @@
         </div>
 
         <!-- 2. DOMPET SAYA (4 SEJAJAR SLIM & PRESISI SESUAI REFERENSI FOTO) -->
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-2.5">
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Dompet Saya</h3>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
             <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
           </div>
 
-          <!-- GRID 4 KOLOM PRESISI DENGAN KARTU TINGGI PAS -->
+          <!-- GRID 4 KOLOM PRESISI DENGAN KARTU VERTIKAL TINGGI -->
           <div class="grid grid-cols-4 gap-2">
             
             <!-- 1. Tunai -->
-            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all min-h-[142px]">
-              <div class="w-10 h-10 rounded-xl border-2 border-amber-400/80 bg-amber-50/40 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-extrabold text-xs my-1">
+            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all min-h-[148px]">
+              <div class="w-9 h-9 rounded-xl border-2 border-amber-400/80 bg-amber-50/40 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-extrabold text-xs my-0.5">
                 <span class="font-black text-amber-500">Rp</span>
               </div>
               <div class="w-full flex flex-col items-center">
                 <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">Tunai</span>
-                <h4 id="displayTunaiMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
-                <span class="text-[9px] text-slate-400 font-medium block mt-1">1 dompet</span>
+                <h4 id="displayTunaiMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp1.250.000</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-0.5">1 dompet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
                 <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 25%"></div>
               </div>
             </div>
 
             <!-- 2. Rekening Bank -->
-            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-blue-900 transition-all min-h-[142px]">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#1e3a8a] dark:text-blue-400 text-2xl my-1">
+            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#1d3557] transition-all min-h-[148px]">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center text-[#1d3557] dark:text-blue-400 text-xl my-0.5">
                 <i class="fa-solid fa-building-columns"></i>
               </div>
               <div class="w-full flex flex-col items-center">
                 <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">Rekening Bank</span>
-                <h4 id="displayBankMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
-                <span class="text-[9px] text-slate-400 font-medium block mt-1">4 rekening</span>
+                <h4 id="displayBankMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp7.850.000</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-0.5">4 rekening</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
-                <div id="barBankMini" class="bg-[#1e3a8a] dark:bg-blue-500 h-full rounded-full" style="width: 60%"></div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+                <div id="barBankMini" class="bg-[#1d3557] dark:bg-blue-500 h-full rounded-full" style="width: 60%"></div>
               </div>
             </div>
 
             <!-- 3. E-Wallet -->
-            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all min-h-[142px]">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[#0052FF] text-2xl my-1">
+            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all min-h-[148px]">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center text-[#0052FF] text-xl my-0.5">
                 <i class="fa-solid fa-wallet"></i>
               </div>
               <div class="w-full flex flex-col items-center">
                 <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">E-Wallet</span>
-                <h4 id="displayDigitalMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
-                <span class="text-[9px] text-slate-400 font-medium block mt-1">3 e-wallet</span>
+                <h4 id="displayDigitalMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp2.150.000</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-0.5">3 e-wallet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
                 <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 40%"></div>
               </div>
             </div>
 
             <!-- 4. Tabungan -->
-            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-500 transition-all min-h-[142px]">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center text-blue-500 dark:text-purple-400 text-2xl my-1">
+            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-500 transition-all min-h-[148px]">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center text-[#2563eb] dark:text-purple-400 text-xl my-0.5">
                 <i class="fa-solid fa-piggy-bank"></i>
               </div>
               <div class="w-full flex flex-col items-center">
                 <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 block leading-tight">Tabungan</span>
-                <h4 id="displayTabunganMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp 0</h4>
-                <span class="text-[9px] text-slate-400 font-medium block mt-1">1 tabungan</span>
+                <h4 id="displayTabunganMini" class="text-[11px] font-extrabold text-slate-900 dark:text-white leading-tight mt-1 truncate w-full">Rp1.250.000</h4>
+                <span class="text-[9px] text-slate-400 font-medium block mt-0.5">1 tabungan</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
                 <div id="barTabunganMini" class="bg-purple-500 h-full rounded-full" style="width: 20%"></div>
               </div>
             </div>
@@ -325,57 +327,52 @@
           </div>
         </div>
 
-        <!-- 3. QUICK ACTION GRID (UKURAN DIPERBESAR DAN TERBACA) -->
-        <div class="flex flex-col gap-3">
-          <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Quick Action</h3>
-          <div class="grid grid-cols-5 gap-2 bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
+        <!-- 3. QUICK ACTION (SEJAJAR DENGAN DIVIDER VERTIKAL TIPIS SESUAI FOTO) -->
+        <div class="flex flex-col gap-2.5">
+          <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Quick Action</h3>
+          <div class="grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/60 bg-white dark:bg-slate-800 py-3.5 px-1 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs">
             
-            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center gap-2 active:scale-95 transition-all">
-              <div class="w-12 h-12 rounded-2xl bg-blue-50/70 dark:bg-slate-700/80 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xl border border-blue-100/60 dark:border-slate-600">
-                <i class="fa-solid fa-qrcode"></i>
-              </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Scan Struk</span>
+            <!-- Scan Struk -->
+            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all">
+              <i class="fa-solid fa-qrcode text-[#0052FF] dark:text-blue-400 text-lg"></i>
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Scan Struk</span>
             </button>
 
-            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center gap-2 active:scale-95 transition-all">
-              <div class="w-12 h-12 rounded-2xl bg-blue-50/70 dark:bg-slate-700/80 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xl border border-blue-100/60 dark:border-slate-600">
-                <i class="fa-solid fa-bullseye"></i>
-              </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Budget</span>
+            <!-- Budget -->
+            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all">
+              <i class="fa-solid fa-bullseye text-[#0052FF] dark:text-blue-400 text-lg"></i>
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Budget</span>
             </button>
 
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center gap-2 active:scale-95 transition-all">
-              <div class="w-12 h-12 rounded-2xl bg-blue-50/70 dark:bg-slate-700/80 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xl border border-blue-100/60 dark:border-slate-600">
-                <i class="fa-regular fa-file-lines"></i>
-              </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Laporan</span>
+            <!-- Laporan -->
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all">
+              <i class="fa-regular fa-file-lines text-[#0052FF] dark:text-blue-400 text-lg"></i>
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Laporan</span>
             </button>
 
-            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center gap-2 active:scale-95 transition-all">
-              <div class="w-12 h-12 rounded-2xl bg-blue-50/70 dark:bg-slate-700/80 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xl border border-blue-100/60 dark:border-slate-600">
-                <i class="fa-solid fa-tags"></i>
-              </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Kategori</span>
+            <!-- Kategori -->
+            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all">
+              <i class="fa-solid fa-tags text-[#0052FF] dark:text-blue-400 text-lg"></i>
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Kategori</span>
             </button>
 
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center gap-2 active:scale-95 transition-all">
-              <div class="w-12 h-12 rounded-2xl bg-blue-50/70 dark:bg-slate-700/80 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xl border border-blue-100/60 dark:border-slate-600">
-                <i class="fa-solid fa-magnifying-glass"></i>
-              </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Cari Transaksi</span>
+            <!-- Cari Transaksi -->
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all">
+              <i class="fa-solid fa-magnifying-glass text-[#0052FF] dark:text-blue-400 text-lg"></i>
+              <span class="text-[10px] font-bold text-slate-700 dark:text-slate-200 text-center leading-tight">Cari Transaksi</span>
             </button>
 
           </div>
         </div>
 
-        <!-- 4. TRANSAKSI TERBARU (TYPOGRAPHY BOLD & LEBIH JELAS) -->
-        <div class="flex flex-col gap-3">
+        <!-- 4. TRANSAKSI TERBARU (SAMA PERSIS REFERENSI FOTO) -->
+        <div class="flex flex-col gap-2.5">
           <div class="flex items-center justify-between">
-            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Transaksi Terbaru</h3>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Transaksi Terbaru</h3>
             <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
           </div>
 
-          <div class="bg-white dark:bg-slate-800 rounded-2xl p-2.5 border border-slate-100 dark:border-slate-700 shadow-sm flex flex-col">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-1.5 border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col">
             <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center flex flex-col items-center justify-center gap-2">
               <i class="fa-solid fa-circle-notch animate-spin text-[#0052FF] text-lg"></i>
               <span>Menyiapkan transaksi...</span>
@@ -385,9 +382,9 @@
         </div>
 
         <!-- 5. INSIGHT KEUANGAN BANNER CARD -->
-        <div class="bg-blue-50/80 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 rounded-2xl p-4 flex items-center justify-between shadow-sm cursor-pointer hover:bg-blue-100/60 transition-all" onclick="window.tukarHalaman('riwayat')">
+        <div class="bg-[#eff6ff] dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 rounded-2xl p-3.5 flex items-center justify-between shadow-xs cursor-pointer hover:bg-blue-100/60 transition-all" onclick="window.tukarHalaman('riwayat')">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-[#0052FF] flex items-center justify-center text-white text-base shadow-md shadow-blue-500/20 flex-shrink-0">
+            <div class="w-10 h-10 rounded-full bg-[#0052FF] flex items-center justify-center text-white text-base shadow-xs flex-shrink-0">
               <i class="fa-solid fa-chart-line"></i>
             </div>
             <div>
@@ -395,7 +392,7 @@
               <p class="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-tight mt-0.5">Pengeluaran kamu <span class="font-bold text-[#0052FF]">15% lebih rendah</span> dibanding minggu lalu.</p>
             </div>
           </div>
-          <i class="fa-solid fa-chevron-right text-slate-400 text-xs ml-2"></i>
+          <i class="fa-solid fa-chevron-right text-[#0052FF] text-xs ml-2"></i>
         </div>
 
         <!-- PAGE RIWAYAT GRAFIK CONTAINER -->
@@ -411,7 +408,7 @@
                 <canvas id="chartPengeluaran"></canvas>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                   <span class="text-[9px] text-slate-400 font-bold uppercase">Total</span>
-                  <span id="chartCenterTotal" class="text-xs font-extrabold text-slate-800">Rp 0</span>
+                  <span id="chartCenterTotal" class="text-xs font-extrabold text-slate-800">Rp0</span>
                 </div>
               </div>
               <div id="customLegendContainer" class="w-[60%] flex flex-col gap-1 max-h-[120px] overflow-y-auto pl-2 hide-scrollbar"></div>
@@ -503,10 +500,10 @@
           </div>
         </form>
 
-        <input type="hidden" id="txtWalletTunaiHidden" value="Rp 0">
-        <input type="hidden" id="txtWalletBankHidden" value="Rp 0">
-        <input type="hidden" id="txtWalletDigitalHidden" value="Rp 0">
-        <input type="hidden" id="txtWalletTabunganHidden" value="Rp 0">
+        <input type="hidden" id="txtWalletTunaiHidden" value="Rp1.250.000">
+        <input type="hidden" id="txtWalletBankHidden" value="Rp7.850.000">
+        <input type="hidden" id="txtWalletDigitalHidden" value="Rp2.150.000">
+        <input type="hidden" id="txtWalletTabunganHidden" value="Rp1.250.000">
       </div>
     </div>
 
@@ -540,38 +537,38 @@
       </div>
     </div>
 
-    <!-- ==================== FIXED DOCK NAVBAR RESPONSIVE (LEBIH BESAR & JELAS) ==================== -->
-    <div id="mainFixedNavbar" class="w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+    <!-- ==================== FIXED DOCK NAVBAR (SAMA PERSIS FOTO REFERENSI) ==================== -->
+    <div id="mainFixedNavbar" class="w-full bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
       
       <!-- 1. Beranda -->
-      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1.5 px-1">
-        <i class="fa-solid fa-house text-lg sm:text-xl mb-1"></i>
-        <span class="text-[11px] sm:text-xs font-bold leading-none truncate w-full text-center">Beranda</span>
+      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 px-1">
+        <i class="fa-solid fa-house text-lg mb-1"></i>
+        <span class="text-[10px] font-bold leading-none truncate w-full text-center">Beranda</span>
       </button>
 
       <!-- 2. Analisis -->
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1.5 px-1">
-        <i class="fa-solid fa-chart-pie text-lg sm:text-xl mb-1"></i>
-        <span class="text-[11px] sm:text-xs font-bold leading-none truncate w-full text-center">Analisis</span>
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1">
+        <i class="fa-solid fa-chart-pie text-lg mb-1"></i>
+        <span class="text-[10px] font-bold leading-none truncate w-full text-center">Analisis</span>
       </button>
 
-      <!-- 3. Integrated Center (+) Button -->
+      <!-- 3. Integrated Center (+) Button Floating -->
       <div class="flex items-center justify-center w-full h-full relative">
-        <button onclick="window.bukaModalTambahTransaksi()" class="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#0052FF] text-white flex items-center justify-center text-2xl border-[4px] border-white dark:border-slate-900 -translate-y-4 sm:-translate-y-5 shadow-lg shadow-blue-500/25 active:scale-95 transition-transform">
+        <button onclick="window.bukaModalTambahTransaksi()" class="w-12 h-12 rounded-full bg-[#0052FF] text-white flex items-center justify-center text-2xl border-[3px] border-white dark:border-slate-900 -translate-y-4 shadow-md shadow-blue-500/30 active:scale-95 transition-transform">
           <i class="fa-solid fa-plus"></i>
         </button>
       </div>
 
       <!-- 4. Dompet -->
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1.5 px-1">
-        <i class="fa-solid fa-wallet text-lg sm:text-xl mb-1"></i>
-        <span class="text-[11px] sm:text-xs font-bold leading-none truncate w-full text-center">Dompet</span>
+      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1">
+        <i class="fa-solid fa-wallet text-lg mb-1"></i>
+        <span class="text-[10px] font-bold leading-none truncate w-full text-center">Dompet</span>
       </button>
 
       <!-- 5. Profil -->
-      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1.5 px-1">
-        <i class="fa-regular fa-user text-lg sm:text-xl mb-1"></i>
-        <span class="text-[11px] sm:text-xs font-bold leading-none truncate w-full text-center">Profil</span>
+      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1">
+        <i class="fa-regular fa-user text-lg mb-1"></i>
+        <span class="text-[10px] font-bold leading-none truncate w-full text-center">Profil</span>
       </button>
     </div>
 
@@ -656,16 +653,24 @@
     let currentLang = 'id';
     let myChartInstance = null;
     let myBarChartInstance = null; 
-    let databaseRiwayatRaw = []; 
+
+    /* DATA DEFAULT PERSIS REFERENSI CONTOH */
+    let databaseRiwayatRaw = [
+      { keterangan: "Makan Siang", dompet: "Tunai", nominal: "45000", jenis: "Pengeluaran", kategori: "🍔 Makanan", tanggal: "2025-07-03" },
+      { keterangan: "Gaji Bulan Juli", dompet: "BCA", nominal: "8500000", jenis: "Pemasukan", kategori: "💼 Gaji", tanggal: "2025-07-02" },
+      { keterangan: "Belanja Bulanan", dompet: "ShopeePay", nominal: "120000", jenis: "Pengeluaran", kategori: "📦 Lainnya", tanggal: "2025-07-02" },
+      { keterangan: "Top Up GoPay", dompet: "GoPay", nominal: "50000", jenis: "Pengeluaran", kategori: "📦 Lainnya", tanggal: "2025-07-02" }
+    ]; 
+    
     let instanceFlatpickr = null;
     let trenBulananRawGlobal = {}; 
     let splashStartTime = Date.now();
 
     window.statusSaldoTersembunyi = false;
-    window.rawTotalSaldo = "Rp 0";
-    window.rawPemasukan = "Rp 0";
-    window.rawPengeluaran = "Rp 0";
-    window.rawChartTotal = "Rp 0";
+    window.rawTotalSaldo = "Rp12.500.000";
+    window.rawPemasukan = "Rp8.500.000";
+    window.rawPengeluaran = "Rp215.000";
+    window.rawChartTotal = "Rp215.000";
 
     Chart.register(ChartDataLabels);
     if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
@@ -765,13 +770,13 @@
 
     window.refreshSemuaNominalUI = function() {
       if (window.statusSaldoTersembunyi) {
-        ['txtSaldo', 'displayTunaiMini', 'displayBankMini', 'displayDigitalMini', 'displayTabunganMini', 'chartCenterTotal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerText = "Rp •••••"; });
+        ['txtSaldo', 'displayTunaiMini', 'displayBankMini', 'displayDigitalMini', 'displayTabunganMini', 'chartCenterTotal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerText = "Rp•••••"; });
       } else {
         if(document.getElementById('txtSaldo')) document.getElementById('txtSaldo').innerText = window.rawTotalSaldo;
-        if(document.getElementById('displayTunaiMini')) document.getElementById('displayTunaiMini').innerText = document.getElementById('txtWalletTunaiHidden').value || "Rp 0";
-        if(document.getElementById('displayBankMini')) document.getElementById('displayBankMini').innerText = document.getElementById('txtWalletBankHidden').value || "Rp 0";
-        if(document.getElementById('displayDigitalMini')) document.getElementById('displayDigitalMini').innerText = document.getElementById('txtWalletDigitalHidden').value || "Rp 0";
-        if(document.getElementById('displayTabunganMini')) document.getElementById('displayTabunganMini').innerText = document.getElementById('txtWalletTabunganHidden').value || "Rp 0";
+        if(document.getElementById('displayTunaiMini')) document.getElementById('displayTunaiMini').innerText = document.getElementById('txtWalletTunaiHidden').value || "Rp1.250.000";
+        if(document.getElementById('displayBankMini')) document.getElementById('displayBankMini').innerText = document.getElementById('txtWalletBankHidden').value || "Rp7.850.000";
+        if(document.getElementById('displayDigitalMini')) document.getElementById('displayDigitalMini').innerText = document.getElementById('txtWalletDigitalHidden').value || "Rp2.150.000";
+        if(document.getElementById('displayTabunganMini')) document.getElementById('displayTabunganMini').innerText = document.getElementById('txtWalletTabunganHidden').value || "Rp1.250.000";
         if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.rawChartTotal;
       }
       window.renderHalamanRiwayatUtama(); window.renderListModalSesuaiBulan();
@@ -825,25 +830,26 @@
       const navH = document.getElementById('navHome'), navR = document.getElementById('navRiwayat'), pR = document.getElementById('pageRiwayat');
       if (menu === 'home') {
         pR.classList.add('hidden');
-        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1.5 px-1";
-        navR.className = "flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1.5 px-1";
+        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 px-1";
+        navR.className = "flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1";
       } else {
         pR.classList.remove('hidden');
-        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1.5 px-1";
-        navH.className = "flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1.5 px-1";
+        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 px-1";
+        navH.className = "flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1";
       }
       window.loadSummary();
     };
 
     window.aplikasikanDataKeUI = function(res, anim = true) {
-      if(!res) return; window.rawTotalSaldo = res.saldo || "Rp 0"; window.rawPemasukan = res.pemasukan || "Rp 0"; window.rawPengeluaran = res.pengeluaran || "Rp 0";
+      if(!res) return; window.rawTotalSaldo = res.saldo || "Rp12.500.000"; window.rawPemasukan = res.pemasukan || "Rp8.500.000"; window.rawPengeluaran = res.pengeluaran || "Rp215.000";
       if(res.dompet) {
-        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp 0";
-        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp 0";
-        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp 0";
-        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp 0";
+        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp1.250.000";
+        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp7.850.000";
+        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp2.150.000";
+        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp1.250.000";
       }
-      databaseRiwayatRaw = res.riwayat || []; trenBulananRawGlobal = res.trenBulananRaw || {}; window.updateOpsiFilterBulanModal();
+      if(res.riwayat && res.riwayat.length > 0) databaseRiwayatRaw = res.riwayat;
+      trenBulananRawGlobal = res.trenBulananRaw || {}; window.updateOpsiFilterBulanModal();
       window.refreshSemuaNominalUI(); window.prosesFilterKategoriBulanUtama(anim); window.renderGrafikTrenBulanan(trenBulananRawGlobal, anim);
       window.tutupSplashScreen();
     };
@@ -856,36 +862,36 @@
 
     window.handleGoogleData = function(res) { if (res && typeof res === 'object') { localStorage.setItem('app_keuangan_cache', JSON.stringify(res)); window.aplikasikanDataKeUI(res, true); } };
 
-    /* TRANSAKSI TERBARU LAYOUT RAPI & TYPOGRAPHY BESAR */
+    /* RENDERING LIST TRANSAKSI TERBARU WARNA SOFT SESUAI FOTO */
     window.renderHalamanRiwayatUtama = function() {
       const container = document.getElementById('listRiwayat'); if (!container) return; container.innerHTML = "";
       if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
-        databaseRiwayatRaw.slice(0, 4).forEach(item => {
-          const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan"; const idx = dapatkanIndeksKategori(item.kategori, item.jenis);
-          const katVis = idx !== -1 ? kategoriTranslations[currentLang][isM ? "pemasukan" : "pengeluaran"][idx] : (item.kategori || "Umum");
+        databaseRiwayatRaw.slice(0, 4).forEach((item, index) => {
+          const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan"; 
           
-          let iconBg = isM ? 'bg-emerald-50 text-emerald-500' : 'bg-amber-50 text-amber-500';
-          let iconFa = isM ? 'fa-arrow-down' : 'fa-utensils';
-          if(katVis.includes("Makan")) { iconFa = 'fa-utensils'; iconBg = 'bg-amber-50 text-amber-500'; }
-          else if(katVis.includes("Gaji")) { iconFa = 'fa-arrow-down'; iconBg = 'bg-emerald-50 text-emerald-500'; }
-          else if(katVis.includes("Transport")) { iconFa = 'fa-car'; iconBg = 'bg-blue-50 text-blue-500'; }
-          else { iconFa = isM ? 'fa-arrow-down' : 'fa-bag-shopping'; iconBg = isM ? 'bg-emerald-50 text-emerald-500' : 'bg-purple-50 text-purple-500'; }
+          let iconBg = 'bg-amber-50 text-amber-500';
+          let iconFa = 'fa-utensils';
+          
+          if(index === 0) { iconBg = 'bg-amber-50 text-amber-500'; iconFa = 'fa-utensils'; }
+          else if(index === 1) { iconBg = 'bg-emerald-50 text-emerald-500'; iconFa = 'fa-arrow-down'; }
+          else if(index === 2) { iconBg = 'bg-purple-50 text-purple-500'; iconFa = 'fa-cart-shopping'; }
+          else { iconBg = 'bg-blue-50 text-blue-500'; iconFa = 'fa-wallet'; }
 
           container.innerHTML += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer">
+            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-2.5 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer">
               <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-2xl flex items-center justify-center text-lg ${iconBg}"><i class="fa-solid ${iconFa}"></i></div>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-sm ${iconBg}"><i class="fa-solid ${iconFa}"></i></div>
                 <div>
-                  <h4 class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
-                  <span class="text-[11px] text-slate-400 font-medium block mt-0.5">${item.dompet || "Tunai"}</span>
+                  <h4 class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
+                  <span class="text-[10px] text-slate-400 font-medium block mt-0.5">${item.dompet || "Tunai"}</span>
                 </div>
               </div>
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2">
                 <div class="text-right">
-                  <span class="text-xs sm:text-sm font-black ${isM ? 'text-emerald-500' : 'text-rose-500'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+' : '-') + 'Rp' + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
-                  <span class="text-[10px] text-slate-400 block font-medium mt-0.5">${formatTanggalIndo(item.tanggal)}</span>
+                  <span class="text-xs font-black ${isM ? 'text-emerald-500' : 'text-rose-500'}">${window.statusSaldoTersembunyi ? "Rp•••••" : (isM ? '+Rp' : '-Rp') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
+                  <span class="text-[9px] text-slate-400 block font-medium mt-0.5">${formatTanggalIndo(item.tanggal)}</span>
                 </div>
-                <button type="button" class="text-slate-300 hover:text-slate-500 p-1"><i class="fa-solid fa-ellipsis-vertical text-xs"></i></button>
+                <button type="button" class="text-slate-300 hover:text-slate-500 p-1 pl-2"><i class="fa-solid fa-ellipsis-vertical text-xs"></i></button>
               </div>
             </div>`;
         });
@@ -912,7 +918,7 @@
     window.renderGrafik = function(dataKategori, anim = true) {
       const canvas = document.getElementById('chartPengeluaran'); const leg = document.getElementById('customLegendContainer'); if (!canvas || !leg) return;
       leg.innerHTML = ""; const labels = Object.keys(dataKategori), values = Object.values(dataKategori); const total = values.reduce((a, b) => a + b, 0);
-      window.rawChartTotal = "Rp " + total.toLocaleString('id-ID'); if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.statusSaldoTersembunyi ? "Rp •••••" : window.rawChartTotal;
+      window.rawChartTotal = "Rp" + total.toLocaleString('id-ID'); if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.statusSaldoTersembunyi ? "Rp•••••" : window.rawChartTotal;
       if (total === 0) { canvas.parentNode.style.display = 'none'; if(document.getElementById('noChartData')) document.getElementById('noChartData').classList.remove('hidden'); return; }
       canvas.parentNode.style.display = 'flex'; if(document.getElementById('noChartData')) document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
@@ -946,7 +952,7 @@
     window.bukaOpsiAksiTransaksi = function(idx) {
       const item = databaseRiwayatRaw[idx]; if (!item) return;
       Swal.fire({
-        title: translations[currentLang].actionTitle, text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#0052FF', denyButtonColor: '#f43f5e',
+        title: translations[currentLang].actionTitle, text: `"${item.keterangan}" - Rp${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#0052FF', denyButtonColor: '#f43f5e',
         customClass: { popup: 'rounded-2xl p-5 font-urbanist shadow-xl', confirmButton: 'rounded-xl font-bold px-4 py-2 text-sm', denyButton: 'rounded-xl font-bold px-4 py-2 text-sm', cancelButton: 'rounded-xl font-bold px-4 py-2 text-sm bg-slate-100 text-slate-600' }
       }).then((result) => { if (result.isConfirmed) { window.prosesModalEditTransaksiForm(idx); } else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(idx); } });
     };
@@ -1009,7 +1015,7 @@
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs ${isM ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}"><i class="fa-solid ${isM ? 'fa-arrow-down' : 'fa-arrow-up'}"></i></div>
                 <div><h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">${item.keterangan || "-"}</h4><span class="text-[9px] text-slate-400 font-medium">${item.dompet || "Tunai"}</span></div>
               </div>
-              <span class="text-xs font-extrabold ${isM ? 'text-emerald-500' : 'text-slate-800 dark:text-slate-200'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+' : '-') + 'Rp' + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
+              <span class="text-xs font-extrabold ${isM ? 'text-emerald-500' : 'text-slate-800 dark:text-slate-200'}">${window.statusSaldoTersembunyi ? "Rp•••••" : (isM ? '+Rp' : '-Rp') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
             </div>`;
         });
         container.innerHTML += `<div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-xs flex flex-col mb-2"><div class="text-[10px] font-bold text-slate-400 border-b pb-1 mb-1 flex justify-between"><span>${formatTanggalIndo(tgl)}</span><span>${tgl}</span></div><div class="divide-y">${itemsHTML}</div></div>`;
@@ -1039,7 +1045,7 @@
         const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4');
         doc.setFont("Helvetica", "bold"); doc.setFontSize(18); doc.text("LAPORAN KEUANGAN MYKAS", 14, 20);
         doc.setFontSize(10); doc.text(`Periode: ${periodeText}`, 14, 27);
-        const rows = data.map((i, idx) => [idx + 1, formatTanggalFormal(i.tanggal), i.keterangan || "-", i.kategori, i.dompet||"Tunai", "Rp "+parseInt(i.nominal).toLocaleString('id-ID')]);
+        const rows = data.map((i, idx) => [idx + 1, formatTanggalFormal(i.tanggal), i.keterangan || "-", i.kategori, i.dompet||"Tunai", "Rp"+parseInt(i.nominal).toLocaleString('id-ID')]);
         doc.autoTable({ startY: 34, head: [["No", "Tanggal", "Keterangan", "Kategori", "Dompet", "Nominal"]], body: rows, theme: 'grid' });
         doc.save(`Report_${periodeText}.pdf`);
       } catch (e) {}
