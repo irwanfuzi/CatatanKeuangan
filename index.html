@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* FLAT MATERIAL 3 FULL-WIDTH BOTTOM NAVBAR */
+    /* FLAT MATERIAL 3 BOTTOM NAVBAR (TANPA BAYANGAN / NO SHADOW) */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -88,12 +88,12 @@
       right: 0 !important;
       z-index: 9999 !important;
       
-      height: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+      height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
       padding-bottom: env(safe-area-inset-bottom, 0px) !important;
       
-      background: #ffffff;
-      border-top: 1px solid #e2e8f0;
-      box-shadow: 0 -2px 10px rgba(15, 23, 42, 0.03);
+      background: #ffffff !important;
+      border-top: 1px solid #e2e8f0 !important;
+      box-shadow: none !important; /* Hapus bayangan total */
       
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -142,7 +142,7 @@
     /* DARK MODE STYLING MATERIAL 3 */
     body.dark { background-color: #030712; color: #f8fafc; }
     body.dark #appCanvasWrapper { background-color: #0f172a !important; border-color: #1e293b !important; }
-    body.dark #mainFixedNavbar { background: #0f172a !important; border-color: #1e293b !important; }
+    body.dark #mainFixedNavbar { background: #0f172a !important; border-color: #1e293b !important; box-shadow: none !important; }
     body.dark .bg-white { background-color: #1e293b !important; color: #f8fafc !important; }
     body.dark .text-slate-800, body.dark .text-slate-700 { color: #f1f5f9 !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94a3b8 !important; }
@@ -266,7 +266,7 @@
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
                 <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tunai</span>
-                <h4 id="displayTunaiMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
+                <h4 id="displayTunaiMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp136.500</h4>
                 <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">1 dompet</span>
               </div>
               <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
@@ -290,7 +290,7 @@
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
                 <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Bank</span>
-                <h4 id="displayBankMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp7.850.000</h4>
+                <h4 id="displayBankMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp2.196.988</h4>
                 <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">4 rekening</span>
               </div>
               <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
@@ -309,11 +309,11 @@
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
                 <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">E-Wallet</span>
-                <h4 id="displayDigitalMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp2.150.000</h4>
+                <h4 id="displayDigitalMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp0</h4>
                 <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">3 e-wallet</span>
               </div>
               <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
-                <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 50%"></div>
+                <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 0%"></div>
               </div>
             </div>
 
@@ -328,11 +328,11 @@
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
                 <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tabungan</span>
-                <h4 id="displayTabunganMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
+                <h4 id="displayTabunganMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp0</h4>
                 <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">1 tabungan</span>
               </div>
               <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
-                <div id="barTabunganMini" class="bg-purple-600 h-full rounded-full" style="width: 30%"></div>
+                <div id="barTabunganMini" class="bg-purple-600 h-full rounded-full" style="width: 0%"></div>
               </div>
             </div>
 
@@ -526,10 +526,10 @@
           </div>
         </form>
 
-        <input type="hidden" id="txtWalletTunaiHidden" value="Rp1.250.000">
-        <input type="hidden" id="txtWalletBankHidden" value="Rp7.850.000">
-        <input type="hidden" id="txtWalletDigitalHidden" value="Rp2.150.000">
-        <input type="hidden" id="txtWalletTabunganHidden" value="Rp1.250.000">
+        <input type="hidden" id="txtWalletTunaiHidden" value="Rp136.500">
+        <input type="hidden" id="txtWalletBankHidden" value="Rp2.196.988">
+        <input type="hidden" id="txtWalletDigitalHidden" value="Rp0">
+        <input type="hidden" id="txtWalletTabunganHidden" value="Rp0">
       </div>
     </div>
 
@@ -563,7 +563,7 @@
       </div>
     </div>
 
-    <!-- ==================== FLAT MATERIAL 3 FULL-WIDTH BOTTOM NAVBAR ==================== -->
+    <!-- ==================== FLAT MATERIAL 3 FULL-WIDTH BOTTOM NAVBAR (100% NO SHADOW) ==================== -->
     <div id="mainFixedNavbar">
       
       <!-- 1. Beranda -->
@@ -582,12 +582,12 @@
         <span class="text-[10px] font-bold tracking-tight">Analisis</span>
       </button>
 
-      <!-- 3. M3 PROTRUDING SQUIRCLE FAB (50% Menonjol, Flat, Tanpa Cekungan SVG) -->
+      <!-- 3. SQUIRCLE FAB KHAS MYKAS (50% Memotong Garis, Tanpa Bayangan) -->
       <div class="flex items-center justify-center w-full h-full relative">
-        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-6 w-13 h-13 rounded-2xl bg-[#0052FF] hover:bg-blue-700 text-white flex items-center justify-center text-xl border-[4px] border-white dark:border-slate-900 shadow-lg shadow-blue-600/25 active:scale-95 transition-all duration-200 group">
-          <i class="fa-solid fa-plus text-lg group-hover:rotate-90 transition-transform duration-300"></i>
+        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-3.5 w-11 h-11 rounded-2xl bg-[#0052FF] active:bg-blue-700 text-white flex items-center justify-center text-lg border-[3.5px] border-white dark:border-slate-900 active:scale-95 transition-all duration-200 group">
+          <i class="fa-solid fa-plus text-base group-hover:rotate-90 transition-transform duration-300"></i>
           <!-- Gold Dot Accent Signature MyKas -->
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-300 rounded-full border border-white dark:border-slate-900"></span>
+          <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-amber-300 rounded-full border border-white dark:border-slate-900"></span>
         </button>
       </div>
 
@@ -809,10 +809,10 @@
         ['txtSaldo', 'displayTunaiMini', 'displayBankMini', 'displayDigitalMini', 'displayTabunganMini', 'chartCenterTotal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerText = "Rp •••••"; });
       } else {
         if(document.getElementById('txtSaldo')) document.getElementById('txtSaldo').innerText = window.rawTotalSaldo;
-        if(document.getElementById('displayTunaiMini')) document.getElementById('displayTunaiMini').innerText = document.getElementById('txtWalletTunaiHidden').value || "Rp1.250.000";
-        if(document.getElementById('displayBankMini')) document.getElementById('displayBankMini').innerText = document.getElementById('txtWalletBankHidden').value || "Rp7.850.000";
-        if(document.getElementById('displayDigitalMini')) document.getElementById('displayDigitalMini').innerText = document.getElementById('txtWalletDigitalHidden').value || "Rp2.150.000";
-        if(document.getElementById('displayTabunganMini')) document.getElementById('displayTabunganMini').innerText = document.getElementById('txtWalletTabunganHidden').value || "Rp1.250.000";
+        if(document.getElementById('displayTunaiMini')) document.getElementById('displayTunaiMini').innerText = document.getElementById('txtWalletTunaiHidden').value || "Rp136.500";
+        if(document.getElementById('displayBankMini')) document.getElementById('displayBankMini').innerText = document.getElementById('txtWalletBankHidden').value || "Rp2.196.988";
+        if(document.getElementById('displayDigitalMini')) document.getElementById('displayDigitalMini').innerText = document.getElementById('txtWalletDigitalHidden').value || "Rp0";
+        if(document.getElementById('displayTabunganMini')) document.getElementById('displayTabunganMini').innerText = document.getElementById('txtWalletTabunganHidden').value || "Rp0";
         if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.rawChartTotal;
       }
       window.renderHalamanRiwayatUtama(); window.renderListModalSesuaiBulan();
@@ -885,10 +885,10 @@
     window.aplikasikanDataKeUI = function(res, anim = true) {
       if(!res) return; window.rawTotalSaldo = res.saldo || "Rp 2.333.488"; window.rawPemasukan = res.pemasukan || "Rp0"; window.rawPengeluaran = res.pengeluaran || "Rp 76.000";
       if(res.dompet) {
-        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp1.250.000";
-        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp7.850.000";
-        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp2.150.000";
-        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp1.250.000";
+        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp136.500";
+        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp2.196.988";
+        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp0";
+        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp0";
       }
       if(res.riwayat && res.riwayat.length > 0) databaseRiwayatRaw = res.riwayat;
       trenBulananRawGlobal = res.trenBulananRaw || {}; window.updateOpsiFilterBulanModal();
@@ -911,20 +911,22 @@
         databaseRiwayatRaw.slice(0, 4).forEach((item, index) => {
           const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan"; 
           
-          let iconBg = 'bg-amber-100/60 text-amber-600';
-          let iconFa = 'fa-utensils';
+          let iconBg = 'bg-[#FFF8E7] text-[#D97706]';
+          let iconFa = 'fa-[#D97706]';
           
-          if(index === 0) { iconBg = 'bg-amber-100/60 text-amber-600'; iconFa = 'fa-utensils'; }
-          else if(index === 1) { iconBg = 'bg-emerald-100/60 text-emerald-600'; iconFa = 'fa-arrow-down'; }
-          else if(index === 2) { iconBg = 'bg-purple-100/60 text-purple-600'; iconFa = 'fa-basket-shopping'; }
-          else { iconBg = 'bg-blue-100/60 text-blue-600'; iconFa = 'fa-wallet'; }
+          if(index === 0) { iconBg = 'bg-[#FFF8E7] text-[#D97706]'; }
+          else if(index === 1) { iconBg = 'bg-[#E6F4EA] text-[#137333]'; }
+          else if(index === 2) { iconBg = 'bg-[#F3E8FF] text-[#7E22CE]'; }
+          else { iconBg = 'bg-[#E8F0FE] text-[#1A73E8]'; }
 
           const cleanDompetName = (item.dompet || "Kantong Tunai").replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
 
           container.innerHTML += `
             <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-2.5 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer">
               <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs ${iconBg} flex-shrink-0"><i class="fa-solid ${iconFa}"></i></div>
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs ${iconBg} flex-shrink-0">
+                  <i class="fa-solid ${isM ? 'fa-arrow-down' : (index===0?'fa-utensils':(index===2?'fa-basket-shopping':'fa-wallet'))}"></i>
+                </div>
                 <div>
                   <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
                   <div class="flex items-center gap-1.5 text-[9.5px] text-slate-400 font-medium mt-0.5">
