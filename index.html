@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* FULL-WIDTH INTEGRATED BOTTOM NAVBAR */
+    /* SEAMLESS NOTCHED BOTTOM NAVBAR */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -88,10 +88,10 @@
       right: 0 !important;
       z-index: 9999 !important;
       
-      height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+      height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
       padding-bottom: env(safe-area-inset-bottom, 0px) !important;
       
-      background: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid rgba(226, 232, 240, 0.8);
@@ -144,7 +144,7 @@
     /* DARK MODE STYLING */
     body.dark { background-color: #030712; color: #f8fafc; }
     body.dark #appCanvasWrapper { background-color: #0f172a !important; border-color: #1e293b !important; }
-    body.dark #mainFixedNavbar { background: rgba(15, 23, 42, 0.94) !important; border-color: rgba(30, 41, 59, 0.8) !important; }
+    body.dark #mainFixedNavbar { background: rgba(15, 23, 42, 0.95) !important; border-color: rgba(30, 41, 59, 0.8) !important; }
     body.dark .bg-white { background-color: #1e293b !important; color: #f8fafc !important; }
     body.dark .text-slate-800, body.dark .text-slate-700 { color: #f1f5f9 !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94a3b8 !important; }
@@ -152,6 +152,7 @@
     body.dark .border-slate-100, body.dark .border-slate-200 { border-color: #334155 !important; }
     body.dark input, body.dark select, body.dark #btnTriggerKategori { background-color: #0f172a !important; border-color: #334155 !important; color: #f8fafc !important; }
     body.dark .premium-bottom-sheet { background: #1e293b !important; }
+    body.dark .notch-fill { fill: rgba(15, 23, 42, 0.95) !important; stroke: rgba(30, 41, 59, 0.8) !important; }
 
     /* ANIMASI SPLASH SCREEN */
     @keyframes textSlideFadeUp {
@@ -565,7 +566,7 @@
       </div>
     </div>
 
-    <!-- ==================== FULL-WIDTH INTEGRATED BOTTOM NAVBAR ==================== -->
+    <!-- ==================== FULL-WIDTH SEAMLESS NOTCHED BOTTOM NAVBAR ==================== -->
     <div id="mainFixedNavbar">
       
       <!-- 1. Beranda -->
@@ -582,14 +583,19 @@
         <span id="dotNavRiwayat" class="w-1 h-1 bg-[#0052FF] rounded-full absolute bottom-1 hidden"></span>
       </button>
 
-      <!-- 3. Integrated Signature MyKas FAB Button (SETENGAH BADAN TERINTEGRASI) -->
+      <!-- 3. Integrated Dynamic Notch FAB Center (MENYATU SEMPURNA) -->
       <div class="flex items-center justify-center w-full h-full relative">
         
-        <!-- Soft Glow Background Aura -->
-        <div class="absolute -top-5 w-12 h-12 rounded-2xl bg-[#0052FF]/15 blur-sm pointer-events-none"></div>
+        <!-- Seamless SVG Notch Bridge (Menyambungkan Top-Border Navbar dengan Cekungan FAB) -->
+        <svg class="absolute -top-3.5 w-18 h-4 pointer-events-none" viewBox="0 0 72 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 16C8 16 12 0 24 0H48C60 0 64 16 72 16H0Z" class="notch-fill" fill="rgba(255, 255, 255, 0.95)" stroke="rgba(226, 232, 240, 0.8)" stroke-width="1"/>
+        </svg>
 
-        <!-- Integrated Protruding FAB -->
-        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-5 w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0038B8] via-[#0052FF] to-[#2563EB] text-white flex items-center justify-center border-[3.5px] border-white dark:border-slate-900 shadow-md shadow-blue-500/20 active:scale-90 transition-all duration-200 group">
+        <!-- Dynamic Glow Collar -->
+        <div class="absolute -top-6 w-11 h-11 rounded-2xl bg-[#0052FF]/20 blur-md pointer-events-none"></div>
+
+        <!-- Integrated Protruding Squircle FAB -->
+        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-6 w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0038B8] via-[#0052FF] to-[#2563EB] text-white flex items-center justify-center shadow-md shadow-blue-500/30 border-2 border-white/60 dark:border-slate-800 active:scale-90 transition-all duration-200 group">
           <i class="fa-solid fa-plus text-base group-hover:rotate-90 transition-transform duration-300"></i>
           <!-- Gold Dot Accent Signature MyKas -->
           <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-amber-300 rounded-full"></span>
