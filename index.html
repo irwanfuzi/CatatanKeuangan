@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* FLAT MATERIAL 3 BOTTOM NAVBAR (TANPA BAYANGAN / NO SHADOW) */
+    /* FLAT MATERIAL 3 BOTTOM NAVBAR PRESISI (GAMBAR 2) */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -88,12 +88,12 @@
       right: 0 !important;
       z-index: 9999 !important;
       
-      height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+      height: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
       padding-bottom: env(safe-area-inset-bottom, 0px) !important;
       
       background: #ffffff !important;
-      border-top: 1px solid #e2e8f0 !important;
-      box-shadow: none !important; /* Hapus bayangan total */
+      border-top: 1px solid #f1f5f9 !important;
+      box-shadow: none !important;
       
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -192,92 +192,92 @@
     <!-- MAIN SCROLLABLE AREA -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none">
       
-      <!-- HEADER TOP BAR -->
-      <div class="w-full px-4 sm:px-5 pt-4 pb-2.5 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-20">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-[#0052FF] flex items-center justify-center text-white shadow-sm">
-            <i class="fa-solid fa-wallet text-base"></i>
+      <!-- HEADER TOP BAR (DIPERBESAR KHAS GAMBAR 2) -->
+      <div class="w-full px-5 pt-4 pb-3 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-20">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-[#0052FF] flex items-center justify-center text-white shadow-sm">
+            <i class="fa-solid fa-wallet text-lg"></i>
           </div>
-          <span class="text-lg font-extrabold tracking-tight text-[#0052FF] dark:text-blue-400 font-urbanist">MyKas</span>
+          <span class="text-2xl font-black tracking-tight text-[#0052FF] dark:text-blue-400 font-urbanist">MyKas</span>
         </div>
 
-        <div class="flex items-center gap-2">
-          <button onclick="window.bukaBottomSheetBahasa()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 relative active:scale-95 transition-all">
-            <i class="fa-solid fa-bell text-xs"></i>
-            <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-amber-400 rounded-full"></span>
+        <div class="flex items-center gap-2.5">
+          <button onclick="window.bukaBottomSheetBahasa()" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300 relative active:scale-95 transition-all">
+            <i class="fa-solid fa-bell text-sm"></i>
+            <span class="absolute top-2 right-2 w-2 h-2 bg-amber-400 rounded-full border border-white"></span>
           </button>
-          <button onclick="window.toggleDarkMode()" class="w-8 h-8 rounded-full bg-[#0052FF] flex items-center justify-center text-white font-bold text-xs shadow-sm active:scale-95 transition-all">
-            <i id="iconDarkMode" class="fa-solid fa-user text-[11px]"></i>
+          <button onclick="window.toggleDarkMode()" class="w-10 h-10 rounded-full bg-[#0052FF] flex items-center justify-center text-white font-bold text-sm shadow-sm active:scale-95 transition-all">
+            <i id="iconDarkMode" class="fa-solid fa-user text-sm"></i>
           </button>
         </div>
       </div>
 
       <!-- MAIN CONTENT DASHBOARD -->
-      <div class="w-full px-3.5 sm:px-4 pt-1 pb-28 flex flex-col gap-3.5">
+      <div class="w-full px-4 pt-2 pb-28 flex flex-col gap-4">
 
-        <!-- 1. HERO CARD TOTAL ASET -->
-        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-2xl p-4 sm:p-4.5 relative overflow-hidden shadow-sm">
+        <!-- 1. HERO CARD TOTAL ASET (PROPORSI GAMBAR 2) -->
+        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-2xl p-5 relative overflow-hidden shadow-sm">
           <div class="flex justify-between items-start relative z-10">
             <div>
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-medium text-blue-100/90 tracking-wide">Total Aset</span>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="text-sm font-semibold text-blue-100/90 tracking-wide">Total Aset</span>
                 <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-blue-100/80 hover:text-white transition-all">
-                  <i id="iconToggleSaldo" class="fa-regular fa-eye text-xs"></i>
+                  <i id="iconToggleSaldo" class="fa-regular fa-eye text-sm"></i>
                 </button>
               </div>
-              <h2 id="txtSaldo" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2">Rp 2.333.488</h2>
+              <h2 id="txtSaldo" class="text-3xl sm:text-4xl font-black tracking-tight text-white mb-3">Rp12.500.000</h2>
               
-              <div class="flex flex-col gap-1.5">
-                <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-white/10 backdrop-blur-md rounded-lg text-emerald-300 text-[10px] sm:text-[11px] font-bold w-fit">
-                  <i class="fa-solid fa-arrow-up text-[8px]"></i>
+              <div class="flex flex-col gap-2">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-lg text-emerald-300 text-xs font-bold w-fit">
+                  <i class="fa-solid fa-arrow-up text-[9px]"></i>
                   <span>12,5%</span>
                   <span class="font-normal text-blue-100/90 ml-0.5">dari bulan lalu</span>
                 </div>
-                <div class="flex items-center gap-1.5 text-[10px] text-blue-100/80">
-                  <i class="fa-regular fa-clock text-[9px]"></i>
+                <div class="flex items-center gap-2 text-xs text-blue-100/80 font-medium">
+                  <i class="fa-regular fa-clock text-xs"></i>
                   <span>Diperbarui 09.30 WIB</span>
                 </div>
               </div>
             </div>
 
-            <!-- WALLET HERO ICON -->
-            <div class="w-14 sm:w-16 h-14 sm:h-16 relative flex-shrink-0 flex items-center justify-center">
-              <div class="w-12 sm:w-14 h-12 sm:h-14 bg-blue-400/20 rounded-xl border border-white/20 backdrop-blur-md flex items-center justify-center">
-                <i class="fa-solid fa-wallet text-amber-300 text-xl sm:text-2xl filter drop-shadow-sm"></i>
+            <!-- WALLET HERO ICON (LEBIH BESAR KHAS GAMBAR 2) -->
+            <div class="w-16 sm:w-20 h-16 sm:h-20 relative flex-shrink-0 flex items-center justify-center">
+              <div class="w-14 sm:w-16 h-14 sm:h-16 bg-blue-400/20 rounded-2xl border border-white/20 backdrop-blur-md flex items-center justify-center shadow-inner">
+                <i class="fa-solid fa-wallet text-amber-300 text-2xl sm:text-3xl filter drop-shadow-md"></i>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA -->
-        <div class="flex flex-col gap-1.5">
+        <!-- 2. DOMPET SAYA (UKURAN DIPERBESAR) -->
+        <div class="flex flex-col gap-2">
           <div class="flex items-center justify-between px-0.5">
-            <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200">Dompet Saya</h3>
-            <button onclick="window.bukaModalDetailSemua()" class="text-[11px] font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></button>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
+            <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
           </div>
 
-          <!-- GRID 4 KOLOM RESPONSIVE -->
-          <div class="grid grid-cols-4 gap-1.5">
+          <!-- GRID 4 KOLOM RESPONSIVE DEGAN UKURAN ELEMEN DIPERBESAR -->
+          <div class="grid grid-cols-4 gap-2">
             
             <!-- 1. Tunai -->
-            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all h-[135px] sm:h-[145px] min-w-0">
-              <div class="w-8 h-8 rounded-lg border-[2px] border-amber-400 bg-amber-50/30 flex items-center justify-center text-amber-500 font-extrabold text-xs my-0.5">
+            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all h-[155px] sm:h-[165px] min-w-0">
+              <div class="w-11 h-11 rounded-xl border-[2px] border-amber-400 bg-amber-50/40 flex items-center justify-center text-amber-500 font-black text-sm my-0.5">
                 Rp
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tunai</span>
-                <h4 id="displayTunaiMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp136.500</h4>
-                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">1 dompet</span>
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tunai</span>
+                <h4 id="displayTunaiMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp1.250.000</h4>
+                <span class="text-[10px] text-slate-400 font-semibold mt-0.5 truncate w-full">1 dompet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
                 <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 40%"></div>
               </div>
             </div>
 
             <!-- 2. Bank -->
-            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0f172a] transition-all h-[135px] sm:h-[145px] min-w-0">
-              <div class="w-8 h-8 flex items-center justify-center my-0.5">
-                <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0f172a] transition-all h-[155px] sm:h-[165px] min-w-0">
+              <div class="w-11 h-11 flex items-center justify-center my-0.5">
+                <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 18L24 6L42 18" stroke="#0f172a" stroke-width="3"/>
                   <circle cx="24" cy="13" r="2" fill="#f59e0b"/>
                   <line x1="6" y1="20" x2="42" y2="20" stroke="#0f172a" stroke-width="3"/>
@@ -289,65 +289,65 @@
                 </svg>
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Bank</span>
-                <h4 id="displayBankMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp2.196.988</h4>
-                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">4 rekening</span>
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Rekening Bank</span>
+                <h4 id="displayBankMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp7.850.000</h4>
+                <span class="text-[10px] text-slate-400 font-semibold mt-0.5 truncate w-full">4 rekening</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
                 <div id="barBankMini" class="bg-[#0f172a] dark:bg-blue-500 h-full rounded-full" style="width: 70%"></div>
               </div>
             </div>
 
             <!-- 3. E-Wallet -->
-            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all h-[135px] sm:h-[145px] min-w-0">
-              <div class="w-8 h-8 flex items-center justify-center my-0.5">
-                <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all h-[155px] sm:h-[165px] min-w-0">
+              <div class="w-11 h-11 flex items-center justify-center my-0.5">
+                <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="8" y="10" width="32" height="28" rx="6" stroke="#0052FF" stroke-width="3"/>
                   <path d="M28 20H40V28H28C25.8 28 24 26.2 24 24C24 21.8 25.8 20 28 20Z" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5"/>
                   <circle cx="31" cy="24" r="1.5" fill="white"/>
                 </svg>
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">E-Wallet</span>
-                <h4 id="displayDigitalMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp0</h4>
-                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">3 e-wallet</span>
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">E-Wallet</span>
+                <h4 id="displayDigitalMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp2.150.000</h4>
+                <span class="text-[10px] text-slate-400 font-semibold mt-0.5 truncate w-full">3 e-wallet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
-                <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 0%"></div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+                <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 50%"></div>
               </div>
             </div>
 
             <!-- 4. Tabungan -->
-            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all h-[135px] sm:h-[145px] min-w-0">
-              <div class="w-8 h-8 flex items-center justify-center my-0.5">
-                <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all h-[155px] sm:h-[165px] min-w-0">
+              <div class="w-11 h-11 flex items-center justify-center my-0.5">
+                <svg class="w-9 h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 24C12 17.37 17.37 12 24 12C29.5 12 34.1 15.7 35.5 20.8C37.5 21.3 39 23.1 39 25.3C39 27.8 37 29.8 34.5 29.8H34V34C34 35.7 32.7 37 31 37H29V34H19V37H17C15.3 37 14 35.7 14 34V31.5C12.8 30.2 12 28.5 12 26.5" stroke="#0052FF" stroke-width="2.8"/>
                   <circle cx="31" cy="11" r="5" fill="#f59e0b"/>
                   <path d="M29 11L30.5 12.5L33 9.5" stroke="white" stroke-width="1.8"/>
                 </svg>
               </div>
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tabungan</span>
-                <h4 id="displayTabunganMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp0</h4>
-                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">1 tabungan</span>
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tabungan</span>
+                <h4 id="displayTabunganMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp1.250.000</h4>
+                <span class="text-[10px] text-slate-400 font-semibold mt-0.5 truncate w-full">1 tabungan</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
-                <div id="barTabunganMini" class="bg-purple-600 h-full rounded-full" style="width: 0%"></div>
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+                <div id="barTabunganMini" class="bg-purple-600 h-full rounded-full" style="width: 30%"></div>
               </div>
             </div>
 
           </div>
         </div>
 
-        <!-- 3. QUICK ACTION -->
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 px-0.5">Quick Action</h3>
+        <!-- 3. QUICK ACTION (UKURAN DIPERBESAR) -->
+        <div class="flex flex-col gap-2">
+          <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 px-0.5">Quick Action</h3>
           
-          <div class="w-full bg-white dark:bg-slate-800 rounded-xl p-2 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/50">
+          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-2.5 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/50">
             
-            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all min-w-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 10V7C6 6.44772 6.44772 6 7 6H10" stroke="#0052FF" stroke-width="2.5"/>
                   <path d="M22 6H25C25.5523 6 26 6.44772 26 7V10" stroke="#0052FF" stroke-width="2.5"/>
                   <path d="M6 22V25C6 25.5523 6.44772 26 7 26H10" stroke="#0052FF" stroke-width="2.5"/>
@@ -355,67 +355,67 @@
                   <line x1="8" y1="16" x2="24" y2="16" stroke="#f59e0b" stroke-width="3"/>
                 </svg>
               </div>
-              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Scan Struk</span>
+              <span class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Scan Struk</span>
             </button>
 
-            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center relative">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all min-w-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center relative">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="16" cy="16" r="10"/>
                   <circle cx="16" cy="16" r="6"/>
                   <circle cx="16" cy="16" r="2" fill="#0052FF"/>
                 </svg>
-                <i class="fa-solid fa-star text-[7px] text-amber-400 absolute top-0 right-0"></i>
+                <i class="fa-solid fa-star text-[8px] text-amber-400 absolute top-0 right-0"></i>
               </div>
-              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Budget</span>
+              <span class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Budget</span>
             </button>
 
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all min-w-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 5H19L25 11V25C25 26.1 24.1 27 23 27H9C7.9 27 7 26.1 7 25V7C7 5.9 7.9 5 9 5Z"/>
                   <path d="M19 5V11H25"/>
                   <line x1="11" y1="17" x2="21" y2="17"/>
                   <line x1="11" y1="21" x2="17" y2="21"/>
                 </svg>
               </div>
-              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Laporan</span>
+              <span class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Laporan</span>
             </button>
 
-            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all min-w-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M8 17.5L16.5 26L26 16.5V7H16.5L8 17.5Z"/>
                   <circle cx="21.5" cy="11.5" r="1.5" fill="#0052FF"/>
                 </svg>
               </div>
-              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Kategori</span>
+              <span class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Kategori</span>
             </button>
 
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
-                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 px-1 active:scale-95 transition-all min-w-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="14" cy="14" r="7"/>
                   <line x1="19" y1="19" x2="25" y2="25" stroke-width="3"/>
                 </svg>
               </div>
-              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Cari</span>
+              <span class="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Cari</span>
             </button>
 
           </div>
         </div>
 
-        <!-- 4. TRANSAKSI TERBARU -->
-        <div class="flex flex-col gap-1.5">
+        <!-- 4. TRANSAKSI TERBARU (UKURAN DIPERBESAR) -->
+        <div class="flex flex-col gap-2">
           <div class="flex items-center justify-between px-0.5">
-            <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200">Transaksi Terbaru</h3>
-            <button onclick="window.bukaModalDetailSemua()" class="text-[11px] font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></button>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Transaksi Terbaru</h3>
+            <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
           </div>
 
-          <div class="bg-white dark:bg-slate-800 rounded-xl p-1.5 border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-2 border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col">
             <div id="loadingRiwayat" class="text-slate-400 text-xs py-6 text-center flex flex-col items-center justify-center gap-2">
-              <i class="fa-solid fa-circle-notch animate-spin text-[#0052FF] text-base"></i>
-              <span>Menyiapkan transaksi...</span>
+              <i class="fa-solid fa-circle-notch animate-spin text-[#0052FF] text-lg"></i>
+              <span class="font-semibold">Menyiapkan transaksi...</span>
             </div>
             <div id="listRiwayat" class="divide-y divide-slate-100 dark:divide-slate-700/50 hidden"></div>
           </div>
@@ -423,26 +423,26 @@
 
         <!-- PAGE RIWAYAT GRAFIK CONTAINER -->
         <div id="pageRiwayat" class="w-full flex flex-col gap-4 hidden">
-          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs">
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-xs">
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-xs font-bold text-slate-800 dark:text-slate-100">Analisis Pengeluaran</h3>
               <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300"><span id="labelPeriodeUtama">Bulan Ini</span> <i class="fa-solid fa-chevron-down text-[9px]"></i></button>
               <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
             </div>
             <div class="w-full flex items-center justify-between">
-              <div class="relative w-[110px] h-[110px] flex items-center justify-center">
+              <div class="relative w-[120px] h-[120px] flex items-center justify-center">
                 <canvas id="chartPengeluaran"></canvas>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span class="text-[8px] text-slate-400 font-bold uppercase tracking-wider">Total</span>
-                  <span id="chartCenterTotal" class="text-[11px] font-extrabold text-slate-800">Rp0</span>
+                  <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Total</span>
+                  <span id="chartCenterTotal" class="text-xs font-black text-slate-800">Rp0</span>
                 </div>
               </div>
-              <div id="customLegendContainer" class="w-[60%] flex flex-col gap-1 max-h-[110px] overflow-y-auto pl-2 hide-scrollbar"></div>
+              <div id="customLegendContainer" class="w-[60%] flex flex-col gap-1.5 max-h-[120px] overflow-y-auto pl-2 hide-scrollbar"></div>
             </div>
             <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-3 hidden">Tidak ada pengeluaran periode ini</div>
           </div>
 
-          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs">
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-xs">
             <h3 class="text-xs font-bold text-slate-800 dark:text-slate-100 mb-3">Tren Keuangan Bulanan</h3>
             <div class="w-full h-[160px]"><canvas id="chartTrenBulanan"></canvas></div>
           </div>
@@ -526,10 +526,10 @@
           </div>
         </form>
 
-        <input type="hidden" id="txtWalletTunaiHidden" value="Rp136.500">
-        <input type="hidden" id="txtWalletBankHidden" value="Rp2.196.988">
-        <input type="hidden" id="txtWalletDigitalHidden" value="Rp0">
-        <input type="hidden" id="txtWalletTabunganHidden" value="Rp0">
+        <input type="hidden" id="txtWalletTunaiHidden" value="Rp1.250.000">
+        <input type="hidden" id="txtWalletBankHidden" value="Rp7.850.000">
+        <input type="hidden" id="txtWalletDigitalHidden" value="Rp2.150.000">
+        <input type="hidden" id="txtWalletTabunganHidden" value="Rp1.250.000">
       </div>
     </div>
 
@@ -563,48 +563,46 @@
       </div>
     </div>
 
-    <!-- ==================== FLAT MATERIAL 3 FULL-WIDTH BOTTOM NAVBAR (100% NO SHADOW) ==================== -->
+    <!-- ==================== FLAT MATERIAL 3 BOTTOM NAVBAR (PRESISI GAMBAR 2) ==================== -->
     <div id="mainFixedNavbar">
       
       <!-- 1. Beranda -->
       <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group">
-        <div id="pillNavHome" class="px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center transition-all mb-0.5">
-          <i class="fa-solid fa-house text-sm"></i>
+        <div id="pillNavHome" class="flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-solid fa-house text-lg sm:text-xl"></i>
         </div>
-        <span class="text-[10px] font-bold tracking-tight">Beranda</span>
+        <span class="text-xs font-bold tracking-tight">Beranda</span>
       </button>
 
       <!-- 2. Analisis -->
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group">
-        <div id="pillNavRiwayat" class="px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5">
-          <i class="fa-solid fa-chart-pie text-sm"></i>
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group">
+        <div id="pillNavRiwayat" class="flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-solid fa-chart-pie text-lg sm:text-xl"></i>
         </div>
-        <span class="text-[10px] font-bold tracking-tight">Analisis</span>
+        <span class="text-xs font-bold tracking-tight">Analisis</span>
       </button>
 
-      <!-- 3. SQUIRCLE FAB KHAS MYKAS (50% Memotong Garis, Tanpa Bayangan) -->
+      <!-- 3. FAB (+) BIRU BESAR MELAYANG (PRESISI GAMBAR 2) -->
       <div class="flex items-center justify-center w-full h-full relative">
-        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-3.5 w-11 h-11 rounded-2xl bg-[#0052FF] active:bg-blue-700 text-white flex items-center justify-center text-lg border-[3.5px] border-white dark:border-slate-900 active:scale-95 transition-all duration-200 group">
-          <i class="fa-solid fa-plus text-base group-hover:rotate-90 transition-transform duration-300"></i>
-          <!-- Gold Dot Accent Signature MyKas -->
-          <span class="absolute top-1 right-1 w-1.5 h-1.5 bg-amber-300 rounded-full border border-white dark:border-slate-900"></span>
+        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-4 w-12 h-12 rounded-full bg-[#0052FF] text-white flex items-center justify-center text-2xl shadow-md border-[3px] border-white dark:border-slate-900 active:scale-95 transition-all duration-200 group">
+          <i class="fa-solid fa-plus text-xl group-hover:rotate-90 transition-transform duration-300"></i>
         </button>
       </div>
 
       <!-- 4. Dompet -->
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group">
-        <div class="px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5">
-          <i class="fa-solid fa-wallet text-sm"></i>
+      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group">
+        <div class="flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-solid fa-wallet text-lg sm:text-xl"></i>
         </div>
-        <span class="text-[10px] font-bold tracking-tight">Dompet</span>
+        <span class="text-xs font-bold tracking-tight">Dompet</span>
       </button>
 
       <!-- 5. Profil -->
-      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group">
-        <div class="px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5">
-          <i class="fa-regular fa-user text-sm"></i>
+      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group">
+        <div class="flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-regular fa-user text-lg sm:text-xl"></i>
         </div>
-        <span class="text-[10px] font-bold tracking-tight">Profil</span>
+        <span class="text-xs font-bold tracking-tight">Profil</span>
       </button>
     </div>
 
@@ -690,12 +688,12 @@
     let myChartInstance = null;
     let myBarChartInstance = null; 
 
-    /* DATA TRANSAKSI DEFAULTS */
+    /* DATA TRANSAKSI PERSIS GAMBAR 2 */
     let databaseRiwayatRaw = [
-      { keterangan: "Air + UC1000", dompet: "Kantong Tunai", nominal: "11000", jenis: "Pengeluaran", kategori: "🍔 Makanan", tanggal: "2026-07-06" },
-      { keterangan: "Kerupuk", dompet: "Kantong Tunai", nominal: "5000", jenis: "Pengeluaran", kategori: "🍔 Makanan", tanggal: "2026-07-06" },
-      { keterangan: "Jajan lia tahu kress", dompet: "Kantong Tunai", nominal: "10000", jenis: "Pengeluaran", kategori: "🍔 Makanan", tanggal: "2026-07-06" },
-      { keterangan: "Bekel aa", dompet: "Kantong Tunai", nominal: "50000", jenis: "Pengeluaran", kategori: "🍔 Makanan", tanggal: "2026-07-07" }
+      { keterangan: "Makan Siang", dompet: "Kantong Tunai", nominal: "45000", jenis: "Pengeluaran", kategori: "🍔 Makanan", tanggal: "2026-08-06" },
+      { keterangan: "Gaji Bulan Juli", dompet: "Rekening Bank", nominal: "8500000", jenis: "Pemasukan", kategori: "💼 Gaji", tanggal: "2026-08-05" },
+      { keterangan: "Belanja Bulanan", dompet: "Dompet Digital", nominal: "120000", jenis: "Pengeluaran", kategori: "📦 Lainnya", tanggal: "2026-08-05" },
+      { keterangan: "Top Up GoPay", dompet: "Dompet Digital", nominal: "50000", jenis: "Pengeluaran", kategori: "🚗 Transport", tanggal: "2026-08-02" }
     ]; 
     
     let instanceFlatpickr = null;
@@ -703,10 +701,10 @@
     let splashStartTime = Date.now();
 
     window.statusSaldoTersembunyi = false;
-    window.rawTotalSaldo = "Rp 2.333.488";
-    window.rawPemasukan = "Rp0";
-    window.rawPengeluaran = "Rp 76.000";
-    window.rawChartTotal = "Rp 76.000";
+    window.rawTotalSaldo = "Rp12.500.000";
+    window.rawPemasukan = "Rp8.500.000";
+    window.rawPengeluaran = "Rp215.000";
+    window.rawChartTotal = "Rp215.000";
 
     Chart.register(ChartDataLabels);
     if (window.jspdf && window.jspdf.jsPDF) { window.jsPDF = window.jspdf.jsPDF; }
@@ -800,7 +798,7 @@
 
     window.toggleSembunyikanSaldo = function() {
       window.statusSaldoTersembunyi = !window.statusSaldoTersembunyi;
-      if(document.getElementById('iconToggleSaldo')) document.getElementById('iconToggleSaldo').className = window.statusSaldoTersembunyi ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+      if(document.getElementById('iconToggleSaldo')) document.getElementById('iconToggleSaldo').className = window.statusSaldoTersembunyi ? "fa-regular fa-eye-slash text-sm" : "fa-regular fa-eye text-sm";
       window.refreshSemuaNominalUI();
     };
 
@@ -809,10 +807,10 @@
         ['txtSaldo', 'displayTunaiMini', 'displayBankMini', 'displayDigitalMini', 'displayTabunganMini', 'chartCenterTotal'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerText = "Rp •••••"; });
       } else {
         if(document.getElementById('txtSaldo')) document.getElementById('txtSaldo').innerText = window.rawTotalSaldo;
-        if(document.getElementById('displayTunaiMini')) document.getElementById('displayTunaiMini').innerText = document.getElementById('txtWalletTunaiHidden').value || "Rp136.500";
-        if(document.getElementById('displayBankMini')) document.getElementById('displayBankMini').innerText = document.getElementById('txtWalletBankHidden').value || "Rp2.196.988";
-        if(document.getElementById('displayDigitalMini')) document.getElementById('displayDigitalMini').innerText = document.getElementById('txtWalletDigitalHidden').value || "Rp0";
-        if(document.getElementById('displayTabunganMini')) document.getElementById('displayTabunganMini').innerText = document.getElementById('txtWalletTabunganHidden').value || "Rp0";
+        if(document.getElementById('displayTunaiMini')) document.getElementById('displayTunaiMini').innerText = document.getElementById('txtWalletTunaiHidden').value || "Rp1.250.000";
+        if(document.getElementById('displayBankMini')) document.getElementById('displayBankMini').innerText = document.getElementById('txtWalletBankHidden').value || "Rp7.850.000";
+        if(document.getElementById('displayDigitalMini')) document.getElementById('displayDigitalMini').innerText = document.getElementById('txtWalletDigitalHidden').value || "Rp2.150.000";
+        if(document.getElementById('displayTabunganMini')) document.getElementById('displayTabunganMini').innerText = document.getElementById('txtWalletTabunganHidden').value || "Rp1.250.000";
         if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.rawChartTotal;
       }
       window.renderHalamanRiwayatUtama(); window.renderListModalSesuaiBulan();
@@ -831,7 +829,7 @@
     });
 
     window.toggleDarkMode = function() { const m = document.body.classList.toggle('dark'); localStorage.setItem('app_dark_mode', m ? 'enabled' : 'disabled'); window.updateIconVisualModeGelap(m); window.refreshSemuaNominalUI(); };
-    window.updateIconVisualModeGelap = function(a) { if (document.getElementById('iconDarkMode')) document.getElementById('iconDarkMode').className = a ? "fa-solid fa-moon text-[11px]" : "fa-solid fa-user text-[11px]"; };
+    window.updateIconVisualModeGelap = function(a) { if (document.getElementById('iconDarkMode')) document.getElementById('iconDarkMode').className = a ? "fa-solid fa-moon text-sm" : "fa-solid fa-user text-sm"; };
 
     window.pilihJenisTab = function(jenisTerpilih) {
       document.getElementById('jenis').value = jenisTerpilih;
@@ -864,31 +862,26 @@
 
     window.tukarHalaman = function(menu) {
       const navH = document.getElementById('navHome'), navR = document.getElementById('navRiwayat'), pR = document.getElementById('pageRiwayat');
-      const pillH = document.getElementById('pillNavHome'), pillR = document.getElementById('pillNavRiwayat');
       
       if (menu === 'home') {
         pR.classList.add('hidden');
         navH.className = "flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group";
-        navR.className = "flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group";
-        if(pillH) pillH.className = "px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center transition-all mb-0.5";
-        if(pillR) pillR.className = "px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5";
+        navR.className = "flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group";
       } else {
         pR.classList.remove('hidden');
         navR.className = "flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group";
-        navH.className = "flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group";
-        if(pillR) pillR.className = "px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center transition-all mb-0.5";
-        if(pillH) pillH.className = "px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5";
+        navH.className = "flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group";
       }
       window.loadSummary();
     };
 
     window.aplikasikanDataKeUI = function(res, anim = true) {
-      if(!res) return; window.rawTotalSaldo = res.saldo || "Rp 2.333.488"; window.rawPemasukan = res.pemasukan || "Rp0"; window.rawPengeluaran = res.pengeluaran || "Rp 76.000";
+      if(!res) return; window.rawTotalSaldo = res.saldo || "Rp12.500.000"; window.rawPemasukan = res.pemasukan || "Rp8.500.000"; window.rawPengeluaran = res.pengeluaran || "Rp215.000";
       if(res.dompet) {
-        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp136.500";
-        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp2.196.988";
-        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp0";
-        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp0";
+        document.getElementById('txtWalletTunaiHidden').value = res.dompet.tunai || "Rp1.250.000";
+        document.getElementById('txtWalletBankHidden').value = res.dompet.bank || "Rp7.850.000";
+        document.getElementById('txtWalletDigitalHidden').value = res.dompet.digital || "Rp2.150.000";
+        document.getElementById('txtWalletTabunganHidden').value = res.dompet.tabungan || "Rp1.250.000";
       }
       if(res.riwayat && res.riwayat.length > 0) databaseRiwayatRaw = res.riwayat;
       trenBulananRawGlobal = res.trenBulananRaw || {}; window.updateOpsiFilterBulanModal();
@@ -904,50 +897,52 @@
 
     window.handleGoogleData = function(res) { if (res && typeof res === 'object') { localStorage.setItem('app_keuangan_cache', JSON.stringify(res)); window.aplikasikanDataKeUI(res, true); } };
 
-    /* RENDERING TRANSAKSI TERBARU */
+    /* RENDERING TRANSAKSI TERBARU (UKURAN LEBIH BESAR PRESISI GAMBAR 2) */
     window.renderHalamanRiwayatUtama = function() {
       const container = document.getElementById('listRiwayat'); if (!container) return; container.innerHTML = "";
       if (databaseRiwayatRaw && databaseRiwayatRaw.length > 0) {
         databaseRiwayatRaw.slice(0, 4).forEach((item, index) => {
           const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan"; 
           
-          let iconBg = 'bg-[#FFF8E7] text-[#D97706]';
-          let iconFa = 'fa-[#D97706]';
+          let iconBg = 'bg-amber-100/70 text-amber-600';
+          let iconFa = 'fa-utensils';
           
-          if(index === 0) { iconBg = 'bg-[#FFF8E7] text-[#D97706]'; }
-          else if(index === 1) { iconBg = 'bg-[#E6F4EA] text-[#137333]'; }
-          else if(index === 2) { iconBg = 'bg-[#F3E8FF] text-[#7E22CE]'; }
-          else { iconBg = 'bg-[#E8F0FE] text-[#1A73E8]'; }
+          if(isM) {
+            iconBg = 'bg-emerald-100/70 text-emerald-600';
+            iconFa = 'fa-[#137333]';
+          } else if(index === 0) {
+            iconBg = 'bg-amber-100/70 text-amber-600'; iconFa = 'fa-utensils';
+          } else if(index === 2) {
+            iconBg = 'bg-purple-100/70 text-purple-600'; iconFa = 'fa-basket-shopping';
+          } else {
+            iconBg = 'bg-blue-100/70 text-blue-600'; iconFa = 'fa-wallet';
+          }
 
-          const cleanDompetName = (item.dompet || "Kantong Tunai").replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
+          const cleanDompetName = (item.dompet || "Tunai").replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
 
           container.innerHTML += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-2.5 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs ${iconBg} flex-shrink-0">
-                  <i class="fa-solid ${isM ? 'fa-arrow-down' : (index===0?'fa-utensils':(index===2?'fa-basket-shopping':'fa-wallet'))}"></i>
+            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-3 px-2.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-sm ${iconBg} flex-shrink-0">
+                  <i class="fa-solid ${isM ? 'fa-arrow-down' : iconFa}"></i>
                 </div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
-                  <div class="flex items-center gap-1.5 text-[9.5px] text-slate-400 font-medium mt-0.5">
-                    <span class="w-3 h-1.5 rounded-[2px] bg-amber-400/80 inline-block"></span>
-                    <span>${cleanDompetName || "Kantong Tunai"}</span>
-                  </div>
+                  <h4 class="text-sm font-bold text-slate-800 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
+                  <span class="text-xs text-slate-400 font-medium block mt-0.5">${cleanDompetName || "Tunai"}</span>
                 </div>
               </div>
               <div class="flex items-center gap-2">
                 <div class="text-right">
-                  <span class="text-xs font-black ${isM ? 'text-emerald-500' : 'text-rose-500'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp ' : '-Rp ') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
-                  <span class="text-[8.5px] text-slate-400 block font-medium mt-0.5">${formatTanggalIndo(item.tanggal)}</span>
+                  <span class="text-sm font-extrabold ${isM ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp' : '-Rp') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
+                  <span class="text-xs text-slate-400 block font-medium mt-0.5">${formatTanggalIndo(item.tanggal)}</span>
                 </div>
-                <button type="button" class="text-slate-300 hover:text-slate-500 p-1 pl-1"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
               </div>
             </div>`;
         });
         if(document.getElementById('loadingRiwayat')) document.getElementById('loadingRiwayat').classList.add('hidden'); container.classList.remove('hidden');
       } else {
         if(document.getElementById('loadingRiwayat')) document.getElementById('loadingRiwayat').classList.add('hidden');
-        container.innerHTML = `<div class="text-center py-5 text-slate-400 text-xs font-semibold">Belum ada transaksi recorded.</div>`; container.classList.remove('hidden');
+        container.innerHTML = `<div class="text-center py-5 text-slate-400 text-xs font-semibold">Belum ada transaksi.</div>`; container.classList.remove('hidden');
       }
     };
 
@@ -967,14 +962,14 @@
     window.renderGrafik = function(dataKategori, anim = true) {
       const canvas = document.getElementById('chartPengeluaran'); const leg = document.getElementById('customLegendContainer'); if (!canvas || !leg) return;
       leg.innerHTML = ""; const labels = Object.keys(dataKategori), values = Object.values(dataKategori); const total = values.reduce((a, b) => a + b, 0);
-      window.rawChartTotal = "Rp " + total.toLocaleString('id-ID'); if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.statusSaldoTersembunyi ? "Rp •••••" : window.rawChartTotal;
+      window.rawChartTotal = "Rp" + total.toLocaleString('id-ID'); if(document.getElementById('chartCenterTotal')) document.getElementById('chartCenterTotal').innerText = window.statusSaldoTersembunyi ? "Rp •••••" : window.rawChartTotal;
       if (total === 0) { canvas.parentNode.style.display = 'none'; if(document.getElementById('noChartData')) document.getElementById('noChartData').classList.remove('hidden'); return; }
       canvas.parentNode.style.display = 'flex'; if(document.getElementById('noChartData')) document.getElementById('noChartData').classList.add('hidden');
       if (myChartInstance !== null) myChartInstance.destroy();
       const lA = labels.filter((_, idx) => values[idx] > 0), vA = values.filter(v => v > 0), wA = lA.map((_, idx) => daftarWarna[idx % daftarWarna.length]);
 
       lA.forEach((kat, i) => {
-        leg.insertAdjacentHTML('beforeend', `<div class="flex items-center justify-between w-full py-0.5 text-[10.5px] font-semibold"><div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background-color:${wA[i]}"></span><span class="text-slate-600 dark:text-slate-300 truncate">${kat}</span></div><span class="text-slate-800 dark:text-slate-100 font-bold">${((vA[i] / total) * 100).toFixed(0)}%</span></div>`);
+        leg.insertAdjacentHTML('beforeend', `<div class="flex items-center justify-between w-full py-0.5 text-xs font-semibold"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full" style="background-color:${wA[i]}"></span><span class="text-slate-600 dark:text-slate-300 truncate">${kat}</span></div><span class="text-slate-800 dark:text-slate-100 font-bold">${((vA[i] / total) * 100).toFixed(0)}%</span></div>`);
       });
       myChartInstance = new Chart(canvas, { type: 'doughnut', data: { labels: lA, datasets: [{ data: vA, backgroundColor: wA, borderWidth: 1.5 }] }, options: { cutout: '75%', responsive: true, maintainAspectRatio: false, animation: anim, plugins: { legend: { display: false }, datalabels: { display: false } } } });
     };
@@ -983,7 +978,7 @@
       const canvas = document.getElementById('chartTrenBulanan'); if (!canvas) return; const keys = Object.keys(dataTrenObj || {}).sort();
       const labels = keys.map(k => { const p = k.split('-'); return ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"][parseInt(p[1])-1]; });
       if (myBarChartInstance !== null) myBarChartInstance.destroy();
-      myBarChartInstance = new Chart(canvas, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Masuk', backgroundColor: '#0052FF', data: keys.map(k => dataTrenObj[k].masuk), borderRadius: 3, barThickness: 5 }, { label: 'Keluar', backgroundColor: '#f43f5e', data: keys.map(k => dataTrenObj[k].keluar), borderRadius: 3, barThickness: 5 }] }, options: { responsive: true, maintainAspectRatio: false, animation: anim, scales: { y: { ticks: { callback: v => v >= 1000000 ? (v/1000000)+'M' : v } } }, plugins: { legend: { labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }, datalabels: { display: false } } } });
+      myBarChartInstance = new Chart(canvas, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Masuk', backgroundColor: '#0052FF', data: keys.map(k => dataTrenObj[k].masuk), borderRadius: 3, barThickness: 6 }, { label: 'Keluar', backgroundColor: '#f43f5e', data: keys.map(k => dataTrenObj[k].keluar), borderRadius: 3, barThickness: 6 }] }, options: { responsive: true, maintainAspectRatio: false, animation: anim, scales: { y: { ticks: { callback: v => v >= 1000000 ? (v/1000000)+'M' : v } } }, plugins: { legend: { labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }, datalabels: { display: false } } } });
     };
 
     window.bukaModalTambahTransaksi = function() {
@@ -1064,7 +1059,7 @@
                 <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs ${isM ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}"><i class="fa-solid ${isM ? 'fa-arrow-down' : 'fa-arrow-up'}"></i></div>
                 <div><h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">${item.keterangan || "-"}</h4><span class="text-[8.5px] text-slate-400 font-medium">${item.dompet || "Tunai"}</span></div>
               </div>
-              <span class="text-xs font-extrabold ${isM ? 'text-emerald-500' : 'text-slate-800 dark:text-slate-200'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp ' : '-Rp ') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
+              <span class="text-xs font-extrabold ${isM ? 'text-emerald-500' : 'text-slate-800 dark:text-slate-200'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp' : '-Rp') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
             </div>`;
         });
         container.innerHTML += `<div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs flex flex-col mb-1.5"><div class="text-[9.5px] font-bold text-slate-400 border-b pb-1 mb-1 flex justify-between"><span>${formatTanggalIndo(tgl)}</span><span>${tgl}</span></div><div class="divide-y">${itemsHTML}</div></div>`;
@@ -1082,7 +1077,7 @@
 
     window.bukaModalDetailSemua = () => {
       const modal = document.getElementById('modalDetailTransaksi'); window.updateOpsiFilterBulanModal();
-      window.renderListModalSesuaiBulan(); if(modal) modal.classList.remove('hidden'); setTimeout(() => { if(modal) modal.classList.remove('opacity-0'); if(modal.querySelector('div')) modal.querySelector('div').classList.remove('translate-y-full'); }, 20);
+      window.renderListModalSesuaiBulan(); if(modal) modal.classList.remove('hidden'); setTimeout(() => { if(modal) modal.classList.remove('opacity-0'); if(modal.querySelector('div')) modal.querySelector('div').classList.add('translate-y-full'); }, 20);
     };
 
     window.tutupModalDetailSemua = () => { const m = document.getElementById('modalDetailTransaksi'); if(m) m.classList.add('opacity-0'); if(m && m.querySelector('div')) m.querySelector('div').classList.add('translate-y-full'); setTimeout(() => { if(m) m.classList.add('hidden'); }, 300); };
@@ -1094,7 +1089,7 @@
         const { jsPDF } = window.jspdf; const doc = new jsPDF('p', 'mm', 'a4');
         doc.setFont("Helvetica", "bold"); doc.setFontSize(18); doc.text("LAPORAN KEUANGAN MYKAS", 14, 20);
         doc.setFontSize(10); doc.text(`Periode: ${periodeText}`, 14, 27);
-        const rows = data.map((i, idx) => [idx + 1, formatTanggalFormal(i.tanggal), i.keterangan || "-", i.kategori, i.dompet||"Tunai", "Rp "+parseInt(i.nominal).toLocaleString('id-ID')]);
+        const rows = data.map((i, idx) => [idx + 1, formatTanggalFormal(i.tanggal), i.keterangan || "-", i.kategori, i.dompet||"Tunai", "Rp"+parseInt(i.nominal).toLocaleString('id-ID')]);
         doc.autoTable({ startY: 34, head: [["No", "Tanggal", "Keterangan", "Kategori", "Dompet", "Nominal"]], body: rows, theme: 'grid' });
         doc.save(`Report_${periodeText}.pdf`);
       } catch (e) {}
