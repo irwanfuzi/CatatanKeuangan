@@ -68,7 +68,7 @@
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #f8fafc;
+      background-color: #0f172a;
       color: #0f172a;
       transition: background-color 0.3s ease;
     }
@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* DOCK NAVBAR BOTTOM RESPONSIVE */
+    /* INTEGRATED GLASSMOPHIC DOCK NAVBAR FINTECH STYLE */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -89,12 +89,14 @@
       z-index: 9999 !important;
       
       height: auto !important;
-      padding-top: 8px !important;
-      padding-bottom: max(16px, env(safe-area-inset-bottom, 16px)) !important;
+      padding-top: 6px !important;
+      padding-bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
       
-      background: #ffffff;
-      border-top: 1px solid #f1f5f9;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.03);
       
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -108,8 +110,8 @@
         max-width: 448px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        border-radius: 0 0 2.5rem 2.5rem !important;
-        padding-bottom: 16px !important;
+        border-radius: 0 0 1.5rem 1.5rem !important;
+        padding-bottom: 12px !important;
       }
     }
 
@@ -121,9 +123,9 @@
       margin: 0 !important;
       width: 100% !important;
       max-width: 100% !important;
-      border-radius: 2rem 2rem 0 0 !important;
-      padding: 1.5rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom)) 1.5rem !important;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15) !important;
+      border-radius: 1.5rem 1.5rem 0 0 !important;
+      padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom)) 1.25rem !important;
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.1) !important;
       background: #ffffff;
     }
     
@@ -139,12 +141,12 @@
     .hide-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
 
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
 
     /* DARK MODE STYLING */
-    body.dark { background-color: #090d16; color: #f8fafc; }
+    body.dark { background-color: #030712; color: #f8fafc; }
     body.dark #appCanvasWrapper { background-color: #0f172a !important; border-color: #1e293b !important; }
-    body.dark #mainFixedNavbar { background-color: #0f172a !important; border-color: #1e293b !important; }
+    body.dark #mainFixedNavbar { background: rgba(15, 23, 42, 0.92) !important; border-color: rgba(30, 41, 59, 0.8) !important; }
     body.dark .bg-white { background-color: #1e293b !important; color: #f8fafc !important; }
     body.dark .text-slate-800, body.dark .text-slate-700 { color: #f1f5f9 !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94a3b8 !important; }
@@ -169,13 +171,13 @@
   </style>
 </head>
 
-<body class="w-full min-h-screen md:py-6 flex flex-col justify-center items-center bg-slate-900">
+<body class="w-full min-h-screen md:py-6 flex flex-col justify-center items-center bg-slate-950">
 
   <!-- ==================== ANIMASI SPLASH SCREEN ==================== -->
   <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#0052FF] flex flex-col items-center justify-center select-none">
     <div class="flex flex-col items-center gap-3">
       <div class="w-20 h-20 relative flex items-center justify-center anim-text">
-        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-lg">
+        <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md">
           <i class="fa-solid fa-wallet text-[#0052FF] text-3xl"></i>
         </div>
       </div>
@@ -188,37 +190,37 @@
     </div>
   </div>
 
-  <!-- APP CANVAS CONTAINER RESPONSIVE (100dvh) -->
-  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-[2.5rem] bg-[#f8fafc] flex flex-col relative shadow-2xl overflow-x-hidden overflow-y-clip md:border md:border-slate-800 transition-all duration-300">
+  <!-- APP CANVAS CONTAINER RESPONSIVE -->
+  <div id="appCanvasWrapper" class="w-full md:max-w-md h-[100dvh] md:h-[92vh] md:max-h-[92vh] md:rounded-3xl bg-[#f8fafc] flex flex-col relative shadow-xl overflow-x-hidden overflow-y-clip md:border md:border-slate-800 transition-all duration-300">
 
     <!-- MAIN SCROLLABLE AREA -->
     <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none">
       
       <!-- HEADER TOP BAR -->
-      <div class="w-full px-4 sm:px-5 pt-5 pb-3 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-20">
+      <div class="w-full px-4 sm:px-5 pt-4 pb-2.5 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-20">
         <div class="flex items-center gap-2">
-          <div class="w-9 h-9 rounded-xl bg-[#0052FF] flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-            <i class="fa-solid fa-wallet text-lg"></i>
+          <div class="w-8 h-8 rounded-lg bg-[#0052FF] flex items-center justify-center text-white shadow-sm">
+            <i class="fa-solid fa-wallet text-base"></i>
           </div>
-          <span class="text-xl font-extrabold tracking-tight text-[#0052FF] dark:text-blue-400 font-urbanist">MyKas</span>
+          <span class="text-lg font-extrabold tracking-tight text-[#0052FF] dark:text-blue-400 font-urbanist">MyKas</span>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="window.bukaBottomSheetBahasa()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 relative active:scale-95 transition-all">
-            <i class="fa-solid fa-bell text-sm"></i>
-            <span class="absolute top-2 right-2 w-2 h-2 bg-amber-400 rounded-full ring-2 ring-white dark:ring-slate-900"></span>
+          <button onclick="window.bukaBottomSheetBahasa()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 relative active:scale-95 transition-all">
+            <i class="fa-solid fa-bell text-xs"></i>
+            <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-amber-400 rounded-full"></span>
           </button>
-          <button onclick="window.toggleDarkMode()" class="w-9 h-9 rounded-full bg-[#0052FF] flex items-center justify-center text-white font-bold text-sm shadow-md shadow-blue-500/20 active:scale-95 transition-all">
-            <i id="iconDarkMode" class="fa-solid fa-user text-xs"></i>
+          <button onclick="window.toggleDarkMode()" class="w-8 h-8 rounded-full bg-[#0052FF] flex items-center justify-center text-white font-bold text-xs shadow-sm active:scale-95 transition-all">
+            <i id="iconDarkMode" class="fa-solid fa-user text-[11px]"></i>
           </button>
         </div>
       </div>
 
       <!-- MAIN CONTENT DASHBOARD -->
-      <div class="w-full px-3.5 sm:px-4 pt-2 pb-28 flex flex-col gap-4 sm:gap-5">
+      <div class="w-full px-3.5 sm:px-4 pt-1 pb-28 flex flex-col gap-3.5">
 
-        <!-- 1. HERO CARD TOTAL ASET -->
-        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-[1.5rem] sm:rounded-[1.75rem] p-4 sm:p-5 relative overflow-hidden shadow-lg shadow-blue-500/15">
+        <!-- 1. HERO CARD TOTAL ASET (PRECISE 16px RADIUS) -->
+        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-2xl p-4 sm:p-4.5 relative overflow-hidden shadow-sm">
           <div class="flex justify-between items-start relative z-10">
             <div>
               <div class="flex items-center gap-2 mb-1">
@@ -230,12 +232,12 @@
               <h2 id="txtSaldo" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2">Rp 2.333.488</h2>
               
               <div class="flex flex-col gap-1.5">
-                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-400/20 backdrop-blur-md rounded-full text-emerald-300 text-[10px] sm:text-[11px] font-bold w-fit">
+                <div class="inline-flex items-center gap-1 px-2 py-0.5 bg-white/10 backdrop-blur-md rounded-lg text-emerald-300 text-[10px] sm:text-[11px] font-bold w-fit">
                   <i class="fa-solid fa-arrow-up text-[8px]"></i>
                   <span>12,5%</span>
                   <span class="font-normal text-blue-100/90 ml-0.5">dari bulan lalu</span>
                 </div>
-                <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-blue-100/80">
+                <div class="flex items-center gap-1.5 text-[10px] text-blue-100/80">
                   <i class="fa-regular fa-clock text-[9px]"></i>
                   <span>Diperbarui 09.30 WIB</span>
                 </div>
@@ -243,48 +245,43 @@
             </div>
 
             <!-- WALLET HERO ICON -->
-            <div class="w-16 sm:w-20 h-16 sm:h-20 relative flex-shrink-0 flex items-center justify-center">
-              <div class="w-14 sm:w-16 h-14 sm:h-16 bg-blue-400/25 rounded-2xl border border-white/20 backdrop-blur-md flex items-center justify-center shadow-inner">
-                <i class="fa-solid fa-wallet text-amber-300 text-2xl sm:text-3xl filter drop-shadow-md"></i>
+            <div class="w-14 sm:w-16 h-14 sm:h-16 relative flex-shrink-0 flex items-center justify-center">
+              <div class="w-12 sm:w-14 h-12 sm:h-14 bg-blue-400/20 rounded-xl border border-white/20 backdrop-blur-md flex items-center justify-center">
+                <i class="fa-solid fa-wallet text-amber-300 text-xl sm:text-2xl filter drop-shadow-sm"></i>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA -->
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
-            <button onclick="window.bukaModalDetailSemua()" class="text-[11px] sm:text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
+        <!-- 2. DOMPET SAYA (CLEAN SQUIRCLE CARDS) -->
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between px-0.5">
+            <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200">Dompet Saya</h3>
+            <button onclick="window.bukaModalDetailSemua()" class="text-[11px] font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></button>
           </div>
 
           <!-- GRID 4 KOLOM RESPONSIVE -->
-          <div class="grid grid-cols-4 gap-1.5 sm:gap-2">
+          <div class="grid grid-cols-4 gap-1.5">
             
             <!-- 1. Tunai -->
-            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all h-[145px] sm:h-[155px] min-w-0">
-              
-              <!-- Yellow Rp Badge -->
-              <div class="w-10 h-10 rounded-2xl border-[2.5px] border-amber-400 bg-amber-50/20 flex items-center justify-center text-amber-500 font-extrabold text-xs sm:text-sm my-0.5">
+            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all h-[135px] sm:h-[145px] min-w-0">
+              <div class="w-8 h-8 rounded-lg border-[2px] border-amber-400 bg-amber-50/30 flex items-center justify-center text-amber-500 font-extrabold text-xs my-0.5">
                 Rp
               </div>
-
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tunai</span>
-                <h4 id="displayTunaiMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
-                <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">1 dompet</span>
+                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tunai</span>
+                <h4 id="displayTunaiMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
+                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">1 dompet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
                 <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 40%"></div>
               </div>
             </div>
 
-            <!-- 2. Bank (DIGANTI DARI "REKENING BANK" AGAR PASTI 1 BARIS) -->
-            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0f172a] transition-all h-[145px] sm:h-[155px] min-w-0">
-              
-              <!-- Navy Bank Building SVG -->
-              <div class="w-10 h-10 flex items-center justify-center my-0.5">
-                <svg class="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <!-- 2. Bank -->
+            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0f172a] transition-all h-[135px] sm:h-[145px] min-w-0">
+              <div class="w-8 h-8 flex items-center justify-center my-0.5">
+                <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 18L24 6L42 18" stroke="#0f172a" stroke-width="3"/>
                   <circle cx="24" cy="13" r="2" fill="#f59e0b"/>
                   <line x1="6" y1="20" x2="42" y2="20" stroke="#0f172a" stroke-width="3"/>
@@ -295,57 +292,50 @@
                   <line x1="6" y1="38" x2="42" y2="38" stroke="#0f172a" stroke-width="3"/>
                 </svg>
               </div>
-
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Bank</span>
-                <h4 id="displayBankMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp7.850.000</h4>
-                <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">4 rekening</span>
+                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Bank</span>
+                <h4 id="displayBankMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp7.850.000</h4>
+                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">4 rekening</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
                 <div id="barBankMini" class="bg-[#0f172a] dark:bg-blue-500 h-full rounded-full" style="width: 70%"></div>
               </div>
             </div>
 
             <!-- 3. E-Wallet -->
-            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all h-[145px] sm:h-[155px] min-w-0">
-              
-              <!-- Blue Wallet SVG -->
-              <div class="w-10 h-10 flex items-center justify-center my-0.5">
-                <svg class="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all h-[135px] sm:h-[145px] min-w-0">
+              <div class="w-8 h-8 flex items-center justify-center my-0.5">
+                <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="8" y="10" width="32" height="28" rx="6" stroke="#0052FF" stroke-width="3"/>
                   <path d="M28 20H40V28H28C25.8 28 24 26.2 24 24C24 21.8 25.8 20 28 20Z" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5"/>
                   <circle cx="31" cy="24" r="1.5" fill="white"/>
                 </svg>
               </div>
-
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">E-Wallet</span>
-                <h4 id="displayDigitalMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp2.150.000</h4>
-                <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">3 e-wallet</span>
+                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">E-Wallet</span>
+                <h4 id="displayDigitalMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp2.150.000</h4>
+                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">3 e-wallet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
                 <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 50%"></div>
               </div>
             </div>
 
             <!-- 4. Tabungan -->
-            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all h-[145px] sm:h-[155px] min-w-0">
-              
-              <!-- Piggy Bank SVG -->
-              <div class="w-10 h-10 flex items-center justify-center my-0.5">
-                <svg class="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all h-[135px] sm:h-[145px] min-w-0">
+              <div class="w-8 h-8 flex items-center justify-center my-0.5">
+                <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 24C12 17.37 17.37 12 24 12C29.5 12 34.1 15.7 35.5 20.8C37.5 21.3 39 23.1 39 25.3C39 27.8 37 29.8 34.5 29.8H34V34C34 35.7 32.7 37 31 37H29V34H19V37H17C15.3 37 14 35.7 14 34V31.5C12.8 30.2 12 28.5 12 26.5" stroke="#0052FF" stroke-width="2.8"/>
                   <circle cx="31" cy="11" r="5" fill="#f59e0b"/>
                   <path d="M29 11L30.5 12.5L33 9.5" stroke="white" stroke-width="1.8"/>
                 </svg>
               </div>
-
               <div class="flex flex-col items-center justify-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tabungan</span>
-                <h4 id="displayTabunganMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
-                <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">1 tabungan</span>
+                <span class="text-[10.5px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight truncate w-full">Tabungan</span>
+                <h4 id="displayTabunganMini" class="text-[10px] sm:text-[11px] font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
+                <span class="text-[8.5px] text-slate-400 font-medium mt-0.5 truncate w-full">1 tabungan</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1 rounded-full overflow-hidden mt-1">
                 <div id="barTabunganMini" class="bg-purple-600 h-full rounded-full" style="width: 30%"></div>
               </div>
             </div>
@@ -354,15 +344,14 @@
         </div>
 
         <!-- 3. QUICK ACTION -->
-        <div class="flex flex-col gap-2">
-          <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Quick Action</h3>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200 px-0.5">Quick Action</h3>
           
-          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-2 sm:p-3 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/50">
+          <div class="w-full bg-white dark:bg-slate-800 rounded-xl p-2 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/50">
             
-            <!-- Scan Struk -->
             <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 10V7C6 6.44772 6.44772 6 7 6H10" stroke="#0052FF" stroke-width="2.5"/>
                   <path d="M22 6H25C25.5523 6 26 6.44772 26 7V10" stroke="#0052FF" stroke-width="2.5"/>
                   <path d="M6 22V25C6 25.5523 6.44772 26 7 26H10" stroke="#0052FF" stroke-width="2.5"/>
@@ -370,70 +359,66 @@
                   <line x1="8" y1="16" x2="24" y2="16" stroke="#f59e0b" stroke-width="3"/>
                 </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Scan Struk</span>
+              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Scan Struk</span>
             </button>
 
-            <!-- Budget -->
             <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center relative">
-                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center relative">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="16" cy="16" r="10"/>
                   <circle cx="16" cy="16" r="6"/>
                   <circle cx="16" cy="16" r="2" fill="#0052FF"/>
                 </svg>
-                <i class="fa-solid fa-star text-[8px] text-amber-400 absolute top-0 right-0"></i>
+                <i class="fa-solid fa-star text-[7px] text-amber-400 absolute top-0 right-0"></i>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Budget</span>
+              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Budget</span>
             </button>
 
-            <!-- Laporan -->
             <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 5H19L25 11V25C25 26.1 24.1 27 23 27H9C7.9 27 7 26.1 7 25V7C7 5.9 7.9 5 9 5Z"/>
                   <path d="M19 5V11H25"/>
                   <line x1="11" y1="17" x2="21" y2="17"/>
                   <line x1="11" y1="21" x2="17" y2="21"/>
                 </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Laporan</span>
+              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Laporan</span>
             </button>
 
-            <!-- Kategori -->
             <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M8 17.5L16.5 26L26 16.5V7H16.5L8 17.5Z"/>
                   <circle cx="21.5" cy="11.5" r="1.5" fill="#0052FF"/>
                 </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Kategori</span>
+              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Kategori</span>
             </button>
 
-            <!-- Cari (DIGANTI DARI "CARI TRANSAKSI" AGAR PASTI 1 BARIS) -->
             <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <div class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="14" cy="14" r="7"/>
                   <line x1="19" y1="19" x2="25" y2="25" stroke-width="3"/>
                 </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Cari</span>
+              <span class="text-[9.5px] sm:text-[10.5px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Cari</span>
             </button>
 
           </div>
         </div>
 
         <!-- 4. TRANSAKSI TERBARU -->
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Transaksi Terbaru</h3>
-            <button onclick="window.bukaModalDetailSemua()" class="text-[11px] sm:text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between px-0.5">
+            <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200">Transaksi Terbaru</h3>
+            <button onclick="window.bukaModalDetailSemua()" class="text-[11px] font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></button>
           </div>
 
-          <div class="bg-white dark:bg-slate-800 rounded-2xl p-1.5 border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col">
-            <div id="loadingRiwayat" class="text-slate-400 text-xs py-8 text-center flex flex-col items-center justify-center gap-2">
-              <i class="fa-solid fa-circle-notch animate-spin text-[#0052FF] text-lg"></i>
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-1.5 border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col">
+            <div id="loadingRiwayat" class="text-slate-400 text-xs py-6 text-center flex flex-col items-center justify-center gap-2">
+              <i class="fa-solid fa-circle-notch animate-spin text-[#0052FF] text-base"></i>
               <span>Menyiapkan transaksi...</span>
             </div>
             <div id="listRiwayat" class="divide-y divide-slate-100 dark:divide-slate-700/50 hidden"></div>
@@ -441,29 +426,29 @@
         </div>
 
         <!-- PAGE RIWAYAT GRAFIK CONTAINER -->
-        <div id="pageRiwayat" class="w-full flex flex-col gap-5 hidden">
-          <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">Analisis Pengeluaran</h3>
-              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300"><span id="labelPeriodeUtama">Bulan Ini</span> <i class="fa-solid fa-chevron-down text-[10px]"></i></button>
+        <div id="pageRiwayat" class="w-full flex flex-col gap-4 hidden">
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xs font-bold text-slate-800 dark:text-slate-100">Analisis Pengeluaran</h3>
+              <button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-[11px] font-bold text-slate-600 dark:text-slate-300"><span id="labelPeriodeUtama">Bulan Ini</span> <i class="fa-solid fa-chevron-down text-[9px]"></i></button>
               <select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select>
             </div>
             <div class="w-full flex items-center justify-between">
-              <div class="relative w-[120px] h-[120px] flex items-center justify-center">
+              <div class="relative w-[110px] h-[110px] flex items-center justify-center">
                 <canvas id="chartPengeluaran"></canvas>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span class="text-[9px] text-slate-400 font-bold uppercase">Total</span>
-                  <span id="chartCenterTotal" class="text-xs font-extrabold text-slate-800">Rp0</span>
+                  <span class="text-[8px] text-slate-400 font-bold uppercase tracking-wider">Total</span>
+                  <span id="chartCenterTotal" class="text-[11px] font-extrabold text-slate-800">Rp0</span>
                 </div>
               </div>
-              <div id="customLegendContainer" class="w-[60%] flex flex-col gap-1 max-h-[120px] overflow-y-auto pl-2 hide-scrollbar"></div>
+              <div id="customLegendContainer" class="w-[60%] flex flex-col gap-1 max-h-[110px] overflow-y-auto pl-2 hide-scrollbar"></div>
             </div>
-            <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-4 hidden">Tidak ada pengeluaran periode ini</div>
+            <div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-3 hidden">Tidak ada pengeluaran periode ini</div>
           </div>
 
-          <div class="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-            <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 mb-4">Tren Keuangan Bulanan</h3>
-            <div class="w-full h-[180px]"><canvas id="chartTrenBulanan"></canvas></div>
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs">
+            <h3 class="text-xs font-bold text-slate-800 dark:text-slate-100 mb-3">Tren Keuangan Bulanan</h3>
+            <div class="w-full h-[160px]"><canvas id="chartTrenBulanan"></canvas></div>
           </div>
         </div>
 
@@ -472,76 +457,76 @@
 
     <!-- MODAL FORM INPUT TRANSAKSI -->
     <div id="modalTambahTransaksi" class="fixed inset-0 bg-slate-950/60 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
-      <div class="w-full max-w-md mx-auto bg-white dark:bg-slate-900 rounded-t-[2.5rem] p-6 shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 max-h-[88vh] overflow-y-auto custom-scrollbar">
+      <div class="w-full max-w-md mx-auto bg-white dark:bg-slate-900 rounded-t-2xl p-5 shadow-xl flex flex-col transform translate-y-full transition-transform duration-300 max-h-[88vh] overflow-y-auto custom-scrollbar">
         
-        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 mb-4">
-          <h3 class="text-base font-extrabold text-slate-800 dark:text-slate-100" data-i18n="tambahTrans">Tambah Transaksi</h3>
-          <button onclick="window.tutupModalTambahTransaksi()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark"></i></button>
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+          <h3 class="text-sm font-extrabold text-slate-800 dark:text-slate-100" data-i18n="tambahTrans">Tambah Transaksi</h3>
+          <button onclick="window.tutupModalTambahTransaksi()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-800"><i class="fa-solid fa-xmark text-xs"></i></button>
         </div>
 
         <form id="formKeuangan" onsubmit="window.handleForm(event)">
-          <div class="mb-4">
+          <div class="mb-3.5">
             <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase" data-i18n="tglTrans">Tanggal Transaksi</label>
             <div class="relative">
               <input type="hidden" id="tanggal_mentntah" value="">
-              <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 font-bold text-sm text-slate-700 dark:text-slate-200 outline-none pl-10" required>
-              <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"><i class="fa-regular fa-calendar-days"></i></div>
+              <input type="text" id="tanggal" placeholder="Pilih Tanggal Transaksi" readonly class="w-full p-2.5 bg-slate-50 rounded-xl border border-slate-200 font-bold text-xs text-slate-700 dark:text-slate-200 outline-none pl-9" required>
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"><i class="fa-regular fa-calendar-days"></i></div>
             </div>
           </div>
 
-          <div class="mb-4">
+          <div class="mb-3.5">
             <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase" data-i18n="jenisAliran">Jenis Aliran Dana</label>
             <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-xl grid grid-cols-2 gap-1 border border-slate-200 dark:border-slate-700">
               <input type="hidden" id="jenis" value="Pengeluaran">
-              <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-2 rounded-lg font-bold text-xs bg-white text-rose-600 shadow-sm dark:bg-slate-900 dark:text-rose-400" data-i18n="tabKeluar">💸 Pengeluaran</button>
-              <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-2 rounded-lg font-bold text-xs text-slate-500 dark:text-slate-400" data-i18n="tabMasuk">💰 Pemasukan</button>
+              <button type="button" id="btnTabPengeluaran" onclick="window.pilihJenisTab('Pengeluaran')" class="w-full py-1.5 rounded-lg font-bold text-xs bg-white text-rose-600 shadow-xs dark:bg-slate-900 dark:text-rose-400" data-i18n="tabKeluar">💸 Pengeluaran</button>
+              <button type="button" id="btnTabPemasukan" onclick="window.pilihJenisTab('Pemasukan')" class="w-full py-1.5 rounded-lg font-bold text-xs text-slate-500 dark:text-slate-400" data-i18n="tabMasuk">💰 Pemasukan</button>
             </div>
           </div>
 
-          <div class="mb-4">
+          <div class="mb-3.5">
             <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase">Penyimpanan / Dompet</label>
             <div class="w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-xl grid grid-cols-4 gap-1 border border-slate-200 dark:border-slate-700">
               <input type="hidden" id="dompet" value="💳 Kantong Tunai">
-              <button type="button" id="btnDompetTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="w-full py-2 rounded-lg font-bold text-[10px] bg-white text-[#0052FF] shadow-sm dark:bg-slate-900">💵 Tunai</button>
-              <button type="button" id="btnDompetBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="w-full py-2 rounded-lg font-bold text-[10px] text-slate-500">🏦 Bank</button>
-              <button type="button" id="btnDompetDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="w-full py-2 rounded-lg font-bold text-[10px] text-slate-500">📱 Digital</button>
-              <button type="button" id="btnDompetTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="w-full py-2 rounded-lg font-bold text-[10px] text-slate-500">💰 Tabung</button>
+              <button type="button" id="btnDompetTunai" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="w-full py-1.5 rounded-lg font-bold text-[10px] bg-white text-[#0052FF] shadow-xs dark:bg-slate-900">💵 Tunai</button>
+              <button type="button" id="btnDompetBank" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="w-full py-1.5 rounded-lg font-bold text-[10px] text-slate-500">🏦 Bank</button>
+              <button type="button" id="btnDompetDigital" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="w-full py-1.5 rounded-lg font-bold text-[10px] text-slate-500">📱 Digital</button>
+              <button type="button" id="btnDompetTabungan" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="w-full py-1.5 rounded-lg font-bold text-[10px] text-slate-500">💰 Tabung</button>
             </div>
           </div>
 
-          <div class="mb-4">
+          <div class="mb-3.5">
             <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase" data-i18n="posKategori">Pos Kategori</label>
             <div class="relative">
               <input type="hidden" id="kategori" value="">
-              <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 font-bold text-sm text-slate-700 dark:text-slate-200 text-left flex justify-between items-center pl-10">
+              <button type="button" id="btnTriggerKategori" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full p-2.5 bg-slate-50 rounded-xl border border-slate-200 font-bold text-xs text-slate-700 dark:text-slate-200 text-left flex justify-between items-center pl-9">
                 <span id="txtKategoriTerpilihLabel" data-i18n="pilihKategori">Pilih Kategori</span>
                 <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
               </button>
-              <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"><i class="fa-solid fa-tags"></i></div>
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"><i class="fa-solid fa-tags"></i></div>
+            </div>
+          </div>
+
+          <div class="mb-3.5">
+            <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
+            <div class="relative">
+              <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-2.5 bg-slate-50 rounded-xl border border-slate-200 font-extrabold text-sm text-slate-800 dark:text-slate-200 outline-none pl-10" required>
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">Rp</div>
             </div>
           </div>
 
           <div class="mb-4">
-            <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase" data-i18n="nominalTrans">Nominal Transaksi (Rp)</label>
-            <div class="relative">
-              <input type="text" id="nominal" placeholder="0" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 font-extrabold text-base text-slate-800 dark:text-slate-200 outline-none pl-11" required>
-              <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">Rp</div>
-            </div>
-          </div>
-
-          <div class="mb-5">
             <label class="block text-[10px] font-bold text-slate-400 mb-1 tracking-wider uppercase" data-i18n="ketNota">Keterangan / Nota</label>
             <div class="relative">
-              <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 font-semibold text-sm text-slate-700 dark:text-slate-200 outline-none pl-10" required>
-              <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"><i class="fa-regular fa-pen-to-square"></i></div>
+              <input type="text" id="keterangan" placeholder="Contoh: Jajan makan siang" class="w-full p-2.5 bg-slate-50 rounded-xl border border-slate-200 font-semibold text-xs text-slate-700 dark:text-slate-200 outline-none pl-9" required>
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"><i class="fa-regular fa-pen-to-square"></i></div>
             </div>
           </div>
 
           <div class="flex gap-2 w-full">
-            <button type="submit" id="btnSimpan" class="flex-grow bg-[#0052FF] hover:bg-blue-700 text-white font-extrabold p-3.5 rounded-xl shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm tracking-wide">
+            <button type="submit" id="btnSimpan" class="flex-grow bg-[#0052FF] hover:bg-blue-700 text-white font-extrabold p-3 rounded-xl shadow-xs transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-xs tracking-wide">
               <i class="fa-solid fa-paper-plane"></i> <span data-i18n="simpanTrans">Simpan Transaksi</span>
             </button>
-            <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 font-bold px-4 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 active:scale-95"><i id="iconReload" class="fa-solid fa-rotate text-sm"></i></button>
+            <button type="button" onclick="window.tombolReloadPintar()" class="bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 font-bold px-3.5 p-3 rounded-xl border border-slate-200 dark:border-slate-700 active:scale-95"><i id="iconReload" class="fa-solid fa-rotate text-xs"></i></button>
           </div>
         </form>
 
@@ -554,66 +539,68 @@
 
     <!-- MODAL DETAIL TRANSAKSI FULL HISTORY -->
     <div id="modalDetailTransaksi" class="fixed inset-0 bg-slate-950/60 z-[100] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
-      <div class="w-full max-w-md mx-auto h-[88vh] bg-slate-50 dark:bg-slate-900 rounded-t-[2.5rem] shadow-2xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
+      <div class="w-full max-w-md mx-auto h-[88vh] bg-slate-50 dark:bg-slate-900 rounded-t-2xl shadow-xl flex flex-col transform translate-y-full transition-transform duration-300 overflow-hidden">
         
-        <div class="w-full bg-white dark:bg-slate-800 px-6 pt-5 pb-3 flex items-center justify-between flex-shrink-0 border-b border-slate-100 dark:border-slate-700">
-          <div class="flex items-center gap-3">
-            <button onclick="window.tutupModalDetailSemua()" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full active:scale-95"><i class="fa-solid fa-xmark text-sm"></i></button>
-            <h3 class="text-base font-extrabold text-slate-800 dark:text-slate-100" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
+        <div class="w-full bg-white dark:bg-slate-800 px-5 pt-4 pb-2.5 flex items-center justify-between flex-shrink-0 border-b border-slate-100 dark:border-slate-700">
+          <div class="flex items-center gap-2.5">
+            <button onclick="window.tutupModalDetailSemua()" class="w-7 h-7 flex items-center justify-center bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full active:scale-95"><i class="fa-solid fa-xmark text-xs"></i></button>
+            <h3 class="text-sm font-extrabold text-slate-800 dark:text-slate-100" data-i18n="riwayatLengkap">Riwayat Lengkap</h3>
           </div>
-          <span id="txtTotalDataModal" class="text-slate-500 font-extrabold text-[10px] uppercase tracking-widest bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">0 Transaksi</span>
+          <span id="txtTotalDataModal" class="text-slate-500 font-extrabold text-[9px] uppercase tracking-widest bg-slate-100 dark:bg-slate-700 px-2.5 py-0.5 rounded-md">0 Transaksi</span>
         </div>
 
-        <div class="w-full bg-white dark:bg-slate-800 px-6 py-3 border-b border-slate-100 dark:border-slate-700 flex-shrink-0 flex flex-col gap-2">
+        <div class="w-full bg-white dark:bg-slate-800 px-5 py-2.5 border-b border-slate-100 dark:border-slate-700 flex-shrink-0 flex flex-col gap-2">
           <div>
-            <label class="block text-[10px] font-bold text-slate-400 mb-1 uppercase" data-i18n="filterPeriode">Filter Periode Laporan</label>
-            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-left font-bold text-xs text-slate-700 dark:text-slate-300 flex justify-between items-center"><span id="labelPeriodeTerpilih" data-i18n="tampilkanSemua">Tampilkan Semua</span> <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i></button>
+            <label class="block text-[9px] font-bold text-slate-400 mb-1 uppercase tracking-wider" data-i18n="filterPeriode">Filter Periode Laporan</label>
+            <button id="btnTriggerFilter" onclick="window.bukaPilihanPeriodeModal()" class="w-full p-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-left font-bold text-xs text-slate-700 dark:text-slate-300 flex justify-between items-center"><span id="labelPeriodeTerpilih" data-i18n="tampilkanSemua">Tampilkan Semua</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i></button>
             <select id="filterBulanModal" onchange="window.renderListModalSesuaiBulan()" class="hidden"></select>
           </div>
-          <div class="grid grid-cols-2 gap-2 pt-1">
-            <button onclick="window.unduhPDF()" class="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 font-extrabold text-xs uppercase p-2.5 rounded-xl flex items-center justify-center gap-2"><i class="fa-solid fa-file-pdf"></i> PDF</button>
-            <button onclick="window.unduhExcel()" class="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-extrabold text-xs uppercase p-2.5 rounded-xl flex items-center justify-center gap-2"><i class="fa-solid fa-file-excel"></i> Excel</button>
+          <div class="grid grid-cols-2 gap-2 pt-0.5">
+            <button onclick="window.unduhPDF()" class="bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 font-extrabold text-[11px] uppercase p-2 rounded-xl flex items-center justify-center gap-1.5"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+            <button onclick="window.unduhExcel()" class="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-extrabold text-[11px] uppercase p-2 rounded-xl flex items-center justify-center gap-1.5"><i class="fa-solid fa-file-excel"></i> Excel</button>
           </div>
         </div>
 
-        <div class="w-full flex-grow p-4 overflow-y-auto pb-12 hide-scrollbar">
-          <div id="listRiwayatPenuhModal" class="space-y-3"></div>
+        <div class="w-full flex-grow p-3.5 overflow-y-auto pb-12 hide-scrollbar">
+          <div id="listRiwayatPenuhModal" class="space-y-2.5"></div>
         </div>
       </div>
     </div>
 
-    <!-- ==================== FIXED DOCK NAVBAR ==================== -->
-    <div id="mainFixedNavbar" class="w-full bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+    <!-- ==================== INTEGRATED GLASSMOPHIC DOCK NAVBAR ==================== -->
+    <div id="mainFixedNavbar">
       
       <!-- 1. Beranda -->
-      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 px-1">
-        <i class="fa-solid fa-house text-base sm:text-lg mb-0.5"></i>
-        <span class="text-[9px] sm:text-[10px] font-bold leading-none truncate w-full text-center">Beranda</span>
+      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 group relative">
+        <i class="fa-solid fa-house text-base mb-0.5 transition-transform group-active:scale-90"></i>
+        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Beranda</span>
+        <span id="dotNavHome" class="w-1 h-1 bg-[#0052FF] rounded-full absolute -bottom-0.5"></span>
       </button>
 
       <!-- 2. Analisis -->
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1">
-        <i class="fa-solid fa-chart-pie text-base sm:text-lg mb-0.5"></i>
-        <span class="text-[9px] sm:text-[10px] font-bold leading-none truncate w-full text-center">Analisis</span>
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group relative">
+        <i class="fa-solid fa-chart-pie text-base mb-0.5 transition-transform group-active:scale-90"></i>
+        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Analisis</span>
+        <span id="dotNavRiwayat" class="w-1 h-1 bg-[#0052FF] rounded-full absolute -bottom-0.5 hidden"></span>
       </button>
 
-      <!-- 3. Integrated Center (+) Button Floating -->
+      <!-- 3. Integrated Squircle FAB Center Button -->
       <div class="flex items-center justify-center w-full h-full relative">
-        <button onclick="window.bukaModalTambahTransaksi()" class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#0052FF] text-white flex items-center justify-center text-xl ring-4 ring-white dark:ring-slate-900 -translate-y-3.5 shadow-lg shadow-blue-500/25 active:scale-95 transition-transform">
-          <i class="fa-solid fa-plus"></i>
+        <button onclick="window.bukaModalTambahTransaksi()" class="w-10 h-10 rounded-xl bg-[#0052FF] text-white flex items-center justify-center text-lg -translate-y-2.5 shadow-sm shadow-blue-500/20 active:scale-95 transition-all border-2 border-white dark:border-slate-900">
+          <i class="fa-solid fa-plus text-sm"></i>
         </button>
       </div>
 
       <!-- 4. Dompet -->
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1">
-        <i class="fa-solid fa-wallet text-base sm:text-lg mb-0.5"></i>
-        <span class="text-[9px] sm:text-[10px] font-bold leading-none truncate w-full text-center">Dompet</span>
+      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group">
+        <i class="fa-solid fa-wallet text-base mb-0.5 transition-transform group-active:scale-90"></i>
+        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Dompet</span>
       </button>
 
       <!-- 5. Profil -->
-      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1">
-        <i class="fa-regular fa-user text-base sm:text-lg mb-0.5"></i>
-        <span class="text-[9px] sm:text-[10px] font-bold leading-none truncate w-full text-center">Profil</span>
+      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group">
+        <i class="fa-regular fa-user text-base mb-0.5 transition-transform group-active:scale-90"></i>
+        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Profil</span>
       </button>
     </div>
 
@@ -774,14 +761,14 @@
       opsiBahasa.forEach(lang => {
         const isSelected = currentLang === lang.kode;
         htmlListBahasa += `
-          <button type="button" onclick="window.pilihBahasaDariSheet('${lang.kode}')" class="w-full flex items-center justify-between p-3.5 rounded-xl border transition-all ${isSelected ? 'bg-blue-50 dark:bg-blue-500/20 border-blue-400 text-[#0052FF] font-bold' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300'}">
+          <button type="button" onclick="window.pilihBahasaDariSheet('${lang.kode}')" class="w-full flex items-center justify-between p-3 rounded-xl border transition-all ${isSelected ? 'bg-blue-50 dark:bg-blue-500/20 border-blue-400 text-[#0052FF] font-bold' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-300'}">
             <div class="flex items-center gap-3"><img src="${lang.bendera}" class="w-5 h-3.5 object-cover rounded-sm"><span>${lang.nama}</span></div>
-            ${isSelected ? '<i class="fa-solid fa-circle-check text-[#0052FF] text-lg"></i>' : ''}
+            ${isSelected ? '<i class="fa-solid fa-circle-check text-[#0052FF] text-base"></i>' : ''}
           </button>`;
       });
       Swal.fire({
         title: currentLang === 'id' ? 'Pilih Bahasa' : 'Language', html: htmlListBahasa + `</div>`, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal',
-        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base border-b pb-3', cancelButton: 'w-full bg-slate-100 font-bold py-3 rounded-xl text-sm mt-2' }
+        customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-sm border-b pb-2.5', cancelButton: 'w-full bg-slate-100 font-bold py-2.5 rounded-xl text-xs mt-2' }
       });
     };
 
@@ -840,17 +827,17 @@
     });
 
     window.toggleDarkMode = function() { const m = document.body.classList.toggle('dark'); localStorage.setItem('app_dark_mode', m ? 'enabled' : 'disabled'); window.updateIconVisualModeGelap(m); window.refreshSemuaNominalUI(); };
-    window.updateIconVisualModeGelap = function(a) { if (document.getElementById('iconDarkMode')) document.getElementById('iconDarkMode').className = a ? "fa-solid fa-moon text-xs" : "fa-solid fa-user text-xs"; };
+    window.updateIconVisualModeGelap = function(a) { if (document.getElementById('iconDarkMode')) document.getElementById('iconDarkMode').className = a ? "fa-solid fa-moon text-[11px]" : "fa-solid fa-user text-[11px]"; };
 
     window.pilihJenisTab = function(jenisTerpilih) {
       document.getElementById('jenis').value = jenisTerpilih;
       const outB = document.getElementById('btnTabPengeluaran'), inB = document.getElementById('btnTabPemasukan');
       if (jenisTerpilih === 'Pengeluaran') {
-        outB.className = "w-full py-2 rounded-lg font-bold text-xs bg-white text-rose-600 shadow-sm dark:bg-slate-900 dark:text-rose-400";
-        inB.className = "w-full py-2 rounded-lg font-bold text-xs text-slate-500 dark:text-slate-400";
+        outB.className = "w-full py-1.5 rounded-lg font-bold text-xs bg-white text-rose-600 shadow-xs dark:bg-slate-900 dark:text-rose-400";
+        inB.className = "w-full py-1.5 rounded-lg font-bold text-xs text-slate-500 dark:text-slate-400";
       } else {
-        inB.className = "w-full py-2 rounded-lg font-bold text-xs bg-white text-[#0052FF] shadow-sm dark:bg-slate-900";
-        outB.className = "w-full py-2 rounded-lg font-bold text-xs text-slate-500 dark:text-slate-400";
+        inB.className = "w-full py-1.5 rounded-lg font-bold text-xs bg-white text-[#0052FF] shadow-xs dark:bg-slate-900";
+        outB.className = "w-full py-1.5 rounded-lg font-bold text-xs text-slate-500 dark:text-slate-400";
       }
       window.updateKategoriOptions();
     };
@@ -860,9 +847,9 @@
       let list = `<div class="grid grid-cols-1 gap-2 text-left max-h-[45vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       kategoriTranslations[currentLang][listKey].forEach(kat => {
         const s = dapatkanIndeksKategori(kat, j) === dapatkanIndeksKategori(document.getElementById('kategori').value, j);
-        list += `<button type="button" onclick="document.getElementById('kategori').value='${kat}'; document.getElementById('txtKategoriTerpilihLabel').innerText='${kat}'; Swal.close();" class="w-full flex items-center justify-between p-3.5 rounded-xl border ${s ? 'bg-blue-50 dark:bg-blue-500/20 border-blue-300 text-[#0052FF] font-bold' : 'bg-white dark:bg-slate-800 border-slate-100 text-slate-700'}"><span>${kat}</span>${s ? '<i class="fa-solid fa-circle-check text-[#0052FF] text-lg"></i>' : ''}</button>`;
+        list += `<button type="button" onclick="document.getElementById('kategori').value='${kat}'; document.getElementById('txtKategoriTerpilihLabel').innerText='${kat}'; Swal.close();" class="w-full flex items-center justify-between p-3 rounded-xl border ${s ? 'bg-blue-50 dark:bg-blue-500/20 border-blue-300 text-[#0052FF] font-bold' : 'bg-white dark:bg-slate-800 border-slate-100 text-slate-700'}"><span>${kat}</span>${s ? '<i class="fa-solid fa-circle-check text-[#0052FF] text-base"></i>' : ''}</button>`;
       });
-      Swal.fire({ title: translations[currentLang].posKategori, html: list + `</div>`, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base border-b pb-3', cancelButton: 'w-full bg-slate-100 font-bold py-3 rounded-xl text-sm' } });
+      Swal.fire({ title: translations[currentLang].posKategori, html: list + `</div>`, showConfirmButton: false, showCancelButton: true, cancelButtonText: 'Batal', customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-sm border-b pb-2.5', cancelButton: 'w-full bg-slate-100 font-bold py-2.5 rounded-xl text-xs mt-1' } });
     };
 
     window.updateKategoriOptions = function() {
@@ -873,14 +860,20 @@
 
     window.tukarHalaman = function(menu) {
       const navH = document.getElementById('navHome'), navR = document.getElementById('navRiwayat'), pR = document.getElementById('pageRiwayat');
+      const dotH = document.getElementById('dotNavHome'), dotR = document.getElementById('dotNavRiwayat');
+      
       if (menu === 'home') {
         pR.classList.add('hidden');
-        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 px-1";
-        navR.className = "flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1";
+        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 group relative";
+        navR.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group relative";
+        if(dotH) dotH.classList.remove('hidden');
+        if(dotR) dotR.classList.add('hidden');
       } else {
         pR.classList.remove('hidden');
-        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 px-1";
-        navH.className = "flex flex-col items-center justify-center text-slate-400 font-bold w-full py-1 px-1";
+        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 group relative";
+        navH.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group relative";
+        if(dotR) dotR.classList.remove('hidden');
+        if(dotH) dotH.classList.add('hidden');
       }
       window.loadSummary();
     };
@@ -914,24 +907,24 @@
         databaseRiwayatRaw.slice(0, 4).forEach((item, index) => {
           const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan"; 
           
-          let iconBg = 'bg-amber-100/70 text-amber-600';
+          let iconBg = 'bg-amber-100/60 text-amber-600';
           let iconFa = 'fa-utensils';
           
-          if(index === 0) { iconBg = 'bg-amber-100/70 text-amber-600'; iconFa = 'fa-utensils'; }
-          else if(index === 1) { iconBg = 'bg-emerald-100/70 text-emerald-600'; iconFa = 'fa-arrow-down'; }
-          else if(index === 2) { iconBg = 'bg-purple-100/70 text-purple-600'; iconFa = 'fa-basket-shopping'; }
-          else { iconBg = 'bg-blue-100/70 text-blue-600'; iconFa = 'fa-wallet'; }
+          if(index === 0) { iconBg = 'bg-amber-100/60 text-amber-600'; iconFa = 'fa-utensils'; }
+          else if(index === 1) { iconBg = 'bg-emerald-100/60 text-emerald-600'; iconFa = 'fa-arrow-down'; }
+          else if(index === 2) { iconBg = 'bg-purple-100/60 text-purple-600'; iconFa = 'fa-basket-shopping'; }
+          else { iconBg = 'bg-blue-100/60 text-blue-600'; iconFa = 'fa-wallet'; }
 
           const cleanDompetName = (item.dompet || "Kantong Tunai").replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
 
           container.innerHTML += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-3 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl flex items-center justify-center text-sm ${iconBg} flex-shrink-0"><i class="fa-solid ${iconFa}"></i></div>
+            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-2.5 px-2 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg cursor-pointer">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs ${iconBg} flex-shrink-0"><i class="fa-solid ${iconFa}"></i></div>
                 <div>
-                  <h4 class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
-                  <div class="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium mt-0.5">
-                    <span class="w-3.5 h-2 rounded-[2px] bg-amber-400/80 inline-block"></span>
+                  <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">${item.keterangan || "-"}</h4>
+                  <div class="flex items-center gap-1.5 text-[9.5px] text-slate-400 font-medium mt-0.5">
+                    <span class="w-3 h-1.5 rounded-[2px] bg-amber-400/80 inline-block"></span>
                     <span>${cleanDompetName || "Kantong Tunai"}</span>
                   </div>
                 </div>
@@ -939,16 +932,16 @@
               <div class="flex items-center gap-2">
                 <div class="text-right">
                   <span class="text-xs font-black ${isM ? 'text-emerald-500' : 'text-rose-500'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp ' : '-Rp ') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
-                  <span class="text-[9px] text-slate-400 block font-medium mt-0.5">${formatTanggalIndo(item.tanggal)}</span>
+                  <span class="text-[8.5px] text-slate-400 block font-medium mt-0.5">${formatTanggalIndo(item.tanggal)}</span>
                 </div>
-                <button type="button" class="text-slate-300 hover:text-slate-500 p-1 pl-1.5"><i class="fa-solid fa-ellipsis-vertical text-xs"></i></button>
+                <button type="button" class="text-slate-300 hover:text-slate-500 p-1 pl-1"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
               </div>
             </div>`;
         });
         if(document.getElementById('loadingRiwayat')) document.getElementById('loadingRiwayat').classList.add('hidden'); container.classList.remove('hidden');
       } else {
         if(document.getElementById('loadingRiwayat')) document.getElementById('loadingRiwayat').classList.add('hidden');
-        container.innerHTML = `<div class="text-center py-6 text-slate-400 text-xs font-semibold">Belum ada transaksi recorded.</div>`; container.classList.remove('hidden');
+        container.innerHTML = `<div class="text-center py-5 text-slate-400 text-xs font-semibold">Belum ada transaksi recorded.</div>`; container.classList.remove('hidden');
       }
     };
 
@@ -975,16 +968,16 @@
       const lA = labels.filter((_, idx) => values[idx] > 0), vA = values.filter(v => v > 0), wA = lA.map((_, idx) => daftarWarna[idx % daftarWarna.length]);
 
       lA.forEach((kat, i) => {
-        leg.insertAdjacentHTML('beforeend', `<div class="flex items-center justify-between w-full py-0.5 text-[11px] font-semibold"><div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full" style="background-color:${wA[i]}"></span><span class="text-slate-600 dark:text-slate-300 truncate">${kat}</span></div><span class="text-slate-800 dark:text-slate-100 font-bold">${((vA[i] / total) * 100).toFixed(0)}%</span></div>`);
+        leg.insertAdjacentHTML('beforeend', `<div class="flex items-center justify-between w-full py-0.5 text-[10.5px] font-semibold"><div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full" style="background-color:${wA[i]}"></span><span class="text-slate-600 dark:text-slate-300 truncate">${kat}</span></div><span class="text-slate-800 dark:text-slate-100 font-bold">${((vA[i] / total) * 100).toFixed(0)}%</span></div>`);
       });
-      myChartInstance = new Chart(canvas, { type: 'doughnut', data: { labels: lA, datasets: [{ data: vA, backgroundColor: wA, borderWidth: 2 }] }, options: { cutout: '75%', responsive: true, maintainAspectRatio: false, animation: anim, plugins: { legend: { display: false }, datalabels: { display: false } } } });
+      myChartInstance = new Chart(canvas, { type: 'doughnut', data: { labels: lA, datasets: [{ data: vA, backgroundColor: wA, borderWidth: 1.5 }] }, options: { cutout: '75%', responsive: true, maintainAspectRatio: false, animation: anim, plugins: { legend: { display: false }, datalabels: { display: false } } } });
     };
 
     window.renderGrafikTrenBulanan = function(dataTrenObj, anim = true) {
       const canvas = document.getElementById('chartTrenBulanan'); if (!canvas) return; const keys = Object.keys(dataTrenObj || {}).sort();
       const labels = keys.map(k => { const p = k.split('-'); return ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"][parseInt(p[1])-1]; });
       if (myBarChartInstance !== null) myBarChartInstance.destroy();
-      myBarChartInstance = new Chart(canvas, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Masuk', backgroundColor: '#0052FF', data: keys.map(k => dataTrenObj[k].masuk), borderRadius: 4, barThickness: 6 }, { label: 'Keluar', backgroundColor: '#f43f5e', data: keys.map(k => dataTrenObj[k].keluar), borderRadius: 4, barThickness: 6 }] }, options: { responsive: true, maintainAspectRatio: false, animation: anim, scales: { y: { ticks: { callback: v => v >= 1000000 ? (v/1000000)+'M' : v } } }, plugins: { legend: { labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }, datalabels: { display: false } } } });
+      myBarChartInstance = new Chart(canvas, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Masuk', backgroundColor: '#0052FF', data: keys.map(k => dataTrenObj[k].masuk), borderRadius: 3, barThickness: 5 }, { label: 'Keluar', backgroundColor: '#f43f5e', data: keys.map(k => dataTrenObj[k].keluar), borderRadius: 3, barThickness: 5 }] }, options: { responsive: true, maintainAspectRatio: false, animation: anim, scales: { y: { ticks: { callback: v => v >= 1000000 ? (v/1000000)+'M' : v } } }, plugins: { legend: { labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }, datalabels: { display: false } } } });
     };
 
     window.bukaModalTambahTransaksi = function() {
@@ -1003,7 +996,7 @@
       const item = databaseRiwayatRaw[idx]; if (!item) return;
       Swal.fire({
         title: translations[currentLang].actionTitle, text: `"${item.keterangan}" - Rp ${parseInt(item.nominal).toLocaleString('id-ID')}`, icon: 'question', showDenyButton: true, showCancelButton: true, confirmButtonText: 'Edit', denyButtonText: 'Hapus', cancelButtonText: 'Batal', confirmButtonColor: '#0052FF', denyButtonColor: '#f43f5e',
-        customClass: { popup: 'rounded-2xl p-5 font-urbanist shadow-xl', confirmButton: 'rounded-xl font-bold px-4 py-2 text-sm', denyButton: 'rounded-xl font-bold px-4 py-2 text-sm', cancelButton: 'rounded-xl font-bold px-4 py-2 text-sm bg-slate-100 text-slate-600' }
+        customClass: { popup: 'rounded-2xl p-4 font-urbanist shadow-md', confirmButton: 'rounded-xl font-bold px-3.5 py-2 text-xs', denyButton: 'rounded-xl font-bold px-3.5 py-2 text-xs', cancelButton: 'rounded-xl font-bold px-3.5 py-2 text-xs bg-slate-100 text-slate-600' }
       }).then((result) => { if (result.isConfirmed) { window.prosesModalEditTransaksiForm(idx); } else if (result.isDenied) { window.prosesHapusTransaksiKirimServer(idx); } });
     };
 
@@ -1011,8 +1004,8 @@
       const item = databaseRiwayatRaw[idx];
       Swal.fire({
         title: translations[currentLang].editTitle,
-        html: `<div class="flex flex-col gap-3 text-left p-1"><div><label class="block text-xs font-bold text-slate-400 mb-1">Keterangan Baru</label><input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-3 bg-slate-50 border rounded-xl font-bold text-sm"></div><div><label class="block text-xs font-bold text-slate-400 mb-1">Nominal Baru (Rp)</label><input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-3 bg-slate-50 border rounded-xl font-bold text-sm"></div></div>`,
-        showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#0052FF', cancelButtonText: 'Batal', customClass: { popup: 'rounded-2xl p-5', confirmButton: 'rounded-xl font-bold px-4 py-2.5 text-sm', cancelButton: 'rounded-xl font-bold px-4 py-2.5 text-sm' },
+        html: `<div class="flex flex-col gap-2.5 text-left p-1"><div><label class="block text-[11px] font-bold text-slate-400 mb-1">Keterangan Baru</label><input type="text" id="swalEditKeterangan" value="${item.keterangan}" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold text-xs"></div><div><label class="block text-[11px] font-bold text-slate-400 mb-1">Nominal Baru (Rp)</label><input type="text" id="swalEditNominal" value="${parseInt(item.nominal).toLocaleString('id-ID')}" oninput="window.formatInputRupiah(this)" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold text-xs"></div></div>`,
+        showCancelButton: true, confirmButtonText: 'Simpan', confirmButtonColor: '#0052FF', cancelButtonText: 'Batal', customClass: { popup: 'rounded-2xl p-4', confirmButton: 'rounded-xl font-bold px-3.5 py-2 text-xs', cancelButton: 'rounded-xl font-bold px-3.5 py-2 text-xs' },
         preConfirm: () => { const k = document.getElementById('swalEditKeterangan').value.trim(), n = document.getElementById('swalEditNominal').value.replace(/[^0-9]/g, ''); if (!k || !n) return false; return { keterangan: k, nominal: n, dompet: item.dompet || "💳 Kantong Tunai" }; }
       }).then((result) => { if (result.isConfirmed) { fetch(API_URL + "?action=update&index=" + (parseInt(idx) + 2), { method: "POST", body: JSON.stringify(result.value) }).then(() => window.loadSummary()); } });
     };
@@ -1030,21 +1023,21 @@
     };
 
     window.bukaPilihanPeriodeHalamanUtama = function() {
-      const select = document.getElementById('filterBulanUtamaHidden'); if(!select) return; let list = `<div class="flex flex-col gap-2 text-left max-h-[40vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      const select = document.getElementById('filterBulanUtamaHidden'); if(!select) return; let list = `<div class="flex flex-col gap-1.5 text-left max-h-[40vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       for (let i = 0; i < select.options.length; i++) {
         const val = select.options[i].value, txt = select.options[i].text, s = val === select.value;
-        list += `<button onclick="document.getElementById('filterBulanUtamaHidden').value='${val}'; if(document.getElementById('labelPeriodeUtama')) document.getElementById('labelPeriodeUtama').innerText='${txt}'; window.prosesFilterKategoriBulanUtama(false); Swal.close();" class="w-full flex items-center justify-between p-3.5 rounded-xl border ${s ? 'bg-blue-50 border-blue-300 text-[#0052FF] font-bold' : 'bg-white border-slate-100 text-slate-700'}"><span class="text-sm">${txt}</span>${s ? '<i class="fa-solid fa-circle-check text-[#0052FF]"></i>':''}</button>`;
+        list += `<button onclick="document.getElementById('filterBulanUtamaHidden').value='${val}'; if(document.getElementById('labelPeriodeUtama')) document.getElementById('labelPeriodeUtama').innerText='${txt}'; window.prosesFilterKategoriBulanUtama(false); Swal.close();" class="w-full flex items-center justify-between p-3 rounded-xl border ${s ? 'bg-blue-50 border-blue-300 text-[#0052FF] font-bold' : 'bg-white border-slate-100 text-slate-700'}"><span class="text-xs">${txt}</span>${s ? '<i class="fa-solid fa-circle-check text-[#0052FF]"></i>':''}</button>`;
       }
-      Swal.fire({ title: 'Pilih Periode', html: list + `</div>`, showConfirmButton: false, showCancelButton: true, customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base border-b pb-3' } });
+      Swal.fire({ title: 'Pilih Periode', html: list + `</div>`, showConfirmButton: false, showCancelButton: true, customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-sm border-b pb-2.5' } });
     };
 
     window.bukaPilihanPeriodeModal = function() {
-      const select = document.getElementById('filterBulanModal'); if(!select) return; let list = `<div class="flex flex-col gap-2 text-left max-h-[40vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
+      const select = document.getElementById('filterBulanModal'); if(!select) return; let list = `<div class="flex flex-col gap-1.5 text-left max-h-[40vh] overflow-y-auto pt-2 px-1 custom-scrollbar">`;
       for (let i = 0; i < select.options.length; i++) {
         const val = select.options[i].value, txt = select.options[i].text, s = val === select.value;
-        list += `<button onclick="document.getElementById('filterBulanModal').value='${val}'; if(document.getElementById('labelPeriodeTerpilih')) document.getElementById('labelPeriodeTerpilih').innerText='${txt}'; window.renderListModalSesuaiBulan(); Swal.close();" class="w-full flex items-center justify-between p-3.5 rounded-xl border ${s ? 'bg-blue-50 border-blue-300 text-[#0052FF] font-bold' : 'bg-[#ffffff] border-slate-100 text-slate-700'}"><span class="text-sm">${txt}</span>${s ? '<i class="fa-solid fa-circle-check text-[#0052FF]"></i>':''}</button>`;
+        list += `<button onclick="document.getElementById('filterBulanModal').value='${val}'; if(document.getElementById('labelPeriodeTerpilih')) document.getElementById('labelPeriodeTerpilih').innerText='${txt}'; window.renderListModalSesuaiBulan(); Swal.close();" class="w-full flex items-center justify-between p-3 rounded-xl border ${s ? 'bg-blue-50 border-blue-300 text-[#0052FF] font-bold' : 'bg-[#ffffff] border-slate-100 text-slate-700'}"><span class="text-xs">${txt}</span>${s ? '<i class="fa-solid fa-circle-check text-[#0052FF]"></i>':''}</button>`;
       }
-      Swal.fire({ title: 'Pilih Periode', html: list + `</div>`, showConfirmButton: false, showCancelButton: true, customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-base border-b pb-3' } });
+      Swal.fire({ title: 'Pilih Periode', html: list + `</div>`, showConfirmButton: false, showCancelButton: true, customClass: { popup: 'premium-bottom-sheet', title: 'font-bold text-sm border-b pb-2.5' } });
     };
 
     window.renderListModalSesuaiBulan = function() {
@@ -1060,15 +1053,15 @@
         grup[tgl].forEach(item => {
           const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan";
           itemsHTML += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-2.5 px-2 hover:bg-slate-50 border-b last:border-0 rounded-lg cursor-pointer">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs ${isM ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}"><i class="fa-solid ${isM ? 'fa-arrow-down' : 'fa-arrow-up'}"></i></div>
-                <div><h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">${item.keterangan || "-"}</h4><span class="text-[9px] text-slate-400 font-medium">${item.dompet || "Tunai"}</span></div>
+            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between py-2 px-1.5 hover:bg-slate-50 border-b last:border-0 rounded-lg cursor-pointer">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs ${isM ? 'bg-emerald-50 text-emerald-500' : 'bg-rose-50 text-rose-500'}"><i class="fa-solid ${isM ? 'fa-arrow-down' : 'fa-arrow-up'}"></i></div>
+                <div><h4 class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">${item.keterangan || "-"}</h4><span class="text-[8.5px] text-slate-400 font-medium">${item.dompet || "Tunai"}</span></div>
               </div>
               <span class="text-xs font-extrabold ${isM ? 'text-emerald-500' : 'text-slate-800 dark:text-slate-200'}">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp ' : '-Rp ') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
             </div>`;
         });
-        container.innerHTML += `<div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-xs flex flex-col mb-2"><div class="text-[10px] font-bold text-slate-400 border-b pb-1 mb-1 flex justify-between"><span>${formatTanggalIndo(tgl)}</span><span>${tgl}</span></div><div class="divide-y">${itemsHTML}</div></div>`;
+        container.innerHTML += `<div class="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700 shadow-xs flex flex-col mb-1.5"><div class="text-[9.5px] font-bold text-slate-400 border-b pb-1 mb-1 flex justify-between"><span>${formatTanggalIndo(tgl)}</span><span>${tgl}</span></div><div class="divide-y">${itemsHTML}</div></div>`;
       });
     };
 
