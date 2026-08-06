@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* INTEGRATED GLASSMOPHIC DOCK NAVBAR FINTECH STYLE */
+    /* FULL-WIDTH INTEGRATED BOTTOM NAVBAR */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -88,15 +88,14 @@
       right: 0 !important;
       z-index: 9999 !important;
       
-      height: auto !important;
-      padding-top: 6px !important;
-      padding-bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
+      height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+      padding-bottom: env(safe-area-inset-bottom, 0px) !important;
       
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid rgba(226, 232, 240, 0.8);
-      box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.03);
+      box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.04);
       
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -111,7 +110,6 @@
         left: 50% !important;
         transform: translateX(-50%) !important;
         border-radius: 0 0 1.5rem 1.5rem !important;
-        padding-bottom: 12px !important;
       }
     }
 
@@ -146,7 +144,7 @@
     /* DARK MODE STYLING */
     body.dark { background-color: #030712; color: #f8fafc; }
     body.dark #appCanvasWrapper { background-color: #0f172a !important; border-color: #1e293b !important; }
-    body.dark #mainFixedNavbar { background: rgba(15, 23, 42, 0.92) !important; border-color: rgba(30, 41, 59, 0.8) !important; }
+    body.dark #mainFixedNavbar { background: rgba(15, 23, 42, 0.94) !important; border-color: rgba(30, 41, 59, 0.8) !important; }
     body.dark .bg-white { background-color: #1e293b !important; color: #f8fafc !important; }
     body.dark .text-slate-800, body.dark .text-slate-700 { color: #f1f5f9 !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94a3b8 !important; }
@@ -219,7 +217,7 @@
       <!-- MAIN CONTENT DASHBOARD -->
       <div class="w-full px-3.5 sm:px-4 pt-1 pb-28 flex flex-col gap-3.5">
 
-        <!-- 1. HERO CARD TOTAL ASET (PRECISE 16px RADIUS) -->
+        <!-- 1. HERO CARD TOTAL ASET -->
         <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-2xl p-4 sm:p-4.5 relative overflow-hidden shadow-sm">
           <div class="flex justify-between items-start relative z-10">
             <div>
@@ -253,7 +251,7 @@
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA (CLEAN SQUIRCLE CARDS) -->
+        <!-- 2. DOMPET SAYA -->
         <div class="flex flex-col gap-1.5">
           <div class="flex items-center justify-between px-0.5">
             <h3 class="text-xs font-bold text-slate-800 dark:text-slate-200">Dompet Saya</h3>
@@ -567,40 +565,47 @@
       </div>
     </div>
 
-    <!-- ==================== INTEGRATED GLASSMOPHIC DOCK NAVBAR ==================== -->
+    <!-- ==================== FULL-WIDTH INTEGRATED BOTTOM NAVBAR ==================== -->
     <div id="mainFixedNavbar">
       
       <!-- 1. Beranda -->
-      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 group relative">
+      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full relative group">
         <i class="fa-solid fa-house text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Beranda</span>
-        <span id="dotNavHome" class="w-1 h-1 bg-[#0052FF] rounded-full absolute -bottom-0.5"></span>
+        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Beranda</span>
+        <span id="dotNavHome" class="w-1 h-1 bg-[#0052FF] rounded-full absolute bottom-1"></span>
       </button>
 
       <!-- 2. Analisis -->
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group relative">
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group">
         <i class="fa-solid fa-chart-pie text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Analisis</span>
-        <span id="dotNavRiwayat" class="w-1 h-1 bg-[#0052FF] rounded-full absolute -bottom-0.5 hidden"></span>
+        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Analisis</span>
+        <span id="dotNavRiwayat" class="w-1 h-1 bg-[#0052FF] rounded-full absolute bottom-1 hidden"></span>
       </button>
 
-      <!-- 3. Integrated Squircle FAB Center Button -->
+      <!-- 3. Integrated Signature MyKas FAB Button (SETENGAH BADAN TERINTEGRASI) -->
       <div class="flex items-center justify-center w-full h-full relative">
-        <button onclick="window.bukaModalTambahTransaksi()" class="w-10 h-10 rounded-xl bg-[#0052FF] text-white flex items-center justify-center text-lg -translate-y-2.5 shadow-sm shadow-blue-500/20 active:scale-95 transition-all border-2 border-white dark:border-slate-900">
-          <i class="fa-solid fa-plus text-sm"></i>
+        
+        <!-- Soft Glow Background Aura -->
+        <div class="absolute -top-5 w-12 h-12 rounded-2xl bg-[#0052FF]/15 blur-sm pointer-events-none"></div>
+
+        <!-- Integrated Protruding FAB -->
+        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-5 w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0038B8] via-[#0052FF] to-[#2563EB] text-white flex items-center justify-center border-[3.5px] border-white dark:border-slate-900 shadow-md shadow-blue-500/20 active:scale-90 transition-all duration-200 group">
+          <i class="fa-solid fa-plus text-base group-hover:rotate-90 transition-transform duration-300"></i>
+          <!-- Gold Dot Accent Signature MyKas -->
+          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-amber-300 rounded-full"></span>
         </button>
       </div>
 
       <!-- 4. Dompet -->
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group">
+      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group">
         <i class="fa-solid fa-wallet text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Dompet</span>
+        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Dompet</span>
       </button>
 
       <!-- 5. Profil -->
-      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group">
+      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group">
         <i class="fa-regular fa-user text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9.5px] font-bold leading-none truncate w-full text-center tracking-tight">Profil</span>
+        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Profil</span>
       </button>
     </div>
 
@@ -864,14 +869,14 @@
       
       if (menu === 'home') {
         pR.classList.add('hidden');
-        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 group relative";
-        navR.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group relative";
+        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full relative group";
+        navR.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group";
         if(dotH) dotH.classList.remove('hidden');
         if(dotR) dotR.classList.add('hidden');
       } else {
         pR.classList.remove('hidden');
-        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full py-1 group relative";
-        navH.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full py-1 group relative";
+        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full relative group";
+        navH.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group";
         if(dotR) dotR.classList.remove('hidden');
         if(dotH) dotH.classList.add('hidden');
       }
