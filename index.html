@@ -251,26 +251,26 @@
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA (SIAP DENGAN ASET SVGS INKSCAPE) -->
+        <!-- 2. DOMPET SAYA -->
         <div class="flex flex-col gap-2">
           <div class="flex items-center justify-between">
             <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
             <button onclick="window.bukaModalDetailSemua()" class="text-[11px] sm:text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i></button>
           </div>
 
-          <!-- GRID 4 KOLOM RESPONSIVE DENGAN MIN-W-0 -->
+          <!-- GRID 4 KOLOM RESPONSIVE -->
           <div class="grid grid-cols-4 gap-1.5 sm:gap-2">
             
             <!-- 1. Tunai -->
             <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all h-[145px] sm:h-[155px] min-w-0">
               
-              <!-- Ikon Inkscape Tunai (Fallback ke Badge Rp) -->
-              <div class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center my-0.5">
-                <img src="assets/icons/ic-tunai.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'w-9 h-9 rounded-xl border-2 border-amber-400 bg-amber-50/20 flex items-center justify-center text-amber-500 font-extrabold text-xs\'>Rp</div>';">
+              <!-- Yellow Rp Badge -->
+              <div class="w-10 h-10 rounded-2xl border-[2.5px] border-amber-400 bg-amber-50/20 flex items-center justify-center text-amber-500 font-extrabold text-xs sm:text-sm my-0.5">
+                Rp
               </div>
 
-              <div class="flex flex-col items-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate w-full">Tunai</span>
+              <div class="flex flex-col items-center justify-center w-full min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight">Tunai</span>
                 <h4 id="displayTunaiMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
                 <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">1 dompet</span>
               </div>
@@ -282,13 +282,22 @@
             <!-- 2. Rekening Bank -->
             <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0f172a] transition-all h-[145px] sm:h-[155px] min-w-0">
               
-              <!-- Ikon Inkscape Bank -->
-              <div class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center my-0.5">
-                <img src="assets/icons/ic-bank.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-building-columns text-slate-800 text-2xl\'></i>';">
+              <!-- Navy Bank Building SVG -->
+              <div class="w-10 h-10 flex items-center justify-center my-0.5">
+                <svg class="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 18L24 6L42 18" stroke="#0f172a" stroke-width="3"/>
+                  <circle cx="24" cy="13" r="2" fill="#f59e0b"/>
+                  <line x1="6" y1="20" x2="42" y2="20" stroke="#0f172a" stroke-width="3"/>
+                  <line x1="11" y1="20" x2="11" y2="38" stroke="#0f172a" stroke-width="3"/>
+                  <line x1="20" y1="20" x2="20" y2="38" stroke="#0f172a" stroke-width="3"/>
+                  <line x1="28" y1="20" x2="28" y2="38" stroke="#0f172a" stroke-width="3"/>
+                  <line x1="37" y1="20" x2="37" y2="38" stroke="#0f172a" stroke-width="3"/>
+                  <line x1="6" y1="38" x2="42" y2="38" stroke="#0f172a" stroke-width="3"/>
+                </svg>
               </div>
 
-              <div class="flex flex-col items-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate w-full">Rekening Bank</span>
+              <div class="flex flex-col items-center justify-center w-full min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight">Rekening Bank</span>
                 <h4 id="displayBankMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp7.850.000</h4>
                 <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">4 rekening</span>
               </div>
@@ -300,13 +309,17 @@
             <!-- 3. E-Wallet -->
             <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all h-[145px] sm:h-[155px] min-w-0">
               
-              <!-- Ikon Inkscape E-Wallet -->
-              <div class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center my-0.5">
-                <img src="assets/icons/ic-ewallet.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-wallet text-[#0052FF] text-2xl\'></i>';">
+              <!-- Blue Wallet SVG -->
+              <div class="w-10 h-10 flex items-center justify-center my-0.5">
+                <svg class="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="8" y="10" width="32" height="28" rx="6" stroke="#0052FF" stroke-width="3"/>
+                  <path d="M28 20H40V28H28C25.8 28 24 26.2 24 24C24 21.8 25.8 20 28 20Z" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5"/>
+                  <circle cx="31" cy="24" r="1.5" fill="white"/>
+                </svg>
               </div>
 
-              <div class="flex flex-col items-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate w-full">E-Wallet</span>
+              <div class="flex flex-col items-center justify-center w-full min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight">E-Wallet</span>
                 <h4 id="displayDigitalMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp2.150.000</h4>
                 <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">3 e-wallet</span>
               </div>
@@ -318,13 +331,17 @@
             <!-- 4. Tabungan -->
             <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2 sm:p-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all h-[145px] sm:h-[155px] min-w-0">
               
-              <!-- Ikon Inkscape Tabungan -->
-              <div class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center my-0.5">
-                <img src="assets/icons/ic-tabungan.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-piggy-bank text-purple-600 text-2xl\'></i>';">
+              <!-- Piggy Bank SVG -->
+              <div class="w-10 h-10 flex items-center justify-center my-0.5">
+                <svg class="w-8 h-8 sm:w-9 sm:h-9" viewBox="0 0 48 48" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 24C12 17.37 17.37 12 24 12C29.5 12 34.1 15.7 35.5 20.8C37.5 21.3 39 23.1 39 25.3C39 27.8 37 29.8 34.5 29.8H34V34C34 35.7 32.7 37 31 37H29V34H19V37H17C15.3 37 14 35.7 14 34V31.5C12.8 30.2 12 28.5 12 26.5" stroke="#0052FF" stroke-width="2.8"/>
+                  <circle cx="31" cy="11" r="5" fill="#f59e0b"/>
+                  <path d="M29 11L30.5 12.5L33 9.5" stroke="white" stroke-width="1.8"/>
+                </svg>
               </div>
 
-              <div class="flex flex-col items-center w-full min-w-0">
-                <span class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate w-full">Tabungan</span>
+              <div class="flex flex-col items-center justify-center w-full min-w-0">
+                <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-100 text-center leading-tight">Tabungan</span>
                 <h4 id="displayTabunganMini" class="text-[10px] sm:text-xs font-extrabold text-slate-900 dark:text-white mt-0.5 tracking-tighter truncate w-full">Rp1.250.000</h4>
                 <span class="text-[9px] text-slate-400 font-medium mt-0.5 truncate w-full">1 tabungan</span>
               </div>
@@ -336,50 +353,72 @@
           </div>
         </div>
 
-        <!-- 3. QUICK ACTION (SIAP DENGAN ASET SVGS INKSCAPE & SATU KONTAINER UTUH) -->
+        <!-- 3. QUICK ACTION -->
         <div class="flex flex-col gap-2">
           <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Quick Action</h3>
           
-          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-2.5 sm:p-3 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/50">
+          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-2 sm:p-3 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 divide-x divide-slate-100 dark:divide-slate-700/50">
             
             <!-- Scan Struk -->
-            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1 px-1 active:scale-95 transition-all min-w-0">
+            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
               <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <img src="assets/icons/ic-scan.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-expand text-[#0052FF] text-lg\'></i>';">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 10V7C6 6.44772 6.44772 6 7 6H10" stroke="#0052FF" stroke-width="2.5"/>
+                  <path d="M22 6H25C25.5523 6 26 6.44772 26 7V10" stroke="#0052FF" stroke-width="2.5"/>
+                  <path d="M6 22V25C6 25.5523 6.44772 26 7 26H10" stroke="#0052FF" stroke-width="2.5"/>
+                  <path d="M22 26H25C25.5523 26 26 25.5523 26 25V22" stroke="#0052FF" stroke-width="2.5"/>
+                  <line x1="8" y1="16" x2="24" y2="16" stroke="#f59e0b" stroke-width="3"/>
+                </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Scan Struk</span>
+              <span class="text-[9.5px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight">Scan Struk</span>
             </button>
 
             <!-- Budget -->
-            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1 px-1 active:scale-95 transition-all min-w-0">
-              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <img src="assets/icons/ic-budget.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-bullseye text-[#0052FF] text-lg\'></i>';">
+            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
+              <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center relative">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="16" cy="16" r="10"/>
+                  <circle cx="16" cy="16" r="6"/>
+                  <circle cx="16" cy="16" r="2" fill="#0052FF"/>
+                </svg>
+                <i class="fa-solid fa-star text-[8px] text-amber-400 absolute top-0 right-0"></i>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Budget</span>
+              <span class="text-[9.5px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight">Budget</span>
             </button>
 
             <!-- Laporan -->
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-1 active:scale-95 transition-all min-w-0">
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
               <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <img src="assets/icons/ic-laporan.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-regular fa-file-lines text-[#0052FF] text-lg\'></i>';">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 5H19L25 11V25C25 26.1 24.1 27 23 27H9C7.9 27 7 26.1 7 25V7C7 5.9 7.9 5 9 5Z"/>
+                  <path d="M19 5V11H25"/>
+                  <line x1="11" y1="17" x2="21" y2="17"/>
+                  <line x1="11" y1="21" x2="17" y2="21"/>
+                </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Laporan</span>
+              <span class="text-[9.5px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight">Laporan</span>
             </button>
 
             <!-- Kategori -->
-            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1 px-1 active:scale-95 transition-all min-w-0">
+            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
               <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <img src="assets/icons/ic-kategori.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-tag text-[#0052FF] text-lg\'></i>';">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 17.5L16.5 26L26 16.5V7H16.5L8 17.5Z"/>
+                  <circle cx="21.5" cy="11.5" r="1.5" fill="#0052FF"/>
+                </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Kategori</span>
+              <span class="text-[9.5px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight">Kategori</span>
             </button>
 
             <!-- Cari Transaksi -->
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-1 active:scale-95 transition-all min-w-0">
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1 px-0.5 active:scale-95 transition-all min-w-0">
               <div class="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center">
-                <img src="assets/icons/ic-cari.svg" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentNode.innerHTML='<i class=\'fa-solid fa-magnifying-glass text-[#0052FF] text-lg\'></i>';">
+                <svg class="w-6 h-6 sm:w-7 sm:h-7" viewBox="0 0 32 32" fill="none" stroke="#0052FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="14" cy="14" r="7"/>
+                  <line x1="19" y1="19" x2="25" y2="25" stroke-width="3"/>
+                </svg>
               </div>
-              <span class="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight truncate w-full">Cari Transaksi</span>
+              <span class="text-[9.5px] sm:text-[11px] font-bold text-slate-800 dark:text-slate-200 text-center leading-tight">Cari Transaksi</span>
             </button>
 
           </div>
