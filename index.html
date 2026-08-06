@@ -80,7 +80,7 @@
     
     .swal2-container { z-index: 999999 !important; }
 
-    /* SEAMLESS NOTCHED BOTTOM NAVBAR */
+    /* FLAT MATERIAL 3 FULL-WIDTH BOTTOM NAVBAR */
     #mainFixedNavbar {
       position: fixed !important;
       bottom: 0 !important;
@@ -88,14 +88,12 @@
       right: 0 !important;
       z-index: 9999 !important;
       
-      height: calc(62px + env(safe-area-inset-bottom, 0px)) !important;
+      height: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
       padding-bottom: env(safe-area-inset-bottom, 0px) !important;
       
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid rgba(226, 232, 240, 0.8);
-      box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.04);
+      background: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      box-shadow: 0 -2px 10px rgba(15, 23, 42, 0.03);
       
       display: grid !important;
       grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -141,10 +139,10 @@
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
 
-    /* DARK MODE STYLING */
+    /* DARK MODE STYLING MATERIAL 3 */
     body.dark { background-color: #030712; color: #f8fafc; }
     body.dark #appCanvasWrapper { background-color: #0f172a !important; border-color: #1e293b !important; }
-    body.dark #mainFixedNavbar { background: rgba(15, 23, 42, 0.95) !important; border-color: rgba(30, 41, 59, 0.8) !important; }
+    body.dark #mainFixedNavbar { background: #0f172a !important; border-color: #1e293b !important; }
     body.dark .bg-white { background-color: #1e293b !important; color: #f8fafc !important; }
     body.dark .text-slate-800, body.dark .text-slate-700 { color: #f1f5f9 !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94a3b8 !important; }
@@ -152,7 +150,6 @@
     body.dark .border-slate-100, body.dark .border-slate-200 { border-color: #334155 !important; }
     body.dark input, body.dark select, body.dark #btnTriggerKategori { background-color: #0f172a !important; border-color: #334155 !important; color: #f8fafc !important; }
     body.dark .premium-bottom-sheet { background: #1e293b !important; }
-    body.dark .notch-fill { fill: rgba(15, 23, 42, 0.95) !important; stroke: rgba(30, 41, 59, 0.8) !important; }
 
     /* ANIMASI SPLASH SCREEN */
     @keyframes textSlideFadeUp {
@@ -566,52 +563,48 @@
       </div>
     </div>
 
-    <!-- ==================== FULL-WIDTH SEAMLESS NOTCHED BOTTOM NAVBAR ==================== -->
+    <!-- ==================== FLAT MATERIAL 3 FULL-WIDTH BOTTOM NAVBAR ==================== -->
     <div id="mainFixedNavbar">
       
       <!-- 1. Beranda -->
-      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full relative group">
-        <i class="fa-solid fa-house text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Beranda</span>
-        <span id="dotNavHome" class="w-1 h-1 bg-[#0052FF] rounded-full absolute bottom-1"></span>
+      <button id="navHome" onclick="window.tukarHalaman('home')" class="flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group">
+        <div id="pillNavHome" class="px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-solid fa-house text-sm"></i>
+        </div>
+        <span class="text-[10px] font-bold tracking-tight">Beranda</span>
       </button>
 
       <!-- 2. Analisis -->
-      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group">
-        <i class="fa-solid fa-chart-pie text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Analisis</span>
-        <span id="dotNavRiwayat" class="w-1 h-1 bg-[#0052FF] rounded-full absolute bottom-1 hidden"></span>
+      <button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group">
+        <div id="pillNavRiwayat" class="px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-solid fa-chart-pie text-sm"></i>
+        </div>
+        <span class="text-[10px] font-bold tracking-tight">Analisis</span>
       </button>
 
-      <!-- 3. Integrated Dynamic Notch FAB Center (MENYATU SEMPURNA) -->
+      <!-- 3. M3 PROTRUDING SQUIRCLE FAB (50% Menonjol, Flat, Tanpa Cekungan SVG) -->
       <div class="flex items-center justify-center w-full h-full relative">
-        
-        <!-- Seamless SVG Notch Bridge (Menyambungkan Top-Border Navbar dengan Cekungan FAB) -->
-        <svg class="absolute -top-3.5 w-18 h-4 pointer-events-none" viewBox="0 0 72 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 16C8 16 12 0 24 0H48C60 0 64 16 72 16H0Z" class="notch-fill" fill="rgba(255, 255, 255, 0.95)" stroke="rgba(226, 232, 240, 0.8)" stroke-width="1"/>
-        </svg>
-
-        <!-- Dynamic Glow Collar -->
-        <div class="absolute -top-6 w-11 h-11 rounded-2xl bg-[#0052FF]/20 blur-md pointer-events-none"></div>
-
-        <!-- Integrated Protruding Squircle FAB -->
-        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-6 w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0038B8] via-[#0052FF] to-[#2563EB] text-white flex items-center justify-center shadow-md shadow-blue-500/30 border-2 border-white/60 dark:border-slate-800 active:scale-90 transition-all duration-200 group">
-          <i class="fa-solid fa-plus text-base group-hover:rotate-90 transition-transform duration-300"></i>
+        <button onclick="window.bukaModalTambahTransaksi()" class="absolute -top-6 w-13 h-13 rounded-2xl bg-[#0052FF] hover:bg-blue-700 text-white flex items-center justify-center text-xl border-[4px] border-white dark:border-slate-900 shadow-lg shadow-blue-600/25 active:scale-95 transition-all duration-200 group">
+          <i class="fa-solid fa-plus text-lg group-hover:rotate-90 transition-transform duration-300"></i>
           <!-- Gold Dot Accent Signature MyKas -->
-          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-amber-300 rounded-full"></span>
+          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-amber-300 rounded-full border border-white dark:border-slate-900"></span>
         </button>
       </div>
 
       <!-- 4. Dompet -->
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group">
-        <i class="fa-solid fa-wallet text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Dompet</span>
+      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group">
+        <div class="px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-solid fa-wallet text-sm"></i>
+        </div>
+        <span class="text-[10px] font-bold tracking-tight">Dompet</span>
       </button>
 
       <!-- 5. Profil -->
-      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group">
-        <i class="fa-regular fa-user text-base mb-0.5 transition-transform group-active:scale-90"></i>
-        <span class="text-[9px] font-bold leading-none truncate w-full text-center tracking-tight">Profil</span>
+      <button onclick="window.toggleDarkMode()" class="flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group">
+        <div class="px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5">
+          <i class="fa-regular fa-user text-sm"></i>
+        </div>
+        <span class="text-[10px] font-bold tracking-tight">Profil</span>
       </button>
     </div>
 
@@ -871,20 +864,20 @@
 
     window.tukarHalaman = function(menu) {
       const navH = document.getElementById('navHome'), navR = document.getElementById('navRiwayat'), pR = document.getElementById('pageRiwayat');
-      const dotH = document.getElementById('dotNavHome'), dotR = document.getElementById('dotNavRiwayat');
+      const pillH = document.getElementById('pillNavHome'), pillR = document.getElementById('pillNavRiwayat');
       
       if (menu === 'home') {
         pR.classList.add('hidden');
-        navH.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full relative group";
-        navR.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group";
-        if(dotH) dotH.classList.remove('hidden');
-        if(dotR) dotR.classList.add('hidden');
+        navH.className = "flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group";
+        navR.className = "flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group";
+        if(pillH) pillH.className = "px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center transition-all mb-0.5";
+        if(pillR) pillR.className = "px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5";
       } else {
         pR.classList.remove('hidden');
-        navR.className = "flex flex-col items-center justify-center text-[#0052FF] font-bold w-full h-full relative group";
-        navH.className = "flex flex-col items-center justify-center text-slate-400 font-medium w-full h-full relative group";
-        if(dotR) dotR.classList.remove('hidden');
-        if(dotH) dotH.classList.add('hidden');
+        navR.className = "flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group";
+        navH.className = "flex flex-col items-center justify-center w-full h-full text-slate-500 dark:text-slate-400 font-medium group";
+        if(pillR) pillR.className = "px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 flex items-center justify-center transition-all mb-0.5";
+        if(pillH) pillH.className = "px-3.5 py-1 rounded-full flex items-center justify-center transition-all mb-0.5";
       }
       window.loadSummary();
     };
