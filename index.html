@@ -215,43 +215,41 @@
       <!-- MAIN CONTENT DASHBOARD -->
       <div class="w-full px-3.5 pt-3.5 pb-20 flex flex-col gap-4">
 
-        <!-- 1. HERO CARD TOTAL ASET -->
-        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-3xl p-4.5 relative overflow-hidden shadow-md">
+        <!-- 1. HERO CARD TOTAL ASET (UKURAN & PADDING DITERAPKAN LAPANG) -->
+        <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-3xl p-5 sm:p-6 relative shadow-md">
           <div class="flex justify-between items-start relative z-10">
-            <div>
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs sm:text-sm font-semibold text-blue-100/90 tracking-wide">Total Aset</span>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-semibold text-blue-100/90 tracking-wide leading-normal">Total Aset</span>
                 <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-blue-100/80 hover:text-white transition-all">
                   <i id="iconToggleSaldo" class="fa-regular fa-eye text-xs sm:text-sm"></i>
                 </button>
               </div>
-              <h2 id="txtSaldo" class="text-3xl sm:text-4xl font-black tracking-tight text-white mb-2 font-urbanist">Rp2.333.488</h2>
+              <h2 id="txtSaldo" class="text-3xl sm:text-4xl font-black tracking-tight text-white my-1 font-urbanist leading-tight">Rp2.333.488</h2>
               
-              <div class="flex items-center gap-2 mb-2">
-                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-white/15 backdrop-blur-md rounded-lg text-emerald-300 text-xs font-bold">
+              <div class="flex items-center gap-2 mt-0.5">
+                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-white/20 backdrop-blur-md rounded-lg text-emerald-300 text-xs font-bold">
                   <i class="fa-solid fa-arrow-up text-[9px]"></i>
                   <span>12,5%</span>
                 </div>
-                <span class="text-xs text-blue-100/80 font-medium">dari bulan lalu</span>
+                <span class="text-xs text-blue-100/90 font-medium">dari bulan lalu</span>
               </div>
 
               <!-- TIMESTAMPS REFRESH -->
-              <div class="flex items-center gap-1.5 text-xs text-blue-100/70 font-medium">
+              <div class="flex items-center gap-1.5 text-xs text-blue-100/70 font-medium mt-2">
                 <i class="fa-regular fa-clock text-[11px]"></i>
                 <span>Diperbarui 09.30 WIB</span>
               </div>
             </div>
 
             <!-- WALLET HERO ICON -->
-            <div class="w-13 h-13 relative flex-shrink-0 flex items-center justify-center">
-              <div class="w-12 h-12 bg-blue-400/20 rounded-2xl border border-white/20 backdrop-blur-md flex items-center justify-center shadow-inner">
-                <i class="fa-solid fa-wallet text-amber-300 text-2xl filter drop-shadow-md"></i>
-              </div>
+            <div class="w-12 h-12 bg-white/15 rounded-2xl border border-white/20 backdrop-blur-md flex items-center justify-center shadow-inner flex-shrink-0">
+              <i class="fa-solid fa-wallet text-amber-300 text-2xl filter drop-shadow-md"></i>
             </div>
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA (IKON DIPERBESAR & MODERN) -->
+        <!-- 2. DOMPET SAYA -->
         <div class="flex flex-col gap-2">
           <div class="flex items-center justify-between px-0.5">
             <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
@@ -274,7 +272,7 @@
               </div>
             </div>
 
-            <!-- Bank (Teks Diubah dari Rekening Bank -> Bank) -->
+            <!-- Bank -->
             <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-slate-900 transition-all min-w-0">
               <div class="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-800 dark:text-slate-200 text-lg shadow-xs">
                 <i class="fa-solid fa-landmark"></i>
@@ -321,7 +319,7 @@
           </div>
         </div>
 
-        <!-- 3. QUICK ACTION BAR (IKON DIPERBESAR + KATA "Cari") -->
+        <!-- 3. QUICK ACTION BAR -->
         <div class="flex flex-col gap-2">
           <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100 px-0.5">Quick Action</h3>
           <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 gap-1 text-center">
@@ -354,7 +352,6 @@
               <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate w-full">Kategori</span>
             </button>
 
-            <!-- Text diubah dari Cari Transaksi -> Cari -->
             <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
               <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
                 <i class="fa-solid fa-magnifying-glass text-lg sm:text-xl"></i>
@@ -365,10 +362,10 @@
           </div>
         </div>
 
-        <!-- 4. GRID 2 KOLOM (TRANSAKSI TERBARU GAYA FINTECH PREMIUM) -->
+        <!-- 4. GRID 2 KOLOM (TRANSAKSI TERBARU & SISA BUDGET) -->
         <div class="grid grid-cols-2 gap-3 items-stretch">
           
-          <!-- KARTU KIRI: TRANSAKSI TERBARU (DIBERSIHKAN LEGA & ELEGAN) -->
+          <!-- KARTU KIRI: TRANSAKSI TERBARU -->
           <div class="bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col justify-between min-w-0">
             <div>
               <div class="flex items-center justify-between mb-3 min-w-0">
@@ -381,7 +378,6 @@
                 <span class="font-medium text-xs">Memuat data...</span>
               </div>
               
-              <!-- Container list transaksi bergaya kartu fintech -->
               <div id="listRiwayat" class="space-y-2 hidden min-w-0"></div>
             </div>
           </div>
@@ -1146,4 +1142,4 @@
   </script>
 </body>
 
-</html>
+  </html>
