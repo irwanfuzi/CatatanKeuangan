@@ -86,6 +86,7 @@
       bottom: 0 !important;
       left: 0 !important;
       right: 0 !important;
+      width: 100% !important;
       z-index: 9999 !important;
       
       height: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
@@ -101,12 +102,16 @@
       justify-items: center !important;
     }
     
+    /* FIX RESPONSIF TABLET / DESKTOP FRAME */
     @media (min-width: 768px) {
       #mainFixedNavbar {
         position: absolute !important;
-        max-width: 448px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        transform: none !important;
         border-radius: 0 0 1.5rem 1.5rem !important;
       }
     }
@@ -213,22 +218,22 @@
       </div>
 
       <!-- MAIN CONTENT DASHBOARD -->
-      <div class="w-full px-3.5 pt-3.5 pb-20 flex flex-col gap-4">
+      <div class="w-full px-4 pt-4 pb-24 flex flex-col gap-4.5">
 
-        <!-- 1. HERO CARD TOTAL ASET (UKURAN & PADDING DITERAPKAN LAPANG) -->
+        <!-- 1. HERO CARD TOTAL ASET -->
         <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042D0] text-white rounded-3xl p-5 sm:p-6 relative shadow-md">
           <div class="flex justify-between items-start relative z-10">
-            <div class="flex flex-col gap-1">
+            <div class="flex flex-col gap-1.5">
               <div class="flex items-center gap-2">
-                <span class="text-xs sm:text-sm font-semibold text-blue-100/90 tracking-wide leading-normal">Total Aset</span>
+                <span class="text-xs sm:text-sm font-semibold text-blue-100/90 tracking-wide">Total Aset</span>
                 <button type="button" onclick="window.toggleSembunyikanSaldo()" class="text-blue-100/80 hover:text-white transition-all">
                   <i id="iconToggleSaldo" class="fa-regular fa-eye text-xs sm:text-sm"></i>
                 </button>
               </div>
-              <h2 id="txtSaldo" class="text-3xl sm:text-4xl font-black tracking-tight text-white my-1 font-urbanist leading-tight">Rp2.333.488</h2>
+              <h2 id="txtSaldo" class="text-3xl sm:text-4xl font-black tracking-tight text-white my-0.5 font-urbanist leading-tight">Rp2.333.488</h2>
               
               <div class="flex items-center gap-2 mt-0.5">
-                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-white/20 backdrop-blur-md rounded-lg text-emerald-300 text-xs font-bold">
+                <div class="inline-flex items-center gap-1 px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-lg text-emerald-300 text-xs font-bold">
                   <i class="fa-solid fa-arrow-up text-[9px]"></i>
                   <span>12,5%</span>
                 </div>
@@ -236,7 +241,7 @@
               </div>
 
               <!-- TIMESTAMPS REFRESH -->
-              <div class="flex items-center gap-1.5 text-xs text-blue-100/70 font-medium mt-2">
+              <div class="flex items-center gap-1.5 text-xs text-blue-100/70 font-medium mt-1">
                 <i class="fa-regular fa-clock text-[11px]"></i>
                 <span>Diperbarui 09.30 WIB</span>
               </div>
@@ -250,69 +255,69 @@
         </div>
 
         <!-- 2. DOMPET SAYA -->
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2.5">
           <div class="flex items-center justify-between px-0.5">
             <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
             <button onclick="window.bukaModalDetailSemua()" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-0.5">Lihat Semua &gt;</button>
           </div>
 
-          <div class="grid grid-cols-4 gap-2">
+          <div class="grid grid-cols-4 gap-2.5">
             <!-- Tunai -->
-            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all min-w-0">
-              <div class="w-11 h-11 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-black text-base shadow-xs">
+            <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-amber-400 transition-all min-w-0">
+              <div class="w-12 h-12 rounded-2xl border-2 border-amber-400 bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-black text-lg shadow-xs flex-shrink-0">
                 Rp
               </div>
-              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
-                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">Tunai</span>
-                <h4 id="displayTunaiMini" class="text-xs font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp136.500</h4>
+              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-3">
+                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">Tunai</span>
+                <h4 id="displayTunaiMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full font-urbanist">Rp136.500</h4>
                 <span class="text-[11px] text-slate-400 font-medium truncate w-full mt-0.5">1 dompet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2.5">
                 <div id="barTunaiMini" class="bg-amber-400 h-full rounded-full" style="width: 40%"></div>
               </div>
             </div>
 
             <!-- Bank -->
-            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-slate-900 transition-all min-w-0">
-              <div class="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-800 dark:text-slate-200 text-lg shadow-xs">
+            <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-slate-900 transition-all min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-800 dark:text-slate-200 text-xl shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-landmark"></i>
               </div>
-              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
-                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">Bank</span>
-                <h4 id="displayBankMini" class="text-xs font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp2.196.988</h4>
+              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-3">
+                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">Bank</span>
+                <h4 id="displayBankMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full font-urbanist">Rp2.196.988</h4>
                 <span class="text-[11px] text-slate-400 font-medium truncate w-full mt-0.5">4 rekening</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2.5">
                 <div id="barBankMini" class="bg-slate-900 dark:bg-blue-500 h-full rounded-full" style="width: 70%"></div>
               </div>
             </div>
 
             <!-- E-Wallet -->
-            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all min-w-0">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/20 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-lg shadow-xs">
+            <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-[#0052FF] transition-all min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/20 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xl shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-wallet"></i>
               </div>
-              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
-                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">E-Wallet</span>
-                <h4 id="displayDigitalMini" class="text-xs font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp0</h4>
+              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-3">
+                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">E-Wallet</span>
+                <h4 id="displayDigitalMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full font-urbanist">Rp0</h4>
                 <span class="text-[11px] text-slate-400 font-medium truncate w-full mt-0.5">3 e-wallet</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2.5">
                 <div id="barDigitalMini" class="bg-[#0052FF] h-full rounded-full" style="width: 10%"></div>
               </div>
             </div>
 
             <!-- Tabungan -->
-            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-2.5 sm:p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all min-w-0">
-              <div class="w-11 h-11 rounded-2xl bg-purple-50 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 text-lg shadow-xs">
+            <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-3 sm:p-3.5 rounded-2xl border border-slate-100 dark:border-slate-700/80 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:border-purple-600 transition-all min-w-0">
+              <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xl shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-piggy-bank"></i>
               </div>
-              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
-                <span class="text-xs font-bold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">Tabungan</span>
-                <h4 id="displayTabunganMini" class="text-xs font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full">Rp0</h4>
+              <div class="flex flex-col items-center justify-center w-full min-w-0 mt-3">
+                <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 leading-tight w-full truncate">Tabungan</span>
+                <h4 id="displayTabunganMini" class="text-xs sm:text-sm font-black text-slate-900 dark:text-white mt-1 tracking-tight truncate w-full font-urbanist">Rp0</h4>
                 <span class="text-[11px] text-slate-400 font-medium truncate w-full mt-0.5">1 tabungan</span>
               </div>
-              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2">
+              <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-2.5">
                 <div id="barTabunganMini" class="bg-purple-600 h-full rounded-full" style="width: 10%"></div>
               </div>
             </div>
@@ -320,41 +325,41 @@
         </div>
 
         <!-- 3. QUICK ACTION BAR -->
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2.5">
           <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100 px-0.5">Quick Action</h3>
-          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 gap-1 text-center">
+          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 gap-1 text-center">
             
             <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
-                <i class="fa-solid fa-qrcode text-lg sm:text-xl"></i>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+                <i class="fa-solid fa-qrcode text-xl"></i>
               </div>
               <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate w-full">Scan Struk</span>
             </button>
 
             <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
-                <i class="fa-solid fa-bullseye text-lg sm:text-xl"></i>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+                <i class="fa-solid fa-bullseye text-xl"></i>
               </div>
               <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate w-full">Budget</span>
             </button>
 
             <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
-                <i class="fa-solid fa-file-invoice text-lg sm:text-xl"></i>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+                <i class="fa-solid fa-file-invoice text-xl"></i>
               </div>
               <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate w-full">Laporan</span>
             </button>
 
             <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
-                <i class="fa-solid fa-tags text-lg sm:text-xl"></i>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+                <i class="fa-solid fa-tags text-xl"></i>
               </div>
               <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate w-full">Kategori</span>
             </button>
 
             <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
-                <i class="fa-solid fa-magnifying-glass text-lg sm:text-xl"></i>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+                <i class="fa-solid fa-magnifying-glass text-xl"></i>
               </div>
               <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate w-full">Cari</span>
             </button>
@@ -1142,4 +1147,4 @@
   </script>
 </body>
 
-  </html>
+</html>
