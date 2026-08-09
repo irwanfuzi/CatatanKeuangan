@@ -254,7 +254,7 @@
           </div>
         </div>
 
-        <!-- 2. DOMPET SAYA (PRESISI ANGKA & IKON DENGAN KISI TEPAT) -->
+        <!-- 2. DOMPET SAYA -->
         <div class="flex flex-col gap-2.5">
           <div class="flex items-center justify-between px-0.5">
             <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100">Dompet Saya</h3>
@@ -324,44 +324,44 @@
           </div>
         </div>
 
-        <!-- 3. QUICK ACTION BAR -->
+        <!-- 3. QUICK ACTION BAR (TOMBOL LEBIH BESAR & MEMENUHI KONTAINER) -->
         <div class="flex flex-col gap-2.5">
           <h3 class="text-sm font-extrabold text-slate-900 dark:text-slate-100 px-0.5">Quick Action</h3>
-          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-3 sm:p-3.5 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 gap-1 text-center">
+          <div class="w-full bg-white dark:bg-slate-800 rounded-2xl p-2.5 sm:p-3 border border-slate-100 dark:border-slate-700/80 shadow-xs grid grid-cols-5 gap-1 text-center items-stretch">
             
-            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="w-full h-full flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 active:scale-95 transition-all group">
+              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-qrcode text-lg"></i>
               </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 truncate w-full">Scan Struk</span>
+              <span class="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 truncate w-full tracking-tight">Scan Struk</span>
             </button>
 
-            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="w-full h-full flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 active:scale-95 transition-all group">
+              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-bullseye text-lg"></i>
               </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 truncate w-full">Budget</span>
+              <span class="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 truncate w-full tracking-tight">Budget</span>
             </button>
 
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="w-full h-full flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 active:scale-95 transition-all group">
+              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-file-invoice text-lg"></i>
               </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 truncate w-full">Laporan</span>
+              <span class="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 truncate w-full tracking-tight">Laporan</span>
             </button>
 
-            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+            <button type="button" onclick="window.bukaBottomSheetPilihanKategori()" class="w-full h-full flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 active:scale-95 transition-all group">
+              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-tags text-lg"></i>
               </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 truncate w-full">Kategori</span>
+              <span class="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 truncate w-full tracking-tight">Kategori</span>
             </button>
 
-            <button type="button" onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 active:scale-95 transition-all min-w-0 group">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs">
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="w-full h-full flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 active:scale-95 transition-all group">
+              <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/15 flex items-center justify-center text-[#0052FF] dark:text-blue-400 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-xs flex-shrink-0">
                 <i class="fa-solid fa-magnifying-glass text-lg"></i>
               </div>
-              <span class="text-[11px] font-bold text-slate-700 dark:text-slate-200 truncate w-full">Cari</span>
+              <span class="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 truncate w-full tracking-tight">Cari</span>
             </button>
 
           </div>
@@ -1147,4 +1147,4 @@
   </script>
 </body>
 
-  </html>
+</html>
