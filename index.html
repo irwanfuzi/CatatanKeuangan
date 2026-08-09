@@ -501,13 +501,13 @@
           </div>
 
           <!-- 4. MODUL GRID ASIMETRIS (TRANSAKSI TERBARU : SISA BUDGET BULAN INI) -->
-          <div class="grid grid-cols-12 gap-3 items-stretch w-full">
-            <!-- Left Side: Transaksi Terbaru -->
-            <div class="col-span-6 sm:col-span-7 bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col justify-between min-w-0">
+          <div class="grid grid-cols-12 gap-2.5 items-stretch w-full">
+            <!-- Left Side: Transaksi Terbaru (col-span-7) -->
+            <div class="col-span-7 bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col justify-between min-w-0">
               <div>
-                <div class="flex items-center justify-between mb-3 min-w-0">
-                  <h3 class="text-[11px] sm:text-xs font-bold text-slate-900 dark:text-slate-100 truncate">Transaksi Terbaru</h3>
-                  <button onclick="window.bukaModalDetailSemua()" class="text-[10px] font-bold text-[#0052FF]">Lihat Semua</button>
+                <div class="flex items-center justify-between mb-2.5 min-w-0">
+                  <h3 class="text-[10px] sm:text-[11px] font-bold text-slate-900 dark:text-slate-100 truncate">Transaksi Terbaru</h3>
+                  <button onclick="window.bukaModalDetailSemua()" class="text-[9px] font-bold text-[#0052FF] flex items-center gap-0.5 flex-shrink-0">Lihat Semua <i class="fa-solid fa-chevron-right text-[7px]"></i></button>
                 </div>
 
                 <div id="loadingRiwayat" class="text-slate-400 text-xs py-4 text-center flex flex-col items-center justify-center gap-1 hidden">
@@ -515,90 +515,93 @@
                   <span class="font-medium text-[10px]">Memuat...</span>
                 </div>
                 
-                <div id="listRiwayat" class="space-y-3 min-w-0">
-                  <!-- Hardcoded Mock Items based on image -->
-                  <div class="flex items-center justify-between min-w-0">
-                    <div class="flex items-center gap-2 min-w-0">
-                      <div class="w-7 h-7 rounded-xl bg-amber-100/70 text-amber-600 flex items-center justify-center text-xs flex-shrink-0">
+                <div id="listRiwayat" class="space-y-2.5 min-w-0">
+                  <!-- Item 1 -->
+                  <div class="flex items-center justify-between min-w-0 gap-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-amber-100/80 text-amber-600 flex items-center justify-center text-[10px] flex-shrink-0">
                         <i class="fa-solid fa-utensils"></i>
                       </div>
                       <div class="min-w-0">
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Makan Siang</h4>
-                        <span class="text-[9px] text-slate-400 font-medium block leading-none mt-0.5">Tunai</span>
+                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Makan Siang</h4>
+                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">Tunai</span>
                       </div>
                     </div>
                     <div class="text-right flex-shrink-0">
-                      <span class="text-[11px] font-black text-rose-500 font-urbanist block leading-none">-Rp45.000</span>
-                      <span class="text-[8px] text-slate-400 block leading-none mt-1">Hari ini</span>
+                      <span class="text-[10px] font-black text-rose-500 font-urbanist block leading-none">-Rp45.000</span>
+                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">Hari ini</span>
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-between min-w-0">
-                    <div class="flex items-center gap-2 min-w-0">
-                      <div class="w-7 h-7 rounded-xl bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-xs flex-shrink-0">
-                        <i class="fa-solid fa-arrow-down-left"></i>
+                  <!-- Item 2 -->
+                  <div class="flex items-center justify-between min-w-0 gap-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100/80 text-emerald-600 flex items-center justify-center text-[10px] flex-shrink-0">
+                        <i class="fa-solid fa-arrow-down"></i>
                       </div>
                       <div class="min-w-0">
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Gaji Bulan Juli</h4>
-                        <span class="text-[9px] text-slate-400 font-medium block leading-none mt-0.5">BCA</span>
+                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Gaji Bulan Juli</h4>
+                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">BCA</span>
                       </div>
                     </div>
                     <div class="text-right flex-shrink-0">
-                      <span class="text-[11px] font-black text-emerald-500 font-urbanist block leading-none">+Rp8.500.000</span>
-                      <span class="text-[8px] text-slate-400 block leading-none mt-1">Kemarin</span>
+                      <span class="text-[10px] font-black text-emerald-500 font-urbanist block leading-none">+Rp8.500.000</span>
+                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">Kemarin</span>
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-between min-w-0">
-                    <div class="flex items-center gap-2 min-w-0">
-                      <div class="w-7 h-7 rounded-xl bg-purple-100/70 text-purple-600 flex items-center justify-center text-xs flex-shrink-0">
+                  <!-- Item 3 -->
+                  <div class="flex items-center justify-between min-w-0 gap-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-purple-100/80 text-purple-600 flex items-center justify-center text-[10px] flex-shrink-0">
                         <i class="fa-solid fa-cart-shopping"></i>
                       </div>
                       <div class="min-w-0">
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Belanja Bulanan</h4>
-                        <span class="text-[9px] text-slate-400 font-medium block leading-none mt-0.5">ShopeePay</span>
+                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Belanja Bulanan</h4>
+                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">ShopeePay</span>
                       </div>
                     </div>
                     <div class="text-right flex-shrink-0">
-                      <span class="text-[11px] font-black text-rose-500 font-urbanist block leading-none">-Rp120.000</span>
-                      <span class="text-[8px] text-slate-400 block leading-none mt-1">Kemarin</span>
+                      <span class="text-[10px] font-black text-rose-500 font-urbanist block leading-none">-Rp120.000</span>
+                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">Kemarin</span>
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-between min-w-0">
-                    <div class="flex items-center gap-2 min-w-0">
-                      <div class="w-7 h-7 rounded-xl bg-blue-100/70 text-[#0052FF] flex items-center justify-center text-xs flex-shrink-0">
+                  <!-- Item 4 -->
+                  <div class="flex items-center justify-between min-w-0 gap-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-100/80 text-[#0052FF] flex items-center justify-center text-[10px] flex-shrink-0">
                         <i class="fa-solid fa-wallet"></i>
                       </div>
                       <div class="min-w-0">
-                        <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Top Up GoPay</h4>
-                        <span class="text-[9px] text-slate-400 font-medium block leading-none mt-0.5">GoPay</span>
+                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Top Up GoPay</h4>
+                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">GoPay</span>
                       </div>
                     </div>
                     <div class="text-right flex-shrink-0">
-                      <span class="text-[11px] font-black text-rose-500 font-urbanist block leading-none">-Rp50.000</span>
-                      <span class="text-[8px] text-slate-400 block leading-none mt-1">2 Juli 2025</span>
+                      <span class="text-[10px] font-black text-rose-500 font-urbanist block leading-none">-Rp50.000</span>
+                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">2 Juli 2025</span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Right Side: Sisa Budget Bulan Ini -->
-            <div class="col-span-6 sm:col-span-5 bg-white dark:bg-slate-800 rounded-2xl p-3.5 border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col justify-between min-w-0">
+            <!-- Right Side: Sisa Budget Bulan Ini (col-span-5) -->
+            <div class="col-span-5 bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col justify-between min-w-0">
               <div>
-                <h3 class="text-[11px] font-bold text-slate-900 dark:text-slate-100 mb-2">Sisa Budget Bulan Ini</h3>
+                <h3 class="text-[10px] sm:text-[11px] font-bold text-slate-900 dark:text-slate-100 mb-2 leading-tight">Sisa Budget Bulan Ini</h3>
                 
-                <div class="w-8 h-8 rounded-xl bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-sm mb-2">
+                <div class="w-7 h-7 rounded-xl bg-emerald-100/80 text-emerald-600 flex items-center justify-center text-xs mb-2">
                   <i class="fa-solid fa-wallet"></i>
                 </div>
 
-                <span class="text-[9px] text-slate-400 font-semibold block">Sisa Budget</span>
-                <h2 class="text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight">Rp2.350.000</h2>
+                <span class="text-[8.5px] text-slate-400 font-semibold block leading-none">Sisa Budget</span>
+                <h2 class="text-sm sm:text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight mt-0.5">Rp2.350.000</h2>
                 
-                <div class="flex items-center justify-between mt-1">
-                  <span class="text-[9px] text-slate-400 font-medium">dari Rp5.000.000</span>
-                  <span class="text-[10px] font-extrabold text-emerald-500 font-urbanist">47%</span>
+                <div class="flex items-center justify-between mt-1 min-w-0 gap-0.5">
+                  <span class="text-[8px] text-slate-400 font-medium truncate">dari Rp5.000.000</span>
+                  <span class="text-[9.5px] font-black text-emerald-500 font-urbanist flex-shrink-0">47%</span>
                 </div>
 
                 <div class="w-full bg-slate-100 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden mt-1.5">
@@ -607,13 +610,13 @@
               </div>
 
               <!-- Tip Box Bottom -->
-              <div class="bg-blue-50/60 dark:bg-slate-700/40 rounded-xl p-2 mt-3 flex items-start gap-2 border border-blue-100/50 dark:border-slate-600/30">
-                <div class="w-5 h-5 rounded-md bg-[#0052FF] text-white flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">
-                  <i class="fa-solid fa-sparkles"></i>
+              <div class="bg-emerald-50/50 dark:bg-slate-700/40 rounded-xl p-2 mt-2.5 flex items-start gap-1.5 border border-emerald-100/60 dark:border-slate-600/30">
+                <div class="w-4 h-4 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center text-[9px] flex-shrink-0 mt-0.5">
+                  <i class="fa-solid fa-wallet"></i>
                 </div>
-                <div>
-                  <h5 class="text-[9px] font-bold text-slate-800 dark:text-slate-200 leading-tight">Masih ada 15 hari lagi</h5>
-                  <p class="text-[8px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Ayo gunakan budget-mu dengan bijak 💪</p>
+                <div class="min-w-0">
+                  <h5 class="text-[8.5px] font-bold text-slate-800 dark:text-slate-200 leading-tight truncate">Masih ada 15 hari lagi</h5>
+                  <p class="text-[7.5px] text-slate-500 dark:text-slate-400 font-medium leading-tight mt-0.5">Ayo gunakan budget-mu dengan bijak 💪</p>
                 </div>
               </div>
             </div>
@@ -1192,36 +1195,36 @@
         databaseRiwayatRaw.slice(0, 4).forEach((item, index) => {
           const isM = (item.jenis ? item.jenis.toString().trim().toLowerCase() : "") === "pemasukan"; 
           
-          let iconBg = 'bg-amber-100/70 text-amber-600';
+          let iconBg = 'bg-amber-100/80 text-amber-600';
           let iconFa = 'fa-utensils';
           
           if(isM) {
-            iconBg = 'bg-emerald-100/70 text-emerald-600';
-            iconFa = 'fa-arrow-down-left';
+            iconBg = 'bg-emerald-100/80 text-emerald-600';
+            iconFa = 'fa-arrow-down';
           } else if(index === 0) {
-            iconBg = 'bg-amber-100/70 text-amber-600'; iconFa = 'fa-utensils';
+            iconBg = 'bg-amber-100/80 text-amber-600'; iconFa = 'fa-utensils';
           } else if(index === 2) {
-            iconBg = 'bg-purple-100/70 text-purple-600'; iconFa = 'fa-cart-shopping';
+            iconBg = 'bg-purple-100/80 text-purple-600'; iconFa = 'fa-cart-shopping';
           } else {
-            iconBg = 'bg-blue-100/70 text-[#0052FF]'; iconFa = 'fa-wallet';
+            iconBg = 'bg-blue-100/80 text-[#0052FF]'; iconFa = 'fa-wallet';
           }
 
           const cleanDompetName = (item.dompet || "Tunai").replace(/[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD00-\uDFFF]/g, "").trim();
 
           container.innerHTML += `
-            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/60 rounded-xl cursor-pointer transition-all active:scale-98 min-w-0">
-              <div class="flex items-center gap-2 min-w-0 pr-1">
-                <div class="w-7 h-7 rounded-xl ${iconBg} flex items-center justify-center text-xs flex-shrink-0">
+            <div onclick="window.bukaOpsiAksiTransaksi(${databaseRiwayatRaw.findIndex(x=>x===item)})" class="flex items-center justify-between min-w-0 gap-1 hover:bg-slate-50 dark:hover:bg-slate-700/60 p-0.5 rounded-lg cursor-pointer transition-all active:scale-98">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg ${iconBg} flex items-center justify-center text-[10px] flex-shrink-0">
                   <i class="fa-solid ${iconFa}"></i>
                 </div>
-                <div class="min-w-0 flex-1">
-                  <h4 class="text-[11px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">${item.keterangan || "-"}</h4>
-                  <span class="text-[9px] text-slate-400 font-medium block truncate leading-none mt-0.5">${cleanDompetName || "Tunai"}</span>
+                <div class="min-w-0">
+                  <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">${item.keterangan || "-"}</h4>
+                  <span class="text-[8px] text-slate-400 font-medium block truncate leading-none mt-0.5">${cleanDompetName || "Tunai"}</span>
                 </div>
               </div>
               <div class="text-right flex-shrink-0">
-                <span class="text-[11px] font-black ${isM ? 'text-emerald-500' : 'text-rose-500'} block leading-none font-urbanist">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp' : '-Rp') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
-                <span class="text-[8px] text-slate-400 block font-medium leading-none mt-1">${formatTanggalIndo(item.tanggal)}</span>
+                <span class="text-[10px] font-black ${isM ? 'text-emerald-500' : 'text-rose-500'} block leading-none font-urbanist">${window.statusSaldoTersembunyi ? "Rp •••••" : (isM ? '+Rp' : '-Rp') + parseInt(item.nominal || 0).toLocaleString('id-ID')}</span>
+                <span class="text-[7.5px] text-slate-400 block font-medium leading-none mt-1">${formatTanggalIndo(item.tanggal)}</span>
               </div>
             </div>`;
         });
