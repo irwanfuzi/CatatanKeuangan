@@ -188,8 +188,6 @@
 
     <!-- ==================== SCREEN 1: ONBOARDING SLIDER ==================== -->
     <div id="screenOnboarding" class="w-full h-full flex flex-col justify-between p-6 sm:p-7 bg-white dark:bg-[#0b132b] relative z-30 transition-all duration-500">
-      
-      <!-- Top Skip Button -->
       <div class="flex justify-between items-center w-full pt-1">
         <div class="flex items-center gap-2">
           <div class="w-8 h-8 rounded-xl bg-[#0052FF] flex items-center justify-center text-white shadow-glow">
@@ -200,7 +198,6 @@
         <button onclick="window.navigasiKeAuth('login')" class="text-xs font-bold text-slate-400 hover:text-slate-700 transition-colors py-1 px-2 rounded-lg">Lewati</button>
       </div>
 
-      <!-- Onboarding Dynamic Content Box -->
       <div class="flex flex-col items-center text-center my-auto w-full px-2">
         <div id="onboardingIllustration" class="w-52 h-52 sm:w-56 sm:h-56 relative flex items-center justify-center my-4 transition-all duration-300">
           <div class="w-44 h-44 sm:w-48 sm:h-48 bg-gradient-to-tr from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-slate-800 rounded-full flex items-center justify-center relative shadow-inner border border-blue-100/50">
@@ -210,15 +207,10 @@
           </div>
         </div>
 
-        <h2 id="onboardingTitle" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-urbanist leading-snug mt-2">
-          Catat Setiap Transaksi
-        </h2>
-        <p id="onboardingDesc" class="text-xs text-slate-500 dark:text-slate-400 mt-2.5 max-w-xs leading-relaxed font-medium px-2">
-          Setiap pemasukan dan pengeluaran tercatat rapi, sehingga kamu selalu tahu kondisi keuanganmu.
-        </p>
+        <h2 id="onboardingTitle" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-urbanist leading-snug mt-2">Catat Setiap Transaksi</h2>
+        <p id="onboardingDesc" class="text-xs text-slate-500 dark:text-slate-400 mt-2.5 max-w-xs leading-relaxed font-medium px-2">Setiap pemasukan dan pengeluaran tercatat rapi, sehingga kamu selalu tahu kondisi keuanganmu.</p>
       </div>
 
-      <!-- Bottom Dots & Navigation Button -->
       <div class="w-full pb-3 flex flex-col gap-6 items-center">
         <div class="flex gap-2 items-center justify-center">
           <span id="dot0" class="w-2.5 h-2.5 rounded-full bg-[#0052FF] transition-all"></span>
@@ -247,11 +239,11 @@
         <h2 class="text-2xl font-black text-slate-900 dark:text-white font-urbanist">Selamat datang!</h2>
         <p class="text-xs text-slate-400 font-medium mt-1 mb-6">Masuk untuk melanjutkan mengelola keuanganmu.</p>
 
-        <form onsubmit="window.masukKeDashboard(event)" class="space-y-4">
+        <form onsubmit="window.handleFirebaseLogin(event)" class="space-y-4">
           <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1.5">Email atau Nomor HP</label>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1.5">Email</label>
             <div class="relative">
-              <input type="text" placeholder="Contoh: kamu@email.com" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 pl-10 outline-none transition-all focus:border-[#0052FF]" required>
+              <input type="email" id="loginEmail" placeholder="Contoh: kamu@email.com" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 pl-10 outline-none transition-all focus:border-[#0052FF]" required>
               <i class="fa-regular fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
             </div>
           </div>
@@ -259,11 +251,11 @@
           <div>
             <label class="block text-[11px] font-bold text-slate-400 mb-1.5">Password</label>
             <div class="relative">
-              <input type="password" placeholder="Masukkan password" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 pl-10 outline-none transition-all focus:border-[#0052FF]" required>
+              <input type="password" id="loginPassword" placeholder="Masukkan password" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 pl-10 outline-none transition-all focus:border-[#0052FF]" required>
               <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
             </div>
             <div class="text-right mt-2">
-              <a href="#" class="text-[11px] font-bold text-[#0052FF] hover:underline">Lupa Password?</a>
+              <a href="#" onclick="window.handleLupaPassword()" class="text-[11px] font-bold text-[#0052FF] hover:underline">Lupa Password?</a>
             </div>
           </div>
 
@@ -278,14 +270,9 @@
           <div class="h-px bg-slate-100 dark:bg-slate-800 flex-1"></div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
-          <button type="button" onclick="window.masukKeDashboard()" class="py-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 active:scale-95 transition-all">
-            <i class="fa-brands fa-google text-rose-500"></i> Google
-          </button>
-          <button type="button" onclick="window.masukKeDashboard()" class="py-3 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 active:scale-95 transition-all">
-            <i class="fa-brands fa-apple text-slate-900 dark:text-white"></i> Apple
-          </button>
-        </div>
+        <button type="button" onclick="window.handleGoogleLogin()" class="w-full py-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 active:scale-95 transition-all">
+          <i class="fa-brands fa-google text-rose-500 text-base"></i> Google Account
+        </button>
       </div>
 
       <div class="text-center pb-1">
@@ -304,24 +291,24 @@
         <h2 class="text-2xl font-black text-slate-900 dark:text-white font-urbanist">Buat akun baru</h2>
         <p class="text-xs text-slate-400 font-medium mt-1 mb-5">Lengkapi data diri untuk membuat akun MyKas.</p>
 
-        <form onsubmit="window.masukKeDashboard(event)" class="space-y-3.5">
+        <form onsubmit="window.handleFirebaseRegister(event)" class="space-y-3.5">
           <div>
             <label class="block text-[11px] font-bold text-slate-400 mb-1">Nama Lengkap</label>
-            <input type="text" placeholder="Contoh: Andi Pratama" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF] transition-all" required>
+            <input type="text" id="regName" placeholder="Contoh: Andi Pratama" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF] transition-all" required>
           </div>
 
           <div>
             <label class="block text-[11px] font-bold text-slate-400 mb-1">Email</label>
-            <input type="email" placeholder="Contoh: kamu@email.com" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF] transition-all" required>
+            <input type="email" id="regEmail" placeholder="Contoh: kamu@email.com" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF] transition-all" required>
           </div>
 
           <div>
-            <label class="block text-[11px] font-bold text-slate-400 mb-1">Nomor HP</label>
-            <input type="tel" placeholder="Contoh: 0812 3456 7890" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF] transition-all" required>
+            <label class="block text-[11px] font-bold text-slate-400 mb-1">Password</label>
+            <input type="password" id="regPassword" placeholder="Minimal 6 Karakter" class="w-full p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF] transition-all" minlength="6" required>
           </div>
 
           <button type="submit" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow active:scale-95 transition-all mt-3">
-            Lanjut
+            Daftar Sekarang
           </button>
         </form>
       </div>
@@ -360,7 +347,7 @@
         <!-- MAIN CONTENT DASHBOARD -->
         <div class="w-full px-5 pt-2 pb-28 flex flex-col gap-5">
 
-          <!-- 1. HERO CARD TOTAL ASET PREMIUM GLASSMORPHISM -->
+          <!-- 1. HERO CARD TOTAL ASET -->
           <div class="w-full bg-gradient-to-r from-[#0052FF] to-[#0042d9] text-white rounded-[1.8rem] p-5 sm:p-6 relative shadow-glow overflow-hidden">
             <div class="flex justify-between items-center relative z-10">
               <div class="flex flex-col gap-1">
@@ -407,11 +394,8 @@
             </div>
 
             <div class="grid grid-cols-4 gap-2">
-              <!-- Tunai -->
               <div onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:shadow-card-hover active:scale-95 transition-all min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-amber-50/80 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-extrabold text-xs flex-shrink-0">
-                  Rp
-                </div>
+                <div class="w-9 h-9 rounded-xl bg-amber-50/80 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 font-extrabold text-xs flex-shrink-0">Rp</div>
                 <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
                   <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200 leading-tight w-full truncate">Tunai</span>
                   <h4 id="displayTunaiMini" class="text-[10px] sm:text-[11px] font-black text-slate-900 dark:text-white mt-0.5 tracking-tight truncate w-full font-urbanist">Rp1.250.000</h4>
@@ -422,11 +406,8 @@
                 </div>
               </div>
 
-              <!-- Bank -->
               <div onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:shadow-card-hover active:scale-95 transition-all min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-800 dark:text-slate-200 text-xs flex-shrink-0">
-                  <i class="fa-solid fa-landmark"></i>
-                </div>
+                <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-700/60 flex items-center justify-center text-slate-800 dark:text-slate-200 text-xs flex-shrink-0"><i class="fa-solid fa-landmark"></i></div>
                 <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
                   <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200 leading-tight w-full truncate">Rekening Bank</span>
                   <h4 id="displayBankMini" class="text-[10px] sm:text-[11px] font-black text-slate-900 dark:text-white mt-0.5 tracking-tight truncate w-full font-urbanist">Rp7.850.000</h4>
@@ -437,11 +418,8 @@
                 </div>
               </div>
 
-              <!-- E-Wallet -->
               <div onclick="window.pilihDompetTab('📱 Dompet Digital')" class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:shadow-card-hover active:scale-95 transition-all min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/20 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xs flex-shrink-0">
-                  <i class="fa-solid fa-wallet"></i>
-                </div>
+                <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-500/20 flex items-center justify-center text-[#0052FF] dark:text-blue-400 text-xs flex-shrink-0"><i class="fa-solid fa-wallet"></i></div>
                 <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
                   <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200 leading-tight w-full truncate">E-Wallet</span>
                   <h4 id="displayDigitalMini" class="text-[10px] sm:text-[11px] font-black text-slate-900 dark:text-white mt-0.5 tracking-tight truncate w-full font-urbanist">Rp2.150.000</h4>
@@ -452,11 +430,8 @@
                 </div>
               </div>
 
-              <!-- Tabungan -->
               <div onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col items-center text-center justify-between cursor-pointer hover:shadow-card-hover active:scale-95 transition-all min-w-0">
-                <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xs flex-shrink-0">
-                  <i class="fa-solid fa-piggy-bank"></i>
-                </div>
+                <div class="w-9 h-9 rounded-xl bg-purple-50 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 text-xs flex-shrink-0"><i class="fa-solid fa-piggy-bank"></i></div>
                 <div class="flex flex-col items-center justify-center w-full min-w-0 mt-2">
                   <span class="text-[10px] font-bold text-slate-800 dark:text-slate-200 leading-tight w-full truncate">Tabungan</span>
                   <h4 id="displayTabunganMini" class="text-[10px] sm:text-[11px] font-black text-slate-900 dark:text-white mt-0.5 tracking-tight truncate w-full font-urbanist">Rp1.250.000</h4>
@@ -500,9 +475,8 @@
             </div>
           </div>
 
-          <!-- 4. MODUL GRID ASIMETRIS (TRANSAKSI TERBARU : SISA BUDGET BULAN INI) -->
+          <!-- 4. MODUL GRID ASIMETRIS -->
           <div class="grid grid-cols-12 gap-2.5 items-stretch w-full">
-            <!-- Left Side: Transaksi Terbaru (col-span-7) -->
             <div class="col-span-7 bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col justify-between min-w-0">
               <div>
                 <div class="flex items-center justify-between mb-2.5 min-w-0">
@@ -515,79 +489,10 @@
                   <span class="font-medium text-[10px]">Memuat...</span>
                 </div>
                 
-                <div id="listRiwayat" class="space-y-2.5 min-w-0">
-                  <!-- Item 1 -->
-                  <div class="flex items-center justify-between min-w-0 gap-1">
-                    <div class="flex items-center gap-1.5 min-w-0">
-                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-amber-100/80 text-amber-600 flex items-center justify-center text-[10px] flex-shrink-0">
-                        <i class="fa-solid fa-utensils"></i>
-                      </div>
-                      <div class="min-w-0">
-                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Makan Siang</h4>
-                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">Tunai</span>
-                      </div>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                      <span class="text-[10px] font-black text-rose-500 font-urbanist block leading-none">-Rp45.000</span>
-                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">Hari ini</span>
-                    </div>
-                  </div>
-
-                  <!-- Item 2 -->
-                  <div class="flex items-center justify-between min-w-0 gap-1">
-                    <div class="flex items-center gap-1.5 min-w-0">
-                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100/80 text-emerald-600 flex items-center justify-center text-[10px] flex-shrink-0">
-                        <i class="fa-solid fa-arrow-down"></i>
-                      </div>
-                      <div class="min-w-0">
-                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Gaji Bulan Juli</h4>
-                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">BCA</span>
-                      </div>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                      <span class="text-[10px] font-black text-emerald-500 font-urbanist block leading-none">+Rp8.500.000</span>
-                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">Kemarin</span>
-                    </div>
-                  </div>
-
-                  <!-- Item 3 -->
-                  <div class="flex items-center justify-between min-w-0 gap-1">
-                    <div class="flex items-center gap-1.5 min-w-0">
-                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-purple-100/80 text-purple-600 flex items-center justify-center text-[10px] flex-shrink-0">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                      </div>
-                      <div class="min-w-0">
-                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Belanja Bulanan</h4>
-                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">ShopeePay</span>
-                      </div>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                      <span class="text-[10px] font-black text-rose-500 font-urbanist block leading-none">-Rp120.000</span>
-                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">Kemarin</span>
-                    </div>
-                  </div>
-
-                  <!-- Item 4 -->
-                  <div class="flex items-center justify-between min-w-0 gap-1">
-                    <div class="flex items-center gap-1.5 min-w-0">
-                      <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-blue-100/80 text-[#0052FF] flex items-center justify-center text-[10px] flex-shrink-0">
-                        <i class="fa-solid fa-wallet"></i>
-                      </div>
-                      <div class="min-w-0">
-                        <h4 class="text-[10px] font-bold text-slate-800 dark:text-slate-100 truncate leading-tight">Top Up GoPay</h4>
-                        <span class="text-[8px] text-slate-400 font-medium block leading-none mt-0.5 truncate">GoPay</span>
-                      </div>
-                    </div>
-                    <div class="text-right flex-shrink-0">
-                      <span class="text-[10px] font-black text-rose-500 font-urbanist block leading-none">-Rp50.000</span>
-                      <span class="text-[7.5px] text-slate-400 block leading-none mt-1">2 Juli 2025</span>
-                    </div>
-                  </div>
-                </div>
+                <div id="listRiwayat" class="space-y-2.5 min-w-0"></div>
               </div>
             </div>
 
-            <!-- Right Side: Sisa Budget Bulan Ini (col-span-5) -->
             <div class="col-span-5 bg-white dark:bg-slate-800 rounded-2xl p-3 border border-slate-100/80 dark:border-slate-700/60 shadow-xs flex flex-col justify-between min-w-0">
               <div>
                 <h3 class="text-[10px] sm:text-[11px] font-bold text-slate-900 dark:text-slate-100 mb-2 leading-tight">Sisa Budget Bulan Ini</h3>
@@ -609,7 +514,6 @@
                 </div>
               </div>
 
-              <!-- Tip Box Bottom -->
               <div class="bg-emerald-50/50 dark:bg-slate-700/40 rounded-xl p-2 mt-2.5 flex items-start gap-1.5 border border-emerald-100/60 dark:border-slate-600/30">
                 <div class="w-4 h-4 rounded-md bg-emerald-100 text-emerald-600 flex items-center justify-center text-[9px] flex-shrink-0 mt-0.5">
                   <i class="fa-solid fa-wallet"></i>
@@ -701,7 +605,7 @@
           <i class="fa-regular fa-folder-open text-lg"></i>
           <span class="text-[9px] mt-0.5">Dompet</span>
         </button>
-        <button onclick="window.navigasiKeAuth('login')" class="flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium hover:text-slate-600">
+        <button onclick="window.logoutUser()" class="flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium hover:text-slate-600">
           <i class="fa-regular fa-user text-lg"></i>
           <span class="text-[9px] mt-0.5">Profil</span>
         </button>
@@ -823,6 +727,134 @@
 
   </div>
 
+  <!-- FIREBASE AUTH SDK & INTEGRATION -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      updateProfile,
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signOut, 
+      onAuthStateChanged,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    // FIREBASE CONFIG PROJECT MYKAS
+    const firebaseConfig = {
+      apiKey: "AIzaSyAWGgjw-iqhW1ICIS2kvw1Tr5eOZoHjgQU",
+      authDomain: "mykas-financialtracker.firebaseapp.com",
+      projectId: "mykas-financialtracker",
+      storageBucket: "mykas-financialtracker.firebasestorage.app",
+      messagingSenderId: "1044952649845",
+      appId: "1:1044952649845:web:f3bae878d3a7a2b345683c",
+      measurementId: "G-MJE0XEB221"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    // LISTEN STATE AUTH FIREBASE
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // USER TERAUTENTIKASI
+        document.getElementById('screenOnboarding').classList.add('hidden');
+        document.getElementById('screenLogin').classList.add('hidden');
+        document.getElementById('screenRegister').classList.add('hidden');
+        document.getElementById('screenDashboard').classList.remove('hidden');
+        window.loadSummary();
+      } else {
+        // USER BELUM LOGIN
+        document.getElementById('screenDashboard').classList.add('hidden');
+        document.getElementById('screenOnboarding').classList.remove('hidden');
+      }
+      window.tutupSplashScreen();
+    });
+
+    // 1. HANDLER LOGIN MANUAL
+    window.handleFirebaseLogin = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      Swal.fire({ title: 'Memproses Login...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        Swal.close();
+      } catch (error) {
+        Swal.fire('Gagal Login', error.message.replace('Firebase: ', ''), 'error');
+      }
+    };
+
+    // 2. HANDLER REGISTER MANUAL
+    window.handleFirebaseRegister = async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+
+      Swal.fire({ title: 'Membuat Akun...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
+        Swal.fire('Berhasil', 'Akun berhasil dibuat!', 'success');
+      } catch (error) {
+        Swal.fire('Gagal Daftar', error.message.replace('Firebase: ', ''), 'error');
+      }
+    };
+
+    // 3. HANDLER LOGIN GOOGLE
+    window.handleGoogleLogin = async function() {
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (error) {
+        Swal.fire('Gagal Login Google', error.message.replace('Firebase: ', ''), 'error');
+      }
+    };
+
+    // 4. HANDLER RESET PASSWORD
+    window.handleLupaPassword = async function() {
+      const { value: email } = await Swal.fire({
+        title: 'Lupa Password',
+        input: 'email',
+        inputLabel: 'Masukkan Email Terdaftar',
+        inputPlaceholder: 'kamu@email.com',
+        showCancelButton: true
+      });
+
+      if (email) {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          Swal.fire('Terkirim!', 'Cek email-mu untuk instruksi reset password.', 'success');
+        } catch (error) {
+          Swal.fire('Gagal', error.message.replace('Firebase: ', ''), 'error');
+        }
+      }
+    };
+
+    // 5. HANDLER LOGOUT
+    window.logoutUser = function() {
+      Swal.fire({
+        title: 'Keluar Akun?',
+        text: 'Sesi login akan diakhiri di device ini.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Keluar',
+        confirmButtonColor: '#f43f5e',
+        cancelButtonText: 'Batal'
+      }).then(async (res) => {
+        if (res.isConfirmed) {
+          await signOut(auth);
+        }
+      });
+    };
+  </script>
+
   <!-- JAVASCRIPT ENGINE MYKAS UNIFIED -->
   <script>
     if ('serviceWorker' in navigator) {
@@ -900,15 +932,6 @@
         document.getElementById('screenRegister').classList.remove('hidden');
         document.getElementById('screenLogin').classList.add('hidden');
       }
-    };
-
-    window.masukKeDashboard = function(e) {
-      if (e) e.preventDefault();
-      document.getElementById('screenLogin').classList.add('hidden');
-      document.getElementById('screenRegister').classList.add('hidden');
-      document.getElementById('screenOnboarding').classList.add('hidden');
-      document.getElementById('screenDashboard').classList.remove('hidden');
-      window.loadSummary();
     };
 
     /* APP TRANSLATIONS & CORE LOGIC */
@@ -1005,7 +1028,7 @@
       if (!splash || splash.classList.contains('splash-exit')) return;
 
       const timeElapsed = Date.now() - splashStartTime;
-      const remainingTime = Math.max(0, 1500 - timeElapsed);
+      const remainingTime = Math.max(0, 1200 - timeElapsed);
 
       setTimeout(() => {
         splash.classList.add('splash-exit');
@@ -1108,15 +1131,20 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (localStorage.getItem('app_dark_mode') === 'enabled') { document.body.classList.add('dark'); window.updateIconVisualModeGelap(true); }
-      if (localStorage.getItem('app_lang_choice')) currentLang = localStorage.getItem('app_lang_choice'); window.applyLanguageUI();
+      if (localStorage.getItem('app_dark_mode') === 'enabled') { 
+        document.body.classList.add('dark'); 
+        window.updateIconVisualModeGelap(true); 
+      }
+
+      if (localStorage.getItem('app_lang_choice')) currentLang = localStorage.getItem('app_lang_choice'); 
+      window.applyLanguageUI();
+
       instanceFlatpickr = flatpickr("#tanggal", {
         locale: currentLang === 'id' ? 'id' : 'default', dateFormat: "d F Y", defaultDate: new Date(), changeMonth: false, changeYear: false, disableMobile: "true",
         onReady: function(s) { sinkronisasiNilaiTanggalMentah(s[0]); },
         onChange: function(s) { sinkronisasiNilaiTanggalMentah(s[0]); }
       });
       window.updateKategoriOptions();
-      setTimeout(() => { window.tutupSplashScreen(); }, 1600);
     });
 
     window.toggleDarkMode = function() { const m = document.body.classList.toggle('dark'); localStorage.setItem('app_dark_mode', m ? 'enabled' : 'disabled'); window.updateIconVisualModeGelap(m); window.refreshSemuaNominalUI(); };
@@ -1177,7 +1205,6 @@
       if(res.riwayat && res.riwayat.length > 0) databaseRiwayatRaw = res.riwayat;
       trenBulananRawGlobal = res.trenBulananRaw || {}; window.updateOpsiFilterBulanModal();
       window.refreshSemuaNominalUI(); window.prosesFilterKategoriBulanUtama(anim); window.renderGrafikTrenBulanan(trenBulananRawGlobal, anim);
-      window.tutupSplashScreen();
     };
 
     window.loadSummary = function() {
