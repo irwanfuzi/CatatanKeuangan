@@ -1,7 +1,4 @@
 (() => {
-  const BLUE = '#0052FF';
-  const NAVY = '#1E293B';
-
   const style = document.createElement('style');
   style.textContent = `
     #screenDashboard{background:#f8fafc!important}
@@ -57,7 +54,7 @@
         <div class="flex items-center gap-2 mt-2"><div class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 rounded-full text-emerald-600 text-[11px] font-extrabold"><i class="fa-solid fa-arrow-up text-[9px]"></i><span>12,5%</span></div><span class="text-[11px] text-blue-100/90 font-medium">dari bulan lalu</span></div>
         <div class="flex items-center gap-1.5 text-[10px] text-blue-100/75 font-medium mt-4"><i class="fa-regular fa-clock text-[10px]"></i><span>Diperbarui 09.30 WIB</span></div>`;
       const wallet = document.createElement('div');
-      wallet.className = 'wallet-visual hidden xs:block';
+      wallet.className = 'wallet-visual';
       wallet.innerHTML = '<div class="wallet-back"></div><div class="wallet-front"></div><div class="wallet-strap"></div>';
       inner.append(left, wallet);
       hero.replaceChildren(inner);
