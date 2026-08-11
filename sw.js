@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mykas-pwa-v3';
+const CACHE_NAME = 'mykas-pwa-v4';
 const ASSETS_TO_CACHE = [
   './', './index.html', './manifest.json', './logo.svg', './wallet-white.svg',
   './mykas-text-white.svg', './icon-192.png', './icon-512.png', './icon.png',
@@ -30,10 +30,9 @@ self.addEventListener('fetch', (event) => {
         if (!contentType.includes('text/html')) return networkResponse;
 
         const html = await networkResponse.text();
-        const injected = html.replace(
-          '</body>',
-          '<script src="./dashboard-redesign.js"></script></body>'
-        );
+        const injected = html.includes('dashboard-redesign.js')
+          ? html
+          : html.replace('</body>', '<script src="./dashboard-redesign.js"></script></body>');
         const response = new Response(injected, {
           status: networkResponse.status,
           statusText: networkResponse.statusText,
