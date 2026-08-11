@@ -1,0 +1,63 @@
+    <!-- ==================== SCREEN 4: MAIN DASHBOARD APP ==================== -->
+    <div id="screenDashboard" class="w-full h-full flex flex-col relative z-10 hidden bg-[#F8FAFC] dark:bg-[#0B132B]">
+      <div class="w-full flex-1 overflow-y-auto hide-scrollbar overscroll-y-none">
+
+        <header class="dashboard-header sticky top-0 z-30">
+          <div class="dashboard-brand" aria-label="MyKas">
+            <svg class="dashboard-logo-mark" viewBox="0 0 64 54" aria-hidden="true">
+              <path d="M8 9.5C8 6.46 10.46 4 13.5 4H48c3.04 0 5.5 2.46 5.5 5.5v39c0 2.49-2.01 4.5-4.5 4.5H13.5C10.46 53 8 50.54 8 47.5v-38Z" fill="#1769FF"/><path d="M11 11.5 40.5 5.8c3.5-.68 6.7 1.98 6.7 5.55v31.8c0 2.91-2.6 5.13-5.47 4.67L11 42.9V11.5Z" fill="#0D55D9" opacity=".55"/><path d="M27 28.5h28v15.7H27c-4.33 0-7.85-3.51-7.85-7.85S22.67 28.5 27 28.5Z" fill="#FFB901"/><circle cx="47" cy="36.35" r="3.1" fill="#fff"/><path d="M8.5 9.5 36.7 4.2c3.8-.71 7.3 2.2 7.3 6.07v3.1L8.5 19.3V9.5Z" fill="#2D7AFF" opacity=".9"/>
+            </svg>
+            <span class="dashboard-brand-text"><span>My</span><b>Kas</b></span>
+          </div>
+          <div class="dashboard-header-actions">
+            <button type="button" onclick="window.bukaBottomSheetBahasa()" class="header-icon-btn relative" aria-label="Notifikasi"><i class="fa-regular fa-bell"></i><span class="notification-dot"></span></button>
+            <button type="button" onclick="window.toggleDarkMode()" class="header-profile-btn" aria-label="Profil"><i id="iconDarkMode" class="fa-solid fa-user"></i></button>
+          </div>
+        </header>
+
+        <main class="dashboard-content">
+          <section class="hero-assets-card">
+            <div class="hero-pattern" aria-hidden="true"></div>
+            <div class="hero-copy">
+              <div class="hero-label-row"><span>Total Aset</span><button type="button" onclick="window.toggleSembunyikanSaldo()" aria-label="Sembunyikan saldo"><i id="iconToggleSaldo" class="fa-regular fa-eye"></i></button></div>
+              <h1 id="txtSaldo" class="hero-balance">Rp12.500.000</h1>
+              <div class="hero-growth-row"><span class="hero-growth"><i class="fa-solid fa-arrow-up"></i> 12,5%</span><span>dari bulan lalu</span></div>
+              <div class="hero-updated"><i class="fa-regular fa-clock"></i><span>Diperbarui 09.30 WIB</span></div>
+            </div>
+            <div class="hero-wallet" aria-hidden="true"><svg viewBox="0 0 190 150" class="hero-wallet-svg"><path d="M31 32 130 12c10-2 19 5 20 15l7 81c1 10-5 18-15 20l-98 18c-10 2-19-5-20-15L17 51c-1-9 4-17 14-19Z" fill="#9FC7FF" opacity=".9"/><path d="M39 31 130 16c8-1 15 5 16 13l7 74c1 8-4 15-12 17l-92 17c-8 1-15-5-16-13l-7-78c-1-7 4-14 13-15Z" fill="#1769FF"/><path d="M49 36 132 22c6-1 12 3 13 10l5 55c1 7-4 13-10 14L56 114c-6 1-12-3-13-10l-5-57c-1-5 4-10 11-11Z" fill="#0758EA"/><path d="M118 56h40c10 0 18 8 18 18v16c0 10-8 18-18 18h-40c-9 0-17-8-17-17V73c0-9 8-17 17-17Z" fill="#FFB901"/><circle cx="139" cy="82" r="10" fill="#fff"/><circle cx="139" cy="82" r="4" fill="#FFB901"/></svg></div>
+          </section>
+
+          <section class="dashboard-section">
+            <div class="section-heading"><h2>Dompet Saya</h2><button onclick="window.bukaModalDetailSemua()">Lihat Semua <i class="fa-solid fa-chevron-right"></i></button></div>
+            <div class="wallet-grid">
+              <button type="button" onclick="window.pilihDompetTab('💳 Kantong Tunai')" class="wallet-card"><span class="wallet-icon wallet-icon-cash">Rp</span><span class="wallet-name">Tunai</span><strong id="displayTunaiMini">Rp1.250.000</strong><small>1 dompet</small><span class="wallet-progress"><i class="cash-progress"></i></span></button>
+              <button type="button" onclick="window.pilihDompetTab('🏦 Rekening Bank')" class="wallet-card"><span class="wallet-icon wallet-icon-bank"><i class="fa-solid fa-landmark"></i></span><span class="wallet-name">Rekening Bank</span><strong id="displayBankMini">Rp7.850.000</strong><small>4 rekening</small><span class="wallet-progress"><i class="bank-progress"></i></span></button>
+              <button type="button" onclick="window.pilihDompetTab('📱 Dompet Digital')" class="wallet-card"><span class="wallet-icon wallet-icon-digital"><i class="fa-solid fa-wallet"></i></span><span class="wallet-name">E-Wallet</span><strong id="displayDigitalMini">Rp2.150.000</strong><small>3 e-wallet</small><span class="wallet-progress"><i class="digital-progress"></i></span></button>
+              <button type="button" onclick="window.pilihDompetTab('💰 Dompet Tabungan')" class="wallet-card"><span class="wallet-icon wallet-icon-saving"><i class="fa-solid fa-piggy-bank"></i></span><span class="wallet-name">Tabungan</span><strong id="displayTabunganMini">Rp1.250.000</strong><small>1 tabungan</small><span class="wallet-progress"><i class="saving-progress"></i></span></button>
+            </div>
+          </section>
+
+          <section class="dashboard-section quick-section"><h2 class="section-title-only">Quick Action</h2><div class="quick-action-card">
+            <button type="button" onclick="window.bukaModalTambahTransaksi()" class="quick-action-item"><span><i class="fa-solid fa-expand"></i></span><b>Scan Struk</b></button>
+            <button type="button" onclick="Swal.fire('Fitur Budget', 'Pengaturan batas anggaran bulanan siap digunakan!', 'info')" class="quick-action-item"><span><i class="fa-solid fa-bullseye"></i></span><b>Budget</b></button>
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="quick-action-item"><span><i class="fa-regular fa-file-lines"></i></span><b>Laporan</b></button>
+            <button type="button" onclick="Swal.fire('Kategori', 'Kelola kategori transaksi dari menu pengaturan.', 'info')" class="quick-action-item"><span><i class="fa-solid fa-tag"></i></span><b>Kategori</b></button>
+            <button type="button" onclick="window.bukaModalDetailSemua()" class="quick-action-item"><span><i class="fa-solid fa-magnifying-glass"></i></span><b>Cari Transaksi</b></button>
+          </div></section>
+
+          <section class="dashboard-module-grid">
+            <div class="dashboard-panel transactions-panel"><div class="panel-heading"><h2>Transaksi Terbaru</h2><button onclick="window.bukaModalDetailSemua()">Lihat Semua <i class="fa-solid fa-chevron-right"></i></button></div><div id="loadingRiwayat" class="loading-state hidden"><i class="fa-solid fa-circle-notch animate-spin"></i><span>Memuat...</span></div><div id="listRiwayat" class="transaction-list"></div></div>
+            <div class="dashboard-panel budget-panel"><div class="panel-heading budget-heading"><h2>Sisa Budget Bulan Ini</h2></div><div class="budget-icon"><i class="fa-solid fa-wallet"></i></div><span class="budget-label">Sisa Budget</span><strong class="budget-value">Rp2.350.000</strong><div class="budget-meta"><span>dari Rp5.000.000</span><b>47%</b></div><div class="budget-progress"><i></i></div><div class="budget-tip"><span><i class="fa-regular fa-clock"></i></span><p><b>Masih ada 15 hari lagi</b>Ayo gunakan budget-mu dengan bijak 💪</p></div></div>
+          </section>
+
+          <section class="insight-card"><div class="insight-icon"><i class="fa-solid fa-chart-simple"></i></div><div class="insight-copy"><b>Insight Keuangan</b><p>Pengeluaran kamu <strong>15%</strong> lebih rendah dari minggu lalu.</p></div><div class="insight-chart" aria-hidden="true"><svg viewBox="0 0 100 48" fill="none"><path d="M5 37 22 26 38 32 56 14 73 25 94 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5" cy="37" r="3" fill="currentColor"/><circle cx="22" cy="26" r="3" fill="currentColor"/><circle cx="38" cy="32" r="3" fill="currentColor"/><circle cx="56" cy="14" r="3" fill="currentColor"/><circle cx="73" cy="25" r="3" fill="currentColor"/><circle cx="94" cy="6" r="3.5" fill="currentColor"/></svg></div><i class="fa-solid fa-chevron-right insight-arrow"></i></section>
+
+          <div id="pageRiwayat" class="w-full flex flex-col gap-4 hidden">
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm"><div class="flex items-center justify-between mb-3"><h3 class="text-xs font-bold text-slate-800 dark:text-slate-100">Analisis Pengeluaran</h3><button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs font-bold text-slate-600 dark:text-slate-300"><span id="labelPeriodeUtama">Bulan Ini</span> <i class="fa-solid fa-chevron-down text-[10px]"></i></button><select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select></div><div class="w-full flex items-center justify-between"><div class="relative w-[120px] h-[120px] flex items-center justify-center"><canvas id="chartPengeluaran"></canvas><div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"><span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total</span><span id="chartCenterTotal" class="text-xs font-black text-slate-800 dark:text-slate-100">Rp0</span></div></div><div id="customLegendContainer" class="w-[60%] flex flex-col gap-1.5 max-h-[120px] overflow-y-auto pl-2 hide-scrollbar"></div></div><div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-3 hidden">Tidak ada pengeluaran periode ini</div></div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm"><h3 class="text-xs font-bold text-slate-800 dark:text-slate-100 mb-3">Tren Keuangan Bulanan</h3><div class="w-full h-[160px]"><canvas id="chartTrenBulanan"></canvas></div></div>
+          </div>
+        </main>
+      </div>
+      <nav id="mainFixedNavbar" class="integrated-bottom-dock"><button id="navHome" onclick="window.tukarHalaman('home')" class="dock-nav-item active"><i class="fa-solid fa-house"></i><span>Beranda</span></button><button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="dock-nav-item"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></button><div class="dock-center-slot"><button type="button" onclick="window.bukaModalTambahTransaksi()" class="dock-add-btn" aria-label="Tambah transaksi"><i class="fa-solid fa-plus"></i></button></div><button type="button" onclick="window.bukaModalDetailSemua()" class="dock-nav-item"><i class="fa-regular fa-folder-open"></i><span>Dompet</span></button><button type="button" onclick="window.logoutUser()" class="dock-nav-item"><i class="fa-regular fa-user"></i><span>Profil</span></button></nav>
+    </div>
+
