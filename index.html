@@ -526,6 +526,44 @@ body.dark .mk-detail-page,body.dark .mk-app-pages{background:#0B132B}body.dark .
 @media(max-width:380px){.mk-detail-page{padding-left:13px;padding-right:13px}.mk-detail-head h1{font-size:26px}.mk-category-analysis-card{grid-template-columns:125px 1fr;gap:9px}.mk-donut-wrap{width:120px;height:120px}.mk-chart-card{height:185px}.mk-wallet-row{grid-template-columns:42px minmax(0,1fr) auto 10px}.mk-wallet-row-icon{width:42px;height:42px}.mk-setting-row{grid-template-columns:38px 1fr 10px}.mk-setting-icon{width:38px;height:38px}}
 </style>
 
+
+<style id="mykas-scroll-fix">
+  /* Fix dashboard scroll inside the app flex shell */
+  html, body {
+    height: 100%;
+  }
+  #appCanvasWrapper {
+    min-height: 0 !important;
+  }
+  #screenDashboard {
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  #screenDashboard > div:first-child {
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: pan-y !important;
+  }
+  #appPages {
+    min-height: 0 !important;
+  }
+  .mk-app-page {
+    min-height: 0;
+  }
+  @media (max-width: 767px) {
+    #screenDashboard > div:first-child {
+      scrollbar-width: none;
+    }
+    #screenDashboard > div:first-child::-webkit-scrollbar {
+      display: none;
+    }
+  }
+</style>
+
 </head>
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-center items-center bg-slate-950">
