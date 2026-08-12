@@ -193,6 +193,78 @@
 @media(min-width:768px){.dashboard-content{padding-left:18px!important;padding-right:18px!important}.hero-assets-card{min-height:198px!important}}
 body.dark #screenDashboard{background:#0B132B!important}body.dark .dashboard-header{background:rgba(19,28,53,.96)!important;border-bottom-color:#1E293B!important}body.dark .wallet-card,body.dark .quick-action-card,body.dark .dashboard-panel{background:#131C35!important;border-color:#1E293B!important}body.dark .section-heading h2,body.dark .section-title-only,body.dark .wallet-name,body.dark .wallet-card strong,body.dark .panel-heading h2{color:#F8FAFC!important}body.dark #mainFixedNavbar.integrated-bottom-dock{background:rgba(15,23,42,.97)!important;border-top-color:#26334A!important}.dark .dock-add-btn{border-color:#0B132B!important}
 </style>
+<style id="mykas-micro-polish">
+/* MyKas premium micro polish: flat Material 3 signature action */
+#mainFixedNavbar.integrated-bottom-dock{
+  height:74px!important;
+  background:rgba(255,255,255,.98)!important;
+  border-top:1px solid #E7ECF2!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.dock-nav-item{
+  height:64px!important;
+  gap:5px!important;
+  color:#94A3B8!important;
+}
+.dock-nav-item i{
+  font-size:20px!important;
+  line-height:1!important;
+}
+.dock-nav-item span{
+  font-size:9.5px!important;
+  line-height:1.1!important;
+  font-weight:700!important;
+}
+.dock-nav-item.active{color:#1769FF!important}
+.dock-center-slot{
+  height:74px!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+}
+.dock-add-btn{
+  width:62px!important;
+  height:62px!important;
+  margin-top:-22px!important;
+  border-radius:20px!important;
+  border:4px solid #FFFFFF!important;
+  background:#1769FF!important;
+  color:#FFFFFF!important;
+  box-shadow:none!important;
+  filter:none!important;
+  transform:none!important;
+  font-size:25px!important;
+  position:relative!important;
+}
+.dock-add-btn::after{
+  content:"";
+  position:absolute;
+  top:6px;
+  right:6px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#FFB901;
+  box-shadow:0 0 0 2px #1769FF;
+}
+.dock-add-btn:hover,.dock-add-btn:focus,.dock-add-btn:active{
+  box-shadow:none!important;
+  filter:none!important;
+}
+.header-profile-btn{box-shadow:none!important}
+@media(max-width:380px){
+  #mainFixedNavbar.integrated-bottom-dock{height:72px!important}
+  .dock-center-slot{height:72px!important}
+  .dock-add-btn{width:60px!important;height:60px!important;margin-top:-20px!important}
+}
+body.dark #mainFixedNavbar.integrated-bottom-dock{
+  background:rgba(15,23,42,.98)!important;
+  border-top-color:#26334A!important;
+}
+body.dark .dock-add-btn{border-color:#0B132B!important}
+body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
+</style>
 </head>
 
 <body class="w-full min-h-screen md:py-6 flex flex-col justify-center items-center bg-slate-950">
