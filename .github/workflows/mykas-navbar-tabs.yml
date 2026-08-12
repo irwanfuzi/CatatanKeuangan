@@ -1,0 +1,176 @@
+name: Integrate MyKas navbar tabs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  integrate:
+    if: ${{ !contains(github.event.head_commit.message, 'navbar tabs into index') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add premium navbar tabs
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '<!-- MYKAS_NAVBAR_TABS_V2 -->'
+          if marker in s:
+              print('Navbar tabs already integrated')
+              raise SystemExit(0)
+
+          css = r'''
+<style id="mykas-navbar-tabs-v2">
+#mykas-tab-pages{display:none!important}
+#mykas-tab-pages.is-open{display:block!important}
+#mykas-home-content.is-tab-hidden{display:none!important}
+.mykas-tab-page{min-height:calc(100vh - 145px);padding:18px 16px 110px;background:#F8FAFC}
+.mykas-tab-page-inner{display:flex;flex-direction:column;gap:14px;max-width:448px;margin:0 auto}
+.mykas-page-title{font-family:'Urbanist',sans-serif;font-size:25px;font-weight:900;letter-spacing:-.7px;color:#1E293B;margin:4px 2px 0}
+.mykas-page-subtitle{font-size:11px;font-weight:600;color:#94A3B8;margin:0 2px 3px}
+.mykas-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mykas-stat-card{background:#fff;border:1px solid #EDF1F6;border-radius:20px;padding:15px;box-shadow:0 6px 18px rgba(15,23,42,.045)}
+.mykas-stat-card span{display:block;font-size:10px;font-weight:700;color:#94A3B8;margin-bottom:7px}
+.mykas-stat-card strong{display:block;font-family:'Urbanist',sans-serif;font-size:18px;font-weight:900;color:#1E293B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mykas-page-card{background:#fff;border:1px solid #EDF1F6;border-radius:21px;padding:15px;box-shadow:0 6px 18px rgba(15,23,42,.045)}
+.mykas-page-card h3{margin:0 0 12px;font-family:'Urbanist',sans-serif;font-size:14px;font-weight:900;color:#1E293B}
+.mykas-wallet-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #F1F5F9}
+.mykas-wallet-row:last-child{border-bottom:0;padding-bottom:0}
+.mykas-wallet-icon{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:#EEF5FF;color:#1769FF;flex:0 0 auto}
+.mykas-wallet-copy{min-width:0;flex:1}.mykas-wallet-copy b{display:block;font-size:11px;color:#1E293B;font-weight:800}.mykas-wallet-copy span{display:block;font-size:9px;color:#94A3B8;margin-top:3px}.mykas-wallet-value{font-family:'Urbanist',sans-serif;font-size:12px;font-weight:900;color:#1E293B}
+.mykas-profile-head{display:flex;align-items:center;gap:13px;padding:5px 2px 10px}.mykas-profile-avatar{width:52px;height:52px;border-radius:18px;background:#1769FF;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px rgba(23,105,255,.18)}
+.mykas-profile-copy b{display:block;font-family:'Urbanist',sans-serif;font-size:17px;font-weight:900;color:#1E293B}.mykas-profile-copy span{display:block;font-size:10px;font-weight:600;color:#94A3B8;margin-top:3px}
+.mykas-setting{width:100%;display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #F1F5F9;background:transparent;text-align:left}.mykas-setting:last-child{border-bottom:0}.mykas-setting i{width:36px;height:36px;border-radius:12px;background:#F1F5F9;color:#1E293B;display:flex;align-items:center;justify-content:center}.mykas-setting b{font-size:11px;font-weight:800;color:#1E293B}.mykas-setting span{margin-left:auto;font-size:9px;color:#94A3B8;font-weight:700}.mykas-logout{color:#E11D48!important}.mykas-logout i{background:#FFF1F2;color:#E11D48}
+body.dark .mykas-tab-page{background:#0B132B}body.dark .mykas-stat-card,body.dark .mykas-page-card{background:#131C35;border-color:#1E293B}body.dark .mykas-page-title,body.dark .mykas-stat-card strong,body.dark .mykas-page-card h3,body.dark .mykas-wallet-copy b,body.dark .mykas-wallet-value,body.dark .mykas-profile-copy b,body.dark .mykas-setting b{color:#F8FAFC}body.dark .mykas-wallet-row,body.dark .mykas-setting{border-color:#1E293B}body.dark .mykas-setting i{background:#0B132B;color:#CBD5E1}
+</style>
+'''
+
+          js = r'''
+<script id="mykas-navbar-tabs-v2-script">
+(function(){
+  const MARK='MYKAS_NAVBAR_TABS_V2';
+  function boot(){
+    const nav=document.getElementById('mainFixedNavbar');
+    const main=document.querySelector('#screenDashboard main');
+    const pageRiwayat=document.getElementById('pageRiwayat');
+    if(!nav || !main || !pageRiwayat) return;
+
+    nav.innerHTML=`
+      <button id="mykasNavHome" type="button" class="dock-nav-item active" aria-current="page"><i class="fa-solid fa-house"></i><span>Beranda</span></button>
+      <button id="mykasNavAnalysis" type="button" class="dock-nav-item"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></button>
+      <div class="dock-center-slot"><button id="mykasNavAdd" type="button" class="dock-add-btn" aria-label="Tambah transaksi"><i class="fa-solid fa-plus"></i></button></div>
+      <button id="mykasNavWallet" type="button" class="dock-nav-item"><i class="fa-solid fa-wallet"></i><span>Dompet</span></button>
+      <button id="mykasNavProfile" type="button" class="dock-nav-item"><i class="fa-regular fa-user"></i><span>Profil</span></button>`;
+
+    let pages=document.getElementById('mykas-tab-pages');
+    if(!pages){
+      pages=document.createElement('div');
+      pages.id='mykas-tab-pages';
+      pages.innerHTML=`
+        <section id="mykasAnalysisPage" class="mykas-tab-page hidden">
+          <div class="mykas-tab-page-inner">
+            <h1 class="mykas-page-title">Analisis</h1>
+            <p class="mykas-page-subtitle">Lihat perkembangan keuanganmu dengan lebih jelas.</p>
+            <div class="mykas-stat-grid">
+              <div class="mykas-stat-card"><span>Total Aset</span><strong id="mykasAnalysisBalance">Rp12.500.000</strong></div>
+              <div class="mykas-stat-card"><span>Pengeluaran</span><strong id="mykasAnalysisExpense">Rp215.000</strong></div>
+            </div>
+          </div>
+        </section>
+        <section id="mykasWalletPage" class="mykas-tab-page hidden">
+          <div class="mykas-tab-page-inner">
+            <h1 class="mykas-page-title">Dompet</h1>
+            <p class="mykas-page-subtitle">Semua penyimpanan uangmu dalam satu tempat.</p>
+            <div class="mykas-page-card"><h3>Dompet Saya</h3><div id="mykasWalletList"></div></div>
+          </div>
+        </section>
+        <section id="mykasProfilePage" class="mykas-tab-page hidden">
+          <div class="mykas-tab-page-inner">
+            <h1 class="mykas-page-title">Profil</h1>
+            <p class="mykas-page-subtitle">Kelola akun dan preferensi MyKas.</p>
+            <div class="mykas-profile-head"><div class="mykas-profile-avatar"><i class="fa-regular fa-user"></i></div><div class="mykas-profile-copy"><b>Akun MyKas</b><span>Pengaturan akun & aplikasi</span></div></div>
+            <div class="mykas-page-card">
+              <button type="button" class="mykas-setting" id="mykasProfileLanguage"><i class="fa-solid fa-language"></i><b>Bahasa</b><span>Indonesia</span></button>
+              <button type="button" class="mykas-setting" id="mykasProfileTheme"><i class="fa-solid fa-moon"></i><b>Tampilan</b><span>Ubah tema</span></button>
+              <button type="button" class="mykas-setting mykas-logout" id="mykasProfileLogout"><i class="fa-solid fa-arrow-right-from-bracket"></i><b>Keluar</b><span></span></button>
+            </div>
+          </div>
+        </section>`;
+      document.getElementById('screenDashboard').appendChild(pages);
+    }
+
+    const homeItems=[...main.children].filter(el=>el!==pageRiwayat);
+    const tabs={home:document.getElementById('mykasNavHome'),analysis:document.getElementById('mykasNavAnalysis'),wallet:document.getElementById('mykasNavWallet'),profile:document.getElementById('mykasNavProfile')};
+    const pageEls={analysis:document.getElementById('mykasAnalysisPage'),wallet:document.getElementById('mykasWalletPage'),profile:document.getElementById('mykasProfilePage')};
+
+    function active(name){
+      Object.entries(tabs).forEach(([key,el])=>{el.classList.toggle('active',key===name);el.setAttribute('aria-current',key===name?'page':'false');});
+    }
+    function sync(){
+      const balance=window.rawTotalSaldo||document.getElementById('txtSaldo')?.innerText||'Rp0';
+      const expense=window.rawPengeluaran||'Rp0';
+      document.getElementById('mykasAnalysisBalance').innerText=balance;
+      document.getElementById('mykasAnalysisExpense').innerText=expense;
+      const vals=[
+        ['Tunai','txtWalletTunaiHidden','fa-money-bill-wave'],['Rekening Bank','txtWalletBankHidden','fa-landmark'],['E-Wallet','txtWalletDigitalHidden','fa-mobile-screen-button'],['Tabungan','txtWalletTabunganHidden','fa-piggy-bank']
+      ];
+      document.getElementById('mykasWalletList').innerHTML=vals.map(([name,id,icon])=>`<div class="mykas-wallet-row"><div class="mykas-wallet-icon"><i class="fa-solid ${icon}"></i></div><div class="mykas-wallet-copy"><b>${name}</b><span>Saldo tersimpan</span></div><strong class="mykas-wallet-value">${document.getElementById(id)?.value||'Rp0'}</strong></div>`).join('');
+    }
+    function show(name){
+      main.classList.toggle('is-tab-hidden',name!=='home');
+      pageRiwayat.classList.toggle('hidden',name!=='analysis');
+      pages.classList.toggle('is-open',name!=='home');
+      Object.entries(pageEls).forEach(([key,el])=>el.classList.toggle('hidden',key!==name));
+      active(name); sync();
+      const sc=document.querySelector('#screenDashboard > div'); if(sc) sc.scrollTop=0;
+    }
+
+    tabs.home.onclick=()=>show('home');
+    tabs.analysis.onclick=()=>show('analysis');
+    tabs.wallet.onclick=()=>show('wallet');
+    tabs.profile.onclick=()=>show('profile');
+    document.getElementById('mykasNavAdd').onclick=()=>window.bukaModalTambahTransaksi();
+    document.getElementById('mykasProfileLanguage').onclick=()=>window.bukaBottomSheetBahasa();
+    document.getElementById('mykasProfileTheme').onclick=()=>window.toggleDarkMode();
+    document.getElementById('mykasProfileLogout').onclick=()=>window.logoutUser();
+
+    const originalApply=window.aplikasikanDataKeUI;
+    if(typeof originalApply==='function' && !originalApply.__mykasWrapped){
+      const wrapped=function(){const r=originalApply.apply(this,arguments);setTimeout(sync,0);return r};
+      wrapped.__mykasWrapped=true; window.aplikasikanDataKeUI=wrapped;
+    }
+    sync();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
+})();
+</script>
+'''
+
+          payload = f'<!-- {marker} -->\n{css}\n{js}'
+          if '</body>' not in s:
+              raise SystemExit('Could not find </body> in index.html')
+          s=s.replace('</body>', payload+'\n</body>', 1)
+          p.write_text(s,encoding='utf-8')
+
+      - name: Commit index integration
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          if git diff --cached --quiet; then
+            echo 'No index changes to commit'
+            exit 0
+          fi
+          git commit -m 'feat: add MyKas navbar tabs into index'
+          git push origin main
