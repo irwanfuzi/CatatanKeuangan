@@ -1,0 +1,62 @@
+name: Apply MyKas premium UI polish
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  polish:
+    if: ${{ !contains(github.event.head_commit.message, 'chore: apply MyKas premium UI polish') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index.html
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          marker='/* MYKAS PREMIUM FINTECH POLISH */'
+          if marker in s:
+              raise SystemExit('already applied')
+          css=r'''<style id="mykas-premium-fintech-polish">
+          /* MYKAS PREMIUM FINTECH POLISH */
+          :root{--mk-blue:#1769FF;--mk-blue-deep:#0758EA;--mk-gold:#FFB901;--mk-navy:#1E293B;--mk-surface:#FFFFFF;--mk-bg:#F6F8FC;--mk-line:#E9EEF5}
+          #screenDashboard,#screenDashboard *{font-family:'Plus Jakarta Sans',sans-serif}
+          #screenDashboard{background:var(--mk-bg)!important;color:var(--mk-navy)!important}
+          .dashboard-header{height:70px!important;padding:0 17px!important;background:#fff!important;border-bottom:1px solid #EDF1F6!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+          .dashboard-brand{gap:9px!important}.dashboard-logo-mark{width:49px!important;height:42px!important}.dashboard-brand-text{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:27px!important;font-weight:800!important;letter-spacing:-1.2px!important}
+          .dashboard-header-actions{gap:7px!important}.header-icon-btn{width:40px!important;height:40px!important;border-radius:12px!important;color:var(--mk-navy)!important;font-size:20px!important;background:transparent!important}.header-profile-btn{width:42px!important;height:42px!important;border-radius:50%!important;background:var(--mk-blue)!important;box-shadow:none!important;color:#fff!important}
+          .notification-dot{width:7px!important;height:7px!important;background:var(--mk-gold)!important;border:2px solid #fff!important}
+          .dashboard-content{padding:16px 16px 106px!important;gap:20px!important}
+          .hero-assets-card{min-height:196px!important;border-radius:27px!important;padding:21px 20px!important;background:linear-gradient(135deg,#1769FF 0%,#0A5BEF 100%)!important;box-shadow:0 10px 24px rgba(23,105,255,.14)!important}
+          .hero-pattern{opacity:.10!important;right:-8px!important;top:-12px!important;width:215px!important;height:215px!important;background-size:18px 18px!important}
+          .hero-copy{width:67%!important}.hero-label-row{font-size:14px!important;font-weight:700!important;color:#EAF1FF!important}.hero-label-row button{font-size:15px!important}
+          .hero-balance{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:36px!important;font-weight:800!important;letter-spacing:-1.7px!important;margin:12px 0 14px!important}
+          .hero-growth{background:rgba(255,255,255,.16)!important;color:#D1FAE5!important}.hero-updated{font-size:10px!important;color:#D6E5FF!important}
+          .hero-wallet{width:40%!important;right:1%!important;bottom:1%!important}.hero-wallet-svg{filter:none!important;transform:rotate(-2deg) scale(1.02)!important}
+          .dashboard-section{gap:11px!important}.section-heading h2,.section-title-only,.panel-heading h2{font-family:'Plus Jakarta Sans',sans-serif!important;font-weight:800!important;color:#172033!important}
+          .section-heading h2,.section-title-only{font-size:17px!important;letter-spacing:-.45px!important}.section-heading button,.panel-heading button{font-size:11px!important;font-weight:800!important}
+          .wallet-grid{gap:8px!important}.wallet-card{min-height:153px!important;padding:13px 7px 10px!important;border-radius:19px!important;background:#fff!important;border:1px solid var(--mk-line)!important;box-shadow:0 4px 12px rgba(15,23,42,.035)!important}.wallet-card:active{transform:scale(.985)!important}.wallet-icon{width:46px!important;height:46px!important;border-radius:14px!important}.wallet-name{font-size:11px!important;font-weight:700!important;margin-top:10px!important}.wallet-card strong{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:12px!important;font-weight:800!important}.wallet-card small{font-size:9px!important}.wallet-progress{height:4px!important;width:80%!important}
+          .quick-section{gap:11px!important}.quick-action-card{min-height:104px!important;border-radius:20px!important;background:#fff!important;border:1px solid var(--mk-line)!important;box-shadow:0 4px 12px rgba(15,23,42,.035)!important}.quick-action-item{gap:7px!important;color:#172033!important}.quick-action-item+.quick-action-item{border-left:1px solid #EFF2F6!important}.quick-action-item span{width:34px!important;height:34px!important;color:var(--mk-blue)!important;font-size:22px!important}.quick-action-item b{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:10px!important;font-weight:700!important}
+          .dashboard-module-grid{gap:9px!important}.dashboard-panel{border-radius:20px!important;padding:14px 12px!important;border:1px solid var(--mk-line)!important;background:#fff!important;box-shadow:0 4px 12px rgba(15,23,42,.035)!important}.panel-heading{margin-bottom:11px!important}.panel-heading h2{font-size:13px!important}.transaction-list{gap:10px!important}.budget-value{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:20px!important;font-weight:800!important}.budget-progress{height:6px!important}.budget-tip{border-radius:15px!important}
+          .insight-card{min-height:88px!important;border-radius:20px!important;padding:12px 13px!important;background:linear-gradient(100deg,#F7FAFF,#F1F6FF)!important;border:1px solid #E5EDF9!important;box-shadow:none!important}.insight-icon{width:45px!important;height:45px!important;border-radius:14px!important;box-shadow:none!important}.insight-copy b{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:12px!important}.insight-copy p{font-size:10px!important}
+          #mainFixedNavbar.integrated-bottom-dock{height:74px!important;padding:0 6px env(safe-area-inset-bottom)!important;background:rgba(255,255,255,.98)!important;border-top:1px solid #E9EEF5!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;grid-template-columns:repeat(5,minmax(0,1fr))!important}
+          .dock-nav-item{height:62px!important;gap:4px!important;color:#94A3B8!important}.dock-nav-item i{font-size:20px!important}.dock-nav-item span{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:9px!important;font-weight:700!important}.dock-nav-item.active{color:var(--mk-blue)!important}
+          .dock-center-slot{height:74px!important;align-items:flex-start!important}.dock-add-btn{width:64px!important;height:64px!important;top:-23px!important;margin:0!important;border-radius:19px!important;border:4px solid #fff!important;background:var(--mk-blue)!important;box-shadow:none!important;font-size:27px!important;position:absolute!important}.dock-add-btn:after{content:'';position:absolute;width:7px;height:7px;border-radius:50%;background:var(--mk-gold);top:8px;right:9px;border:2px solid var(--mk-blue)}
+          .dock-center-slot:after{content:'Catat';position:absolute;top:46px;color:var(--mk-blue);font-family:'Plus Jakarta Sans',sans-serif;font-size:9px;font-weight:800;pointer-events:none}
+          @media(max-width:380px){.dashboard-content{padding:14px 13px 104px!important;gap:17px!important}.hero-assets-card{min-height:188px!important;padding:19px 17px!important}.hero-balance{font-size:31px!important}.wallet-card{min-height:148px!important}.quick-action-card{min-height:100px!important}.dashboard-module-grid{gap:8px!important}.dashboard-panel{padding:12px 10px!important}}
+          body.dark #screenDashboard{background:#0B132B!important}body.dark .dashboard-header{background:#0F172A!important;border-color:#1E293B!important}body.dark .header-profile-btn{box-shadow:none!important}body.dark .wallet-card,body.dark .quick-action-card,body.dark .dashboard-panel{background:#131C35!important;border-color:#24304A!important;box-shadow:none!important}body.dark .section-heading h2,body.dark .section-title-only,body.dark .panel-heading h2{color:#F8FAFC!important}body.dark #mainFixedNavbar.integrated-bottom-dock{background:#0F172A!important;border-color:#24304A!important}body.dark .dock-add-btn{border-color:#0F172A!important}
+          </style>'''
+          s=s.replace('</head>',css+'\n</head>',1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit index and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'chore: apply MyKas premium UI polish'
+          git rm .github/workflows/mykas-premium-polish.yml
+          git commit -m 'chore: remove temporary polish workflow'
+          git push
