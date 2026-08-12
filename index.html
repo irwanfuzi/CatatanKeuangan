@@ -710,13 +710,46 @@ body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
 
           <section class="insight-card"><div class="insight-icon"><i class="fa-solid fa-chart-simple"></i></div><div class="insight-copy"><b>Insight Keuangan</b><p>Pengeluaran kamu <strong>15%</strong> lebih rendah dari minggu lalu.</p></div><div class="insight-chart" aria-hidden="true"><svg viewBox="0 0 100 48" fill="none"><path d="M5 37 22 26 38 32 56 14 73 25 94 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5" cy="37" r="3" fill="currentColor"/><circle cx="22" cy="26" r="3" fill="currentColor"/><circle cx="38" cy="32" r="3" fill="currentColor"/><circle cx="56" cy="14" r="3" fill="currentColor"/><circle cx="73" cy="25" r="3" fill="currentColor"/><circle cx="94" cy="6" r="3.5" fill="currentColor"/></svg></div><i class="fa-solid fa-chevron-right insight-arrow"></i></section>
 
-          <div id="pageRiwayat" class="w-full flex flex-col gap-4 hidden">
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm"><div class="flex items-center justify-between mb-3"><h3 class="text-xs font-bold text-slate-800 dark:text-slate-100">Analisis Pengeluaran</h3><button onclick="window.bukaPilihanPeriodeHalamanUtama()" class="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 rounded-md text-xs font-bold text-slate-600 dark:text-slate-300"><span id="labelPeriodeUtama">Bulan Ini</span> <i class="fa-solid fa-chevron-down text-[10px]"></i></button><select id="filterBulanUtamaHidden" onchange="window.prosesFilterKategoriBulanUtama()" class="hidden"></select></div><div class="w-full flex items-center justify-between"><div class="relative w-[120px] h-[120px] flex items-center justify-center"><canvas id="chartPengeluaran"></canvas><div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"><span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Total</span><span id="chartCenterTotal" class="text-xs font-black text-slate-800 dark:text-slate-100">Rp0</span></div></div><div id="customLegendContainer" class="w-[60%] flex flex-col gap-1.5 max-h-[120px] overflow-y-auto pl-2 hide-scrollbar"></div></div><div id="noChartData" class="text-center text-xs text-slate-400 font-medium py-3 hidden">Tidak ada pengeluaran periode ini</div></div>
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm"><h3 class="text-xs font-bold text-slate-800 dark:text-slate-100 mb-3">Tren Keuangan Bulanan</h3><div class="w-full h-[160px]"><canvas id="chartTrenBulanan"></canvas></div></div>
-          </div>
-        </main>
+          <div id="pageRiwayat" class="hidden"></div>
+
+          <section id="pageAnalisis" class="mk-page hidden">
+            <div class="mk-page-head"><div><span class="mk-eyebrow">MYKAS</span><h1>Analisis</h1></div><button class="mk-round-btn" onclick="window.bukaPilihanPeriodeHalamanUtama()" aria-label="Filter analisis"><i class="fa-solid fa-sliders"></i></button></div>
+            <div class="mk-analysis-hero"><div class="mk-analysis-top"><div><span>Total pengeluaran</span><strong id="mkAnalysisExpense">Rp 0</strong></div><span class="mk-change"><i class="fa-solid fa-arrow-trend-up"></i> 8,4%</span></div>
+              <div class="mk-line-chart" aria-hidden="true"><svg viewBox="0 0 600 220" preserveAspectRatio="none"><defs><linearGradient id="mkChartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#1769FF" stop-opacity=".16"/><stop offset="100%" stop-color="#1769FF" stop-opacity="0"/></linearGradient></defs><path d="M0 184 C42 179 61 159 100 157 C142 154 165 180 208 172 C250 164 262 112 304 103 C343 94 357 134 398 145 C441 157 463 147 492 89 C520 33 548 59 600 38 L600 220 L0 220 Z" fill="url(#mkChartFill)"/><path d="M0 184 C42 179 61 159 100 157 C142 154 165 180 208 172 C250 164 262 112 304 103 C343 94 357 134 398 145 C441 157 463 147 492 89 C520 33 548 59 600 38" fill="none" stroke="#1769FF" stroke-width="6" stroke-linecap="round"/></svg></div>
+            </div>
+            <div class="mk-stat-grid"><div class="mk-stat-card"><span>Pemasukan</span><strong id="mkAnalysisIncome">Rp 0</strong></div><div class="mk-stat-card"><span>Tabungan</span><strong id="mkAnalysisSaving">Rp 0</strong></div></div>
+            <div class="mk-section-title">Pengeluaran per kategori</div><div class="mk-category-card"><div class="mk-bars" id="mkCategoryBars"><div class="mk-empty">Belum ada data pengeluaran.</div></div></div>
+            <div class="mk-section-title">Insight bulan ini</div><div class="mk-insight-card"><div><span class="mk-insight-label">Pola pengeluaran</span><strong id="mkInsightText">Belanja jadi kategori terbesar.</strong></div><span class="mk-insight-icon"><i class="fa-solid fa-lightbulb"></i></span></div>
+          </section>
+
+          <section id="pageDompet" class="mk-page hidden">
+            <div class="mk-page-head"><div><span class="mk-eyebrow">MYKAS</span><h1>Dompet</h1></div><button class="mk-round-btn" onclick="window.bukaModalDetailSemua()" aria-label="Semua transaksi"><i class="fa-solid fa-list"></i></button></div>
+            <div class="mk-wallet-total"><span>Total saldo</span><strong id="mkWalletTotal">Rp 0</strong><small>Semua penyimpanan dana kamu</small></div>
+            <div class="mk-wallet-list">
+              <button class="mk-wallet-row" onclick="window.pilihDompetTab('💳 Kantong Tunai')"><span class="mk-wallet-row-icon cash">Rp</span><span class="mk-wallet-row-copy"><b>Tunai</b><small>1 dompet</small></span><strong id="mkWalletCash">Rp 0</strong><i class="fa-solid fa-chevron-right"></i></button>
+              <button class="mk-wallet-row" onclick="window.pilihDompetTab('🏦 Rekening Bank')"><span class="mk-wallet-row-icon bank"><i class="fa-solid fa-landmark"></i></span><span class="mk-wallet-row-copy"><b>Rekening Bank</b><small>4 rekening</small></span><strong id="mkWalletBank">Rp 0</strong><i class="fa-solid fa-chevron-right"></i></button>
+              <button class="mk-wallet-row" onclick="window.pilihDompetTab('📱 Dompet Digital')"><span class="mk-wallet-row-icon digital"><i class="fa-solid fa-wallet"></i></span><span class="mk-wallet-row-copy"><b>E-Wallet</b><small>3 e-wallet</small></span><strong id="mkWalletDigital">Rp 0</strong><i class="fa-solid fa-chevron-right"></i></button>
+              <button class="mk-wallet-row" onclick="window.pilihDompetTab('💰 Dompet Tabungan')"><span class="mk-wallet-row-icon saving"><i class="fa-solid fa-piggy-bank"></i></span><span class="mk-wallet-row-copy"><b>Tabungan</b><small>1 tabungan</small></span><strong id="mkWalletSaving">Rp 0</strong><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <button class="mk-secondary-action" onclick="window.bukaModalDetailSemua()"><i class="fa-solid fa-arrow-right-arrow-left"></i><span>Kelola transaksi &amp; saldo</span><i class="fa-solid fa-chevron-right"></i></button>
+          </section>
+
+          <section id="pageProfil" class="mk-page hidden">
+            <div class="mk-profile-cover"><div class="mk-profile-avatar"><i class="fa-solid fa-user"></i></div><span class="mk-profile-name" id="mkProfileName">Pengguna MyKas</span><span class="mk-profile-email" id="mkProfileEmail">Akun MyKas</span></div>
+            <div class="mk-section-title">Pengaturan</div><div class="mk-setting-card">
+              <button class="mk-setting-row" onclick="window.toggleDarkMode()"><span class="mk-setting-icon blue"><i class="fa-solid fa-moon"></i></span><span><b>Tampilan</b><small>Mode terang / gelap</small></span><i class="fa-solid fa-chevron-right"></i></button>
+              <button class="mk-setting-row" onclick="window.bukaBottomSheetBahasa()"><span class="mk-setting-icon gold"><i class="fa-solid fa-globe"></i></span><span><b>Bahasa</b><small>Indonesia</small></span><i class="fa-solid fa-chevron-right"></i></button>
+              <button class="mk-setting-row" onclick="Swal.fire('Keamanan', 'Data dan transaksi MyKas tetap berada di akunmu.', 'info')"><span class="mk-setting-icon navy"><i class="fa-solid fa-shield-halved"></i></span><span><b>Keamanan</b><small>Perlindungan akun</small></span><i class="fa-solid fa-chevron-right"></i></button>
+            </div><button class="mk-logout-btn" onclick="window.logoutUser()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar dari akun</button>
+          </section></main>
       </div>
-      <nav id="mainFixedNavbar" class="integrated-bottom-dock"><button id="navHome" onclick="window.tukarHalaman('home')" class="dock-nav-item active"><i class="fa-solid fa-house"></i><span>Beranda</span></button><button id="navRiwayat" onclick="window.tukarHalaman('riwayat')" class="dock-nav-item"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></button><div class="dock-center-slot"><button type="button" onclick="window.bukaModalTambahTransaksi()" class="dock-add-btn" aria-label="Tambah transaksi"><i class="fa-solid fa-plus"></i></button></div><button type="button" onclick="window.bukaModalDetailSemua()" class="dock-nav-item"><i class="fa-regular fa-folder-open"></i><span>Dompet</span></button><button type="button" onclick="window.logoutUser()" class="dock-nav-item"><i class="fa-regular fa-user"></i><span>Profil</span></button></nav>
+      <nav id="mainFixedNavbar" class="integrated-bottom-dock">
+  <button id="navHome" onclick="window.tukarHalaman('home')" class="dock-nav-item active"><i class="fa-solid fa-house"></i><span>Beranda</span></button>
+  <button id="navRiwayat" onclick="window.tukarHalaman('analisis')" class="dock-nav-item"><i class="fa-solid fa-chart-pie"></i><span>Analisis</span></button>
+  <div class="dock-center-slot"><button type="button" onclick="window.bukaModalTambahTransaksi()" class="dock-add-btn" aria-label="Tambah transaksi"><i class="fa-solid fa-plus"></i></button></div>
+  <button id="navDompet" type="button" onclick="window.tukarHalaman('dompet')" class="dock-nav-item"><i class="fa-regular fa-folder-open"></i><span>Dompet</span></button>
+  <button id="navProfil" type="button" onclick="window.tukarHalaman('profil')" class="dock-nav-item"><i class="fa-regular fa-user"></i><span>Profil</span></button>
+</nav>
     </div>
 
     <!-- MODAL FORM INPUT TRANSAKSI -->
@@ -1286,18 +1319,22 @@ body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
     };
 
     window.tukarHalaman = function(menu) {
-      const navH = document.getElementById('navHome'), navR = document.getElementById('navRiwayat'), pR = document.getElementById('pageRiwayat');
-      
-      if (menu === 'home') {
-        pR.classList.add('hidden');
-        navH.className = "flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group";
-        navR.className = "flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group hover:text-slate-600";
-      } else {
-        pR.classList.remove('hidden');
-        navR.className = "flex flex-col items-center justify-center w-full h-full text-[#0052FF] font-bold group";
-        navH.className = "flex flex-col items-center justify-center w-full h-full text-slate-400 font-medium group hover:text-slate-600";
+      const homeNav=document.getElementById('navHome'), analysisNav=document.getElementById('navRiwayat'), walletNav=document.getElementById('navDompet'), profileNav=document.getElementById('navProfil');
+      const main=document.querySelector('#screenDashboard .dashboard-content');
+      ['pageAnalisis','pageDompet','pageProfil'].forEach(id=>{const p=document.getElementById(id);if(p)p.classList.add('hidden')});
+      if(main)Array.from(main.children).forEach(el=>{if(!['pageRiwayat','pageAnalisis','pageDompet','pageProfil'].includes(el.id))el.style.display='none'});
+      [homeNav,analysisNav,walletNav,profileNav].forEach(el=>{if(el)el.classList.remove('active')});
+      if(menu==='home'){
+        if(main)Array.from(main.children).forEach(el=>{if(!['pageRiwayat','pageAnalisis','pageDompet','pageProfil'].includes(el.id))el.style.display=''});
+        homeNav.classList.add('active');
+      }else if(menu==='analisis'||menu==='riwayat'){
+        document.getElementById('pageAnalisis').classList.remove('hidden');analysisNav.classList.add('active');if(window.refreshMyKasExtraPages)window.refreshMyKasExtraPages();
+      }else if(menu==='dompet'){
+        document.getElementById('pageDompet').classList.remove('hidden');walletNav.classList.add('active');if(window.refreshMyKasExtraPages)window.refreshMyKasExtraPages();
+      }else if(menu==='profil'){
+        document.getElementById('pageProfil').classList.remove('hidden');profileNav.classList.add('active');if(window.refreshMyKasExtraPages)window.refreshMyKasExtraPages();
       }
-      window.loadSummary();
+      if(typeof window.loadSummary==='function')window.loadSummary();
     };
 
     window.aplikasikanDataKeUI = function(res, anim = true) {
@@ -1528,11 +1565,37 @@ body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
       } catch (e) {}
     };
   </script>
+
+<style id="mykas-pages-v1">
+.mk-page{width:100%;display:flex;flex-direction:column;gap:16px;padding:4px 16px 96px;box-sizing:border-box;min-height:100%}.mk-page-head{display:flex;align-items:center;justify-content:space-between;padding:10px 0 2px}.mk-eyebrow{display:block;color:#94A3B8;font-size:11px;font-weight:800;letter-spacing:.7px;margin-bottom:3px}.mk-page-head h1{margin:0;color:#1E293B;font-family:'Urbanist',sans-serif;font-size:32px;line-height:1;font-weight:900;letter-spacing:-1.3px}.mk-round-btn{width:52px;height:52px;border:1px solid #E8EDF3;border-radius:18px;background:#fff;color:#1E293B;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 6px 18px rgba(15,23,42,.04)}
+.mk-analysis-hero{background:#fff;border:1px solid #E9EEF4;border-radius:24px;padding:19px 16px 12px;box-shadow:0 6px 20px rgba(15,23,42,.04)}.mk-analysis-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.mk-analysis-top span:first-child,.mk-stat-card span{display:block;color:#94A3B8;font-size:12px;font-weight:700}.mk-analysis-top strong{display:block;margin-top:7px;color:#1E293B;font-family:'Urbanist',sans-serif;font-size:31px;line-height:1;font-weight:900;letter-spacing:-1.1px}.mk-change{display:inline-flex!important;align-items:center;gap:4px;padding:8px 11px;border-radius:999px;background:#EDF4FF;color:#1769FF!important;font-size:12px!important;font-weight:800!important}.mk-line-chart{height:190px;margin-top:12px;border-radius:20px;background:#F7F9FE;overflow:hidden}.mk-line-chart svg{width:100%;height:100%;display:block}
+.mk-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mk-stat-card{background:#fff;border:1px solid #E9EEF4;border-radius:20px;padding:17px 16px;min-height:82px;box-sizing:border-box}.mk-stat-card strong{display:block;margin-top:8px;color:#1E293B;font-family:'Urbanist',sans-serif;font-size:21px;font-weight:900;white-space:nowrap}.mk-stat-card:first-child strong{color:#16A36D}.mk-section-title{color:#1E293B;font-family:'Urbanist',sans-serif;font-size:19px;font-weight:900;letter-spacing:-.35px;padding:0 1px;margin-top:2px}.mk-category-card{background:#fff;border:1px solid #E9EEF4;border-radius:22px;padding:22px 14px 18px}.mk-bars{height:175px;display:flex;align-items:flex-end;justify-content:space-around;gap:10px}.mk-bar-col{height:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:0}.mk-bar{width:min(42px,75%);min-height:8px;border-radius:11px 11px 5px 5px;background:#DCE8FB}.mk-bar.active{background:#1769FF}.mk-bar-label{margin-top:9px;color:#94A3B8;font-size:10px;font-weight:700;white-space:nowrap}.mk-empty{color:#94A3B8;font-size:11px;font-weight:700;align-self:center;margin:auto}
+.mk-insight-card{min-height:88px;background:#fff;border:1px solid #E9EEF4;border-radius:22px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.mk-insight-label{display:block;color:#94A3B8;font-size:11px;font-weight:700;margin-bottom:6px}.mk-insight-card strong{display:block;color:#1E293B;font-size:13px;font-weight:800}.mk-insight-icon{width:50px;height:50px;flex:0 0 auto;border-radius:17px;background:#EDF4FF;color:#1769FF;display:flex;align-items:center;justify-content:center;font-size:20px}
+.mk-wallet-total{background:linear-gradient(135deg,#1769FF,#0758EA);color:#fff;border-radius:24px;padding:20px 18px;box-shadow:0 14px 28px rgba(23,105,255,.18)}.mk-wallet-total span{display:block;color:#DCE9FF;font-size:12px;font-weight:700}.mk-wallet-total strong{display:block;margin-top:8px;font-family:'Urbanist',sans-serif;font-size:32px;font-weight:900;letter-spacing:-1px}.mk-wallet-total small{display:block;margin-top:5px;color:#C9DCFF;font-size:10px;font-weight:600}.mk-wallet-list{display:flex;flex-direction:column;gap:9px}.mk-wallet-row{width:100%;display:grid;grid-template-columns:48px minmax(0,1fr) auto 12px;align-items:center;gap:11px;text-align:left;padding:12px;background:#fff;border:1px solid #E9EEF4;border-radius:19px}.mk-wallet-row-icon{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:18px}.mk-wallet-row-icon.cash{background:#FFF8E8;color:#E9A400;font-family:'Urbanist',sans-serif;font-weight:900}.mk-wallet-row-icon.bank{background:#F1F4F8;color:#1E293B}.mk-wallet-row-icon.digital{background:#EEF5FF;color:#1769FF}.mk-wallet-row-icon.saving{background:#FAF1FF;color:#9B3BDE}.mk-wallet-row-copy{min-width:0}.mk-wallet-row-copy b{display:block;color:#1E293B;font-size:12px;font-weight:800}.mk-wallet-row-copy small{display:block;margin-top:3px;color:#94A3B8;font-size:9px;font-weight:600}.mk-wallet-row>strong{color:#1E293B;font-family:'Urbanist',sans-serif;font-size:12px;font-weight:900;white-space:nowrap}.mk-wallet-row>i{color:#CBD5E1;font-size:10px}.mk-secondary-action{display:grid;grid-template-columns:32px 1fr 12px;align-items:center;gap:10px;width:100%;padding:14px;background:#fff;border:1px solid #E9EEF4;border-radius:18px;color:#1769FF;text-align:left;font-size:11px;font-weight:800}.mk-secondary-action i:first-child{width:32px;height:32px;border-radius:11px;background:#EDF4FF;display:flex;align-items:center;justify-content:center}
+.mk-profile-cover{background:#fff;border:1px solid #E9EEF4;border-radius:24px;padding:24px 18px;text-align:center;display:flex;flex-direction:column;align-items:center}.mk-profile-avatar{width:78px;height:78px;border-radius:26px;background:#1769FF;color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 12px 24px rgba(23,105,255,.18)}.mk-profile-name{margin-top:13px;color:#1E293B;font-family:'Urbanist',sans-serif;font-size:19px;font-weight:900}.mk-profile-email{margin-top:4px;color:#94A3B8;font-size:10px;font-weight:600}.mk-setting-card{background:#fff;border:1px solid #E9EEF4;border-radius:22px;overflow:hidden}.mk-setting-row{width:100%;display:grid;grid-template-columns:42px 1fr 12px;align-items:center;gap:11px;padding:14px 15px;text-align:left;background:transparent}.mk-setting-row+.mk-setting-row{border-top:1px solid #EEF2F6}.mk-setting-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center}.mk-setting-icon.blue{background:#EDF4FF;color:#1769FF}.mk-setting-icon.gold{background:#FFF8E8;color:#E9A400}.mk-setting-icon.navy{background:#F1F4F8;color:#1E293B}.mk-setting-row b{display:block;color:#1E293B;font-size:12px;font-weight:800}.mk-setting-row small{display:block;margin-top:3px;color:#94A3B8;font-size:9px;font-weight:600}.mk-setting-row>i{color:#CBD5E1;font-size:10px}.mk-logout-btn{width:100%;height:48px;border:1px solid #F4D5DB;border-radius:16px;background:#FFF7F8;color:#E25569;font-size:11px;font-weight:800}
+@media(max-width:380px){.mk-page{padding-left:13px;padding-right:13px}.mk-page-head h1{font-size:29px}.mk-analysis-top strong{font-size:28px}.mk-line-chart{height:175px}.mk-wallet-row{grid-template-columns:44px minmax(0,1fr) auto 10px}.mk-wallet-row-icon{width:44px;height:44px}.mk-wallet-row>strong{font-size:10.5px}}
+body.dark .mk-page-head h1,body.dark .mk-section-title,body.dark .mk-analysis-top strong,body.dark .mk-stat-card strong,body.dark .mk-insight-card strong,body.dark .mk-wallet-row-copy b,body.dark .mk-wallet-row>strong,body.dark .mk-profile-name,body.dark .mk-setting-row b{color:#F8FAFC}body.dark .mk-round-btn,body.dark .mk-analysis-hero,body.dark .mk-stat-card,body.dark .mk-category-card,body.dark .mk-insight-card,body.dark .mk-wallet-row,body.dark .mk-secondary-action,body.dark .mk-profile-cover,body.dark .mk-setting-card{background:#131C35;border-color:#26334A}body.dark .mk-line-chart{background:#0F1A31}body.dark .mk-wallet-row-icon.bank,body.dark .mk-setting-icon.navy{background:#202B40;color:#E2E8F0}body.dark .mk-logout-btn{background:#291820;border-color:#4A2730}
+</style>
+
 <!-- MYKAS DASHBOARD REDESIGN INLINE START -->
 <script id="mykas-dashboard-redesign-inline">
 
 </script>
 <!-- MYKAS DASHBOARD REDESIGN INLINE END -->
+
+<script id="mykas-pages-engine">
+(function(){
+function moneyValue(v){if(v===null||v===undefined)return 0;if(typeof v==='number')return v;return parseInt(String(v).replace(/[^\d-]/g,''),10)||0}
+function rupiah(v){return 'Rp '+Number(v||0).toLocaleString('id-ID')}
+function updateProfile(){var u=null;try{u=window.firebase&&window.firebase.auth?window.firebase.auth().currentUser:null}catch(e){};var n=document.getElementById('mkProfileName'),em=document.getElementById('mkProfileEmail');if(n)n.textContent=(u&&(u.displayName||u.email))||'Pengguna MyKas';if(em)em.textContent=(u&&u.email)||'Akun MyKas'}
+function updateWalletPage(){var ids=['txtWalletTunaiHidden','txtWalletBankHidden','txtWalletDigitalHidden','txtWalletTabunganHidden'],out=['mkWalletCash','mkWalletBank','mkWalletDigital','mkWalletSaving'],vals=ids.map(id=>moneyValue(document.getElementById(id)?.value));vals.forEach((v,i)=>{var e=document.getElementById(out[i]);if(e)e.textContent=rupiah(v)});var t=document.getElementById('mkWalletTotal');if(t)t.textContent=rupiah(vals.reduce((a,b)=>a+b,0))}
+function updateAnalysisPage(){var income=moneyValue(window.rawPemasukan),expense=moneyValue(window.rawPengeluaran),saving=Math.max(income-expense,0),arr=[expense,income,saving];['mkAnalysisExpense','mkAnalysisIncome','mkAnalysisSaving'].forEach((id,i)=>{var e=document.getElementById(id);if(e)e.textContent=rupiah(arr[i])});var data=[];try{data=Array.isArray(databaseRiwayatRaw)?databaseRiwayatRaw:[]}catch(e){};var cats={};data.forEach(item=>{if(String(item.jenis||'').toLowerCase().trim()!=='pengeluaran')return;var k=String(item.kategori||'Lainnya').replace(/^[^\p{L}\p{N}]+/u,'').trim()||'Lainnya';cats[k]=(cats[k]||0)+moneyValue(item.nominal)});var sorted=Object.entries(cats).sort((a,b)=>b[1]-a[1]).slice(0,5);if(!sorted.length)sorted=[['Makan',0],['Belanja',0],['Tagihan',0],['Transport',0],['Lainnya',0]];var max=Math.max(...sorted.map(x=>x[1]),1),wrap=document.getElementById('mkCategoryBars');if(wrap)wrap.innerHTML=sorted.map((x,idx)=>'<div class="mk-bar-col"><div class="mk-bar '+(idx===1?'active':'')+'" style="height:'+Math.max(8,Math.round(x[1]/max*118))+'px"></div><span class="mk-bar-label">'+x[0].slice(0,12)+'</span></div>').join('');var insight=document.getElementById('mkInsightText');if(insight)insight.textContent=sorted[0][1]?sorted[0][0]+' jadi kategori terbesar.':'Belum ada cukup data untuk insight'}
+window.refreshMyKasExtraPages=function(){updateAnalysisPage();updateWalletPage();updateProfile()}
+var oldApply=window.aplikasikanDataKeUI;if(typeof oldApply==='function'){window.aplikasikanDataKeUI=function(res,anim){oldApply(res,anim);setTimeout(window.refreshMyKasExtraPages,40)}}
+setTimeout(function(){if(document.getElementById('screenDashboard')&&!document.getElementById('screenDashboard').classList.contains('hidden')){updateAnalysisPage();updateWalletPage();updateProfile()}},500)
+})();
+</script>
+
 </body>
 
 </html>
