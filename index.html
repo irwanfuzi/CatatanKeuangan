@@ -62,11 +62,11 @@
   <style>
     @media (max-width: 767px) {
       html, body {
-        overflow: hidden !important;
         width: 100% !important;
         height: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
+        overflow: hidden !important;
       }
     }
 
@@ -266,10 +266,6 @@ body.dark .dock-add-btn{border-color:#0B132B!important}
 body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
 </style>
   <script>
-/* MyKas — premium fintech sizing + navigation polish
- * Non-destructive: injects only responsive visual sizing rules.
- * Existing application logic and dashboard markup remain untouched.
- */
 (() => {
   const STYLE_ID = 'mykas-premium-sizing-v2';
   if (document.getElementById(STYLE_ID)) return;
@@ -496,9 +492,6 @@ body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
   style.textContent = css;
   document.head.appendChild(style);
 })();
-
-/* MyKas polish integration: dashboard sizing/navigation refinement committed 2026-08-12. */
-
   </script>
 
 <style id="mykas-final-redesign">
@@ -526,43 +519,47 @@ body.dark .mk-detail-page,body.dark .mk-app-pages{background:#0B132B}body.dark .
 @media(max-width:380px){.mk-detail-page{padding-left:13px;padding-right:13px}.mk-detail-head h1{font-size:26px}.mk-category-analysis-card{grid-template-columns:125px 1fr;gap:9px}.mk-donut-wrap{width:120px;height:120px}.mk-chart-card{height:185px}.mk-wallet-row{grid-template-columns:42px minmax(0,1fr) auto 10px}.mk-wallet-row-icon{width:42px;height:42px}.mk-setting-row{grid-template-columns:38px 1fr 10px}.mk-setting-icon{width:38px;height:38px}}
 </style>
 
-
 <style id="mykas-scroll-fix">
-  /* One and only one vertical scroll area: the active MyKas page. */
-  html, body { height: 100%; }
-  #appCanvasWrapper { min-height: 0 !important; }
+  /* Fix PWA Container Scroll */
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  #appCanvasWrapper {
+    height: 100dvh !important;
+    min-height: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
+  
   #screenDashboard {
-    min-height: 0 !important;
+    flex: 1 !important;
     height: 100% !important;
-    overflow: hidden !important;
-  }
-  #screenDashboard > div:first-child {
     min-height: 0 !important;
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
     overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
   }
-  #screenDashboard .dashboard-header {
-    flex: 0 0 auto !important;
-  }
-  #appPages {
-    min-height: 0 !important;
-    height: auto !important;
-    flex: 1 1 auto !important;
-    overflow: hidden !important;
-  }
+
+  /* Mengaktifkan scroll pada container utama */
+  #screenDashboard > div:first-child,
+  .mk-app-pages,
   .mk-app-page {
+    flex: 1 !important;
     height: 100% !important;
-    min-height: 0 !important;
     overflow-y: auto !important;
-    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-y: auto !important;
+    overscroll-behavior-y: contain !important;
     touch-action: pan-y !important;
-    scrollbar-width: none !important;
   }
-  .mk-app-page::-webkit-scrollbar { display: none !important; }
+
+  @media (max-width: 767px) {
+    #screenDashboard > div:first-child::-webkit-scrollbar,
+    .mk-app-page::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
 </style>
 
 </head>
@@ -1689,12 +1686,6 @@ body.dark .mk-detail-page,body.dark .mk-app-pages{background:#0B132B}body.dark .
 body.dark .mk-page-head h1,body.dark .mk-section-title,body.dark .mk-analysis-top strong,body.dark .mk-stat-card strong,body.dark .mk-insight-card strong,body.dark .mk-wallet-row-copy b,body.dark .mk-wallet-row>strong,body.dark .mk-profile-name,body.dark .mk-setting-row b{color:#F8FAFC}body.dark .mk-round-btn,body.dark .mk-analysis-hero,body.dark .mk-stat-card,body.dark .mk-category-card,body.dark .mk-insight-card,body.dark .mk-wallet-row,body.dark .mk-secondary-action,body.dark .mk-profile-cover,body.dark .mk-setting-card{background:#131C35;border-color:#26334A}body.dark .mk-line-chart{background:#0F1A31}body.dark .mk-wallet-row-icon.bank,body.dark .mk-setting-icon.navy{background:#202B40;color:#E2E8F0}body.dark .mk-logout-btn{background:#291820;border-color:#4A2730}
 </style>
 
-<!-- MYKAS DASHBOARD REDESIGN INLINE START -->
-<script id="mykas-dashboard-redesign-inline">
-
-</script>
-<!-- MYKAS DASHBOARD REDESIGN INLINE END -->
-
 <script id="mykas-pages-engine">
 (function(){
 function moneyValue(v){if(v===null||v===undefined)return 0;if(typeof v==='number')return v;return parseInt(String(v).replace(/[^\d-]/g,''),10)||0}
@@ -1707,7 +1698,6 @@ var oldApply=window.aplikasikanDataKeUI;if(typeof oldApply==='function'){window.
 setTimeout(function(){if(document.getElementById('screenDashboard')&&!document.getElementById('screenDashboard').classList.contains('hidden')){updateAnalysisPage();updateWalletPage();updateProfile()}},500)
 })();
 </script>
-
 
   <script id="mykas-final-ui-engine">
   (() => {
