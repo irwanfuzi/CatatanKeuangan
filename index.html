@@ -528,40 +528,41 @@ body.dark .mk-detail-page,body.dark .mk-app-pages{background:#0B132B}body.dark .
 
 
 <style id="mykas-scroll-fix">
-  /* Fix dashboard scroll inside the app flex shell */
-  html, body {
-    height: 100%;
-  }
-  #appCanvasWrapper {
-    min-height: 0 !important;
-  }
+  /* One and only one vertical scroll area: the active MyKas page. */
+  html, body { height: 100%; }
+  #appCanvasWrapper { min-height: 0 !important; }
   #screenDashboard {
     min-height: 0 !important;
+    height: 100% !important;
     overflow: hidden !important;
   }
   #screenDashboard > div:first-child {
     min-height: 0 !important;
     height: 100% !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-y: contain !important;
-    touch-action: pan-y !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  #screenDashboard .dashboard-header {
+    flex: 0 0 auto !important;
   }
   #appPages {
     min-height: 0 !important;
+    height: auto !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
   }
   .mk-app-page {
-    min-height: 0;
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y !important;
+    scrollbar-width: none !important;
   }
-  @media (max-width: 767px) {
-    #screenDashboard > div:first-child {
-      scrollbar-width: none;
-    }
-    #screenDashboard > div:first-child::-webkit-scrollbar {
-      display: none;
-    }
-  }
+  .mk-app-page::-webkit-scrollbar { display: none !important; }
 </style>
 
 </head>
