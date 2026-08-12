@@ -1,8 +1,7 @@
 const CACHE_NAME = 'mykas-pwa-v6';
 const ASSETS_TO_CACHE = [
   './', './index.html', './manifest.json', './logo.svg', './wallet-white.svg',
-  './mykas-text-white.svg', './icon-192.png', './icon-512.png', './icon.png',
-  './dashboard-redesign.js'
+  './mykas-text-white.svg', './icon-192.png', './icon-512.png', './icon.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -30,10 +29,7 @@ self.addEventListener('fetch', (event) => {
         if (!contentType.includes('text/html')) return networkResponse;
 
         const html = await networkResponse.text();
-        const injected = html.includes('dashboard-redesign.js')
-          ? html.replace(/dashboard-redesign\.js[^\"']*/g, 'dashboard-redesign.js?v=6')
-          : html.replace('</body>', '<script src="./dashboard-redesign.js?v=6"></script></body>');
-        const response = new Response(injected, {
+        const response = new Response(html, {
           status: networkResponse.status,
           statusText: networkResponse.statusText,
           headers: networkResponse.headers
@@ -42,18 +38,6 @@ self.addEventListener('fetch', (event) => {
         const cache = await caches.open(CACHE_NAME);
         await cache.put(event.request, response.clone());
         return response;
-      }).catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  if (new URL(event.request.url).pathname.endsWith('/dashboard-redesign.js')) {
-    event.respondWith(
-      fetch(event.request, { cache: 'no-store' }).then((networkResponse) => {
-        if (networkResponse.ok) {
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse.clone()));
-        }
-        return networkResponse;
       }).catch(() => caches.match(event.request))
     );
     return;
