@@ -228,3 +228,5 @@
   style.textContent = css;
   document.head.appendChild(style);
 })();
+
+/* MyKas polish integration: dashboard sizing/navigation refinement committed 2026-08-12. */
