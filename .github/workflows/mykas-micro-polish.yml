@@ -1,0 +1,112 @@
+name: MyKas micro polish
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    if: ${{ !contains(github.event.head_commit.message, 'MyKas micro polish') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Polish dashboard details
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = '<style id="mykas-micro-polish">'
+          if marker in s:
+              raise SystemExit('Micro polish already applied')
+          css = r'''<style id="mykas-micro-polish">
+          /* MyKas premium micro polish: flat Material 3 signature action */
+          #mainFixedNavbar.integrated-bottom-dock{
+            height:74px!important;
+            background:rgba(255,255,255,.98)!important;
+            border-top:1px solid #E7ECF2!important;
+            box-shadow:none!important;
+            backdrop-filter:none!important;
+            -webkit-backdrop-filter:none!important;
+          }
+          .dock-nav-item{
+            height:64px!important;
+            gap:5px!important;
+            color:#94A3B8!important;
+          }
+          .dock-nav-item i{
+            font-size:20px!important;
+            line-height:1!important;
+          }
+          .dock-nav-item span{
+            font-size:9.5px!important;
+            line-height:1.1!important;
+            font-weight:700!important;
+          }
+          .dock-nav-item.active{color:#1769FF!important}
+          .dock-center-slot{
+            height:74px!important;
+            align-items:flex-start!important;
+            justify-content:center!important;
+          }
+          .dock-add-btn{
+            width:62px!important;
+            height:62px!important;
+            margin-top:-22px!important;
+            border-radius:20px!important;
+            border:4px solid #FFFFFF!important;
+            background:#1769FF!important;
+            color:#FFFFFF!important;
+            box-shadow:none!important;
+            filter:none!important;
+            transform:none!important;
+            font-size:25px!important;
+            position:relative!important;
+          }
+          .dock-add-btn::after{
+            content:"";
+            position:absolute;
+            top:6px;
+            right:6px;
+            width:7px;
+            height:7px;
+            border-radius:50%;
+            background:#FFB901;
+            box-shadow:0 0 0 2px #1769FF;
+          }
+          .dock-add-btn:hover,.dock-add-btn:focus,.dock-add-btn:active{
+            box-shadow:none!important;
+            filter:none!important;
+          }
+          .header-profile-btn{box-shadow:none!important}
+          @media(max-width:380px){
+            #mainFixedNavbar.integrated-bottom-dock{height:72px!important}
+            .dock-center-slot{height:72px!important}
+            .dock-add-btn{width:60px!important;height:60px!important;margin-top:-20px!important}
+          }
+          body.dark #mainFixedNavbar.integrated-bottom-dock{
+            background:rgba(15,23,42,.98)!important;
+            border-top-color:#26334A!important;
+          }
+          body.dark .dock-add-btn{border-color:#0B132B!important}
+          body.dark .dock-add-btn::after{box-shadow:0 0 0 2px #1769FF}
+          </style>'''
+          s = s.replace('</head>', css + '\n</head>', 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit and remove temporary workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html .github/workflows/mykas-micro-polish.yml
+          git commit -m 'MyKas micro polish'
+          git rm .github/workflows/mykas-micro-polish.yml
+          git commit -m 'chore: remove temporary MyKas polish workflow'
+          git push
