@@ -108,6 +108,7 @@
       -webkit-overflow-scrolling: touch !important;
       overscroll-behavior-y: contain;
       touch-action: pan-y;
+      padding-top: env(safe-area-inset-top, 8px);
       padding-bottom: 95px;
     }
 
@@ -416,7 +417,7 @@
         <section id="pageHome" class="p-4 flex flex-col gap-4">
           
           <!-- Header TopBar -->
-          <div class="flex items-center justify-between pt-1 px-1">
+          <div class="flex items-center justify-between pt-2 px-1">
             <div class="flex items-center gap-3">
               <button class="text-slate-700 dark:text-white text-lg"><i class="fa-solid fa-bars"></i></button>
               <div class="flex items-center gap-1.5">
@@ -437,7 +438,7 @@
           </div>
 
           <!-- Banner Blue Total Aset -->
-          <div class="bg-gradient-to-r from-[#0052FF] to-[#0042D0] rounded-3xl p-5 text-white relative overflow-hidden shadow-lg shadow-blue-500/10">
+          <div class="bg-gradient-to-r from-[#0052FF] to-[#0042D0] rounded-3xl p-5 text-white relative overflow-hidden shadow-lg shadow-blue-500/10 mt-1">
             <div class="absolute -right-6 -bottom-8 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
             
             <div class="flex items-center justify-between relative z-10">
@@ -459,7 +460,7 @@
 
             <div class="flex items-center gap-1.5 text-[10px] text-blue-200/80 font-medium mt-4 relative z-10">
               <i class="fa-regular fa-clock"></i>
-              <span id="txtUpdateInfo">Memuat data Google Sheet...</span>
+              <span id="txtUpdateInfo">Memuat...</span>
             </div>
 
             <div class="absolute right-3 bottom-3 w-32 h-28 opacity-90 pointer-events-none">
@@ -550,8 +551,7 @@
                 </div>
 
                 <div class="space-y-2.5" id="listRiwayatHome">
-                  <!-- Transaksi dinamis disuntik dari Spreadsheet via GAS -->
-                  <div class="text-center py-4 text-xs text-slate-400 font-bold">Memuat transaksi...</div>
+                  <div class="text-center py-4 text-xs text-slate-400 font-bold">Memuat data...</div>
                 </div>
               </div>
             </div>
@@ -566,7 +566,7 @@
                 </div>
 
                 <span class="text-[10px] font-bold text-slate-400 block">Sisa Budget</span>
-                <h3 id="txtSisaBudget" class="text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight">Rp 2.350.000</h3>
+                <h3 id="txtSisaBudget" class="text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight">Rp2.350.000</h3>
                 
                 <div class="flex items-center justify-between text-[9px] text-slate-400 font-semibold mt-1">
                   <span>dari Rp5.000.000</span>
@@ -668,7 +668,7 @@
               </div>
 
               <div id="legendKategoriAnalisis" class="space-y-1.5 flex-1 pl-4 text-[11px]">
-                <div class="text-[10px] text-slate-400 font-bold">Memuat kategori...</div>
+                <div class="text-[10px] text-slate-400 font-bold">Memuat...</div>
               </div>
             </div>
           </div>
@@ -939,6 +939,9 @@
         if (user.displayName) document.getElementById('mkProfileName').innerText = user.displayName;
         if (user.email) document.getElementById('mkProfileEmail').innerText = user.email;
         
+        // Muat data dari cache lokal terlebih dahulu agar UI instant
+        loadDataFromLocalCache();
+        // Kemudian tarik data terbaru dari Apps Script
         window.syncDataGas();
       } else {
         document.getElementById('screenDashboard').classList.add('hidden');
@@ -1019,7 +1022,7 @@
 
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
-    // URL Web App Exec milikmu dari Google Apps Script Deployment
+    // URL Web App Google Apps Script
     const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwvE6Z3c4pYjE-U0x46M3lV-z4R91S8O2o3w5W7U3r0_x01g/exec";
     window.currentUserEmail = "irwanfuzi23@gmail.com";
 
@@ -1070,20 +1073,29 @@
       }
     };
 
-    /* SYNC SPREADSHEET DATA ANTI-FREEZE & ANTI-CACHE (JSONP) */
+    /* SYNC SPREADSHEET DATA (ANTI-FREEZE & AUTO LOCAL-STORAGE CACHE) */
+    function loadDataFromLocalCache() {
+      const cached = localStorage.getItem('mykas_gas_cache');
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          updateUIDenganDataGas(parsed, true);
+        } catch (e) {}
+      }
+    }
+
     window.syncDataGas = function() {
       const iconRefresh = document.getElementById('iconRefresh');
       if (iconRefresh) iconRefresh.classList.add('fa-spin');
 
       const callbackName = 'gasCallback_' + Math.round(Math.random() * 100000);
       
-      // Auto Timeout jika koneksi lambat
       const timeoutId = setTimeout(() => {
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         if (document.getElementById(callbackName)) {
           document.getElementById(callbackName).remove();
         }
-      }, 10000);
+      }, 6000);
 
       window[callbackName] = function(data) {
         clearTimeout(timeoutId);
@@ -1093,22 +1105,24 @@
         }
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         
-        updateUIDenganDataGas(data);
+        // Simpan ke Cache Lokal
+        if (data) {
+          localStorage.setItem('mykas_gas_cache', JSON.stringify(data));
+          updateUIDenganDataGas(data, false);
+        }
       };
 
       const script = document.createElement('script');
       script.id = callbackName;
-      // Tambahkan parameter anti-cache timestamp (_t)
       script.src = `${GAS_WEBAPP_URL}?email=${encodeURIComponent(window.currentUserEmail)}&callback=${callbackName}&_t=${Date.now()}`;
       script.onerror = function() {
         clearTimeout(timeoutId);
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
-        document.getElementById('txtUpdateInfo').innerText = "Gagal memuat data Spreadsheet";
       };
       document.body.appendChild(script);
     };
 
-    function updateUIDenganDataGas(data) {
+    function updateUIDenganDataGas(data, isFromCache) {
       if (!data) return;
       globalRawSaldo = data.saldo || "Rp 0";
 
@@ -1134,9 +1148,9 @@
         document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
       }
 
-      // 2. Update Waktu Sync
+      // 2. Update Waktu
       const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('txtUpdateInfo').innerText = `Diperbarui ${jam} WIB`;
+      document.getElementById('txtUpdateInfo').innerText = isFromCache ? `Lokal Cache (${jam} WIB)` : `Diperbarui ${jam} WIB`;
 
       // 3. Update Riwayat Transaksi Beranda
       const listContainer = document.getElementById('listRiwayatHome');
@@ -1167,7 +1181,7 @@
         listContainer.innerHTML = `<div class="text-center py-4 text-xs text-slate-400 font-bold">Belum ada transaksi</div>`;
       }
 
-      // 4. Update Tab Analisis (Dinamis Database)
+      // 4. Update Tab Analisis
       document.getElementById('txtArusKasAnalisis').innerText = globalRawSaldo;
       document.getElementById('txtTotalPengeluaranAnalisis').innerText = data.pengeluaran || "Rp 0";
 
