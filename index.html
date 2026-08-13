@@ -460,9 +460,9 @@
 
             <div class="flex items-center gap-2 mt-3 relative z-10">
               <span class="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-300 bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-400/30">
-                <i class="fa-solid fa-arrow-up text-[9px]"></i> 12,5%
+                <i class="fa-solid fa-arrow-up text-[9px]"></i> Active
               </span>
-              <span class="text-[11px] text-blue-100 font-medium">dari bulan lalu</span>
+              <span class="text-[11px] text-blue-100 font-medium">Google Apps Script</span>
             </div>
 
             <div class="flex items-center gap-1.5 text-[10px] text-blue-200/80 font-medium mt-4 relative z-10">
@@ -548,71 +548,17 @@
             </div>
           </div>
 
-          <!-- Grid Transaksi Terbaru & Sisa Budget -->
-          <div class="grid grid-cols-12 gap-3">
-            <div class="col-span-7 mk-card p-3.5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between mb-2">
-                  <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Transaksi Terbaru</h4>
-                  <button onclick="window.bukaModalDetailSemua()" class="text-[10px] font-bold text-[#0052FF]">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></button>
-                </div>
-
-                <div class="space-y-2.5" id="listRiwayatHome">
-                  <div class="text-center py-4 text-xs text-slate-400 font-bold">Memuat data...</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sisa Budget Bulan Ini -->
-            <div class="col-span-5 mk-card p-3.5 flex flex-col justify-between">
-              <div>
-                <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist mb-3">Sisa Budget Bulan Ini</h4>
-                
-                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm mb-2">
-                  <i class="fa-solid fa-wallet"></i>
-                </div>
-
-                <span class="text-[10px] font-bold text-slate-400 block">Sisa Budget</span>
-                <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight">Rp2.350.000</h3>
-                
-                <div class="flex items-center justify-between text-[9px] text-slate-400 font-semibold mt-1">
-                  <span>dari Rp5.000.000</span>
-                  <span class="text-emerald-600 font-extrabold">47%</span>
-                </div>
-
-                <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mt-1.5 overflow-hidden">
-                  <div class="h-full bg-emerald-500 rounded-full w-[47%]"></div>
-                </div>
+          <!-- Transaksi Terbaru -->
+          <div class="mk-card p-3.5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Transaksi Terbaru</h4>
+                <button onclick="window.syncDataGas()" class="text-[10px] font-bold text-[#0052FF]">Muat Ulang <i class="fa-solid fa-rotate-right text-[8px]"></i></button>
               </div>
 
-              <div class="bg-emerald-50/80 dark:bg-emerald-950/40 rounded-2xl p-2.5 flex items-start gap-2 border border-emerald-100 dark:border-emerald-800/50 mt-3">
-                <div class="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/60 text-emerald-600 flex items-center justify-center text-[10px] flex-shrink-0 mt-0.5">
-                  <i class="fa-regular fa-clock"></i>
-                </div>
-                <div>
-                  <strong class="text-[10px] font-black text-slate-800 dark:text-emerald-300 block">Masih ada 15 hari lagi</strong>
-                  <p class="text-[9px] font-semibold text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Ayo gunakan budget-mu dengan bijak 💪</p>
-                </div>
+              <div class="space-y-2.5" id="listRiwayatHome">
+                <div class="text-center py-4 text-xs text-slate-400 font-bold">Memuat data dari Google Sheet...</div>
               </div>
-            </div>
-          </div>
-
-          <!-- Insight Keuangan Banner -->
-          <div class="mk-card bg-gradient-to-r from-blue-50/60 to-indigo-50/60 dark:from-slate-800/80 dark:to-slate-800/50 border-blue-100 dark:border-slate-700 p-3.5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center text-sm flex-shrink-0 shadow-md shadow-blue-500/20">
-                <i class="fa-solid fa-chart-simple"></i>
-              </div>
-              <div>
-                <h4 class="text-xs font-black text-[#0052FF]">Insight Keuangan</h4>
-                <p class="text-[10px] font-bold text-slate-700 dark:text-slate-300 mt-0.5">Pengeluaran kamu <span class="text-[#0052FF] font-black">15%</span> lebih rendah dari minggu lalu.</p>
-              </div>
-            </div>
-            <div class="flex items-center gap-2">
-              <svg class="w-16 h-8 text-[#0052FF]" viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="3">
-                <path d="M5 30 L30 20 L55 25 L75 10 L95 5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
             </div>
           </div>
 
@@ -622,26 +568,12 @@
         <section id="pageAnalisis" class="p-4 flex flex-col gap-4 hidden">
           <div class="flex items-center justify-between pt-1">
             <h1 class="text-xl font-black text-slate-900 dark:text-white font-urbanist">Analisis Keuangan</h1>
-            <button class="px-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1">
-              <span>Bulan Ini</span>
-              <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-            </button>
-          </div>
-
-          <div class="grid grid-cols-4 gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
-            <button class="py-2 text-[11px] font-bold rounded-xl bg-[#FFB901] text-slate-900 shadow-xs">Ringkasan</button>
-            <button class="py-2 text-[11px] font-bold rounded-xl text-slate-500 dark:text-slate-400">Pemasukan</button>
-            <button class="py-2 text-[11px] font-bold rounded-xl text-slate-500 dark:text-slate-400">Pengeluaran</button>
-            <button class="py-2 text-[11px] font-bold rounded-xl text-slate-500 dark:text-slate-400">Kategori</button>
           </div>
 
           <div class="mk-card flex items-center justify-between">
             <div>
               <span class="text-[11px] font-bold text-slate-400">Arus Kas Bersih</span>
               <h2 id="txtArusKasAnalisis" class="text-2xl font-black text-slate-900 dark:text-white font-urbanist mt-0.5">Rp 0</h2>
-              <span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full mt-2">
-                <i class="fa-solid fa-arrow-up text-[8px]"></i> 35% dari bulan lalu
-              </span>
             </div>
             <div class="w-16 h-10 text-emerald-500 flex items-center justify-center">
               <svg class="w-full h-full" viewBox="0 0 80 40" fill="none" stroke="currentColor" stroke-width="3">
@@ -653,10 +585,6 @@
           <div class="mk-card">
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Tren Keuangan</h3>
-              <div class="flex items-center gap-2 text-[10px] font-bold">
-                <span class="flex items-center gap-1 text-slate-600 dark:text-slate-300"><i class="fa-solid fa-circle text-emerald-500 text-[7px]"></i> Pemasukan</span>
-                <span class="flex items-center gap-1 text-slate-600 dark:text-slate-300"><i class="fa-solid fa-circle text-rose-500 text-[7px]"></i> Pengeluaran</span>
-              </div>
             </div>
             <div class="h-44 w-full">
               <canvas id="chartTrenBar"></canvas>
@@ -708,18 +636,14 @@
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rekening Bank</h3>
               <span id="pageBankTotal" class="text-[11px] font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
-
-            <div class="mk-card p-3 space-y-3">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xs font-black">🏦</div>
-                  <div>
-                    <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Rekening Bank Utama</h4>
-                    <span class="text-[9px] font-bold text-emerald-500">• Terhubung GAS</span>
-                  </div>
+            <div class="mk-card p-3 flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xs font-black">🏦</div>
+                <div>
+                  <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Rekening Bank Utama</h4>
                 </div>
-                <span id="pageBankVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
               </div>
+              <span id="pageBankVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
           </div>
 
@@ -728,18 +652,14 @@
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">E-Wallet</h3>
               <span id="pageDigitalTotal" class="text-[11px] font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
-
-            <div class="mk-card p-3 space-y-3">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xs font-black">📱</div>
-                  <div>
-                    <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dompet Digital</h4>
-                    <span class="text-[9px] font-bold text-emerald-500">• Terhubung GAS</span>
-                  </div>
+            <div class="mk-card p-3 flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xs font-black">📱</div>
+                <div>
+                  <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dompet Digital</h4>
                 </div>
-                <span id="pageDigitalVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
               </div>
+              <span id="pageDigitalVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
           </div>
 
@@ -748,18 +668,14 @@
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Tabungan</h3>
               <span id="pageTabunganTotal" class="text-[11px] font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
-
-            <div class="mk-card p-3">
-              <div class="flex items-center justify-between mb-1">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm"><i class="fa-solid fa-piggy-bank"></i></div>
-                  <div>
-                    <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dompet Tabungan</h4>
-                    <span class="text-[9px] font-bold text-slate-400">Disimpan dari Telegram/PWA</span>
-                  </div>
+            <div class="mk-card p-3 flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm"><i class="fa-solid fa-piggy-bank"></i></div>
+                <div>
+                  <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dompet Tabungan</h4>
                 </div>
-                <span id="pageTabunganVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
               </div>
+              <span id="pageTabunganVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
           </div>
 
@@ -768,7 +684,6 @@
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Dompet Tunai</h3>
               <span id="pageTunaiTotal" class="text-[11px] font-black text-slate-900 dark:text-white font-urbanist">Rp 0</span>
             </div>
-
             <div class="mk-card p-3 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-sm"><i class="fa-solid fa-wallet"></i></div>
@@ -935,24 +850,34 @@
     window.mykasAuth = auth;
     const googleProvider = new GoogleAuthProvider();
 
+    // SAFE AUTH STATE LISTENER (KEBAL CRASH / NULL ELEMENT)
     onAuthStateChanged(auth, (user) => {
+      const scrOnboarding = document.getElementById('screenOnboarding');
+      const scrLogin = document.getElementById('screenLogin');
+      const scrRegister = document.getElementById('screenRegister');
+      const scrDashboard = document.getElementById('screenDashboard');
+
       if (user) {
-        document.getElementById('screenOnboarding').classList.add('hidden');
-        document.getElementById('screenLogin').classList.add('hidden');
-        document.getElementById('screenRegister').classList.add('hidden');
-        document.getElementById('screenDashboard').classList.remove('hidden');
+        if (scrOnboarding) scrOnboarding.classList.add('hidden');
+        if (scrLogin) scrLogin.classList.add('hidden');
+        if (scrRegister) scrRegister.classList.add('hidden');
+        if (scrDashboard) scrDashboard.classList.remove('hidden');
         
         if (user.email) window.currentUserEmail = user.email;
-        if (user.displayName) document.getElementById('mkProfileName').innerText = user.displayName;
-        if (user.email) document.getElementById('mkProfileEmail').innerText = user.email;
+        if (user.displayName && document.getElementById('mkProfileName')) {
+          document.getElementById('mkProfileName').innerText = user.displayName;
+        }
+        if (user.email && document.getElementById('mkProfileEmail')) {
+          document.getElementById('mkProfileEmail').innerText = user.email;
+        }
         
-        loadDataFromLocalCache();
-        window.syncDataGas();
+        if (typeof loadDataFromLocalCache === "function") loadDataFromLocalCache();
+        if (typeof window.syncDataGas === "function") window.syncDataGas();
       } else {
-        document.getElementById('screenDashboard').classList.add('hidden');
-        document.getElementById('screenOnboarding').classList.remove('hidden');
+        if (scrDashboard) scrDashboard.classList.add('hidden');
+        if (scrOnboarding) scrOnboarding.classList.remove('hidden');
       }
-      window.tutupSplashScreen();
+      if (typeof window.tutupSplashScreen === "function") window.tutupSplashScreen();
     });
 
     window.handleFirebaseLogin = async function(e) {
@@ -1027,7 +952,7 @@
 
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
-    // URL Web App Exec dari Google Apps Script Deployment Terbaru milikmu
+    // URL Web App Deployment Resmi Milikmu
     const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     window.currentUserEmail = "irwanfuzi23@gmail.com";
 
@@ -1048,13 +973,14 @@
 
     function renderOnboardingSlide() {
       const slide = dataOnboarding[currentSlide];
-      document.getElementById('onboardingIcon').innerHTML = `<i class="${slide.icon}"></i>`;
-      document.getElementById('onboardingTitle').innerText = slide.title;
-      document.getElementById('onboardingDesc').innerText = slide.desc;
-      document.getElementById('txtBtnOnboarding').innerText = slide.btnText;
+      if (document.getElementById('onboardingIcon')) document.getElementById('onboardingIcon').innerHTML = `<i class="${slide.icon}"></i>`;
+      if (document.getElementById('onboardingTitle')) document.getElementById('onboardingTitle').innerText = slide.title;
+      if (document.getElementById('onboardingDesc')) document.getElementById('onboardingDesc').innerText = slide.desc;
+      if (document.getElementById('txtBtnOnboarding')) document.getElementById('txtBtnOnboarding').innerText = slide.btnText;
 
       for (let i = 0; i < 4; i++) {
-        document.getElementById(`dot${i}`).className = (i === currentSlide) ? "w-6 h-2.5 rounded-full bg-[#0052FF] transition-all" : "w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 transition-all";
+        const dot = document.getElementById(`dot${i}`);
+        if (dot) dot.className = (i === currentSlide) ? "w-6 h-2.5 rounded-full bg-[#0052FF] transition-all" : "w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 transition-all";
       }
     }
 
@@ -1068,17 +994,17 @@
     };
 
     window.navigasiKeAuth = function(type) {
-      document.getElementById('screenOnboarding').classList.add('hidden');
+      if (document.getElementById('screenOnboarding')) document.getElementById('screenOnboarding').classList.add('hidden');
       if (type === 'login') {
-        document.getElementById('screenLogin').classList.remove('hidden');
-        document.getElementById('screenRegister').classList.add('hidden');
+        if (document.getElementById('screenLogin')) document.getElementById('screenLogin').classList.remove('hidden');
+        if (document.getElementById('screenRegister')) document.getElementById('screenRegister').classList.add('hidden');
       } else {
-        document.getElementById('screenRegister').classList.remove('hidden');
-        document.getElementById('screenLogin').classList.add('hidden');
+        if (document.getElementById('screenRegister')) document.getElementById('screenRegister').classList.remove('hidden');
+        if (document.getElementById('screenLogin')) document.getElementById('screenLogin').classList.add('hidden');
       }
     };
 
-    /* SYNC SPREADSHEET DATA (FAST JSONP WITH CACHE FALLBACK) */
+    /* SYNC DATA DARI SPREADSHEET (JSONP FAST SYNC) */
     function loadDataFromLocalCache() {
       const cached = localStorage.getItem('mykas_gas_cache');
       if (cached) {
@@ -1093,13 +1019,13 @@
       const iconRefresh = document.getElementById('iconRefresh');
       if (iconRefresh) iconRefresh.classList.add('fa-spin');
 
-      const callbackName = 'gasCallback_' + Math.round(Math.random() * 1000000);
+      const callbackName = 'gasCallback_' + Math.floor(Math.random() * 1000000);
       
       const timeoutId = setTimeout(() => {
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         const scriptElem = document.getElementById(callbackName);
         if (scriptElem) scriptElem.remove();
-      }, 8000);
+      }, 10000);
 
       window[callbackName] = function(data) {
         clearTimeout(timeoutId);
@@ -1116,7 +1042,7 @@
 
       const script = document.createElement('script');
       script.id = callbackName;
-      script.src = `${GAS_WEBAPP_URL}?email=${encodeURIComponent(window.currentUserEmail)}&callback=${callbackName}&_t=${Date.now()}`;
+      script.src = `${GAS_WEBAPP_URL}?callback=${callbackName}&_t=${Date.now()}`;
       script.onerror = function() {
         clearTimeout(timeoutId);
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
@@ -1128,7 +1054,7 @@
       if (!data) return;
       globalRawSaldo = data.saldo || "Rp 0";
 
-      // 1. Update Saldo & Dompet
+      // 1. Update Saldo Utama & Wallet
       if (!saldoHidden) {
         if (document.getElementById('txtSaldoHome')) document.getElementById('txtSaldoHome').innerText = globalRawSaldo;
         if (document.getElementById('txtSaldoWallet')) document.getElementById('txtSaldoWallet').innerText = globalRawSaldo;
@@ -1150,7 +1076,7 @@
         if (document.getElementById('pageTabunganTotal')) document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
       }
 
-      // 2. Update Waktu Sync
+      // 2. Info Jam Update
       const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       if (document.getElementById('txtUpdateInfo')) {
         document.getElementById('txtUpdateInfo').innerText = isFromCache ? `Lokal Cache (${jam} WIB)` : `Diperbarui ${jam} WIB`;
@@ -1166,7 +1092,6 @@
             const warnaTeks = isPengeluaran ? "text-rose-500" : "text-emerald-500";
             const tanda = isPengeluaran ? "-" : "+";
             
-            // Konversi nilai nominal secara aman dari tipe Teks/Angka
             const parsedNominal = typeof item.nominal === 'number' ? item.nominal : (parseFloat(String(item.nominal).replace(/[^0-9,-]/g, '')) || 0);
             
             listContainer.innerHTML += `
@@ -1374,11 +1299,11 @@
     }
 
     function bukaModalTambahData() {
-      document.getElementById('modalBottomSheetTambah').classList.add('active');
+      if (document.getElementById('modalBottomSheetTambah')) document.getElementById('modalBottomSheetTambah').classList.add('active');
     }
 
     function tutupModalTambahData() {
-      document.getElementById('modalBottomSheetTambah').classList.remove('active');
+      if (document.getElementById('modalBottomSheetTambah')) document.getElementById('modalBottomSheetTambah').classList.remove('active');
     }
 
     function actionBottomSheet(type) {
