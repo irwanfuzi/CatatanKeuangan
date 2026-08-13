@@ -1019,7 +1019,7 @@
 
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
-    // URL Web App Exec dari Google Apps Script milikmu
+    // URL Web App Exec milikmu dari Google Apps Script Deployment
     const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwvE6Z3c4pYjE-U0x46M3lV-z4R91S8O2o3w5W7U3r0_x01g/exec";
     window.currentUserEmail = "irwanfuzi23@gmail.com";
 
@@ -1070,14 +1070,23 @@
       }
     };
 
-    /* SYNC SPREADSHEET DATA (JSONP) */
+    /* SYNC SPREADSHEET DATA ANTI-FREEZE & ANTI-CACHE (JSONP) */
     window.syncDataGas = function() {
       const iconRefresh = document.getElementById('iconRefresh');
       if (iconRefresh) iconRefresh.classList.add('fa-spin');
 
       const callbackName = 'gasCallback_' + Math.round(Math.random() * 100000);
       
+      // Auto Timeout jika koneksi lambat
+      const timeoutId = setTimeout(() => {
+        if (iconRefresh) iconRefresh.classList.remove('fa-spin');
+        if (document.getElementById(callbackName)) {
+          document.getElementById(callbackName).remove();
+        }
+      }, 10000);
+
       window[callbackName] = function(data) {
+        clearTimeout(timeoutId);
         delete window[callbackName];
         if (document.getElementById(callbackName)) {
           document.getElementById(callbackName).remove();
@@ -1089,8 +1098,10 @@
 
       const script = document.createElement('script');
       script.id = callbackName;
-      script.src = `${GAS_WEBAPP_URL}?email=${encodeURIComponent(window.currentUserEmail)}&callback=${callbackName}`;
+      // Tambahkan parameter anti-cache timestamp (_t)
+      script.src = `${GAS_WEBAPP_URL}?email=${encodeURIComponent(window.currentUserEmail)}&callback=${callbackName}&_t=${Date.now()}`;
       script.onerror = function() {
+        clearTimeout(timeoutId);
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         document.getElementById('txtUpdateInfo').innerText = "Gagal memuat data Spreadsheet";
       };
