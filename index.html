@@ -435,7 +435,7 @@
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="syncDataGas()" class="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 relative">
+              <button onclick="window.syncDataGas()" class="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 relative">
                 <i id="iconRefresh" class="fa-solid fa-rotate text-xs"></i>
               </button>
               <button onclick="switchTab('profil')" class="w-9 h-9 rounded-full bg-[#0052FF] text-white flex items-center justify-center font-bold text-sm">
@@ -1093,21 +1093,19 @@
       const iconRefresh = document.getElementById('iconRefresh');
       if (iconRefresh) iconRefresh.classList.add('fa-spin');
 
-      const callbackName = 'gasCallback_' + Math.round(Math.random() * 100000);
+      const callbackName = 'gasCallback_' + Math.round(Math.random() * 1000000);
       
       const timeoutId = setTimeout(() => {
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
-        if (document.getElementById(callbackName)) {
-          document.getElementById(callbackName).remove();
-        }
-      }, 6000);
+        const scriptElem = document.getElementById(callbackName);
+        if (scriptElem) scriptElem.remove();
+      }, 8000);
 
       window[callbackName] = function(data) {
         clearTimeout(timeoutId);
         delete window[callbackName];
-        if (document.getElementById(callbackName)) {
-          document.getElementById(callbackName).remove();
-        }
+        const scriptElem = document.getElementById(callbackName);
+        if (scriptElem) scriptElem.remove();
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         
         if (data && !data.error) {
@@ -1132,62 +1130,69 @@
 
       // 1. Update Saldo & Dompet
       if (!saldoHidden) {
-        document.getElementById('txtSaldoHome').innerText = globalRawSaldo;
-        document.getElementById('txtSaldoWallet').innerText = globalRawSaldo;
+        if (document.getElementById('txtSaldoHome')) document.getElementById('txtSaldoHome').innerText = globalRawSaldo;
+        if (document.getElementById('txtSaldoWallet')) document.getElementById('txtSaldoWallet').innerText = globalRawSaldo;
       }
       
       if (data.dompet) {
-        document.getElementById('cardTunaiHome').innerText = data.dompet.tunai || "Rp 0";
-        document.getElementById('cardBankHome').innerText = data.dompet.bank || "Rp 0";
-        document.getElementById('cardDigitalHome').innerText = data.dompet.digital || "Rp 0";
-        document.getElementById('cardTabunganHome').innerText = data.dompet.tabungan || "Rp 0";
+        if (document.getElementById('cardTunaiHome')) document.getElementById('cardTunaiHome').innerText = data.dompet.tunai || "Rp 0";
+        if (document.getElementById('cardBankHome')) document.getElementById('cardBankHome').innerText = data.dompet.bank || "Rp 0";
+        if (document.getElementById('cardDigitalHome')) document.getElementById('cardDigitalHome').innerText = data.dompet.digital || "Rp 0";
+        if (document.getElementById('cardTabunganHome')) document.getElementById('cardTabunganHome').innerText = data.dompet.tabungan || "Rp 0";
 
-        document.getElementById('pageTunaiVal').innerText = data.dompet.tunai || "Rp 0";
-        document.getElementById('pageTunaiTotal').innerText = data.dompet.tunai || "Rp 0";
-        document.getElementById('pageBankVal').innerText = data.dompet.bank || "Rp 0";
-        document.getElementById('pageBankTotal').innerText = data.dompet.bank || "Rp 0";
-        document.getElementById('pageDigitalVal').innerText = data.dompet.digital || "Rp 0";
-        document.getElementById('pageDigitalTotal').innerText = data.dompet.digital || "Rp 0";
-        document.getElementById('pageTabunganVal').innerText = data.dompet.tabungan || "Rp 0";
-        document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
+        if (document.getElementById('pageTunaiVal')) document.getElementById('pageTunaiVal').innerText = data.dompet.tunai || "Rp 0";
+        if (document.getElementById('pageTunaiTotal')) document.getElementById('pageTunaiTotal').innerText = data.dompet.tunai || "Rp 0";
+        if (document.getElementById('pageBankVal')) document.getElementById('pageBankVal').innerText = data.dompet.bank || "Rp 0";
+        if (document.getElementById('pageBankTotal')) document.getElementById('pageBankTotal').innerText = data.dompet.bank || "Rp 0";
+        if (document.getElementById('pageDigitalVal')) document.getElementById('pageDigitalVal').innerText = data.dompet.digital || "Rp 0";
+        if (document.getElementById('pageDigitalTotal')) document.getElementById('pageDigitalTotal').innerText = data.dompet.digital || "Rp 0";
+        if (document.getElementById('pageTabunganVal')) document.getElementById('pageTabunganVal').innerText = data.dompet.tabungan || "Rp 0";
+        if (document.getElementById('pageTabunganTotal')) document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
       }
 
       // 2. Update Waktu Sync
       const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('txtUpdateInfo').innerText = isFromCache ? `Lokal Cache (${jam} WIB)` : `Diperbarui ${jam} WIB`;
+      if (document.getElementById('txtUpdateInfo')) {
+        document.getElementById('txtUpdateInfo').innerText = isFromCache ? `Lokal Cache (${jam} WIB)` : `Diperbarui ${jam} WIB`;
+      }
 
       // 3. Update Riwayat Transaksi Beranda
       const listContainer = document.getElementById('listRiwayatHome');
-      if (data.riwayat && data.riwayat.length > 0) {
-        listContainer.innerHTML = '';
-        data.riwayat.slice(0, 5).forEach(item => {
-          const isPengeluaran = item.jenis === "Pengeluaran";
-          const warnaTeks = isPengeluaran ? "text-rose-500" : "text-emerald-500";
-          const tanda = isPengeluaran ? "-" : "+";
-          
-          listContainer.innerHTML += `
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-blue-50 text-[#0052FF] flex items-center justify-center text-xs"><i class="fa-solid fa-receipt"></i></div>
-                <div>
-                  <h5 class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 leading-tight truncate max-w-[80px]">${item.keterangan || 'Transaksi'}</h5>
-                  <span class="text-[9px] font-semibold text-slate-400 block">${item.dompet || 'Tunai'}</span>
+      if (listContainer) {
+        if (data.riwayat && data.riwayat.length > 0) {
+          listContainer.innerHTML = '';
+          data.riwayat.slice(0, 5).forEach(item => {
+            const isPengeluaran = String(item.jenis).toLowerCase().indexOf("pengeluaran") !== -1;
+            const warnaTeks = isPengeluaran ? "text-rose-500" : "text-emerald-500";
+            const tanda = isPengeluaran ? "-" : "+";
+            
+            // Konversi nilai nominal secara aman dari tipe Teks/Angka
+            const parsedNominal = typeof item.nominal === 'number' ? item.nominal : (parseFloat(String(item.nominal).replace(/[^0-9,-]/g, '')) || 0);
+            
+            listContainer.innerHTML += `
+              <div class="flex items-center justify-between py-1 border-b border-slate-50 dark:border-slate-800">
+                <div class="flex items-center gap-2">
+                  <div class="w-7 h-7 rounded-lg bg-blue-50 text-[#0052FF] flex items-center justify-center text-xs"><i class="fa-solid fa-receipt"></i></div>
+                  <div>
+                    <h5 class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 leading-tight truncate max-w-[90px]">${item.keterangan || 'Transaksi'}</h5>
+                    <span class="text-[9px] font-semibold text-slate-400 block">${item.dompet || 'Tunai'}</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-[11px] font-black ${warnaTeks} font-urbanist block">${tanda}Rp ${parsedNominal.toLocaleString('id-ID')}</span>
+                  <span class="text-[8px] font-semibold text-slate-400 block">${item.tanggal || ''}</span>
                 </div>
               </div>
-              <div class="text-right">
-                <span class="text-[11px] font-black ${warnaTeks} font-urbanist block">${tanda}Rp ${Number(item.nominal).toLocaleString('id-ID')}</span>
-                <span class="text-[8px] font-semibold text-slate-400 block">${item.tanggal || ''}</span>
-              </div>
-            </div>
-          `;
-        });
-      } else {
-        listContainer.innerHTML = `<div class="text-center py-4 text-xs text-slate-400 font-bold">Belum ada transaksi</div>`;
+            `;
+          });
+        } else {
+          listContainer.innerHTML = `<div class="text-center py-4 text-xs text-slate-400 font-bold">Belum ada transaksi</div>`;
+        }
       }
 
       // 4. Update Tab Analisis
-      document.getElementById('txtArusKasAnalisis').innerText = globalRawSaldo;
-      document.getElementById('txtTotalPengeluaranAnalisis').innerText = data.pengeluaran || "Rp 0";
+      if (document.getElementById('txtArusKasAnalisis')) document.getElementById('txtArusKasAnalisis').innerText = globalRawSaldo;
+      if (document.getElementById('txtTotalPengeluaranAnalisis')) document.getElementById('txtTotalPengeluaranAnalisis').innerText = data.pengeluaran || "Rp 0";
 
       renderChartTrenBarDinamis(data.trenBulananRaw);
       renderChartDonutKategoriDinamis(data.riwayat);
@@ -1247,9 +1252,9 @@
 
       if (riwayat && riwayat.length > 0) {
         riwayat.forEach(item => {
-          if (item.jenis === "Pengeluaran") {
+          if (String(item.jenis).toLowerCase().indexOf("pengeluaran") !== -1) {
             const kat = item.kategori || "📦 Lainnya";
-            const nom = Number(item.nominal) || 0;
+            const nom = typeof item.nominal === 'number' ? item.nominal : (parseFloat(String(item.nominal).replace(/[^0-9,-]/g, '')) || 0);
             kategoriMap[kat] = (kategoriMap[kat] || 0) + nom;
             totalKeluar += nom;
           }
@@ -1332,7 +1337,7 @@
         Swal.fire('Berhasil', 'Transaksi tercatat ke Google Sheet!', 'success');
         document.getElementById('formInputPWA').reset();
         
-        setTimeout(() => window.syncDataGas(), 1200);
+        setTimeout(() => window.syncDataGas(), 1500);
       } catch (err) {
         Swal.fire('Gagal', 'Terjadi kesalahan saat menyimpan', 'error');
       }
@@ -1360,12 +1365,12 @@
       saldoHidden = !saldoHidden;
       const text = saldoHidden ? "Rp ••••••••" : globalRawSaldo;
       
-      document.getElementById('txtSaldoHome').innerText = text;
-      if(document.getElementById('txtSaldoWallet')) document.getElementById('txtSaldoWallet').innerText = text;
+      if (document.getElementById('txtSaldoHome')) document.getElementById('txtSaldoHome').innerText = text;
+      if (document.getElementById('txtSaldoWallet')) document.getElementById('txtSaldoWallet').innerText = text;
 
       const eyeClass = saldoHidden ? "fa-regular fa-eye-slash text-xs" : "fa-regular fa-eye text-xs";
-      if(document.getElementById('iconEyeHome')) document.getElementById('iconEyeHome').className = eyeClass;
-      if(document.getElementById('iconEyeWallet')) document.getElementById('iconEyeWallet').className = eyeClass;
+      if (document.getElementById('iconEyeHome')) document.getElementById('iconEyeHome').className = eyeClass;
+      if (document.getElementById('iconEyeWallet')) document.getElementById('iconEyeWallet').className = eyeClass;
     }
 
     function bukaModalTambahData() {
