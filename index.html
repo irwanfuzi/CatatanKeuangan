@@ -460,7 +460,7 @@
 
             <div class="flex items-center gap-1.5 text-[10px] text-blue-200/80 font-medium mt-4 relative z-10">
               <i class="fa-regular fa-clock"></i>
-              <span id="txtUpdateInfo">Memuat...</span>
+              <span id="txtUpdateInfo">Memuat data...</span>
             </div>
 
             <div class="absolute right-3 bottom-3 w-32 h-28 opacity-90 pointer-events-none">
@@ -566,7 +566,7 @@
                 </div>
 
                 <span class="text-[10px] font-bold text-slate-400 block">Sisa Budget</span>
-                <h3 id="txtSisaBudget" class="text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight">Rp2.350.000</h3>
+                <h3 id="txtSisaBudget" class="text-base font-black text-slate-900 dark:text-white font-urbanist leading-tight">Rp 2.350.000</h3>
                 
                 <div class="flex items-center justify-between text-[9px] text-slate-400 font-semibold mt-1">
                   <span>dari Rp5.000.000</span>
@@ -939,9 +939,9 @@
         if (user.displayName) document.getElementById('mkProfileName').innerText = user.displayName;
         if (user.email) document.getElementById('mkProfileEmail').innerText = user.email;
         
-        // Muat data dari cache lokal terlebih dahulu agar UI instant
+        // Muat cache lokal dulu agar UI langsung siap
         loadDataFromLocalCache();
-        // Kemudian tarik data terbaru dari Apps Script
+        // Kemudian sync data dari Google Sheets
         window.syncDataGas();
       } else {
         document.getElementById('screenDashboard').classList.add('hidden');
@@ -1022,8 +1022,8 @@
 
   <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
-    // URL Web App Google Apps Script
-    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwvE6Z3c4pYjE-U0x46M3lV-z4R91S8O2o3w5W7U3r0_x01g/exec";
+    // URL Web App Exec dari Google Apps Script Deployment Terbaru milikmu
+    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
     window.currentUserEmail = "irwanfuzi23@gmail.com";
 
     let splashStartTime = Date.now();
@@ -1073,7 +1073,7 @@
       }
     };
 
-    /* SYNC SPREADSHEET DATA (ANTI-FREEZE & AUTO LOCAL-STORAGE CACHE) */
+    /* SYNC SPREADSHEET DATA (FAST JSONP WITH CACHE FALLBACK) */
     function loadDataFromLocalCache() {
       const cached = localStorage.getItem('mykas_gas_cache');
       if (cached) {
@@ -1105,8 +1105,7 @@
         }
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         
-        // Simpan ke Cache Lokal
-        if (data) {
+        if (data && !data.error) {
           localStorage.setItem('mykas_gas_cache', JSON.stringify(data));
           updateUIDenganDataGas(data, false);
         }
@@ -1148,7 +1147,7 @@
         document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
       }
 
-      // 2. Update Waktu
+      // 2. Update Waktu Sync
       const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       document.getElementById('txtUpdateInfo').innerText = isFromCache ? `Lokal Cache (${jam} WIB)` : `Diperbarui ${jam} WIB`;
 
