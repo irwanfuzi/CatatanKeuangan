@@ -1004,7 +1004,7 @@
       }
     };
 
-    /* SYNC DATA DARI SPREADSHEET (JSONP FAST SYNC) */
+    /* SYNC DATA DARI SPREADSHEET (HYBRID FETCH + JSONP) */
     function loadDataFromLocalCache() {
       const cached = localStorage.getItem('mykas_gas_cache');
       if (cached) {
@@ -1015,10 +1015,29 @@
       }
     }
 
-    window.syncDataGas = function() {
+    window.syncDataGas = async function() {
       const iconRefresh = document.getElementById('iconRefresh');
       if (iconRefresh) iconRefresh.classList.add('fa-spin');
 
+      // 1. STRATEGI UTAMA: FETCH CORS (JALAN DI LAPTOP BROWSER / VERCEL)
+      try {
+        const response = await fetch(`${GAS_WEBAPP_URL}?_t=${Date.now()}`, {
+          method: 'GET',
+          mode: 'cors'
+        });
+        const data = await response.json();
+        
+        if (data && !data.error) {
+          localStorage.setItem('mykas_gas_cache', JSON.stringify(data));
+          updateUIDenganDataGas(data, false);
+          if (iconRefresh) iconRefresh.classList.remove('fa-spin');
+          return;
+        }
+      } catch (err) {
+        console.warn("Fetch CORS terblokir, beralih otomatis ke strategi Callback (JSONP)...", err);
+      }
+
+      // 2. STRATEGI FALLBACK: JSONP SCRIPT CALLBACK (JALAN DI HP / SIMULATOR)
       const callbackName = 'gasCallback_' + Math.floor(Math.random() * 1000000);
       
       const timeoutId = setTimeout(() => {
@@ -1047,6 +1066,7 @@
         clearTimeout(timeoutId);
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
       };
+      
       document.body.appendChild(script);
     };
 
