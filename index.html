@@ -667,27 +667,8 @@
                 </div>
               </div>
 
-              <div class="space-y-1.5 flex-1 pl-4 text-[11px]">
-                <div class="flex items-center justify-between">
-                  <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-bold"><i class="fa-solid fa-circle text-amber-400 text-[8px]"></i> Makanan</span>
-                  <strong class="font-extrabold text-slate-900 dark:text-white">32%</strong>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-bold"><i class="fa-solid fa-circle text-blue-500 text-[8px]"></i> Transportasi</span>
-                  <strong class="font-extrabold text-slate-900 dark:text-white">20%</strong>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-bold"><i class="fa-solid fa-circle text-emerald-500 text-[8px]"></i> Belanja</span>
-                  <strong class="font-extrabold text-slate-900 dark:text-white">18%</strong>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-bold"><i class="fa-solid fa-circle text-purple-500 text-[8px]"></i> Tagihan</span>
-                  <strong class="font-extrabold text-slate-900 dark:text-white">15%</strong>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-bold"><i class="fa-solid fa-circle text-rose-400 text-[8px]"></i> Lainnya</span>
-                  <strong class="font-extrabold text-slate-900 dark:text-white">15%</strong>
-                </div>
+              <div id="legendKategoriAnalisis" class="space-y-1.5 flex-1 pl-4 text-[11px]">
+                <div class="text-[10px] text-slate-400 font-bold">Memuat kategori...</div>
               </div>
             </div>
           </div>
@@ -917,10 +898,20 @@
 
   </div>
 
-  <!-- FIREBASE AUTH & GOOGLE APPS SCRIPT SYNC LOGIC -->
+  <!-- FIREBASE AUTH SDK & INTEGRATION -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { 
+      getAuth, 
+      signInWithEmailAndPassword, 
+      createUserWithEmailAndPassword, 
+      updateProfile,
+      GoogleAuthProvider, 
+      signInWithPopup, 
+      signOut, 
+      onAuthStateChanged,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAWGgjw-iqhW1ICIS2kvw1Tr5eOZoHjgQU",
@@ -934,6 +925,8 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    window.mykasAuth = auth;
+    const googleProvider = new GoogleAuthProvider();
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -954,20 +947,128 @@
       window.tutupSplashScreen();
     });
 
+    window.handleFirebaseLogin = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      Swal.fire({ title: 'Memproses Login...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        Swal.close();
+      } catch (error) {
+        Swal.fire('Gagal Login', error.message.replace('Firebase: ', ''), 'error');
+      }
+    };
+
+    window.handleFirebaseRegister = async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      Swal.fire({ title: 'Membuat Akun...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
+        Swal.fire('Berhasil', 'Akun berhasil dibuat!', 'success');
+      } catch (error) {
+        Swal.fire('Gagal Daftar', error.message.replace('Firebase: ', ''), 'error');
+      }
+    };
+
+    window.handleGoogleLogin = async function() {
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (error) {
+        Swal.fire('Gagal Login Google', error.message.replace('Firebase: ', ''), 'error');
+      }
+    };
+
+    window.handleLupaPassword = async function() {
+      const { value: email } = await Swal.fire({
+        title: 'Lupa Password',
+        input: 'email',
+        inputLabel: 'Masukkan Email Terdaftar',
+        inputPlaceholder: 'kamu@email.com',
+        showCancelButton: true
+      });
+      if (email) {
+        try {
+          await sendPasswordResetEmail(auth, email);
+          Swal.fire('Terkirim!', 'Cek email-mu untuk instruksi reset password.', 'success');
+        } catch (error) {
+          Swal.fire('Gagal', error.message.replace('Firebase: ', ''), 'error');
+        }
+      }
+    };
+
     window.logoutUser = function() {
-      signOut(auth);
+      Swal.fire({
+        title: 'Keluar Akun?',
+        text: 'Sesi login akan diakhiri.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Keluar',
+        confirmButtonColor: '#f43f5e'
+      }).then(async (res) => {
+        if (res.isConfirmed) {
+          await signOut(auth);
+        }
+      });
     };
   </script>
 
-  <!-- JAVASCRIPT ENGINE -->
+  <!-- JAVASCRIPT LOGIC ENGINE -->
   <script>
-    // URL SCRIPT GOOGLE APPS SCRIPT SPREADSHEET KAMU
-    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwvE6Z3c4pYjE-U0x46M3lV-z4R91S8O2o3w5W7U3r0_x01g/exec"; // Sesuaikan URL Deployment GAS milikmu
+    // URL Web App Exec dari Google Apps Script milikmu
+    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwvE6Z3c4pYjE-U0x46M3lV-z4R91S8O2o3w5W7U3r0_x01g/exec";
     window.currentUserEmail = "irwanfuzi23@gmail.com";
 
     let splashStartTime = Date.now();
     let saldoHidden = false;
     let globalRawSaldo = "Rp 0";
+    let chartBarInstance = null;
+    let chartDonutInstance = null;
+
+    /* ONBOARDING SLIDER */
+    const dataOnboarding = [
+      { icon: 'fa-solid fa-pen-to-square', title: 'Catat Setiap Transaksi', desc: 'Setiap pemasukan dan pengeluaran tercatat rapi, sehingga kamu selalu tahu kondisi keuanganmu.', btnText: 'Next' },
+      { icon: 'fa-solid fa-mobile-screen-button', title: 'Pantau Semua dalam Satu Tempat', desc: 'Semua informasi keuangan tersaji dalam satu tampilan yang mudah dipahami.', btnText: 'Next' },
+      { icon: 'fa-solid fa-chart-pie', title: 'Pahami Perkembangan Keuanganmu', desc: 'Pantau perubahan keuangan dan ambil keputusan dengan lebih percaya diri.', btnText: 'Lanjut' },
+      { icon: 'fa-solid fa-shield-halved', title: 'Data dan Transaksi Tetap Aman', desc: 'Gunakan MyKas dengan tenang, karena data dan akunmu selalu terlindungi.', btnText: 'Get Started' }
+    ];
+    let currentSlide = 0;
+
+    function renderOnboardingSlide() {
+      const slide = dataOnboarding[currentSlide];
+      document.getElementById('onboardingIcon').innerHTML = `<i class="${slide.icon}"></i>`;
+      document.getElementById('onboardingTitle').innerText = slide.title;
+      document.getElementById('onboardingDesc').innerText = slide.desc;
+      document.getElementById('txtBtnOnboarding').innerText = slide.btnText;
+
+      for (let i = 0; i < 4; i++) {
+        document.getElementById(`dot${i}`).className = (i === currentSlide) ? "w-6 h-2.5 rounded-full bg-[#0052FF] transition-all" : "w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 transition-all";
+      }
+    }
+
+    window.nextOnboardingSlide = function() {
+      if (currentSlide < dataOnboarding.length - 1) {
+        currentSlide++;
+        renderOnboardingSlide();
+      } else {
+        window.navigasiKeAuth('login');
+      }
+    };
+
+    window.navigasiKeAuth = function(type) {
+      document.getElementById('screenOnboarding').classList.add('hidden');
+      if (type === 'login') {
+        document.getElementById('screenLogin').classList.remove('hidden');
+        document.getElementById('screenRegister').classList.add('hidden');
+      } else {
+        document.getElementById('screenRegister').classList.remove('hidden');
+        document.getElementById('screenLogin').classList.add('hidden');
+      }
+    };
 
     /* SYNC SPREADSHEET DATA (JSONP) */
     window.syncDataGas = function() {
@@ -978,13 +1079,16 @@
       
       window[callbackName] = function(data) {
         delete window[callbackName];
-        document.body.removeChild(script);
+        if (document.getElementById(callbackName)) {
+          document.getElementById(callbackName).remove();
+        }
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
         
         updateUIDenganDataGas(data);
       };
 
       const script = document.createElement('script');
+      script.id = callbackName;
       script.src = `${GAS_WEBAPP_URL}?email=${encodeURIComponent(window.currentUserEmail)}&callback=${callbackName}`;
       script.onerror = function() {
         if (iconRefresh) iconRefresh.classList.remove('fa-spin');
@@ -1009,7 +1113,6 @@
         document.getElementById('cardDigitalHome').innerText = data.dompet.digital || "Rp 0";
         document.getElementById('cardTabunganHome').innerText = data.dompet.tabungan || "Rp 0";
 
-        // Tab Dompet Page
         document.getElementById('pageTunaiVal').innerText = data.dompet.tunai || "Rp 0";
         document.getElementById('pageTunaiTotal').innerText = data.dompet.tunai || "Rp 0";
         document.getElementById('pageBankVal').innerText = data.dompet.bank || "Rp 0";
@@ -1020,7 +1123,7 @@
         document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
       }
 
-      // 2. Update Informasi Waktu
+      // 2. Update Waktu Sync
       const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       document.getElementById('txtUpdateInfo').innerText = `Diperbarui ${jam} WIB`;
 
@@ -1053,9 +1156,118 @@
         listContainer.innerHTML = `<div class="text-center py-4 text-xs text-slate-400 font-bold">Belum ada transaksi</div>`;
       }
 
-      // 4. Update Tab Analisis
+      // 4. Update Tab Analisis (Dinamis Database)
       document.getElementById('txtArusKasAnalisis').innerText = globalRawSaldo;
       document.getElementById('txtTotalPengeluaranAnalisis').innerText = data.pengeluaran || "Rp 0";
+
+      renderChartTrenBarDinamis(data.trenBulananRaw);
+      renderChartDonutKategoriDinamis(data.riwayat);
+    }
+
+    /* GRAFIK TREN BULANAN DINAMIS */
+    function renderChartTrenBarDinamis(trenRaw) {
+      const ctxBar = document.getElementById('chartTrenBar');
+      if (!ctxBar) return;
+
+      const labels = [];
+      const dataMasuk = [];
+      const dataKeluar = [];
+
+      if (trenRaw && Object.keys(trenRaw).length > 0) {
+        Object.keys(trenRaw).sort().forEach(bulan => {
+          labels.push(bulan);
+          dataMasuk.push(trenRaw[bulan].masuk || 0);
+          dataKeluar.push(trenRaw[bulan].keluar || 0);
+        });
+      } else {
+        labels.push('Bulan Ini');
+        dataMasuk.push(0);
+        dataKeluar.push(0);
+      }
+
+      if (chartBarInstance) chartBarInstance.destroy();
+      chartBarInstance = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Pemasukan', data: dataMasuk, backgroundColor: '#10B981', borderRadius: 4, barThickness: 8 },
+            { label: 'Pengeluaran', data: dataKeluar, backgroundColor: '#EF4444', borderRadius: 4, barThickness: 8 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 9, weight: 'bold' }, color: '#94A3B8' } },
+            y: { grid: { color: '#F1F5F9' }, ticks: { font: { size: 8 }, color: '#94A3B8', callback: v => 'Rp ' + (v/1000).toFixed(0) + 'k' } }
+          }
+        }
+      });
+    }
+
+    /* GRAFIK DONAT KATEGORI DINAMIS */
+    function renderChartDonutKategoriDinamis(riwayat) {
+      const ctxDonut = document.getElementById('chartDonutKategori');
+      const legendContainer = document.getElementById('legendKategoriAnalisis');
+      if (!ctxDonut) return;
+
+      const kategoriMap = {};
+      let totalKeluar = 0;
+
+      if (riwayat && riwayat.length > 0) {
+        riwayat.forEach(item => {
+          if (item.jenis === "Pengeluaran") {
+            const kat = item.kategori || "📦 Lainnya";
+            const nom = Number(item.nominal) || 0;
+            kategoriMap[kat] = (kategoriMap[kat] || 0) + nom;
+            totalKeluar += nom;
+          }
+        });
+      }
+
+      const labels = Object.keys(kategoriMap);
+      const dataNominal = Object.values(kategoriMap);
+      const colors = ['#FFB901', '#3B82F6', '#10B981', '#A855F7', '#F87171', '#64748B'];
+
+      if (legendContainer) {
+        if (labels.length > 0 && totalKeluar > 0) {
+          legendContainer.innerHTML = '';
+          labels.forEach((lbl, idx) => {
+            const pct = Math.round((dataNominal[idx] / totalKeluar) * 100);
+            legendContainer.innerHTML += `
+              <div class="flex items-center justify-between">
+                <span class="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-bold truncate max-w-[100px]">
+                  <i class="fa-solid fa-circle text-[8px]" style="color: ${colors[idx % colors.length]}"></i> ${lbl}
+                </span>
+                <strong class="font-extrabold text-slate-900 dark:text-white">${pct}%</strong>
+              </div>
+            `;
+          });
+        } else {
+          legendContainer.innerHTML = `<div class="text-[10px] text-slate-400 font-bold">Belum ada data pengeluaran</div>`;
+        }
+      }
+
+      if (chartDonutInstance) chartDonutInstance.destroy();
+      chartDonutInstance = new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+          labels: labels.length > 0 ? labels : ['Kosong'],
+          datasets: [{
+            data: dataNominal.length > 0 ? dataNominal : [1],
+            backgroundColor: labels.length > 0 ? colors : ['#E2E8F0'],
+            borderWidth: 0,
+            cutout: '72%'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
     }
 
     /* SUBMISI TRANSAKSI DARI PWA KE GAS */
