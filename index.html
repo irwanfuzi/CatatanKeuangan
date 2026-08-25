@@ -235,6 +235,61 @@
       margin: 0 auto 16px;
     }
 
+    /* Swipe-to-Action Row Styling */
+    .swipe-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    .swipe-actions {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      width: 120px;
+      z-index: 1;
+    }
+
+    .swipe-btn-edit {
+      flex: 1;
+      background: #0052FF;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .swipe-btn-delete {
+      flex: 1;
+      background: #EF4444;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .swipe-content {
+      position: relative;
+      background: #FFFFFF;
+      z-index: 2;
+      transition: transform 0.2s ease-out;
+      width: 100%;
+    }
+
+    .swipe-container.swiped .swipe-content {
+      transform: translateX(-120px);
+    }
+
     /* Splash Screen Animations */
     @keyframes textSlideFadeUp {
       0% { opacity: 0; transform: translateY(16px) scale(0.96); }
@@ -252,7 +307,7 @@
     /* Dark Mode Support */
     body.dark { background-color: #030712; color: #f8fafc; }
     body.dark #appCanvasWrapper { background-color: #0b132b !important; }
-    body.dark .mk-card, body.dark .mk-navbar, body.dark .bottom-sheet-panel { background-color: #131c35 !important; border-color: #1e293b !important; }
+    body.dark .mk-card, body.dark .mk-navbar, body.dark .bottom-sheet-panel, body.dark .swipe-content { background-color: #131c35 !important; border-color: #1e293b !important; }
     body.dark .text-slate-900, body.dark .text-slate-800, body.dark .text-slate-700 { color: #f8fafc !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94a3b8 !important; }
     body.dark .bg-white { background-color: #131c35 !important; }
@@ -529,7 +584,7 @@
                 <div class="text-[#0052FF] text-lg"><i class="fa-solid fa-expand"></i></div>
                 <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Scan Struk</span>
               </button>
-              <button onclick="actionBottomSheet('Budget')" class="flex flex-col items-center justify-center gap-1.5 p-1">
+              <button onclick="bukaHalamanSemuaBudget()" class="flex flex-col items-center justify-center gap-1.5 p-1">
                 <div class="text-[#0052FF] text-lg"><i class="fa-solid fa-bullseye"></i></div>
                 <span class="text-[10px] font-bold text-slate-700 dark:text-slate-300">Budget</span>
               </button>
@@ -564,7 +619,7 @@
 
         </section>
 
-        <!-- ==================== TAB 2: ANALISIS KEUANGAN (UI PRESISI 1:1) ==================== -->
+        <!-- ==================== TAB 2: ANALISIS KEUANGAN ==================== -->
         <section id="pageAnalisis" class="p-4 flex flex-col gap-4 hidden">
           <!-- Header Bar -->
           <div class="flex items-center justify-between pt-1">
@@ -574,7 +629,7 @@
             </button>
           </div>
 
-          <!-- Segmented Pill Filter (Sub-Tab Baru dengan Icon) -->
+          <!-- Segmented Pill Filter -->
           <div class="bg-slate-100/80 dark:bg-slate-800/80 p-1 rounded-2xl grid grid-cols-3 gap-1.5 text-center font-bold text-xs">
             <button id="btnSubRingkasan" onclick="switchSubAnalisis('ringkasan')" class="py-2.5 rounded-xl bg-[#0052FF] text-white transition-all shadow-md flex items-center justify-center gap-1.5">
               <i class="fa-solid fa-chart-line text-xs"></i> <span>Ringkasan</span>
@@ -589,11 +644,10 @@
 
           <!-- SUB-PANEL 1: RINGKASAN -->
           <div id="subPanelRingkasan" class="space-y-4">
-            <!-- Card Ringkasan Keuangan (Pemasukan, Pengeluaran, Saldo Bersih) -->
+            <!-- Card Ringkasan Keuangan -->
             <div>
               <h3 class="text-sm font-black text-slate-900 dark:text-white font-urbanist mb-2.5">Ringkasan Keuangan</h3>
               <div class="mk-card p-3.5 grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 text-center">
-                <!-- Pemasukan -->
                 <div class="px-1">
                   <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 block mb-1">Pemasukan</span>
                   <strong id="anRingkasanMasuk" class="text-xs font-black text-slate-900 dark:text-white font-urbanist block">Rp15.450.000</strong>
@@ -603,7 +657,6 @@
                   </div>
                 </div>
 
-                <!-- Pengeluaran -->
                 <div class="px-1">
                   <span class="text-[10px] font-bold text-rose-500 dark:text-rose-400 block mb-1">Pengeluaran</span>
                   <strong id="anRingkasanKeluar" class="text-xs font-black text-slate-900 dark:text-white font-urbanist block">Rp7.780.000</strong>
@@ -613,7 +666,6 @@
                   </div>
                 </div>
 
-                <!-- Saldo Bersih -->
                 <div class="px-1">
                   <span class="text-[10px] font-bold text-[#0052FF] dark:text-blue-400 block mb-1">Saldo Bersih</span>
                   <strong id="anRingkasanBersih" class="text-xs font-black text-slate-900 dark:text-white font-urbanist block">Rp7.670.000</strong>
@@ -639,12 +691,10 @@
                 </div>
               </div>
 
-              <!-- Canvas Grafik Bar -->
               <div class="h-48 w-full">
                 <canvas id="chartTrenBar"></canvas>
               </div>
 
-              <!-- Custom Legend Tren -->
               <div class="flex items-center justify-center gap-6 mt-3 text-[10px] font-bold">
                 <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-300">
                   <span class="w-2.5 h-2.5 rounded-full bg-[#0052FF]"></span> Pemasukan
@@ -659,7 +709,6 @@
             <div class="mk-card">
               <h3 class="text-sm font-black text-slate-900 dark:text-white font-urbanist mb-3">Komposisi Pengeluaran</h3>
               <div class="flex items-center justify-between">
-                <!-- Donut Chart -->
                 <div class="w-32 h-32 relative flex items-center justify-center">
                   <canvas id="chartDonutKategori"></canvas>
                   <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
@@ -668,7 +717,6 @@
                   </div>
                 </div>
 
-                <!-- Legend Kategori -->
                 <div id="legendKategoriAnalisis" class="space-y-2 flex-1 pl-4 text-xs">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
@@ -747,7 +795,9 @@
                   </div>
                 </div>
 
-                <a href="#" onclick="actionBottomSheet('Budget'); return false;" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></a>
+                <button onclick="bukaHalamanSemuaBudget()" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3 hover:underline">
+                  Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                </button>
               </div>
 
               <!-- Tujuan Keuangan Card -->
@@ -778,14 +828,15 @@
                   </div>
                 </div>
 
-                <a href="#" onclick="actionBottomSheet('Tujuan Keuangan'); return false;" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3">Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i></a>
+                <button onclick="bukaHalamanSemuaTujuan()" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3 hover:underline">
+                  Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i>
+                </button>
               </div>
             </div>
           </div>
 
           <!-- SUB-PANEL 2: PENGELUARAN -->
           <div id="subPanelPengeluaran" class="space-y-4 hidden">
-            <!-- Title Header & Month Filter -->
             <div class="flex items-center justify-between px-1">
               <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist">Pengeluaran</h3>
               <div class="relative">
@@ -798,7 +849,6 @@
               </div>
             </div>
 
-            <!-- Banner Total Pengeluaran -->
             <div class="bg-[#0052FF] rounded-2xl p-4 text-white flex justify-between items-center shadow-lg shadow-blue-500/10">
               <div>
                 <span class="text-[10px] text-blue-100 font-semibold block mb-0.5">Total Pengeluaran</span>
@@ -813,7 +863,6 @@
               </div>
             </div>
 
-            <!-- List Pengeluaran Terbesar (Tepat Top 3) -->
             <div class="mk-card p-4 space-y-3.5">
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Pengeluaran Terbesar</h3>
               <div id="listPengeluaranTerbesar" class="space-y-3">
@@ -858,7 +907,6 @@
               </div>
             </div>
 
-            <!-- Transaksi Pengeluaran Terbaru (Tepat 4 Transaksi) -->
             <div class="mk-card p-4 space-y-3.5">
               <div class="flex items-center justify-between">
                 <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Transaksi Terbaru</h3>
@@ -914,7 +962,6 @@
 
           <!-- SUB-PANEL 3: PEMASUKAN -->
           <div id="subPanelPemasukan" class="space-y-4 hidden">
-            <!-- Title Header & Month Filter -->
             <div class="flex items-center justify-between px-1">
               <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist">Pemasukan</h3>
               <div class="relative">
@@ -927,7 +974,6 @@
               </div>
             </div>
 
-            <!-- Banner Total Pemasukan -->
             <div class="bg-[#0052FF] rounded-2xl p-4 text-white flex justify-between items-center shadow-lg shadow-blue-500/10">
               <div>
                 <span class="text-[10px] text-blue-100 font-semibold block mb-0.5">Total Pemasukan</span>
@@ -942,7 +988,6 @@
               </div>
             </div>
 
-            <!-- List Pemasukan Terbesar (Tepat Top 3) -->
             <div class="mk-card p-4 space-y-3.5">
               <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Pemasukan Terbesar</h3>
               <div id="listPemasukanTerbesar" class="space-y-3">
@@ -987,7 +1032,6 @@
               </div>
             </div>
 
-            <!-- Transaksi Pemasukan Terbaru (Tepat 4 Transaksi) -->
             <div class="mk-card p-4 space-y-3.5">
               <div class="flex items-center justify-between">
                 <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Transaksi Terbaru</h3>
@@ -1040,6 +1084,99 @@
               </div>
             </div>
           </div>
+        </section>
+
+        <!-- ==================== SUB-PAGE 1: SEMUA BUDGET ==================== -->
+        <section id="pageSemuaBudget" class="p-4 flex flex-col gap-4 hidden bg-[#F8FAFC] dark:bg-[#0B132B]">
+          <div class="flex items-center justify-between pt-1">
+            <div class="flex items-center gap-3">
+              <button onclick="tutupHalamanSub()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+              </button>
+              <h1 class="text-lg font-black text-slate-900 dark:text-white font-urbanist">Semua Budget</h1>
+            </div>
+          </div>
+
+          <div class="mk-card p-4 space-y-3">
+            <div class="flex justify-between items-center">
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 block">Budget Bulan Ini</span>
+                <h2 class="text-2xl font-black text-slate-900 dark:text-white font-urbanist">Rp6.000.000</h2>
+              </div>
+              <span class="text-xs font-black text-[#0052FF] bg-blue-50 dark:bg-blue-950 px-3 py-1 rounded-full">70%</span>
+            </div>
+            <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div class="bg-[#0052FF] h-full w-[70%] rounded-full"></div>
+            </div>
+          </div>
+
+          <div class="space-y-2.5">
+            <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist px-1">Alokasi Budget</h3>
+            <div id="listBudgetItems" class="space-y-2.5">
+              <div class="swipe-container" onclick="toggleSwipe(this)">
+                <div class="swipe-actions">
+                  <button onclick="bukaModalEditBudget('Makanan & Minuman')" class="swipe-btn-edit"><i class="fa-solid fa-pen"></i>Edit</button>
+                  <button onclick="bukaModalHapusBudget('Makanan & Minuman')" class="swipe-btn-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
+                </div>
+                <div class="swipe-content mk-card p-3 flex justify-between items-center">
+                  <div class="flex items-center gap-3 flex-1">
+                    <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-sm"><i class="fa-solid fa-utensils"></i></div>
+                    <div class="flex-1">
+                      <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Makanan & Minuman</h4>
+                        <span class="text-xs font-black text-amber-600 font-urbanist">90%</span>
+                      </div>
+                      <span class="text-[10px] text-slate-400 font-bold block">Rp1.800.000 / Rp2.000.000</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="bukaModalTambahBudget()" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow flex items-center justify-center gap-2 mt-2">
+            <i class="fa-solid fa-plus text-xs"></i> Tambah Budget
+          </button>
+        </section>
+
+        <!-- ==================== SUB-PAGE 2: SEMUA TUJUAN KEUANGAN ==================== -->
+        <section id="pageSemuaTujuan" class="p-4 flex flex-col gap-4 hidden bg-[#F8FAFC] dark:bg-[#0B132B]">
+          <div class="flex items-center justify-between pt-1">
+            <div class="flex items-center gap-3">
+              <button onclick="tutupHalamanSub()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200">
+                <i class="fa-solid fa-arrow-left text-xs"></i>
+              </button>
+              <h1 class="text-lg font-black text-slate-900 dark:text-white font-urbanist">Semua Tujuan</h1>
+            </div>
+          </div>
+
+          <div class="space-y-2.5">
+            <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist px-1">Tujuan Keuangan</h3>
+            <div id="listTujuanItems" class="space-y-2.5">
+              <div class="swipe-container" onclick="toggleSwipe(this)">
+                <div class="swipe-actions">
+                  <button onclick="bukaModalEditTujuan('Dana Darurat')" class="swipe-btn-edit"><i class="fa-solid fa-pen"></i>Edit</button>
+                  <button onclick="bukaModalHapusTujuan('Dana Darurat')" class="swipe-btn-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
+                </div>
+                <div class="swipe-content mk-card p-3 flex justify-between items-center">
+                  <div class="flex items-center gap-3 flex-1">
+                    <div class="w-9 h-9 rounded-xl bg-blue-50 text-[#0052FF] flex items-center justify-center text-sm"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="flex-1">
+                      <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dana Darurat</h4>
+                        <span class="text-xs font-black text-[#0052FF] font-urbanist">55%</span>
+                      </div>
+                      <span class="text-[10px] text-slate-400 font-bold block">Rp2.750.000 / Rp5.000.000</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="bukaModalTambahTujuan()" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow flex items-center justify-center gap-2 mt-2">
+            <i class="fa-solid fa-plus text-xs"></i> Tambah Tujuan
+          </button>
         </section>
 
         <!-- ==================== TAB 3: DOMPET SAYA ==================== -->
@@ -1283,7 +1420,7 @@
     window.mykasAuth = auth;
     const googleProvider = new GoogleAuthProvider();
 
-    // SAFE AUTH STATE LISTENER (KEBAL CRASH / NULL ELEMENT)
+    // SAFE AUTH STATE LISTENER
     onAuthStateChanged(auth, (user) => {
       const scrOnboarding = document.getElementById('screenOnboarding');
       const scrLogin = document.getElementById('screenLogin');
@@ -1500,7 +1637,7 @@
       document.body.appendChild(script);
     };
 
-    /* SWITCH SUB-TAB ANALISIS (Ringkasan | Pengeluaran | Pemasukan) */
+    /* SWITCH SUB-TAB ANALISIS */
     window.switchSubAnalisis = function(sub) {
       const pRingkasan = document.getElementById('subPanelRingkasan');
       const pPengeluaran = document.getElementById('subPanelPengeluaran');
@@ -1529,11 +1666,77 @@
       }
     };
 
+    /* SUB-PAGES NAVIGATION: BUDGET & TUJUAN */
+    function bukaHalamanSemuaBudget() {
+      document.getElementById('pageAnalisis').classList.add('hidden');
+      document.getElementById('pageSemuaBudget').classList.remove('hidden');
+    }
+
+    function bukaHalamanSemuaTujuan() {
+      document.getElementById('pageAnalisis').classList.add('hidden');
+      document.getElementById('pageSemuaTujuan').classList.remove('hidden');
+    }
+
+    function tutupHalamanSub() {
+      document.getElementById('pageSemuaBudget').classList.add('hidden');
+      document.getElementById('pageSemuaTujuan').classList.add('hidden');
+      document.getElementById('pageAnalisis').classList.remove('hidden');
+    }
+
+    /* SWIPE TO ACTION HANDLER */
+    function toggleSwipe(elem) {
+      document.querySelectorAll('.swipe-container').forEach(c => {
+        if (c !== elem) c.classList.remove('swiped');
+      });
+      elem.classList.toggle('swiped');
+    }
+
+    function bukaModalEditBudget(nama) {
+      Swal.fire('Edit Budget', `Mengedit alokasi budget: ${nama}`, 'info');
+    }
+
+    function bukaModalHapusBudget(nama) {
+      Swal.fire({
+        title: 'Hapus Budget?',
+        text: `Apakah kamu yakin ingin menghapus budget ${nama}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus',
+        confirmButtonColor: '#EF4444'
+      }).then(res => {
+        if(res.isConfirmed) Swal.fire('Terhapus', `Budget ${nama} telah dihapus.`, 'success');
+      });
+    }
+
+    function bukaModalTambahBudget() {
+      Swal.fire('Tambah Budget', 'Fitur penambahan budget baru.', 'info');
+    }
+
+    function bukaModalEditTujuan(nama) {
+      Swal.fire('Edit Tujuan', `Mengedit target tujuan: ${nama}`, 'info');
+    }
+
+    function bukaModalHapusTujuan(nama) {
+      Swal.fire({
+        title: 'Hapus Tujuan?',
+        text: `Apakah kamu yakin ingin menghapus target ${nama}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Hapus',
+        confirmButtonColor: '#EF4444'
+      }).then(res => {
+        if(res.isConfirmed) Swal.fire('Terhapus', `Target ${nama} telah dihapus.`, 'success');
+      });
+    }
+
+    function bukaModalTambahTujuan() {
+      Swal.fire('Tambah Tujuan', 'Fitur penambahan tujuan keuangan baru.', 'info');
+    }
+
     function updateUIDenganDataGas(data, isFromCache) {
       if (!data) return;
       globalRawSaldo = data.saldo || "Rp 0";
 
-      // 1. Update Saldo Utama & Wallet
       if (!saldoHidden) {
         if (document.getElementById('txtSaldoHome')) document.getElementById('txtSaldoHome').innerText = globalRawSaldo;
         if (document.getElementById('txtSaldoWallet')) document.getElementById('txtSaldoWallet').innerText = globalRawSaldo;
@@ -1555,13 +1758,11 @@
         if (document.getElementById('pageTabunganTotal')) document.getElementById('pageTabunganTotal').innerText = data.dompet.tabungan || "Rp 0";
       }
 
-      // 2. Info Jam Update
       const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       if (document.getElementById('txtUpdateInfo')) {
         document.getElementById('txtUpdateInfo').innerText = isFromCache ? `Lokal Cache (${jam} WIB)` : `Diperbarui ${jam} WIB`;
       }
 
-      // 3. Update Riwayat Transaksi Beranda
       const listContainer = document.getElementById('listRiwayatHome');
       if (listContainer) {
         if (data.riwayat && data.riwayat.length > 0) {
@@ -1570,7 +1771,6 @@
             const isPengeluaran = String(item.jenis).toLowerCase().indexOf("pengeluaran") !== -1;
             const warnaTeks = isPengeluaran ? "text-rose-500" : "text-emerald-500";
             const tanda = isPengeluaran ? "-" : "+";
-            
             const parsedNominal = typeof item.nominal === 'number' ? item.nominal : (parseFloat(String(item.nominal).replace(/[^0-9,-]/g, '')) || 0);
             
             listContainer.innerHTML += `
@@ -1594,18 +1794,15 @@
         }
       }
 
-      // 4. Update Tab Analisis
       if (document.getElementById('anRingkasanMasuk')) document.getElementById('anRingkasanMasuk').innerText = data.pemasukan || "Rp15.450.000";
       if (document.getElementById('anRingkasanKeluar')) document.getElementById('anRingkasanKeluar').innerText = data.pengeluaran || "Rp7.780.000";
       if (document.getElementById('anRingkasanBersih')) document.getElementById('anRingkasanBersih').innerText = data.saldo || "Rp7.670.000";
 
-      // Sub-Tab Pengeluaran & Pemasukan (Tepat Top 3 & Tepat 4 Terbaru)
       if (data.riwayat && data.riwayat.length > 0) {
         let totalKeluarVal = 0;
         let totalMasukVal = 0;
         const mapKeluar = {};
         const mapMasuk = {};
-
         const listKeluarArr = [];
         const listMasukArr = [];
 
@@ -1625,7 +1822,6 @@
           }
         });
 
-        // Set Total & Rata-rata Hero Banner
         if (totalKeluarVal > 0 && document.getElementById('anTotalKeluarHero')) {
           document.getElementById('anTotalKeluarHero').innerText = "Rp" + totalKeluarVal.toLocaleString('id-ID');
           if (document.getElementById('anRataKeluar')) document.getElementById('anRataKeluar').innerText = "Rp" + Math.round(totalKeluarVal / 30).toLocaleString('id-ID');
@@ -1635,7 +1831,6 @@
           if (document.getElementById('anRataMasuk')) document.getElementById('anRataMasuk').innerText = "Rp" + Math.round(totalMasukVal / 30).toLocaleString('id-ID');
         }
 
-        // Render Top 3 Pengeluaran Terbesar
         const elTopKeluar = document.getElementById('listPengeluaranTerbesar');
         if (elTopKeluar && totalKeluarVal > 0) {
           const sortedKeluar = Object.keys(mapKeluar).map(k => ({ kat: k, val: mapKeluar[k] })).sort((a,b) => b.val - a.val).slice(0, 3);
@@ -1659,7 +1854,6 @@
           });
         }
 
-        // Render Top 3 Pemasukan Terbesar
         const elTopMasuk = document.getElementById('listPemasukanTerbesar');
         if (elTopMasuk && totalMasukVal > 0) {
           const sortedMasuk = Object.keys(mapMasuk).map(k => ({ kat: k, val: mapMasuk[k] })).sort((a,b) => b.val - a.val).slice(0, 3);
@@ -1683,7 +1877,6 @@
           });
         }
 
-        // Render Exactly 4 Transaksi Pengeluaran Terbaru
         const listKeluarEl = document.getElementById('listSubTxPengeluaran');
         if (listKeluarEl && listKeluarArr.length > 0) {
           listKeluarEl.innerHTML = '';
@@ -1703,7 +1896,6 @@
           });
         }
 
-        // Render Exactly 4 Transaksi Pemasukan Terbaru
         const listMasukEl = document.getElementById('listSubTxPemasukan');
         if (listMasukEl && listMasukArr.length > 0) {
           listMasukEl.innerHTML = '';
@@ -1857,6 +2049,7 @@
 
     /* TAB NAVIGATION */
     function switchTab(tab) {
+      tutupHalamanSub();
       const tabs = ['home', 'analisis', 'dompet', 'profil'];
       tabs.forEach(t => {
         const page = document.getElementById(t === 'home' ? 'pageHome' : 'page' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -1927,4 +2120,4 @@
   </script>
 </body>
 
-</html>
+  </html>
