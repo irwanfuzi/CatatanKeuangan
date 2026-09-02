@@ -2,26 +2,21 @@
 <html lang="id">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>MyKas - Financial Tracker</title>
-
-  <!-- Meta Tags PWA Native Feel -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#0052FF">
+
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0052FF">
+  <title>MyKas - Financial Tracker</title>
 
   <!-- Favicon & Touch Icons -->
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="apple-touch-icon" href="icon-192.png">
 
-  <!-- Fonts & FontAwesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Urbanist:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-  <!-- Tailwind CSS & Custom Config -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -47,20 +42,23 @@
       }
     }
   </script>
-
-  <!-- External JavaScript Libraries -->
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 
-  <!-- Flatpickr Datepicker -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Urbanist:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -125,7 +123,7 @@
       display: none !important;
     }
 
-    /* Bottom Navbar Presisi PWA Modern */
+    /* Bottom Navbar Presisi Screenshot */
     .mk-navbar {
       position: absolute;
       bottom: 0;
@@ -366,7 +364,7 @@
 
       <div class="w-full pb-3 flex flex-col gap-6 items-center">
         <div class="flex gap-2 items-center justify-center">
-          <span id="dot0" class="w-6 h-2.5 rounded-full bg-[#0052FF] transition-all"></span>
+          <span id="dot0" class="w-2.5 h-2.5 rounded-full bg-[#0052FF] transition-all"></span>
           <span id="dot1" class="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 transition-all"></span>
           <span id="dot2" class="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 transition-all"></span>
           <span id="dot3" class="w-2.5 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700 transition-all"></span>
@@ -480,7 +478,7 @@
         <!-- ==================== TAB 1: BERANDA ==================== -->
         <section id="pageHome" class="p-4 flex flex-col gap-4">
           
-          <!-- Header TopBar -->
+          <!-- Header TopBar (Presisi Screenshot) -->
           <div class="flex items-center justify-between pt-1 px-1">
             <div class="flex items-center gap-2">
               <div class="w-9 h-9 rounded-xl bg-[#0052FF] flex items-center justify-center text-white shadow-md">
@@ -493,20 +491,20 @@
                 <i id="iconRefresh" class="fa-regular fa-bell"></i>
                 <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-amber-400"></span>
               </button>
-              <button onclick="window.switchTab('profil')" class="w-8 h-8 rounded-full bg-[#0052FF] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+              <button onclick="switchTab('profil')" class="w-8 h-8 rounded-full bg-[#0052FF] text-white flex items-center justify-center font-bold text-sm shadow-sm">
                 <i class="fa-solid fa-user"></i>
               </button>
             </div>
           </div>
 
-          <!-- Banner Blue Total Aset -->
+          <!-- Banner Blue Total Aset (Presisi Screenshot 1:1) -->
           <div class="bg-[#0052FF] rounded-3xl p-5 text-white relative overflow-hidden shadow-xl shadow-blue-500/20">
             <div class="absolute right-0 top-0 bottom-0 w-1/2 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
             
             <div class="relative z-10">
               <div class="flex items-center gap-2 text-blue-100/90 text-xs font-bold mb-1">
                 <span>Total Aset</span>
-                <button onclick="window.toggleSembunyikanSaldo()"><i id="iconEyeHome" class="fa-regular fa-eye text-xs"></i></button>
+                <button onclick="toggleSembunyikanSaldo()"><i id="iconEyeHome" class="fa-regular fa-eye text-xs"></i></button>
               </div>
               
               <h2 id="txtSaldoHome" class="text-3xl font-black font-urbanist tracking-tight my-1">Rp12.500.000</h2>
@@ -524,7 +522,7 @@
               </div>
             </div>
 
-            <!-- Ilustrasi 3D Dompet -->
+            <!-- Ilustrasi 3D Dompet Kuning/Biru Samping Kanan -->
             <div class="absolute -right-2 -bottom-2 w-36 h-36 pointer-events-none flex items-center justify-center">
               <div class="w-28 h-24 bg-[#0047E1] rounded-3xl border-4 border-blue-400/30 transform rotate-[-12deg] shadow-2xl flex items-center justify-end pr-2 relative">
                 <div class="w-12 h-12 bg-[#FFB901] rounded-2xl border-2 border-white flex items-center justify-center shadow-md">
@@ -534,13 +532,13 @@
             </div>
           </div>
 
-          <!-- Dompet Saya Horizontal Grid -->
+          <!-- Dompet Saya Horizontal Grid (4 Card Presisi Screenshot) -->
           <div class="space-y-2">
             <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist px-1">Dompet Saya</h3>
 
             <div class="grid grid-cols-4 gap-2.5">
               <!-- Tunai -->
-              <div onclick="window.switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
+              <div onclick="switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
                 <div class="w-10 h-10 rounded-2xl bg-amber-50 text-[#FFB901] border border-amber-200/60 flex items-center justify-center font-black text-base shadow-sm">
                   <span class="font-urbanist">Rp</span>
                 </div>
@@ -551,7 +549,7 @@
               </div>
 
               <!-- Rekening Bank -->
-              <div onclick="window.switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
+              <div onclick="switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
                 <div class="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/60 dark:border-slate-700 flex items-center justify-center text-lg shadow-sm">
                   <i class="fa-solid fa-landmark"></i>
                 </div>
@@ -562,7 +560,7 @@
               </div>
 
               <!-- E-Wallet -->
-              <div onclick="window.switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
+              <div onclick="switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
                 <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] border border-blue-200/60 dark:border-blue-900 flex items-center justify-center text-lg shadow-sm">
                   <i class="fa-solid fa-wallet"></i>
                 </div>
@@ -573,7 +571,7 @@
               </div>
 
               <!-- Tabungan -->
-              <div onclick="window.switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
+              <div onclick="switchTab('dompet')" class="mk-card p-3 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all">
                 <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-purple-950/50 text-blue-600 border border-blue-200/60 flex items-center justify-center text-lg shadow-sm">
                   <i class="fa-solid fa-piggy-bank"></i>
                 </div>
@@ -585,16 +583,16 @@
             </div>
           </div>
 
-          <!-- Quick Action -->
+          <!-- Quick Action (5 Column Minimalist Icon Presisi) -->
           <div class="space-y-2">
             <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist px-1">Quick Action</h3>
             <div class="mk-card grid grid-cols-5 gap-1 p-3 text-center divide-x divide-slate-100 dark:divide-slate-800">
-              <button onclick="window.actionBottomSheet('Scan Struk')" class="flex flex-col items-center justify-center gap-2 p-1">
+              <button onclick="actionBottomSheet('Scan Struk')" class="flex flex-col items-center justify-center gap-2 p-1">
                 <div class="text-[#0052FF] text-xl"><i class="fa-solid fa-expand"></i></div>
                 <span class="text-[10px] font-extrabold text-slate-800 dark:text-slate-200">Scan Struk</span>
               </button>
 
-              <button onclick="window.bukaHalamanSemuaBudget()" class="flex flex-col items-center justify-center gap-2 p-1">
+              <button onclick="bukaHalamanSemuaBudget()" class="flex flex-col items-center justify-center gap-2 p-1">
                 <div class="text-[#0052FF] text-xl"><i class="fa-solid fa-bullseye"></i></div>
                 <span class="text-[10px] font-extrabold text-slate-800 dark:text-slate-200">Budget</span>
               </button>
@@ -604,7 +602,7 @@
                 <span class="text-[10px] font-extrabold text-slate-800 dark:text-slate-200">Laporan</span>
               </button>
 
-              <button onclick="window.switchTab('analisis')" class="flex flex-col items-center justify-center gap-2 p-1">
+              <button onclick="switchTab('analisis')" class="flex flex-col items-center justify-center gap-2 p-1">
                 <div class="text-[#0052FF] text-xl"><i class="fa-solid fa-tag"></i></div>
                 <span class="text-[10px] font-extrabold text-slate-800 dark:text-slate-200">Kategori</span>
               </button>
@@ -616,7 +614,7 @@
             </div>
           </div>
 
-          <!-- Grid Transaksi Terbaru & Sisa Budget -->
+          <!-- Grid Transaksi Terbaru & Sisa Budget (2 Kolom Presisi Screenshot) -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             
             <!-- Card Transaksi Terbaru -->
@@ -629,6 +627,7 @@
               </div>
 
               <div class="space-y-3" id="listRiwayatHome">
+                <!-- Row 1: Makan Siang -->
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-xl bg-amber-100/70 text-amber-600 flex items-center justify-center text-xs font-bold">
@@ -645,6 +644,7 @@
                   </div>
                 </div>
 
+                <!-- Row 2: Gaji Bulan Juli -->
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-xl bg-emerald-100/70 text-emerald-600 flex items-center justify-center text-xs font-bold">
@@ -661,6 +661,7 @@
                   </div>
                 </div>
 
+                <!-- Row 3: Belanja Bulanan -->
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-xl bg-purple-100/70 text-purple-600 flex items-center justify-center text-xs font-bold">
@@ -677,6 +678,7 @@
                   </div>
                 </div>
 
+                <!-- Row 4: Top Up GoPay -->
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-xl bg-blue-100/70 text-[#0052FF] flex items-center justify-center text-xs font-bold">
@@ -695,7 +697,7 @@
               </div>
             </div>
 
-            <!-- Card Sisa Budget -->
+            <!-- Card Sisa Budget Bulan Ini -->
             <div class="mk-card p-4 flex flex-col justify-between space-y-3">
               <div>
                 <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Sisa Budget Bulan Ini</h4>
@@ -711,6 +713,7 @@
                 </div>
               </div>
 
+              <!-- Banner Kecil Pengingat Hari -->
               <div class="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl border border-slate-100 dark:border-slate-700/80 flex items-start gap-2.5 mt-2">
                 <div class="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs shrink-0 mt-0.5">
                   <i class="fa-solid fa-wallet"></i>
@@ -724,7 +727,7 @@
 
           </div>
 
-          <!-- Insight Keuangan Banner Kaki -->
+          <!-- Insight Keuangan Banner Kaki (Presisi Screenshot) -->
           <div class="mk-card p-3.5 flex items-center justify-between border-blue-100/60 dark:border-slate-800">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center text-lg shadow-md shrink-0">
@@ -738,6 +741,7 @@
               </div>
             </div>
 
+            <!-- Mini Sparkline Lines Visual -->
             <div class="flex items-center gap-2">
               <svg class="w-16 h-8 text-[#0052FF]" viewBox="0 0 60 30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 25 L 18 18 L 28 22 L 40 10 L 48 15 L 55 8" />
@@ -751,6 +755,7 @@
 
         <!-- ==================== TAB 2: ANALISIS KEUANGAN ==================== -->
         <section id="pageAnalisis" class="p-4 flex flex-col gap-4 hidden">
+          <!-- Header Bar -->
           <div class="flex items-center justify-between pt-1">
             <h1 class="text-2xl font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Analisis Keuangan</h1>
             <button class="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-sm">
@@ -758,20 +763,22 @@
             </button>
           </div>
 
+          <!-- Segmented Pill Filter -->
           <div class="bg-slate-100/80 dark:bg-slate-800/80 p-1 rounded-2xl grid grid-cols-3 gap-1.5 text-center font-bold text-xs">
-            <button id="btnSubRingkasan" onclick="window.switchSubAnalisis('ringkasan')" class="py-2.5 rounded-xl bg-[#0052FF] text-white transition-all shadow-md flex items-center justify-center gap-1.5">
+            <button id="btnSubRingkasan" onclick="switchSubAnalisis('ringkasan')" class="py-2.5 rounded-xl bg-[#0052FF] text-white transition-all shadow-md flex items-center justify-center gap-1.5">
               <i class="fa-solid fa-chart-line text-xs"></i> <span>Ringkasan</span>
             </button>
-            <button id="btnSubPengeluaran" onclick="window.switchSubAnalisis('pengeluaran')" class="py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-all flex items-center justify-center gap-1.5">
+            <button id="btnSubPengeluaran" onclick="switchSubAnalisis('pengeluaran')" class="py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-all flex items-center justify-center gap-1.5">
               <i class="fa-solid fa-arrow-down text-rose-500 text-xs"></i> <span>Pengeluaran</span>
             </button>
-            <button id="btnSubPemasukan" onclick="window.switchSubAnalisis('pemasukan')" class="py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-all flex items-center justify-center gap-1.5">
+            <button id="btnSubPemasukan" onclick="switchSubAnalisis('pemasukan')" class="py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-all flex items-center justify-center gap-1.5">
               <i class="fa-solid fa-arrow-up text-emerald-500 text-xs"></i> <span>Pemasukan</span>
             </button>
           </div>
 
           <!-- SUB-PANEL 1: RINGKASAN -->
           <div id="subPanelRingkasan" class="space-y-4">
+            <!-- Card Ringkasan Keuangan -->
             <div>
               <h3 class="text-sm font-black text-slate-900 dark:text-white font-urbanist mb-2.5">Ringkasan Keuangan</h3>
               <div class="mk-card p-3.5 grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 text-center">
@@ -896,8 +903,9 @@
               </div>
             </div>
 
-            <!-- Grid Budget & Tujuan -->
+            <!-- Budget Bulan Ini & Tujuan Keuangan Grid -->
             <div class="grid grid-cols-2 gap-3">
+              <!-- Budget Card -->
               <div class="mk-card p-3.5 flex flex-col justify-between">
                 <div>
                   <div class="flex justify-between items-center mb-1.5">
@@ -921,11 +929,12 @@
                   </div>
                 </div>
 
-                <button onclick="window.bukaHalamanSemuaBudget()" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3 hover:underline">
+                <button onclick="bukaHalamanSemuaBudget()" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3 hover:underline">
                   Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i>
                 </button>
               </div>
 
+              <!-- Tujuan Keuangan Card -->
               <div class="mk-card p-3.5 flex flex-col justify-between">
                 <div>
                   <div class="flex justify-between items-center mb-1.5">
@@ -953,7 +962,7 @@
                   </div>
                 </div>
 
-                <button onclick="window.bukaHalamanSemuaTujuan()" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3 hover:underline">
+                <button onclick="bukaHalamanSemuaTujuan()" class="text-[10px] font-bold text-[#0052FF] flex items-center justify-end gap-1 mt-3 hover:underline">
                   Lihat Semua <i class="fa-solid fa-chevron-right text-[8px]"></i>
                 </button>
               </div>
@@ -1215,7 +1224,7 @@
         <section id="pageSemuaBudget" class="p-4 flex flex-col gap-4 hidden bg-[#F8FAFC] dark:bg-[#0B132B]">
           <div class="flex items-center justify-between pt-1">
             <div class="flex items-center gap-3">
-              <button onclick="window.tutupHalamanSub()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200">
+              <button onclick="tutupHalamanSub()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200">
                 <i class="fa-solid fa-arrow-left text-xs"></i>
               </button>
               <h1 class="text-lg font-black text-slate-900 dark:text-white font-urbanist">Semua Budget</h1>
@@ -1238,10 +1247,10 @@
           <div class="space-y-2.5">
             <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist px-1">Alokasi Budget</h3>
             <div id="listBudgetItems" class="space-y-2.5">
-              <div class="swipe-container" onclick="window.toggleSwipe(this)">
+              <div class="swipe-container" onclick="toggleSwipe(this)">
                 <div class="swipe-actions">
-                  <button onclick="window.bukaModalEditBudget('Makanan & Minuman')" class="swipe-btn-edit"><i class="fa-solid fa-pen"></i>Edit</button>
-                  <button onclick="window.bukaModalHapusBudget('Makanan & Minuman')" class="swipe-btn-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
+                  <button onclick="bukaModalEditBudget('Makanan & Minuman')" class="swipe-btn-edit"><i class="fa-solid fa-pen"></i>Edit</button>
+                  <button onclick="bukaModalHapusBudget('Makanan & Minuman')" class="swipe-btn-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
                 </div>
                 <div class="swipe-content mk-card p-3 flex justify-between items-center">
                   <div class="flex items-center gap-3 flex-1">
@@ -1259,7 +1268,7 @@
             </div>
           </div>
 
-          <button onclick="window.bukaModalTambahBudget()" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow flex items-center justify-center gap-2 mt-2">
+          <button onclick="bukaModalTambahBudget()" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow flex items-center justify-center gap-2 mt-2">
             <i class="fa-solid fa-plus text-xs"></i> Tambah Budget
           </button>
         </section>
@@ -1268,7 +1277,7 @@
         <section id="pageSemuaTujuan" class="p-4 flex flex-col gap-4 hidden bg-[#F8FAFC] dark:bg-[#0B132B]">
           <div class="flex items-center justify-between pt-1">
             <div class="flex items-center gap-3">
-              <button onclick="window.tutupHalamanSub()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200">
+              <button onclick="tutupHalamanSub()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200">
                 <i class="fa-solid fa-arrow-left text-xs"></i>
               </button>
               <h1 class="text-lg font-black text-slate-900 dark:text-white font-urbanist">Semua Tujuan</h1>
@@ -1278,10 +1287,10 @@
           <div class="space-y-2.5">
             <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist px-1">Tujuan Keuangan</h3>
             <div id="listTujuanItems" class="space-y-2.5">
-              <div class="swipe-container" onclick="window.toggleSwipe(this)">
+              <div class="swipe-container" onclick="toggleSwipe(this)">
                 <div class="swipe-actions">
-                  <button onclick="window.bukaModalEditTujuan('Dana Darurat')" class="swipe-btn-edit"><i class="fa-solid fa-pen"></i>Edit</button>
-                  <button onclick="window.bukaModalHapusTujuan('Dana Darurat')" class="swipe-btn-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
+                  <button onclick="bukaModalEditTujuan('Dana Darurat')" class="swipe-btn-edit"><i class="fa-solid fa-pen"></i>Edit</button>
+                  <button onclick="bukaModalHapusTujuan('Dana Darurat')" class="swipe-btn-delete"><i class="fa-solid fa-trash"></i>Hapus</button>
                 </div>
                 <div class="swipe-content mk-card p-3 flex justify-between items-center">
                   <div class="flex items-center gap-3 flex-1">
@@ -1299,7 +1308,7 @@
             </div>
           </div>
 
-          <button onclick="window.bukaModalTambahTujuan()" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow flex items-center justify-center gap-2 mt-2">
+          <button onclick="bukaModalTambahTujuan()" class="w-full py-3.5 rounded-2xl bg-[#0052FF] text-white font-extrabold text-xs tracking-wide shadow-glow flex items-center justify-center gap-2 mt-2">
             <i class="fa-solid fa-plus text-xs"></i> Tambah Tujuan
           </button>
         </section>
@@ -1308,7 +1317,7 @@
         <section id="pageDompet" class="p-4 flex flex-col gap-4 hidden">
           <div class="flex items-center justify-between pt-1">
             <h1 class="text-xl font-black text-slate-900 dark:text-white font-urbanist">Dompet Saya</h1>
-            <button onclick="window.bukaModalTambahData()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-white font-bold">
+            <button onclick="bukaModalTambahData()" class="w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-white font-bold">
               <i class="fa-solid fa-plus text-xs"></i>
             </button>
           </div>
@@ -1317,7 +1326,7 @@
             <div>
               <div class="flex items-center gap-1.5 text-slate-600 text-xs font-bold mb-1">
                 <span>Total Aset</span>
-                <button onclick="window.toggleSembunyikanSaldo()"><i id="iconEyeWallet" class="fa-regular fa-eye text-xs"></i></button>
+                <button onclick="toggleSembunyikanSaldo()"><i id="iconEyeWallet" class="fa-regular fa-eye text-xs"></i></button>
               </div>
               <h2 id="txtSaldoWallet" class="text-2xl font-black text-slate-900 font-urbanist">Rp12.500.000</h2>
             </div>
@@ -1417,29 +1426,29 @@
 
       </div>
 
-      <!-- BOTTOM NAVBAR PRESISI -->
+      <!-- BOTTOM NAVBAR PRESISI (5 NAVIGATION ITEMS 1:1 SCREENSHOT) -->
       <nav class="mk-navbar">
-        <button id="navHome" onclick="window.switchTab('home')" class="mk-nav-item active">
+        <button id="navHome" onclick="switchTab('home')" class="mk-nav-item active">
           <i class="fa-solid fa-house"></i>
           <span>Beranda</span>
         </button>
-        <button id="navAnalytics" onclick="window.switchTab('analisis')" class="mk-nav-item">
+        <button id="navAnalytics" onclick="switchTab('analisis')" class="mk-nav-item">
           <i class="fa-solid fa-chart-pie"></i>
           <span>Analisis</span>
         </button>
         
-        <!-- Slot Tombol Floating Action Button (+) -->
+        <!-- Slot Tombol Catat (+ Rounded) -->
         <div class="mk-nav-add-slot">
-          <button onclick="window.bukaModalTambahData()" class="mk-btn-add-main" aria-label="Catat Transaksi">
+          <button onclick="bukaModalTambahData()" class="mk-btn-add-main" aria-label="Catat Transaksi">
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
 
-        <button id="navWallet" onclick="window.switchTab('dompet')" class="mk-nav-item">
+        <button id="navWallet" onclick="switchTab('dompet')" class="mk-nav-item">
           <i class="fa-regular fa-folder-open"></i>
           <span>Dompet</span>
         </button>
-        <button id="navProfile" onclick="window.switchTab('profil')" class="mk-nav-item">
+        <button id="navProfile" onclick="switchTab('profil')" class="mk-nav-item">
           <i class="fa-regular fa-user"></i>
           <span>Profil</span>
         </button>
@@ -1457,10 +1466,10 @@
             <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist">Tambah Transaksi Baru</h3>
             <p class="text-[10px] font-bold text-slate-400">Tersimpan otomatis ke Google Sheet & Telegram</p>
           </div>
-          <button onclick="window.tutupModalTambahData()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500"><i class="fa-solid fa-xmark text-xs"></i></button>
+          <button onclick="tutupModalTambahData()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500"><i class="fa-solid fa-xmark text-xs"></i></button>
         </div>
 
-        <form id="formInputPWA" onsubmit="window.handleSubmisiTransaksi(event)" class="space-y-3">
+        <form id="formInputPWA" onsubmit="handleSubmisiTransaksi(event)" class="space-y-3">
           <div>
             <label class="block text-[10px] font-bold text-slate-400 mb-1">Jenis Aliran</label>
             <select id="inpJenis" class="w-full p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 text-xs font-bold text-slate-800 dark:text-slate-100 outline-none">
@@ -1544,7 +1553,7 @@
     window.mykasAuth = auth;
     const googleProvider = new GoogleAuthProvider();
 
-    // AUTH STATE LISTENER
+    // SAFE AUTH STATE LISTENER
     onAuthStateChanged(auth, (user) => {
       const scrOnboarding = document.getElementById('screenOnboarding');
       const scrLogin = document.getElementById('screenLogin');
@@ -1565,7 +1574,7 @@
           document.getElementById('mkProfileEmail').innerText = user.email;
         }
         
-        if (typeof window.loadDataFromLocalCache === "function") window.loadDataFromLocalCache();
+        if (typeof loadDataFromLocalCache === "function") loadDataFromLocalCache();
         if (typeof window.syncDataGas === "function") window.syncDataGas();
       } else {
         if (scrDashboard) scrDashboard.classList.add('hidden');
@@ -1698,7 +1707,7 @@
     };
 
     /* SYNC DATA DARI SPREADSHEET (HYBRID FETCH + JSONP) */
-    window.loadDataFromLocalCache = function() {
+    function loadDataFromLocalCache() {
       const cached = localStorage.getItem('mykas_gas_cache');
       if (cached) {
         try {
@@ -1706,7 +1715,7 @@
           updateUIDenganDataGas(parsed, true);
         } catch (e) {}
       }
-    };
+    }
 
     window.syncDataGas = async function() {
       const iconRefresh = document.getElementById('iconRefresh');
@@ -1790,37 +1799,37 @@
       }
     };
 
-    /* SUB-PAGES NAVIGATION */
-    window.bukaHalamanSemuaBudget = function() {
+    /* SUB-PAGES NAVIGATION: BUDGET & TUJUAN */
+    function bukaHalamanSemuaBudget() {
       document.getElementById('pageHome').classList.add('hidden');
       document.getElementById('pageAnalisis').classList.add('hidden');
       document.getElementById('pageSemuaBudget').classList.remove('hidden');
-    };
+    }
 
-    window.bukaHalamanSemuaTujuan = function() {
+    function bukaHalamanSemuaTujuan() {
       document.getElementById('pageAnalisis').classList.add('hidden');
       document.getElementById('pageSemuaTujuan').classList.remove('hidden');
-    };
+    }
 
-    window.tutupHalamanSub = function() {
+    function tutupHalamanSub() {
       document.getElementById('pageSemuaBudget').classList.add('hidden');
       document.getElementById('pageSemuaTujuan').classList.add('hidden');
       document.getElementById('pageHome').classList.remove('hidden');
-    };
+    }
 
     /* SWIPE TO ACTION HANDLER */
-    window.toggleSwipe = function(elem) {
+    function toggleSwipe(elem) {
       document.querySelectorAll('.swipe-container').forEach(c => {
         if (c !== elem) c.classList.remove('swiped');
       });
       elem.classList.toggle('swiped');
-    };
+    }
 
-    window.bukaModalEditBudget = function(nama) {
+    function bukaModalEditBudget(nama) {
       Swal.fire('Edit Budget', `Mengedit alokasi budget: ${nama}`, 'info');
-    };
+    }
 
-    window.bukaModalHapusBudget = function(nama) {
+    function bukaModalHapusBudget(nama) {
       Swal.fire({
         title: 'Hapus Budget?',
         text: `Apakah kamu yakin ingin menghapus budget ${nama}?`,
@@ -1831,17 +1840,17 @@
       }).then(res => {
         if(res.isConfirmed) Swal.fire('Terhapus', `Budget ${nama} telah dihapus.`, 'success');
       });
-    };
+    }
 
-    window.bukaModalTambahBudget = function() {
+    function bukaModalTambahBudget() {
       Swal.fire('Tambah Budget', 'Fitur penambahan budget baru.', 'info');
-    };
+    }
 
-    window.bukaModalEditTujuan = function(nama) {
+    function bukaModalEditTujuan(nama) {
       Swal.fire('Edit Tujuan', `Mengedit target tujuan: ${nama}`, 'info');
-    };
+    }
 
-    window.bukaModalHapusTujuan = function(nama) {
+    function bukaModalHapusTujuan(nama) {
       Swal.fire({
         title: 'Hapus Tujuan?',
         text: `Apakah kamu yakin ingin menghapus target ${nama}?`,
@@ -1852,11 +1861,11 @@
       }).then(res => {
         if(res.isConfirmed) Swal.fire('Terhapus', `Target ${nama} telah dihapus.`, 'success');
       });
-    };
+    }
 
-    window.bukaModalTambahTujuan = function() {
+    function bukaModalTambahTujuan() {
       Swal.fire('Tambah Tujuan', 'Fitur penambahan tujuan keuangan baru.', 'info');
-    };
+    }
 
     function updateUIDenganDataGas(data, isFromCache) {
       if (!data) return;
@@ -2042,7 +2051,7 @@
           body: JSON.stringify(payload)
         });
 
-        window.tutupModalTambahData();
+        tutupModalTambahData();
         Swal.fire('Berhasil', 'Transaksi tercatat ke Google Sheet!', 'success');
         document.getElementById('formInputPWA').reset();
         
@@ -2053,8 +2062,8 @@
     };
 
     /* TAB NAVIGATION */
-    window.switchTab = function(tab) {
-      window.tutupHalamanSub();
+    function switchTab(tab) {
+      tutupHalamanSub();
       const tabs = ['home', 'analisis', 'dompet', 'profil'];
       tabs.forEach(t => {
         const page = document.getElementById(t === 'home' ? 'pageHome' : 'page' + t.charAt(0).toUpperCase() + t.slice(1));
@@ -2069,9 +2078,9 @@
 
       if (activePage) activePage.classList.remove('hidden');
       if (activeNav) activeNav.classList.add('active');
-    };
+    }
 
-    window.toggleSembunyikanSaldo = function() {
+    function toggleSembunyikanSaldo() {
       saldoHidden = !saldoHidden;
       const text = saldoHidden ? "Rp ••••••••" : globalRawSaldo;
       
@@ -2081,20 +2090,20 @@
       const eyeClass = saldoHidden ? "fa-regular fa-eye-slash text-xs" : "fa-regular fa-eye text-xs";
       if (document.getElementById('iconEyeHome')) document.getElementById('iconEyeHome').className = eyeClass;
       if (document.getElementById('iconEyeWallet')) document.getElementById('iconEyeWallet').className = eyeClass;
-    };
+    }
 
-    window.bukaModalTambahData = function() {
+    function bukaModalTambahData() {
       if (document.getElementById('modalBottomSheetTambah')) document.getElementById('modalBottomSheetTambah').classList.add('active');
-    };
+    }
 
-    window.tutupModalTambahData = function() {
+    function tutupModalTambahData() {
       if (document.getElementById('modalBottomSheetTambah')) document.getElementById('modalBottomSheetTambah').classList.remove('active');
-    };
+    }
 
-    window.actionBottomSheet = function(type) {
-      window.tutupModalTambahData();
+    function actionBottomSheet(type) {
+      tutupModalTambahData();
       Swal.fire(type, 'Fitur siap digunakan.', 'info');
-    };
+    }
 
     window.bukaModalDetailSemua = function() {
       Swal.fire('Laporan Transaksi', 'Laporan transaksi disinkronkan secara otomatis dari Spreadsheet kamu.', 'info');
@@ -2121,10 +2130,8 @@
       if (localStorage.getItem('app_dark_mode') === 'enabled') {
         document.body.classList.add('dark');
       }
-      renderChartTrenBarDinamis(null);
-      renderChartDonutKategoriDinamis(null);
     });
   </script>
 </body>
 
-</html>
+                </html>
