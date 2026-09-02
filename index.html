@@ -82,30 +82,36 @@
       padding: 0;
       overflow: hidden;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #0F172A;
+      background-color: var(--mk-gray-bg);
       color: var(--mk-navy);
     }
 
     .font-urbanist { font-family: 'Urbanist', sans-serif; }
 
+    /* Membuat kontainer aplikasi full layar tanpa pinggiran hitam */
     #appCanvasWrapper {
       height: 100dvh !important;
-      width: 100%;
-      max-width: 440px;
-      margin: 0 auto;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
       background-color: var(--mk-gray-bg);
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
     }
 
     @media (min-width: 768px) {
       #appCanvasWrapper {
-        height: 92vh !important;
-        border-radius: 2.5rem;
-        border: 8px solid #1E293B;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        height: 100dvh !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
       }
     }
 
@@ -315,7 +321,7 @@
   </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen">
+<body class="w-full h-full bg-[#F8FAFC] dark:bg-[#0B132B]">
 
   <!-- ==================== ANIMASI SPLASH SCREEN ==================== -->
   <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-[#0052FF] flex flex-col items-center justify-center select-none">
@@ -2134,4 +2140,4 @@
   </script>
 </body>
 
-                </html>
+                      </html>
