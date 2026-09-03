@@ -1,4 +1,4 @@
-<!-- BERANDA COMPONENT (STYLING FIN-E + URUTAN REVISI + FOOTER 2 KOLOM) -->
+<!-- BERANDA COMPONENT (GRID FOOTER FIXED FOR MOBILE) -->
 <section id="pageHome" class="p-4 sm:p-5 flex flex-col gap-4 bg-[#F8FAFC] dark:bg-[#0B132B] min-h-full font-['Plus_Jakarta_Sans']">
   
   <!-- 1. TOPBAR HEADER -->
@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <!-- 3. DOMPET SAYA (POSISI DITUKAR KE ATAS) -->
+  <!-- 3. DOMPET SAYA -->
   <div class="space-y-2">
     <div class="flex items-center justify-between px-1">
       <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Dompet Saya</h3>
@@ -117,7 +117,7 @@
     </div>
   </div>
 
-  <!-- 4. QUICK ACTION (POSISI DITUKAR KE BAWAH DOMPET) -->
+  <!-- 4. QUICK ACTION -->
   <div class="bg-white dark:bg-slate-900 rounded-[20px] p-3.5 border border-slate-200/80 dark:border-slate-800 shadow-xs">
     <div class="grid grid-cols-5 gap-1 text-center">
       
@@ -224,64 +224,64 @@
     </div>
   </div>
 
-  <!-- 6 & 7. GRID 2 KOLOM SEJAJAR (GRID 5-KOLOM: 3 KANAN SISA BUDGET, 2 KIRI INSIGHT) -->
-  <div class="grid grid-cols-1 sm:grid-cols-5 gap-3.5">
+  <!-- 6 & 7. PASTI SEJAJAR KIRI-KANAN DI HP (FLEXBOX RATIO 58% : 40%) -->
+  <div class="flex gap-2.5 w-full items-stretch">
     
-    <!-- Sisa Budget Bulan Ini (Ukuran Porsi 3/5 - Luas agar nominal tidak terpotong) -->
-    <div class="sm:col-span-3 bg-white dark:bg-slate-900 rounded-[20px] p-4 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between space-y-3">
+    <!-- Sisa Budget (Lebar 58% - Luas Agar Angka Jelas) -->
+    <div class="w-[58%] bg-white dark:bg-slate-900 rounded-[20px] p-3.5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between">
       <div>
         <div class="flex justify-between items-center">
           <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Sisa Budget</h4>
-          <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
-            47% Tersisa
+          <span class="text-[8px] font-black text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-full">
+            47%
           </span>
         </div>
 
         <div class="mt-2">
-          <h3 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Rp 2.350.000</h3>
-          <span class="text-[10px] font-medium text-slate-400 block mt-0.5">dari total batas Rp5.000.000</span>
+          <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white font-urbanist tracking-tight leading-tight">Rp 2.350.000</h3>
+          <span class="text-[9px] font-medium text-slate-400 block mt-0.5">dari Rp5.000.000</span>
         </div>
 
-        <div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden mt-3">
+        <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mt-2.5">
           <div class="bg-[#0052FF] h-full rounded-full w-[47%]"></div>
         </div>
       </div>
 
-      <div class="bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
-        <div class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs shrink-0">
+      <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-800 flex items-center gap-2 mt-3">
+        <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] shrink-0">
           <i class="fa-solid fa-hourglass-half"></i>
         </div>
         <div>
-          <h6 class="text-[11px] font-black text-slate-800 dark:text-slate-100 font-urbanist">Masih 15 hari lagi</h6>
-          <p class="text-[9px] font-medium text-slate-500 dark:text-slate-400">Gunakan bijak 💪</p>
+          <h6 class="text-[10px] font-black text-slate-800 dark:text-slate-100 font-urbanist leading-none">15 hari lagi</h6>
+          <p class="text-[8px] font-medium text-slate-400 mt-0.5 leading-none">Gunakan bijak 💪</p>
         </div>
       </div>
     </div>
 
-    <!-- Insight Keuangan (Ukuran Porsi 2/5 - Compact) -->
-    <div class="sm:col-span-2 bg-white dark:bg-slate-900 rounded-[20px] p-4 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between space-y-3">
+    <!-- Insight Keuangan (Lebar 40% - Compact) -->
+    <div class="w-[40%] bg-white dark:bg-slate-900 rounded-[20px] p-3.5 border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-col justify-between">
       <div>
         <div class="flex items-center justify-between">
-          <span class="text-[9px] font-black uppercase tracking-wider text-[#0052FF] dark:text-blue-400 block">INSIGHT MINGGU INI</span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-slate-400"></i>
+          <span class="text-[8px] font-black uppercase tracking-wider text-[#0052FF] dark:text-blue-400 block">INSIGHT</span>
+          <i class="fa-solid fa-chevron-right text-[8px] text-slate-400"></i>
         </div>
 
-        <div class="flex items-start gap-2.5 mt-2.5">
-          <div class="w-8 h-8 rounded-xl bg-[#0052FF] text-white flex items-center justify-center text-xs shrink-0 shadow-md shadow-blue-500/20">
+        <div class="flex flex-col gap-1.5 mt-2">
+          <div class="w-7 h-7 rounded-lg bg-[#0052FF] text-white flex items-center justify-center text-xs shrink-0 shadow-md shadow-blue-500/20">
             <i class="fa-solid fa-chart-line"></i>
           </div>
-          <p class="text-[11px] font-medium text-slate-700 dark:text-slate-200 leading-snug">
-            Pengeluaran kamu <span class="font-black text-[#0052FF] dark:text-blue-400">15% lebih hemat</span>.
+          <p class="text-[10px] font-medium text-slate-700 dark:text-slate-200 leading-tight">
+            Hemat <span class="font-black text-[#0052FF] dark:text-blue-400">15%</span> minggu ini.
           </p>
         </div>
       </div>
 
-      <div class="bg-blue-50 dark:bg-blue-950/40 p-2 rounded-xl border border-blue-100 dark:border-blue-900/50 flex items-center justify-between">
-        <span class="text-[9px] font-bold text-slate-500 dark:text-slate-400">Status</span>
-        <span class="text-[9px] font-black text-[#0052FF] dark:text-blue-400">Sangat Baik 👍</span>
+      <div class="bg-blue-50 dark:bg-blue-950/40 p-1.5 rounded-lg border border-blue-100 dark:border-blue-900/50 flex items-center justify-between mt-2">
+        <span class="text-[8px] font-bold text-slate-500 dark:text-slate-400">Performa</span>
+        <span class="text-[8px] font-black text-[#0052FF] dark:text-blue-400">Baik 👍</span>
       </div>
     </div>
 
   </div>
 
-  </section>
+</section>
