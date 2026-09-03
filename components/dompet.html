@@ -1,0 +1,77 @@
+<section id="pageDompet" class="p-4 sm:p-5 flex flex-col gap-4 hidden">
+  <div class="flex items-center justify-between pt-1">
+    <h1 class="text-2xl font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Dompet Saya</h1>
+    <button onclick="bukaModalTambahData()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-white font-bold active:scale-95 transition-all">
+      <i class="fa-solid fa-plus text-sm"></i>
+    </button>
+  </div>
+
+  <div class="bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 border border-amber-300 rounded-3xl p-6 text-white relative overflow-hidden flex justify-between items-center shadow-glow-gold">
+    <div>
+      <div class="flex items-center gap-1.5 text-amber-950/80 text-xs font-bold mb-1">
+        <span>Total Aset</span>
+        <button onclick="toggleSembunyikanSaldo()"><i id="iconEyeWallet" class="fa-regular fa-eye text-sm"></i></button>
+      </div>
+      <h2 id="txtSaldoWallet" class="text-3xl font-black text-amber-950 font-urbanist">Rp12.500.000</h2>
+    </div>
+    <div class="w-16 h-14 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 flex items-center justify-center text-amber-950 text-2xl font-black">
+      <i class="fa-solid fa-wallet"></i>
+    </div>
+  </div>
+
+  <div class="space-y-2.5">
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rekening Bank</h3>
+      <span id="pageBankTotal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 7.850.000</span>
+    </div>
+    <div class="mk-card p-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-base font-black shadow-sm">🏦</div>
+        <div><h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Rekening Bank Utama</h4></div>
+      </div>
+      <span id="pageBankVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 7.850.000</span>
+    </div>
+  </div>
+
+  <div class="space-y-2.5">
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">E-Wallet</h3>
+      <span id="pageDigitalTotal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 2.150.000</span>
+    </div>
+    <div class="mk-card p-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-purple-600 text-white flex items-center justify-center text-base font-black shadow-sm">📱</div>
+        <div><h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dompet Digital</h4></div>
+      </div>
+      <span id="pageDigitalVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 2.150.000</span>
+    </div>
+  </div>
+
+  <div class="space-y-2.5">
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Tabungan</h3>
+      <span id="pageTabunganTotal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 1.250.000</span>
+    </div>
+    <div class="mk-card p-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-base shadow-sm"><i class="fa-solid fa-piggy-bank"></i></div>
+        <div><h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Dompet Tabungan</h4></div>
+      </div>
+      <span id="pageTabunganVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 1.250.000</span>
+    </div>
+  </div>
+
+  <div class="space-y-2.5">
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Dompet Tunai</h3>
+      <span id="pageTunaiTotal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 1.250.000</span>
+    </div>
+    <div class="mk-card p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-base shadow-sm"><i class="fa-solid fa-wallet"></i></div>
+        <h4 class="text-xs font-extrabold text-slate-800 dark:text-slate-100">Kantong Tunai</h4>
+      </div>
+      <span id="pageTunaiVal" class="text-xs font-black text-slate-900 dark:text-white font-urbanist">Rp 1.250.000</span>
+    </div>
+  </div>
+</section>
