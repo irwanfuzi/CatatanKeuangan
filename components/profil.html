@@ -1,0 +1,77 @@
+<section id="pageProfil" class="p-4 sm:p-5 flex flex-col gap-4 hidden">
+  <div class="flex items-center justify-between pt-1">
+    <h1 class="text-2xl font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Profil Saya</h1>
+    <button onclick="window.toggleDarkMode()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-white active:scale-95 transition-all shadow-sm">
+      <i id="profileModeIcon" class="fa-solid fa-moon text-sm"></i>
+    </button>
+  </div>
+
+  <div class="mk-card flex items-center gap-4">
+    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#0052FF] to-blue-400 p-0.5 shrink-0 shadow-sm">
+      <div class="w-full h-full bg-white dark:bg-slate-900 rounded-[14px] flex items-center justify-center overflow-hidden">
+        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Irwan" class="w-10 h-10 object-cover" alt="avatar">
+      </div>
+    </div>
+    <div class="flex-1 min-w-0">
+      <h2 id="mkProfileName" class="text-base font-bold text-slate-900 dark:text-white truncate">irwan fuzi</h2>
+      <p id="mkProfileEmail" class="text-xs text-slate-400 truncate">irwanfuzi23@gmail.com</p>
+      <span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-md mt-1">
+        <i class="fa-solid fa-bolt text-[9px]"></i> Sync Apps Script
+      </span>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-3">
+    <div class="mk-card p-3.5 flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0052FF] flex items-center justify-center text-base shrink-0"><i class="fa-solid fa-shield-halved"></i></div>
+      <div>
+        <span class="text-[10px] font-bold text-slate-400 block">Status Akun</span>
+        <strong class="text-xs font-bold text-slate-900 dark:text-white block">Premium VIP</strong>
+      </div>
+    </div>
+
+    <div class="mk-card p-3.5 flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center text-base shrink-0"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+      <div>
+        <span class="text-[10px] font-bold text-slate-400 block">Backup Cloud</span>
+        <strong class="text-xs font-bold text-emerald-600 block">Otomatis Sync</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="mk-card p-2 divide-y divide-slate-100 dark:divide-slate-800">
+    <div class="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Pengaturan Akun</div>
+    
+    <button onclick="Swal.fire('Keamanan', 'Autentikasi Biometrik / PIN aktif.', 'info')" class="w-full p-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/60 rounded-xl transition-colors">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center text-xs"><i class="fa-solid fa-lock"></i></div>
+        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Keamanan & Biometrik</span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+    </button>
+
+    <button onclick="window.syncDataGas()" class="w-full p-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/60 rounded-xl transition-colors">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-[#0052FF] flex items-center justify-center text-xs"><i class="fa-solid fa-rotate"></i></div>
+        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Sinkronisasi Data Sheet</span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+    </button>
+  </div>
+
+  <div class="mk-card p-2 divide-y divide-slate-100 dark:divide-slate-800">
+    <div class="px-3 py-2 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Bantuan & Informasi</div>
+
+    <button onclick="Swal.fire('Bantuan', 'Hubungi Support via Telegram @MyKasDev', 'info')" class="w-full p-3 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/60 rounded-xl transition-colors">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-600 flex items-center justify-center text-xs"><i class="fa-solid fa-headset"></i></div>
+        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Pusat Bantuan</span>
+      </div>
+      <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+    </button>
+  </div>
+
+  <button onclick="window.logoutUser()" class="w-full py-3.5 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 border border-rose-100 dark:border-rose-900/50 active:scale-95 transition-all mt-1">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i> Keluar Akun
+  </button>
+</section>
