@@ -87,6 +87,8 @@
     body.dark .bg-white { background-color: #131C35 !important; }
     body.dark .bg-slate-50, body.dark .bg-slate-100 { background-color: #0B132B !important; }
     body.dark input, body.dark select { background-color: #1E293B !important; color: #FFFFFF !important; border-color: #334155 !important; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 
@@ -269,7 +271,7 @@
 
   </div>
 
-  <!-- LOADER KOMPONEN HTML TERPISAH -->
+  <!-- LOADER KOMPONEN HTML TERPISAH (ANTI CACHE) -->
   <script>
     async function muatKomponen(idElement, fileUrl) {
       try {
@@ -282,12 +284,13 @@
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
+      const v = Date.now();
       await Promise.all([
-        muatKomponen('slotBeranda', 'components/beranda.html'),
-        muatKomponen('slotAnalisis', 'components/analisis.html'),
-        muatKomponen('slotCTA', 'components/cta.html'),
-        muatKomponen('slotDompet', 'components/dompet.html'),
-        muatKomponen('slotProfil', 'components/profil.html')
+        muatKomponen('slotBeranda', `components/beranda.html?v=${v}`),
+        muatKomponen('slotAnalisis', `components/analisis.html?v=${v}`),
+        muatKomponen('slotCTA', `components/cta.html?v=${v}`),
+        muatKomponen('slotDompet', `components/dompet.html?v=${v}`),
+        muatKomponen('slotProfil', `components/profil.html?v=${v}`)
       ]);
     });
   </script>
@@ -624,6 +627,21 @@
       if (activeNav) activeNav.classList.add('active');
     }
 
+    window.bukaDetailDompet = function(kategori) {
+      switchTab('dompet');
+      setTimeout(() => {
+        let targetEl = null;
+        if (kategori === 'bank') targetEl = document.getElementById('pageBankVal');
+        else if (kategori === 'digital') targetEl = document.getElementById('pageDigitalVal');
+        else if (kategori === 'tabungan') targetEl = document.getElementById('pageTabunganVal');
+        else if (kategori === 'tunai') targetEl = document.getElementById('pageTunaiVal');
+
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    };
+
     function toggleSembunyikanSaldo() {
       saldoHidden = !saldoHidden;
       const text = saldoHidden ? "Rp ••••••••" : globalRawSaldo;
@@ -662,4 +680,4 @@
     });
   </script>
 </body>
-</html>
+                                                                                                                               </html>
