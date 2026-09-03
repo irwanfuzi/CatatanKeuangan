@@ -5,8 +5,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#F8FAFC" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0B132B" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F4F7FF" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B1120" media="(prefers-color-scheme: dark)">
   <title>MyKas - Premium Financial Tracker</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -19,12 +19,13 @@
       darkMode: 'class',
       theme: {
         extend: {
-          colors: { brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#0052FF', 600: '#0043d6', 700: '#0035b0', 900: '#0f172a' } },
+          colors: { 
+            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#0052FF', 600: '#0043d6', 700: '#0035b0', 900: '#0b1120' } 
+          },
           boxShadow: {
-            'glow-blue': '0 12px 30px -6px rgba(0, 82, 255, 0.4)',
-            'glow-gold': '0 12px 30px -6px rgba(255, 185, 1, 0.35)',
-            'card-premium': '0 16px 40px -10px rgba(15, 23, 42, 0.05), 0 4px 12px -2px rgba(15, 23, 42, 0.025)',
-            'float-nav': '0 20px 40px -10px rgba(0, 0, 0, 0.08)'
+            'glow-blue': '0 10px 25px -4px rgba(0, 82, 255, 0.45)',
+            'card-native': '0 8px 24px -6px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02)',
+            'dock-shadow': '0 20px 40px -10px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.6)'
           }
         }
       }
@@ -48,9 +49,9 @@
     :root {
       --mk-blue: #0052FF;
       --mk-blue-gradient: linear-gradient(135deg, #0052FF 0%, #0038FF 100%);
-      --mk-gold-gradient: linear-gradient(135deg, #FFB901 0%, #FFA000 100%);
-      --mk-mesh-bg: radial-gradient(at 0% 0%, rgba(0, 82, 255, 0.05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(255, 185, 1, 0.05) 0px, transparent 50%);
-      --mk-navy: #0F172A; --mk-gray-bg: #F8FAFC; --mk-card-bg: #FFFFFF; --mk-border: rgba(226, 232, 240, 0.8);
+      --mk-bg-light: #F4F7FF;
+      --mk-card-light: rgba(255, 255, 255, 0.92);
+      --mk-border-light: rgba(226, 232, 240, 0.8);
     }
 
     * { 
@@ -73,9 +74,11 @@
       padding: 0; 
       overflow: hidden; 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      background-color: var(--mk-gray-bg); 
-      background-image: var(--mk-mesh-bg); 
-      color: var(--mk-navy); 
+      background-color: var(--mk-bg-light); 
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 82, 255, 0.06) 0px, transparent 50%), 
+        radial-gradient(at 100% 100%, rgba(255, 185, 1, 0.05) 0px, transparent 50%);
+      color: #0F172A; 
       -webkit-font-smoothing: antialiased;
       overscroll-behavior: none;
     }
@@ -85,9 +88,6 @@
     #appCanvasWrapper { 
       height: 100dvh !important; 
       width: 100% !important; 
-      max-width: 100% !important; 
-      margin: 0 !important; 
-      background: transparent; 
       display: flex; 
       flex-direction: column; 
       position: relative; 
@@ -101,32 +101,49 @@
       -webkit-overflow-scrolling: touch !important; 
       overscroll-behavior-y: contain; 
       touch-action: pan-y; 
-      padding-bottom: 110px; 
+      padding-bottom: 120px; 
       padding-top: env(safe-area-inset-top);
     }
 
     .app-scroll-container::-webkit-scrollbar,
     .no-scrollbar::-webkit-scrollbar { display: none !important; }
 
+    /* MK-CARD FLUTTER STYLE */
+    .mk-card { 
+      background: var(--mk-card-light); 
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px; 
+      padding: 18px; 
+      border: 1px solid var(--mk-border-light); 
+      box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04); 
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    }
+
+    .mk-card:active {
+      transform: scale(0.985);
+    }
+
+    /* DOCK NAVIGATION FLUTTER NATIVE */
     .mk-navbar-wrapper { 
       position: absolute; 
-      bottom: calc(12px + env(safe-area-inset-bottom)); 
+      bottom: calc(14px + env(safe-area-inset-bottom)); 
       left: 16px; 
       right: 16px; 
       z-index: 50; 
     }
 
     .mk-navbar { 
-      height: 70px; 
-      background: rgba(255, 255, 255, 0.85); 
+      height: 72px; 
+      background: rgba(255, 255, 255, 0.88); 
       backdrop-filter: blur(24px); 
       -webkit-backdrop-filter: blur(24px); 
-      border: 1px solid rgba(255, 255, 255, 0.7); 
-      border-radius: 28px; 
+      border: 1px solid rgba(255, 255, 255, 0.8); 
+      border-radius: 32px; 
       display: grid; 
       grid-template-columns: repeat(5, 1fr); 
       align-items: center; 
-      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8); 
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12); 
       padding: 0 6px; 
     }
 
@@ -143,64 +160,61 @@
       border: none; 
       cursor: pointer; 
       height: 100%; 
-      transition: transform 0.15s ease, color 0.2s ease; 
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
     }
 
-    .mk-nav-item:active { transform: scale(0.9); }
+    .mk-nav-item:active { transform: scale(0.88); }
     .mk-nav-item.active { color: var(--mk-blue); }
     .mk-nav-item.active i { transform: translateY(-2px) scale(1.15); color: var(--mk-blue); }
 
+    /* TOMBOL CTA NATIVE FLUTTER (+) */
     .mk-nav-add-slot { position: relative; display: flex; justify-content: center; align-items: center; height: 100%; }
 
     .mk-btn-add-main { 
-      width: 58px; 
-      height: 58px; 
-      border-radius: 22px; 
+      width: 60px; 
+      height: 60px; 
+      border-radius: 24px; 
       background: var(--mk-blue-gradient); 
       color: #FFFFFF; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
       box-shadow: 0 14px 28px -4px rgba(0, 82, 255, 0.45); 
-      border: 3.5px solid #FFFFFF; 
-      margin-top: -30px; 
+      border: 4px solid #FFFFFF; 
+      margin-top: -32px; 
       cursor: pointer; 
       font-size: 22px; 
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); 
     }
 
-    .mk-btn-add-main:active { transform: scale(0.88) rotate(90deg); }
+    .mk-btn-add-main:active { transform: scale(0.85) rotate(90deg); }
 
-    .mk-card { background: var(--mk-card-bg); border-radius: 24px; padding: 16px; border: 1px solid var(--mk-border); box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.04); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-
-    .bottom-sheet-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 100; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+    /* BOTTOM SHEET NATIVE MODAL */
+    .bottom-sheet-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px); z-index: 100; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .bottom-sheet-backdrop.active { opacity: 1; pointer-events: auto; }
     .bottom-sheet-panel { background: #FFFFFF; border-top-left-radius: 36px; border-top-right-radius: 36px; padding: 24px 24px 36px; max-height: 88vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15); }
     .bottom-sheet-backdrop.active .bottom-sheet-panel { transform: translateY(0); }
     .sheet-handle { width: 48px; height: 5px; background: #E2E8F0; border-radius: 99px; margin: 0 auto 20px; }
 
-    @keyframes textSlideFadeUp { 0% { opacity: 0; transform: translateY(16px) scale(0.96); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
-    @keyframes shimmerBarMove { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(100%); opacity: 1; } }
-    .splash-exit { animation: smoothSplashFadeOut 400ms ease forwards !important; }
-    @keyframes smoothSplashFadeOut { 100% { opacity: 0; visibility: hidden; } }
-    .anim-text { animation: textSlideFadeUp 500ms ease forwards; }
-    .anim-shimmer { animation: shimmerBarMove 1200ms ease infinite; }
-
-    body.dark { background-color: #0B132B; color: #F8FAFC; }
-    body.dark #appCanvasWrapper { background-color: #0B132B !important; }
-    body.dark .mk-card, body.dark .bottom-sheet-panel { background-color: #131C35 !important; border-color: #1E293B !important; }
-    body.dark .mk-navbar { background: rgba(19, 28, 53, 0.85) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+    /* DARK MODE FINETUNING */
+    body.dark { 
+      background-color: #0B1120 !important; 
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 82, 255, 0.12) 0px, transparent 50%), 
+        radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.8) 0px, transparent 50%);
+      color: #F8FAFC !important; 
+    }
+    body.dark #appCanvasWrapper { background-color: transparent !important; }
+    body.dark .mk-card, body.dark .bottom-sheet-panel { background-color: rgba(19, 28, 51, 0.85) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+    body.dark .mk-navbar { background: rgba(19, 28, 51, 0.85) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+    body.dark .mk-btn-add-main { border-color: #0B1120 !important; }
     body.dark .text-slate-900, body.dark .text-slate-800, body.dark .text-slate-700 { color: #F8FAFC !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94A3B8 !important; }
-    body.dark .bg-white { background-color: #131C35 !important; }
-    body.dark .bg-slate-50, body.dark .bg-slate-100 { background-color: #0B132B !important; }
     body.dark input, body.dark select { background-color: #1E293B !important; color: #FFFFFF !important; border-color: #334155 !important; }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
 
-<body class="w-full h-full bg-[#F8FAFC] dark:bg-[#0B132B]">
+<body class="w-full h-full bg-[#F4F7FF] dark:bg-[#0B1120]">
 
   <!-- SPLASH SCREEN -->
   <div id="mykasSplashScreen" class="fixed inset-0 z-[999999] bg-gradient-to-br from-[#0F172A] via-[#0052FF] to-[#0038FF] flex flex-col items-center justify-center select-none">
@@ -223,7 +237,7 @@
   <div id="appCanvasWrapper">
 
     <!-- SCREEN 1: ONBOARDING -->
-    <div id="screenOnboarding" class="w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white dark:bg-[#0B132B] relative z-30 transition-all duration-500">
+    <div id="screenOnboarding" class="w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white dark:bg-[#0B1120] relative z-30 transition-all duration-500">
       <div class="flex justify-between items-center w-full pt-2">
         <div class="flex items-center gap-2.5">
           <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0052FF] to-blue-500 flex items-center justify-center text-white shadow-glow-blue">
@@ -263,7 +277,7 @@
     </div>
 
     <!-- SCREEN 2: LOGIN -->
-    <div id="screenLogin" class="w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white dark:bg-[#0B132B] relative z-20 hidden transition-all duration-500">
+    <div id="screenLogin" class="w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white dark:bg-[#0B1120] relative z-20 hidden transition-all duration-500">
       <div class="flex items-center gap-2.5 pt-2">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0052FF] to-blue-500 flex items-center justify-center text-white shadow-glow-blue">
           <i class="fa-solid fa-wallet text-base"></i>
@@ -315,7 +329,7 @@
     </div>
 
     <!-- SCREEN 3: REGISTER -->
-    <div id="screenRegister" class="w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white dark:bg-[#0B132B] relative z-20 hidden transition-all duration-500">
+    <div id="screenRegister" class="w-full h-full flex flex-col justify-between p-6 sm:p-8 bg-white dark:bg-[#0B1120] relative z-20 hidden transition-all duration-500">
       <div class="flex items-center gap-3 pt-2">
         <button onclick="window.navigasiKeAuth('login')" class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-200 active:scale-95 transition-all"><i class="fa-solid fa-arrow-left text-sm"></i></button>
         <span class="text-2xl font-black text-[#0052FF] font-urbanist tracking-tight">My<span class="text-amber-500">Kas</span></span>
@@ -349,7 +363,7 @@
     </div>
 
     <!-- SCREEN 4: DASHBOARD MAIN CONTAINER -->
-    <div id="screenDashboard" class="w-full h-full flex flex-col relative z-10 hidden bg-[#F8FAFC] dark:bg-[#0B132B]">
+    <div id="screenDashboard" class="w-full h-full flex flex-col relative z-10 hidden bg-[#F4F7FF] dark:bg-[#0B1120]">
       
       <div class="app-scroll-container">
         <!-- SLOT KOMPONEN TAB -->
@@ -362,7 +376,7 @@
       <!-- SLOT MODAL TAMBAH (+) -->
       <div id="slotCTA"></div>
 
-      <!-- BOTTOM NAVBAR -->
+      <!-- BOTTOM NAVBAR DOCK -->
       <div class="mk-navbar-wrapper">
         <nav class="mk-navbar">
           <button id="navHome" onclick="switchTab('home')" class="mk-nav-item active"><i class="fa-solid fa-house"></i><span>Beranda</span></button>
@@ -788,4 +802,4 @@
     });
   </script>
 </body>
-</html>
+  </html>
