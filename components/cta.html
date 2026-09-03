@@ -1,0 +1,63 @@
+<div id="modalBottomSheetTambah" class="bottom-sheet-backdrop">
+  <div class="bottom-sheet-panel">
+    <div class="sheet-handle"></div>
+    
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h3 class="text-xl font-black text-slate-900 dark:text-white font-urbanist">Tambah Transaksi Baru</h3>
+        <p class="text-xs font-bold text-slate-400">Tersimpan otomatis ke Google Sheet & Telegram</p>
+      </div>
+      <button onclick="tutupModalTambahData()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors"><i class="fa-solid fa-xmark text-sm"></i></button>
+    </div>
+
+    <form id="formInputPWA" onsubmit="handleSubmisiTransaksi(event)" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-slate-400 mb-1">Jenis Aliran</label>
+        <select id="inpJenis" class="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF]">
+          <option value="Pengeluaran">Pengeluaran</option>
+          <option value="Pemasukan">Pemasukan</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-400 mb-1">Nominal (Rp)</label>
+        <input type="number" id="inpNominal" placeholder="Contoh: 50000" class="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF]" required>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-400 mb-1">Keterangan Transaksi</label>
+        <input type="text" id="inpKeterangan" placeholder="Contoh: Bensin / Nasi Goreng" class="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF]" required>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1">Kategori</label>
+          <select id="inpKategori" class="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF]">
+            <option value="🍔 Makanan">🍔 Makanan</option>
+            <option value="🚗 Transportasi">🚗 Transportasi</option>
+            <option value="🏠 Tagihan">🏠 Tagihan</option>
+            <option value="🎬 Hiburan">🎬 Hiburan</option>
+            <option value="🏥 Kesehatan">🏥 Kesehatan</option>
+            <option value="💼 Gaji">💼 Gaji</option>
+            <option value="🚀 Sampingan">🚀 Sampingan</option>
+            <option value="📦 Lainnya">📦 Lainnya</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-400 mb-1">Dompet</label>
+          <select id="inpDompet" class="w-full p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none focus:border-[#0052FF]">
+            <option value="💳 Kantong Tunai">💳 Kantong Tunai</option>
+            <option value="🏦 Rekening Bank">🏦 Rekening Bank</option>
+            <option value="📱 Dompet Digital">📱 Dompet Digital</option>
+            <option value="💰 Dompet Tabungan">💰 Dompet Tabungan</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full py-4 bg-gradient-to-r from-[#0052FF] to-blue-600 text-white font-extrabold text-sm rounded-2xl shadow-glow-blue active:scale-95 transition-all mt-2">
+        Simpan Transaksi
+      </button>
+    </form>
+  </div>
+</div>
