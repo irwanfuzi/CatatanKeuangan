@@ -1,5 +1,7 @@
+<!-- BERANDA COMPONENT -->
 <section id="pageHome" class="p-4 sm:p-5 flex flex-col gap-4">
   
+  <!-- Header TopBar -->
   <div class="flex items-center justify-between pt-1 px-1">
     <div class="flex items-center gap-2.5">
       <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0052FF] to-blue-500 flex items-center justify-center text-white shadow-glow-blue">
@@ -18,6 +20,7 @@
     </div>
   </div>
 
+  <!-- Banner Total Kekayaan -->
   <div class="bg-gradient-to-br from-[#0052FF] via-[#0047E1] to-[#0F172A] rounded-3xl p-6 text-white relative overflow-hidden shadow-glow-blue border border-blue-400/20">
     <div class="absolute -right-10 -top-10 w-44 h-44 bg-blue-400/20 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -left-10 -bottom-10 w-36 h-36 bg-amber-400/15 rounded-full blur-2xl pointer-events-none"></div>
@@ -50,52 +53,79 @@
     </div>
   </div>
 
-  <div class="space-y-2.5">
-    <h3 class="text-lg font-black text-slate-900 dark:text-white font-urbanist px-1">Dompet Saya</h3>
+  <!-- Dompet Saya - Horizontal Scroll Interaktif -->
+  <div class="space-y-3">
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-lg font-black text-slate-900 dark:text-white font-urbanist">Dompet Saya</h3>
+      <button onclick="switchTab('dompet')" class="text-xs font-bold text-[#0052FF] hover:underline flex items-center gap-1">
+        Kelola <i class="fa-solid fa-chevron-right text-[10px]"></i>
+      </button>
+    </div>
 
-    <div class="grid grid-cols-4 gap-2.5">
-      <div onclick="switchTab('dompet')" class="mk-card p-3.5 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all hover:border-amber-300">
-        <div class="w-11 h-11 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-[#FFB901] border border-amber-200/60 dark:border-amber-800/50 flex items-center justify-center font-black text-lg shadow-sm">
-          <span class="font-urbanist">Rp</span>
+    <div class="flex gap-3 overflow-x-auto pb-2 pt-1 -mx-4 px-4 no-scrollbar snap-x snap-mandatory">
+      <!-- Tunai -->
+      <div onclick="bukaDetailDompet('tunai')" class="snap-start shrink-0 w-36 mk-card p-4 flex flex-col justify-between cursor-pointer active:scale-95 transition-all hover:border-amber-300 relative overflow-hidden group">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 border border-amber-200/60 dark:border-amber-800/50 flex items-center justify-center font-black text-base shadow-sm">
+            <span class="font-urbanist">Rp</span>
+          </div>
+          <span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">1 dompet</span>
         </div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 mt-2 block">Tunai</span>
-        <strong id="cardTunaiHome" class="text-sm font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp1.250.000</strong>
-        <span class="text-[10px] font-medium text-slate-400 block mt-0.5">1 dompet</span>
-        <div class="w-full h-1 bg-amber-400 rounded-full mt-2.5"></div>
+        <div class="mt-4">
+          <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 block">Tunai</span>
+          <strong id="cardTunaiHome" class="text-base font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp148.845</strong>
+        </div>
+        <div class="w-full h-1 bg-amber-400 rounded-full mt-3 opacity-80 group-hover:opacity-100 transition-opacity"></div>
       </div>
 
-      <div onclick="switchTab('dompet')" class="mk-card p-3.5 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all hover:border-slate-400">
-        <div class="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border border-slate-200/60 dark:border-slate-700 flex items-center justify-center text-lg shadow-sm">
-          <i class="fa-solid fa-landmark text-base"></i>
+      <!-- Rekening Bank -->
+      <div onclick="bukaDetailDompet('bank')" class="snap-start shrink-0 w-36 mk-card p-4 flex flex-col justify-between cursor-pointer active:scale-95 transition-all hover:border-blue-300 relative overflow-hidden group">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/40 text-[#0052FF] border border-blue-200/60 dark:border-blue-800/50 flex items-center justify-center text-base shadow-sm">
+            <i class="fa-solid fa-landmark"></i>
+          </div>
+          <span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">4 akun</span>
         </div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 mt-2 block truncate w-full">Rekening Bank</span>
-        <strong id="cardBankHome" class="text-sm font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp7.850.000</strong>
-        <span class="text-[10px] font-medium text-slate-400 block mt-0.5">4 rekening</span>
-        <div class="w-full h-1 bg-slate-900 dark:bg-slate-300 rounded-full mt-2.5"></div>
+        <div class="mt-4">
+          <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 block">Rekening Bank</span>
+          <strong id="cardBankHome" class="text-base font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp2.196.988</strong>
+        </div>
+        <div class="w-full h-1 bg-[#0052FF] rounded-full mt-3 opacity-80 group-hover:opacity-100 transition-opacity"></div>
       </div>
 
-      <div onclick="switchTab('dompet')" class="mk-card p-3.5 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all hover:border-blue-300">
-        <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] border border-blue-200/60 dark:border-blue-900 flex items-center justify-center text-lg shadow-sm">
-          <i class="fa-solid fa-wallet text-base"></i>
+      <!-- E-Wallet -->
+      <div onclick="bukaDetailDompet('digital')" class="snap-start shrink-0 w-36 mk-card p-4 flex flex-col justify-between cursor-pointer active:scale-95 transition-all hover:border-indigo-300 relative overflow-hidden group">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 border border-indigo-200/60 dark:border-indigo-800/50 flex items-center justify-center text-base shadow-sm">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+          <span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">3 e-wallet</span>
         </div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 mt-2 block">E-Wallet</span>
-        <strong id="cardDigitalHome" class="text-sm font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp2.150.000</strong>
-        <span class="text-[10px] font-medium text-slate-400 block mt-0.5">3 e-wallet</span>
-        <div class="w-full h-1 bg-[#0052FF] rounded-full mt-2.5"></div>
+        <div class="mt-4">
+          <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 block">E-Wallet</span>
+          <strong id="cardDigitalHome" class="text-base font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp0</strong>
+        </div>
+        <div class="w-full h-1 bg-indigo-500 rounded-full mt-3 opacity-80 group-hover:opacity-100 transition-opacity"></div>
       </div>
 
-      <div onclick="switchTab('dompet')" class="mk-card p-3.5 text-center flex flex-col items-center justify-between cursor-pointer active:scale-95 transition-all hover:border-purple-300">
-        <div class="w-11 h-11 rounded-2xl bg-purple-50 dark:bg-purple-950/50 text-purple-600 border border-purple-200/60 dark:border-purple-900 flex items-center justify-center text-lg shadow-sm">
-          <i class="fa-solid fa-piggy-bank text-base"></i>
+      <!-- Tabungan -->
+      <div onclick="bukaDetailDompet('tabungan')" class="snap-start shrink-0 w-36 mk-card p-4 flex flex-col justify-between cursor-pointer active:scale-95 transition-all hover:border-purple-300 relative overflow-hidden group">
+        <div class="flex items-center justify-between">
+          <div class="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/40 text-purple-600 border border-purple-200/60 dark:border-purple-800/50 flex items-center justify-center text-base shadow-sm">
+            <i class="fa-solid fa-piggy-bank"></i>
+          </div>
+          <span class="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">1 pos</span>
         </div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-100 mt-2 block">Tabungan</span>
-        <strong id="cardTabunganHome" class="text-sm font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp1.250.000</strong>
-        <span class="text-[10px] font-medium text-slate-400 block mt-0.5">1 tabungan</span>
-        <div class="w-full h-1 bg-purple-500 rounded-full mt-2.5"></div>
+        <div class="mt-4">
+          <span class="text-xs font-extrabold text-slate-500 dark:text-slate-400 block">Tabungan</span>
+          <strong id="cardTabunganHome" class="text-base font-black text-slate-900 dark:text-white font-urbanist block mt-0.5">Rp0</strong>
+        </div>
+        <div class="w-full h-1 bg-purple-500 rounded-full mt-3 opacity-80 group-hover:opacity-100 transition-opacity"></div>
       </div>
     </div>
   </div>
 
+  <!-- Quick Action -->
   <div class="space-y-2.5">
     <h3 class="text-lg font-black text-slate-900 dark:text-white font-urbanist px-1">Quick Action</h3>
     <div class="mk-card grid grid-cols-5 gap-1 p-3.5 text-center divide-x divide-slate-100 dark:divide-slate-800">
@@ -126,6 +156,7 @@
     </div>
   </div>
 
+  <!-- Grid Transaksi Terbaru & Sisa Budget -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="mk-card p-4 space-y-3.5">
       <div class="flex items-center justify-between">
@@ -229,6 +260,7 @@
     </div>
   </div>
 
+  <!-- Insight Keuangan -->
   <div class="mk-card p-4 flex items-center justify-between border-blue-100/60 dark:border-slate-800">
     <div class="flex items-center gap-3.5">
       <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0052FF] to-blue-500 text-white flex items-center justify-center text-lg shadow-glow-blue shrink-0">
