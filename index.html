@@ -2,10 +2,11 @@
 <html lang="id">
 <head>
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0F172A">
+  <meta name="theme-color" content="#F8FAFC" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B132B" media="(prefers-color-scheme: dark)">
   <title>MyKas - Premium Financial Tracker</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -51,33 +52,140 @@
       --mk-mesh-bg: radial-gradient(at 0% 0%, rgba(0, 82, 255, 0.05) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(255, 185, 1, 0.05) 0px, transparent 50%);
       --mk-navy: #0F172A; --mk-gray-bg: #F8FAFC; --mk-card-bg: #FFFFFF; --mk-border: rgba(226, 232, 240, 0.8);
     }
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent !important; outline: none !important; }
-    html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--mk-gray-bg); background-image: var(--mk-mesh-bg); color: var(--mk-navy); -webkit-font-smoothing: antialiased; }
+
+    * { 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent !important; 
+      outline: none !important;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    input, textarea {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+    }
+
+    html, body { 
+      width: 100%; 
+      height: 100%; 
+      margin: 0; 
+      padding: 0; 
+      overflow: hidden; 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background-color: var(--mk-gray-bg); 
+      background-image: var(--mk-mesh-bg); 
+      color: var(--mk-navy); 
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+    }
+
     .font-urbanist { font-family: 'Urbanist', sans-serif; }
-    #appCanvasWrapper { height: 100dvh !important; width: 100% !important; max-width: 100% !important; margin: 0 !important; background: transparent; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-    .app-scroll-container { flex: 1; height: 100%; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; overscroll-behavior-y: contain; touch-action: pan-y; padding-bottom: 110px; }
-    .app-scroll-container::-webkit-scrollbar { display: none !important; }
-    .mk-navbar-wrapper { position: absolute; bottom: 16px; left: 16px; right: 16px; z-index: 50; }
-    .mk-navbar { height: 72px; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 28px; display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8); padding: 0 6px; }
-    .mk-nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #94A3B8; font-size: 11px; font-weight: 700; background: transparent; border: none; cursor: pointer; height: 100%; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
-    .mk-nav-item i { font-size: 19px; transition: transform 0.2s ease, color 0.2s ease; }
+
+    #appCanvasWrapper { 
+      height: 100dvh !important; 
+      width: 100% !important; 
+      max-width: 100% !important; 
+      margin: 0 !important; 
+      background: transparent; 
+      display: flex; 
+      flex-direction: column; 
+      position: relative; 
+      overflow: hidden; 
+    }
+
+    .app-scroll-container { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto !important; 
+      -webkit-overflow-scrolling: touch !important; 
+      overscroll-behavior-y: contain; 
+      touch-action: pan-y; 
+      padding-bottom: 110px; 
+      padding-top: env(safe-area-inset-top);
+    }
+
+    .app-scroll-container::-webkit-scrollbar,
+    .no-scrollbar::-webkit-scrollbar { display: none !important; }
+
+    .mk-navbar-wrapper { 
+      position: absolute; 
+      bottom: calc(12px + env(safe-area-inset-bottom)); 
+      left: 16px; 
+      right: 16px; 
+      z-index: 50; 
+    }
+
+    .mk-navbar { 
+      height: 70px; 
+      background: rgba(255, 255, 255, 0.85); 
+      backdrop-filter: blur(24px); 
+      -webkit-backdrop-filter: blur(24px); 
+      border: 1px solid rgba(255, 255, 255, 0.7); 
+      border-radius: 28px; 
+      display: grid; 
+      grid-template-columns: repeat(5, 1fr); 
+      align-items: center; 
+      box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8); 
+      padding: 0 6px; 
+    }
+
+    .mk-nav-item { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 3px; 
+      color: #94A3B8; 
+      font-size: 11px; 
+      font-weight: 700; 
+      background: transparent; 
+      border: none; 
+      cursor: pointer; 
+      height: 100%; 
+      transition: transform 0.15s ease, color 0.2s ease; 
+    }
+
+    .mk-nav-item:active { transform: scale(0.9); }
     .mk-nav-item.active { color: var(--mk-blue); }
-    .mk-nav-item.active i { transform: translateY(-3px) scale(1.1); color: var(--mk-blue); }
+    .mk-nav-item.active i { transform: translateY(-2px) scale(1.15); color: var(--mk-blue); }
+
     .mk-nav-add-slot { position: relative; display: flex; justify-content: center; align-items: center; height: 100%; }
-    .mk-btn-add-main { width: 56px; height: 56px; border-radius: 22px; background: var(--mk-blue-gradient); color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 24px -4px rgba(0, 82, 255, 0.5); border: 3px solid #FFFFFF; margin-top: -28px; cursor: pointer; font-size: 22px; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .mk-btn-add-main:active { transform: scale(0.9) rotate(90deg); }
+
+    .mk-btn-add-main { 
+      width: 58px; 
+      height: 58px; 
+      border-radius: 22px; 
+      background: var(--mk-blue-gradient); 
+      color: #FFFFFF; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      box-shadow: 0 14px 28px -4px rgba(0, 82, 255, 0.45); 
+      border: 3.5px solid #FFFFFF; 
+      margin-top: -30px; 
+      cursor: pointer; 
+      font-size: 22px; 
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    }
+
+    .mk-btn-add-main:active { transform: scale(0.88) rotate(90deg); }
+
     .mk-card { background: var(--mk-card-bg); border-radius: 24px; padding: 16px; border: 1px solid var(--mk-border); box-shadow: 0 12px 32px -8px rgba(15, 23, 42, 0.04); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+
     .bottom-sheet-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); z-index: 100; display: flex; flex-direction: column; justify-content: flex-end; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .bottom-sheet-backdrop.active { opacity: 1; pointer-events: auto; }
     .bottom-sheet-panel { background: #FFFFFF; border-top-left-radius: 36px; border-top-right-radius: 36px; padding: 24px 24px 36px; max-height: 88vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15); }
     .bottom-sheet-backdrop.active .bottom-sheet-panel { transform: translateY(0); }
     .sheet-handle { width: 48px; height: 5px; background: #E2E8F0; border-radius: 99px; margin: 0 auto 20px; }
+
     @keyframes textSlideFadeUp { 0% { opacity: 0; transform: translateY(16px) scale(0.96); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
     @keyframes shimmerBarMove { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(100%); opacity: 1; } }
     .splash-exit { animation: smoothSplashFadeOut 400ms ease forwards !important; }
     @keyframes smoothSplashFadeOut { 100% { opacity: 0; visibility: hidden; } }
     .anim-text { animation: textSlideFadeUp 500ms ease forwards; }
     .anim-shimmer { animation: shimmerBarMove 1200ms ease infinite; }
+
     body.dark { background-color: #0B132B; color: #F8FAFC; }
     body.dark #appCanvasWrapper { background-color: #0B132B !important; }
     body.dark .mk-card, body.dark .bottom-sheet-panel { background-color: #131C35 !important; border-color: #1E293B !important; }
@@ -680,4 +788,4 @@
     });
   </script>
 </body>
-                                                                                                                               </html>
+</html>
