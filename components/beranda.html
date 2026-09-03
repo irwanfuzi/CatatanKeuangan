@@ -53,7 +53,7 @@
     </div>
   </div>
 
-  <!-- Dompet Saya - Virtual Card Style (Sangat Menarik & Premium) -->
+  <!-- Dompet Saya - Virtual Card Style (Modern & Premium) -->
   <div class="space-y-3">
     <div class="flex items-center justify-between px-1">
       <h3 class="text-lg font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Dompet Saya</h3>
@@ -135,34 +135,57 @@
     </div>
   </div>
 
-  <!-- Quick Action -->
+  <!-- Quick Action (Fintech Style) -->
   <div class="space-y-2.5">
-    <h3 class="text-lg font-black text-slate-900 dark:text-white font-urbanist px-1 tracking-tight">Quick Action</h3>
-    <div class="mk-card grid grid-cols-5 gap-1 p-3.5 text-center divide-x divide-slate-100 dark:divide-slate-800">
-      <button onclick="actionBottomSheet('Scan Struk')" class="flex flex-col items-center justify-center gap-2 p-1 active:scale-95 transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] flex items-center justify-center text-lg"><i class="fa-solid fa-expand"></i></div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">Scan Struk</span>
-      </button>
+    <div class="flex items-center justify-between px-1">
+      <h3 class="text-lg font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Quick Action</h3>
+      <span class="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Pintas</span>
+    </div>
 
-      <button onclick="bukaHalamanSemuaBudget()" class="flex flex-col items-center justify-center gap-2 p-1 active:scale-95 transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] flex items-center justify-center text-lg"><i class="fa-solid fa-bullseye"></i></div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">Budget</span>
-      </button>
+    <div class="mk-card p-3.5 bg-white dark:bg-slate-900/90 border border-slate-100 dark:border-slate-800 rounded-3xl shadow-card-premium">
+      <div class="grid grid-cols-5 gap-2 text-center">
+        
+        <!-- Scan Struk -->
+        <button onclick="actionBottomSheet('Scan Struk')" class="flex flex-col items-center justify-center gap-1.5 p-1 cursor-pointer active:scale-90 transition-transform group">
+          <div class="w-12 h-12 rounded-2xl bg-blue-500/10 dark:bg-blue-500/20 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-lg border border-blue-500/15 group-hover:bg-[#0052FF] group-hover:text-white transition-all shadow-sm">
+            <i class="fa-solid fa-expand"></i>
+          </div>
+          <span class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-none mt-0.5">Scan Struk</span>
+        </button>
 
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-2 p-1 active:scale-95 transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] flex items-center justify-center text-lg"><i class="fa-regular fa-file-lines"></i></div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">Laporan</span>
-      </button>
+        <!-- Budget -->
+        <button onclick="bukaHalamanSemuaBudget()" class="flex flex-col items-center justify-center gap-1.5 p-1 cursor-pointer active:scale-90 transition-transform group">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/10 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center text-lg border border-amber-500/15 group-hover:bg-amber-500 group-hover:text-white transition-all shadow-sm">
+            <i class="fa-solid fa-bullseye"></i>
+          </div>
+          <span class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-none mt-0.5">Budget</span>
+        </button>
 
-      <button onclick="switchTab('analisis')" class="flex flex-col items-center justify-center gap-2 p-1 active:scale-95 transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] flex items-center justify-center text-lg"><i class="fa-solid fa-tag"></i></div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">Kategori</span>
-      </button>
+        <!-- Laporan -->
+        <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 cursor-pointer active:scale-90 transition-transform group">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-500 flex items-center justify-center text-lg border border-emerald-500/15 group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-sm">
+            <i class="fa-regular fa-file-lines"></i>
+          </div>
+          <span class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-none mt-0.5">Laporan</span>
+        </button>
 
-      <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-2 p-1 active:scale-95 transition-all">
-        <div class="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/50 text-[#0052FF] flex items-center justify-center text-lg"><i class="fa-solid fa-magnifying-glass"></i></div>
-        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">Cari</span>
-      </button>
+        <!-- Kategori -->
+        <button onclick="switchTab('analisis')" class="flex flex-col items-center justify-center gap-1.5 p-1 cursor-pointer active:scale-90 transition-transform group">
+          <div class="w-12 h-12 rounded-2xl bg-purple-500/10 dark:bg-purple-500/20 text-purple-500 flex items-center justify-center text-lg border border-purple-500/15 group-hover:bg-purple-500 group-hover:text-white transition-all shadow-sm">
+            <i class="fa-solid fa-tag"></i>
+          </div>
+          <span class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-none mt-0.5">Kategori</span>
+        </button>
+
+        <!-- Cari -->
+        <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 p-1 cursor-pointer active:scale-90 transition-transform group">
+          <div class="w-12 h-12 rounded-2xl bg-slate-500/10 dark:bg-slate-500/20 text-slate-600 dark:text-slate-300 flex items-center justify-center text-lg border border-slate-500/15 group-hover:bg-slate-700 group-hover:text-white transition-all shadow-sm">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <span class="text-[11px] font-extrabold text-slate-800 dark:text-slate-200 tracking-tight leading-none mt-0.5">Cari</span>
+        </button>
+
+      </div>
     </div>
   </div>
 
