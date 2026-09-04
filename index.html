@@ -375,27 +375,25 @@
 
   </div>
 
-  <!-- LOADER KOMPONEN ANTI-CACHE DAN AUTO-RELOAD SERVICE WORKER -->
+  <!-- LOADER KOMPONEN ANTI-CACHE TOTAL (FORCE REFRESH BYPASS) -->
   <script>
+    // 1. UNREGISTER SERVICE WORKER LAMA AGAR BROWSER TIDAK MEMBACA CACHE BANDEL
     if ('serviceWorker' in navigator) {
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
         }
-      });
-
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').then((reg) => {
-          reg.update(); // Selalu cek versi SW terbaru
-        });
       });
     }
 
+    // 2. LOADER KOMPONEN DENGAN FORCE TIMESTAMP QUERY PARAMETER
     async function muatKomponen(idElement, fileUrl) {
       try {
-        const res = await fetch(fileUrl, { cache: 'no-cache' });
+        const v = new Date().getTime();
+        const res = await fetch(`${fileUrl}?v=${v}`, {
+          cache: 'no-store',
+          headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate' }
+        });
         const html = await res.text();
         document.getElementById(idElement).innerHTML = html;
       } catch (err) {
@@ -404,13 +402,12 @@
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
-      const v = Date.now();
       await Promise.all([
-        muatKomponen('slotBeranda', `components/beranda.html?v=${v}`),
-        muatKomponen('slotAnalisis', `components/analisis.html?v=${v}`),
-        muatKomponen('slotCTA', `components/cta.html?v=${v}`),
-        muatKomponen('slotDompet', `components/dompet.html?v=${v}`),
-        muatKomponen('slotProfil', `components/profil.html?v=${v}`)
+        muatKomponen('slotBeranda', 'components/beranda.html'),
+        muatKomponen('slotAnalisis', 'components/analisis.html'),
+        muatKomponen('slotCTA', 'components/cta.html'),
+        muatKomponen('slotDompet', 'components/dompet.html'),
+        muatKomponen('slotProfil', 'components/profil.html')
       ]);
     });
   </script>
