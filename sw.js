@@ -1,49 +1,27 @@
 // ==========================================
-// 1. SERVICE WORKER PWA (MYKAS V7 - NETWORK FIRST)
+// SERVICE WORKER MYKAS (DEVELOPMENT MODE - NETWORK ONLY)
 // ==========================================
-const CACHE_NAME = 'mykas-pwa-v7';
-const ASSETS_TO_CACHE = [
-  './', './index.html', './manifest.json', './logo.svg', './wallet-white.svg',
-  './mykas-text-white.svg', './icon-192.png', './icon-512.png', './icon.png'
-];
 
 self.addEventListener('install', (event) => {
-  self.skipWaiting(); // Langsung aktifkan SW baru tanpa nunggu browser ditutup
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
-  );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => Promise.all(
-      cacheNames.map((cache) => cache !== CACHE_NAME ? caches.delete(cache) : null)
-    )).then(() => self.clients.claim()) // Langsung ambil alih kontrol halaman
+      cacheNames.map((cache) => caches.delete(cache))
+    )).then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
-  // Biarkan request ke Google Apps Script / Firebase berjalan normal
-  if (event.request.url.includes('script.google.com') || event.request.url.includes('firebase')) return;
-
-  // STRATEGI NETWORK-FIRST: Ambil dari Server dulu, jika gagal/offline baru ambil Cache
-  event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
-        }
-        return networkResponse;
-      })
-      .catch(() => caches.match(event.request))
-  );
+  // Biarkan semua request langsung tembus ke jaringan tanpa simpan cache
+  event.respondWith(fetch(event.request));
 });
 
 // ==========================================
-// 2. LOGIC JS INSIGHT KEUANGAN DINAMIS
+// LOGIC JS INSIGHT KEUANGAN DINAMIS
 // ==========================================
-
 function updateInsightKeuangan(rasioPengeluaran = -15, sisaBudgetPersen = 47) {
   const iconInsightBox = document.getElementById('iconInsightBox');
   const iconInsight = document.getElementById('iconInsight');
