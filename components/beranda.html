@@ -1,14 +1,14 @@
-<!-- BERANDA COMPONENT (FLAT PREMIUM STYLE - ROYAL BLUE IDENTITY) -->
+<!-- BERANDA COMPONENT (HYBRID FIN-E + SUPER-APP AESTHETIC) -->
 <section id="pageHome" class="p-4 sm:p-5 flex flex-col gap-4 bg-[#F8FAFC] dark:bg-[#0B132B] min-h-full font-['Plus_Jakarta_Sans']">
   
   <!-- 1. TOPBAR HEADER -->
   <div class="flex items-center justify-between px-0.5 pt-1">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-[#0052FF] text-white flex items-center justify-center font-black">
+      <div class="w-10 h-10 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center font-black shadow-xs">
         <i class="fa-solid fa-wallet text-base"></i>
       </div>
       <div>
-        <span class="text-[9px] font-black text-slate-400 tracking-widest uppercase block">Ringkasan</span>
+        <span class="text-[9px] font-black text-slate-400 tracking-widest uppercase block">RINGKASAN</span>
         <h1 class="text-xl font-black text-slate-900 dark:text-white font-urbanist tracking-tight -mt-0.5">
           My<span class="text-[#0052FF] dark:text-blue-400">Kas</span>
         </h1>
@@ -16,18 +16,18 @@
     </div>
 
     <div class="flex items-center gap-2">
-      <button onclick="window.syncDataGas()" class="w-10 h-10 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center relative active:scale-95 transition-all border border-slate-200/90 dark:border-slate-700">
+      <button onclick="window.syncDataGas()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center relative active:scale-95 transition-all border border-slate-200/80 dark:border-slate-700 shadow-xs">
         <i id="iconRefresh" class="fa-regular fa-bell text-sm"></i>
         <span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-slate-800"></span>
       </button>
-      <button onclick="switchTab('profil')" class="w-10 h-10 rounded-xl bg-[#0052FF] text-white flex items-center justify-center font-black text-xs active:scale-95 transition-all">
+      <button onclick="switchTab('profil')" class="w-10 h-10 rounded-2xl bg-[#0052FF] text-white flex items-center justify-center font-black text-xs active:scale-95 transition-all shadow-xs">
         <i class="fa-solid fa-user"></i>
       </button>
     </div>
   </div>
 
-  <!-- 2. TOTAL KEKAYAAN (HERO BANNER - FLAT SOLID ROYAL BLUE) -->
-  <div class="bg-[#0052FF] rounded-2xl p-5 text-white relative overflow-hidden">
+  <!-- 2. TOTAL KEKAYAAN (GOPAY/OVO BOLD HERO STYLE) -->
+  <div class="bg-[#0052FF] rounded-2xl p-5 text-white relative overflow-hidden shadow-sm shadow-blue-500/10">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-2 text-blue-100 text-xs font-bold">
         <span class="tracking-wider uppercase text-[10px]">TOTAL KEKAYAAN</span>
@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <!-- 3. DOMPET SAYA (FLAT TONAL CONTAINER) -->
+  <!-- 3. DOMPET SAYA (FIN-E TONAL SURFACE TILES) -->
   <div class="space-y-2">
     <div class="flex items-center justify-between px-0.5">
       <h3 class="text-base font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Dompet Saya</h3>
@@ -71,9 +71,9 @@
     <div class="flex gap-2.5 overflow-x-auto pb-1 no-scrollbar snap-x snap-mandatory px-0.5">
       
       <!-- Tunai -->
-      <div onclick="bukaDetailDompet('tunai')" class="snap-start shrink-0 w-44 rounded-xl bg-amber-500/10 dark:bg-amber-500/15 p-3.5 border border-amber-500/20 cursor-pointer active:scale-95 transition-all">
+      <div onclick="bukaDetailDompet('tunai')" class="snap-start shrink-0 w-44 rounded-2xl bg-amber-500/10 dark:bg-amber-500/15 p-3.5 border border-amber-500/20 cursor-pointer active:scale-95 transition-all">
         <div class="flex items-center justify-between">
-          <div class="w-8 h-8 rounded-lg bg-amber-500 text-amber-950 flex items-center justify-center font-black text-xs">
+          <div class="w-8 h-8 rounded-xl bg-amber-500 text-amber-950 flex items-center justify-center font-black text-xs shadow-xs">
             <span class="font-urbanist">Rp</span>
           </div>
           <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-800 dark:text-amber-300">1 DOMPET</span>
@@ -86,9 +86,9 @@
       </div>
 
       <!-- Rekening Bank -->
-      <div onclick="bukaDetailDompet('bank')" class="snap-start shrink-0 w-44 rounded-xl bg-blue-500/10 dark:bg-blue-500/15 p-3.5 border border-blue-500/20 cursor-pointer active:scale-95 transition-all">
+      <div onclick="bukaDetailDompet('bank')" class="snap-start shrink-0 w-44 rounded-2xl bg-blue-500/10 dark:bg-blue-500/15 p-3.5 border border-blue-500/20 cursor-pointer active:scale-95 transition-all">
         <div class="flex items-center justify-between">
-          <div class="w-8 h-8 rounded-lg bg-[#0052FF] text-white flex items-center justify-center text-xs">
+          <div class="w-8 h-8 rounded-xl bg-[#0052FF] text-white flex items-center justify-center text-xs shadow-xs">
             <i class="fa-solid fa-landmark"></i>
           </div>
           <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-500/20 text-blue-700 dark:text-blue-300">4 AKUN</span>
@@ -101,9 +101,9 @@
       </div>
 
       <!-- E-Wallet -->
-      <div onclick="bukaDetailDompet('digital')" class="snap-start shrink-0 w-44 rounded-xl bg-indigo-500/10 dark:bg-indigo-500/15 p-3.5 border border-indigo-500/20 cursor-pointer active:scale-95 transition-all">
+      <div onclick="bukaDetailDompet('digital')" class="snap-start shrink-0 w-44 rounded-2xl bg-indigo-500/10 dark:bg-indigo-500/15 p-3.5 border border-indigo-500/20 cursor-pointer active:scale-95 transition-all">
         <div class="flex items-center justify-between">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-xs">
+          <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xs shadow-xs">
             <i class="fa-solid fa-wallet"></i>
           </div>
           <span class="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-indigo-500/20 text-indigo-700 dark:text-indigo-300">3 E-WALLET</span>
@@ -118,40 +118,40 @@
     </div>
   </div>
 
-  <!-- 4. QUICK ACTION (FLAT SURFACE TILE) -->
-  <div class="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border border-slate-200/90 dark:border-slate-800">
+  <!-- 4. QUICK ACTION (FAST-ACTION TILE) -->
+  <div class="bg-white dark:bg-slate-900 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-800 shadow-sm shadow-blue-500/5">
     <div class="grid grid-cols-5 gap-1 text-center">
       
       <button onclick="actionBottomSheet('Scan Struk')" class="flex flex-col items-center justify-center gap-1.5 active:scale-90 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900">
+        <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900/60">
           <i class="fa-solid fa-expand"></i>
         </div>
         <span class="text-xs font-extrabold text-slate-700 dark:text-slate-200 tracking-tight">Scan Struk</span>
       </button>
 
       <button onclick="bukaHalamanSemuaBudget()" class="flex flex-col items-center justify-center gap-1.5 active:scale-90 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900">
+        <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900/60">
           <i class="fa-solid fa-bullseye"></i>
         </div>
         <span class="text-xs font-extrabold text-slate-700 dark:text-slate-200 tracking-tight">Budget</span>
       </button>
 
       <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 active:scale-90 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900">
+        <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900/60">
           <i class="fa-regular fa-file-lines"></i>
         </div>
         <span class="text-xs font-extrabold text-slate-700 dark:text-slate-200 tracking-tight">Laporan</span>
       </button>
 
       <button onclick="switchTab('analisis')" class="flex flex-col items-center justify-center gap-1.5 active:scale-90 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900">
+        <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900/60">
           <i class="fa-solid fa-tag"></i>
         </div>
         <span class="text-xs font-extrabold text-slate-700 dark:text-slate-200 tracking-tight">Kategori</span>
       </button>
 
       <button onclick="window.bukaModalDetailSemua()" class="flex flex-col items-center justify-center gap-1.5 active:scale-90 transition-all">
-        <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900">
+        <div class="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-[#0052FF] dark:text-blue-400 flex items-center justify-center text-base border border-blue-100 dark:border-blue-900/60">
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <span class="text-xs font-extrabold text-slate-700 dark:text-slate-200 tracking-tight">Cari</span>
@@ -160,11 +160,11 @@
     </div>
   </div>
 
-  <!-- 5 & 6 & 7. 2 KOLOM KIRI-KANAN (ASYMMETRIC FLAT PREMIUM GRID: 55% TRANSAKSI | 45% BUDGET & INSIGHT) -->
+  <!-- 5 & 6 & 7. FIN-E STYLE ASYMMETRIC GRID (55% TRANSAKSI | 45% BUDGET & INSIGHT) -->
   <div class="flex gap-2.5 w-full items-stretch">
     
     <!-- KOLOM KIRI (55%): TRANSAKSI TERBARU -->
-    <div class="w-[55%] bg-white dark:bg-slate-900 rounded-2xl p-3.5 border border-slate-200/90 dark:border-slate-800 flex flex-col justify-between">
+    <div class="w-[55%] bg-white dark:bg-slate-900 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-800 shadow-sm shadow-blue-500/5 flex flex-col justify-between">
       <div class="space-y-3">
         <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
           <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Transaksi</h4>
@@ -177,7 +177,7 @@
           
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 overflow-hidden">
-              <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xs shrink-0 font-bold">
+              <div class="w-8 h-8 rounded-xl bg-amber-500/15 text-amber-600 flex items-center justify-center text-xs shrink-0 font-bold">
                 <i class="fa-solid fa-utensils"></i>
               </div>
               <div class="overflow-hidden">
@@ -193,7 +193,7 @@
 
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 overflow-hidden">
-              <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-xs shrink-0 font-bold">
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/15 text-emerald-600 flex items-center justify-center text-xs shrink-0 font-bold">
                 <i class="fa-solid fa-download"></i>
               </div>
               <div class="overflow-hidden">
@@ -209,7 +209,7 @@
 
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 overflow-hidden">
-              <div class="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-600 flex items-center justify-center text-xs shrink-0 font-bold">
+              <div class="w-8 h-8 rounded-xl bg-purple-500/15 text-purple-600 flex items-center justify-center text-xs shrink-0 font-bold">
                 <i class="fa-solid fa-cart-shopping"></i>
               </div>
               <div class="overflow-hidden">
@@ -227,11 +227,11 @@
       </div>
     </div>
 
-    <!-- KOLOM KANAN (45%): SISA BUDGET & DYNAMIC INSIGHT -->
+    <!-- KOLOM KANAN (45%): SISA BUDGET & INSIGHT KEUANGAN -->
     <div class="w-[45%] flex flex-col gap-2.5">
       
-      <!-- Sisa Budget Bulan Ini -->
-      <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 border border-slate-200/90 dark:border-slate-800 flex flex-col justify-between">
+      <!-- Sisa Budget -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800 shadow-sm shadow-blue-500/5 flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-1.5">
             <h4 class="text-xs font-black text-slate-900 dark:text-white font-urbanist tracking-tight">Sisa Budget</h4>
@@ -261,16 +261,16 @@
         </div>
       </div>
 
-      <!-- Dynamic Insight Keuangan (Flat Tonal Surface Tint) -->
-      <div id="cardInsightContainer" class="bg-blue-50/70 dark:bg-blue-950/40 p-3 rounded-2xl border border-blue-200/90 dark:border-blue-900/60 flex flex-col justify-between">
+      <!-- Dynamic Insight (Light Blue Surface Tint) -->
+      <div id="cardInsightContainer" class="bg-blue-50/70 dark:bg-blue-950/40 p-3 rounded-2xl border border-blue-200/80 dark:border-blue-900/60 shadow-sm shadow-blue-500/5 flex flex-col justify-between">
         <div>
-          <div class="flex items-center justify-between border-b border-blue-200/60 dark:border-blue-800/60 pb-1.5">
+          <div class="flex items-center justify-between border-b border-blue-200/50 dark:border-blue-800/50 pb-1.5">
             <span id="lblInsightHeader" class="text-[9px] font-black uppercase tracking-wider text-[#0052FF] dark:text-blue-400 block">INSIGHT</span>
             <i class="fa-solid fa-chevron-right text-[9px] text-slate-400"></i>
           </div>
 
           <div class="flex items-center gap-2 mt-2">
-            <div id="iconInsightBox" class="w-6 h-6 rounded-lg bg-[#0052FF] text-white flex items-center justify-center text-[10px] shrink-0">
+            <div id="iconInsightBox" class="w-6 h-6 rounded-lg bg-[#0052FF] text-white flex items-center justify-center text-[10px] shrink-0 shadow-xs">
               <i id="iconInsight" class="fa-solid fa-chart-line"></i>
             </div>
             <p id="txtPesanInsight" class="text-[10px] font-bold text-slate-700 dark:text-slate-200 leading-tight">
@@ -279,7 +279,7 @@
           </div>
         </div>
 
-        <div id="boxStatusPerforma" class="bg-white dark:bg-slate-900 p-1.5 rounded-lg border border-blue-200/80 dark:border-blue-900/80 flex items-center justify-between mt-2.5">
+        <div id="boxStatusPerforma" class="bg-white dark:bg-slate-900 p-1.5 rounded-lg border border-blue-200/70 dark:border-blue-900/70 flex items-center justify-between mt-2.5">
           <span class="text-[9px] font-bold text-slate-500 dark:text-slate-400">Status</span>
           <span id="txtStatusPerforma" class="text-[9px] font-black text-[#0052FF] dark:text-blue-400">Sangat Baik 👍</span>
         </div>
