@@ -1,5 +1,5 @@
 <!-- DUKUNGAN FONT FINTECH INDONESIA (PLUS JAKARTA SANS) -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <section id="pageAnalisis" class="p-4 sm:p-6 flex flex-col gap-6 hidden bg-[#F6F8FA] min-h-screen text-slate-800 font-['Plus_Jakarta_Sans',sans-serif] antialiased">
 
@@ -34,7 +34,7 @@
 
     <!-- MASTER CARD: DEEP FINTECH MESH GRADIENT -->
     <div class="bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-800 rounded-[28px] p-6 text-white shadow-[0_16px_36px_-8px_rgba(37,99,235,0.35)] relative overflow-hidden">
-      <!-- Glow & Ambient Light Effect -->
+      <!-- Glow Decorator -->
       <div class="absolute -right-8 -top-8 w-44 h-44 rounded-full bg-blue-400/20 blur-2xl pointer-events-none"></div>
       <div class="absolute -left-10 -bottom-10 w-36 h-36 rounded-full bg-indigo-500/20 blur-xl pointer-events-none"></div>
 
@@ -135,71 +135,79 @@
       </div>
     </div>
 
-    <!-- WIDGET INTERAKTIF: BUDGET & TARGET TABUNGAN -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <!-- WIDGET INTERAKTIF: BUDGET & TARGET TABUNGAN (2 KOLOM SEJAJAR) -->
+    <div class="grid grid-cols-2 gap-3.5 sm:gap-4">
       
-      <!-- BUDGET BULAN INI (SEGMENTED DYNAMIC TRACK) -->
-      <div class="bg-white rounded-[28px] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col justify-between space-y-4">
+      <!-- KOLOM 1: BUDGET BULAN INI -->
+      <div class="bg-white rounded-[24px] p-4 sm:p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 to-teal-500"></div>
+
         <div>
-          <div class="flex justify-between items-start mb-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
             <div>
-              <h4 class="text-base font-black text-slate-900 tracking-tight">Budget Bulan Ini</h4>
-              <span class="text-xs font-medium text-slate-400">Batas Pengeluaran</span>
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 tracking-tight leading-tight">Budget Bulan Ini</h4>
+              <span class="text-[10px] sm:text-xs font-semibold text-slate-400">Batas Transaksi</span>
             </div>
-            <span class="text-xs font-black text-emerald-800 bg-emerald-100/90 px-3 py-1 rounded-xl">70% Terpakai</span>
+            <span class="text-[10px] sm:text-xs font-black text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-lg w-max">
+              70%
+            </span>
           </div>
 
-          <div class="my-4">
-            <!-- Dynamic Capsule Track -->
-            <div class="w-full bg-slate-100 h-3.5 rounded-full p-0.5 relative overflow-hidden flex gap-1">
-              <div class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500 shadow-sm" style="width: 70%;"></div>
+          <div class="my-3">
+            <div class="w-full bg-slate-100 h-3 rounded-full p-0.5 flex gap-1 relative overflow-hidden">
+              <div class="bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-400 h-full rounded-full transition-all duration-500 shadow-sm shadow-emerald-500/20" style="width: 70%;"></div>
             </div>
-            <div class="flex justify-between text-xs font-bold mt-2.5 text-slate-500">
-              <span>Rp4.200.000</span>
-              <span class="text-slate-900">Rp6.000.000</span>
+            <div class="flex justify-between text-[10px] sm:text-xs font-bold mt-1.5 text-slate-400">
+              <span>Rp4,2jt</span>
+              <span class="text-slate-700">Rp6jt</span>
             </div>
           </div>
 
-          <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-100 flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-500">Sisa Kuota:</span>
-            <strong class="text-base font-black text-emerald-600">Rp1.800.000</strong>
+          <div class="p-2.5 rounded-xl bg-slate-50/80 border border-slate-100/80 flex flex-col sm:flex-row sm:items-center justify-between">
+            <span class="text-[10px] sm:text-xs font-bold text-slate-400">Sisa Kuota</span>
+            <strong class="text-xs sm:text-sm font-black text-emerald-600">Rp1.800.000</strong>
           </div>
         </div>
 
-        <button onclick="bukaHalamanSemuaBudget()" class="text-sm font-extrabold text-blue-600 flex items-center justify-end gap-1.5 active:opacity-60 transition-opacity">
-          Kelola Budget <i class="fa-solid fa-chevron-right text-xs"></i>
+        <button onclick="bukaHalamanSemuaBudget()" class="text-[11px] sm:text-xs font-extrabold text-blue-600 flex items-center justify-end gap-1 mt-3 active:opacity-60 transition-opacity">
+          Detail <i class="fa-solid fa-chevron-right text-[9px]"></i>
         </button>
       </div>
 
-      <!-- TARGET TABUNGAN (RADIAL FLUTTER RING GAUGE) -->
-      <div class="bg-white rounded-[28px] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col justify-between space-y-4">
+      <!-- KOLOM 2: TARGET TABUNGAN -->
+      <div class="bg-white rounded-[24px] p-4 sm:p-5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 flex flex-col justify-between relative overflow-hidden group">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+
         <div>
-          <div class="flex justify-between items-start mb-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
             <div>
-              <h4 class="text-base font-black text-slate-900 tracking-tight">Target Tabungan</h4>
-              <span class="text-xs font-medium text-slate-400">Dana Darurat</span>
+              <h4 class="text-xs sm:text-sm font-black text-slate-900 tracking-tight leading-tight">Target Tabungan</h4>
+              <span class="text-[10px] sm:text-xs font-semibold text-slate-400 truncate block">Dana Darurat</span>
             </div>
-            <span class="text-xs font-black text-blue-800 bg-blue-100/90 px-3 py-1 rounded-xl">55%</span>
+            <span class="text-[10px] sm:text-xs font-black text-blue-700 bg-blue-50 border border-blue-200/60 px-2 py-0.5 rounded-lg w-max">
+              55%
+            </span>
           </div>
 
-          <div class="flex items-center gap-4 bg-gradient-to-r from-blue-50/80 to-indigo-50/80 p-4 rounded-2xl border border-blue-100/60">
-            <div class="relative w-16 h-16 flex items-center justify-center shrink-0">
-              <svg class="w-16 h-16 transform -rotate-90">
-                <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="6" class="text-blue-200/60" fill="transparent" />
-                <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="6" class="text-blue-600" fill="transparent" stroke-dasharray="163" stroke-dashoffset="73" stroke-linecap="round" />
+          <div class="flex items-center gap-3 bg-gradient-to-br from-blue-50/60 to-indigo-50/40 p-2.5 sm:p-3 rounded-2xl border border-blue-100/60 my-2">
+            <div class="relative w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center shrink-0">
+              <svg class="w-11 h-11 sm:w-12 sm:h-12 transform -rotate-90">
+                <circle cx="22" cy="22" r="18" stroke="currentColor" stroke-width="4" class="text-blue-200/60" fill="transparent" />
+                <circle cx="22" cy="22" r="18" stroke="currentColor" stroke-width="4" class="text-blue-600" fill="transparent" stroke-dasharray="113" stroke-dashoffset="50" stroke-linecap="round" />
               </svg>
-              <i class="fa-solid fa-shield-halved text-blue-600 text-base absolute"></i>
+              <i class="fa-solid fa-shield-halved text-blue-600 text-xs sm:text-sm absolute"></i>
             </div>
+
             <div class="min-w-0">
-              <span class="text-xs font-bold text-slate-400 block">Terkumpul</span>
-              <strong class="text-lg font-black text-slate-900 block truncate">Rp2.750.000</strong>
-              <span class="text-xs font-semibold text-slate-500 block">Target: Rp5.000.000</span>
+              <span class="text-[9px] sm:text-[10px] font-bold text-slate-400 block uppercase">Terkumpul</span>
+              <strong class="text-xs sm:text-sm font-black text-slate-900 block truncate">Rp2.750.000</strong>
+              <span class="text-[9px] sm:text-[10px] font-semibold text-slate-500 block truncate">Target: 5jt</span>
             </div>
           </div>
         </div>
 
-        <button onclick="bukaHalamanSemuaTujuan()" class="text-sm font-extrabold text-blue-600 flex items-center justify-end gap-1.5 active:opacity-60 transition-opacity">
-          Lihat Semua Target <i class="fa-solid fa-chevron-right text-xs"></i>
+        <button onclick="bukaHalamanSemuaTujuan()" class="text-[11px] sm:text-xs font-extrabold text-blue-600 flex items-center justify-end gap-1 mt-3 active:opacity-60 transition-opacity">
+          Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i>
         </button>
       </div>
 
@@ -440,4 +448,4 @@
     </button>
     <h1 class="text-xl font-black">Semua Target</h1>
   </div>
-        </section>
+</section>
