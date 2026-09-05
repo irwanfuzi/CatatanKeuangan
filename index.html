@@ -53,7 +53,6 @@
       --mk-card-light: rgba(255, 255, 255, 0.92);
       --mk-border-light: rgba(226, 232, 240, 0.8);
 
-      /* === TAMBAHAN: variabel layout agar konsisten di semua ukuran layar HP === */
       --mk-app-max-width: 480px;
       --mk-nav-height: 72px;
       --mk-nav-bottom-gap: 14px;
@@ -83,8 +82,6 @@
       padding: 0; 
       overflow: hidden; 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      /* GANTI: backdrop netral di belakang app-frame (kelihatan saat dibuka di layar lebar),
-         warna app sesungguhnya sekarang dipindah ke #appCanvasWrapper */
       background-color: #E2E8F0; 
       color: #0F172A; 
       -webkit-font-smoothing: antialiased;
@@ -92,7 +89,6 @@
     }
 
     body.dark { 
-      /* GANTI: backdrop gelap netral untuk mode dark */
       background-color: #05070F !important; 
       color: #F8FAFC !important; 
     }
@@ -101,8 +97,6 @@
 
     #appCanvasWrapper { 
       height: 100dvh !important; 
-      /* TAMBAHAN: dibatasi max-width & ditengahkan biar proporsional di semua ukuran HP,
-         dan tetap rapi (tidak melebar) kalau file dibuka di tablet/desktop untuk testing */
       max-width: var(--mk-app-max-width);
       width: 100% !important; 
       margin: 0 auto;
@@ -110,12 +104,9 @@
       flex-direction: column; 
       position: relative; 
       overflow: hidden; 
-      /* TAMBAHAN: background app dipindah ke sini (bukan ke body) */
       background-color: var(--mk-bg-light);
     }
 
-    /* TAMBAHAN: efek "device frame" HANYA aktif di layar lebar (>=500px),
-       tidak berpengaruh di HP asli karena lebar HP hampir selalu < 500px */
     @media (min-width: 500px) {
       #appCanvasWrapper {
         height: min(100dvh, 880px) !important;
@@ -133,8 +124,6 @@
       -webkit-overflow-scrolling: touch !important; 
       overscroll-behavior-y: contain; 
       touch-action: pan-y; 
-      /* GANTI: dari angka mati 120px jadi perhitungan dinamis mengikuti tinggi navbar + safe area,
-         supaya konten tidak pernah ketutup/nge-gap aneh di HP dengan home-indicator berbeda-beda */
       padding-bottom: calc(var(--mk-nav-height) + var(--mk-nav-bottom-gap) + var(--safe-bottom) + 24px); 
       padding-top: var(--safe-top);
       padding-left: var(--safe-left);
@@ -158,14 +147,12 @@
     .mk-navbar-wrapper { 
       position: absolute; 
       bottom: calc(var(--mk-nav-bottom-gap) + var(--safe-bottom)); 
-      /* GANTI: tambah safe-area kiri/kanan untuk jaga-jaga orientasi landscape / perangkat foldable */
       left: calc(16px + var(--safe-left)); 
       right: calc(16px + var(--safe-right)); 
       z-index: 50; 
     }
 
     .mk-navbar { 
-      /* GANTI: pakai variabel, satu sumber kebenaran dengan padding-bottom di .app-scroll-container */
       height: var(--mk-nav-height); 
       background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(24px); 
@@ -227,7 +214,6 @@
     .sheet-handle { width: 48px; height: 5px; background: #E2E8F0; border-radius: 99px; margin: 0 auto 20px; }
 
     body.dark #appCanvasWrapper { 
-      /* GANTI: dari "transparent" jadi warna solid, karena body sekarang jadi backdrop netral */
       background-color: #0B132B !important; 
     }
     body.dark .mk-card, body.dark .bottom-sheet-panel { background-color: rgba(19, 28, 51, 0.85) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
@@ -237,12 +223,12 @@
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94A3B8 !important; }
     body.dark input, body.dark select { background-color: #1E293B !important; color: #FFFFFF !important; border-color: #334155 !important; }
 
-    /* TAMBAHAN: samakan lebar splash screen dengan app-frame, agar tidak "lompat" saat transisi
-       ke onboarding/dashboard (splash sebelumnya full-viewport, wrapper sekarang max-width) */
+    /* PERBAIKAN: Splash screen kini berada tepat di tengah tanpa efek biru bocor ke kiri */
     #mykasSplashScreen {
       max-width: var(--mk-app-max-width);
       margin: 0 auto;
-      right: auto;
+      left: 0; 
+      right: 0;
     }
   </style>
 </head>
@@ -278,7 +264,8 @@
           </div>
           <span class="text-2xl font-black text-[#0052FF] font-urbanist tracking-tight">My<span class="text-amber-500">Kas</span></span>
         </div>
-        <button onclick="window.navigasiKeAuth('login')" class="text-xs font-bold text-slate-400 hover:text-slate-700 transition-colors py-2 px-3.5 rounded-xl bg-slate-50 dark:bg-slate-800">Lewati</button>
+        <!-- PERBAIKAN: Menambahkan logic set localStorage pada tombol Lewati -->
+        <button onclick="localStorage.setItem('mykas_has_seen_onboarding', 'true'); window.navigasiKeAuth('login')" class="text-xs font-bold text-slate-400 hover:text-slate-700 transition-colors py-2 px-3.5 rounded-xl bg-slate-50 dark:bg-slate-800">Lewati</button>
       </div>
 
       <div class="flex flex-col items-center text-center my-auto w-full px-2">
@@ -423,9 +410,7 @@
 
   </div>
 
-  <!-- LOADER KOMPONEN ANTI-CACHE TOTAL (FORCE REFRESH BYPASS) -->
   <script>
-    // 1. UNREGISTER SERVICE WORKER LAMA AGAR BROWSER TIDAK MEMBACA CACHE BANDEL
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
@@ -434,7 +419,6 @@
       });
     }
 
-    // 2. LOADER KOMPONEN DENGAN FORCE TIMESTAMP QUERY PARAMETER
     async function muatKomponen(idElement, fileUrl) {
       try {
         const v = new Date().getTime();
@@ -507,7 +491,15 @@
         if (typeof window.syncDataGas === "function") window.syncDataGas();
       } else {
         if (scrDashboard) scrDashboard.classList.add('hidden');
-        if (scrOnboarding) scrOnboarding.classList.remove('hidden');
+        
+        // PERBAIKAN: Jika sudah pernah lihat onboarding, langsung ke login
+        if (localStorage.getItem('mykas_has_seen_onboarding')) {
+          if (scrOnboarding) scrOnboarding.classList.add('hidden');
+          if (scrLogin) scrLogin.classList.remove('hidden');
+        } else {
+          if (scrOnboarding) scrOnboarding.classList.remove('hidden');
+          if (scrLogin) scrLogin.classList.add('hidden');
+        }
       }
       if (typeof window.tutupSplashScreen === "function") window.tutupSplashScreen();
     });
@@ -597,9 +589,15 @@
       }
     }
 
+    // PERBAIKAN: Menyimpan history jika sudah menyelesaikan slider
     window.nextOnboardingSlide = function() {
-      if (currentSlide < dataOnboarding.length - 1) { currentSlide++; renderOnboardingSlide(); } 
-      else { window.navigasiKeAuth('login'); }
+      if (currentSlide < dataOnboarding.length - 1) { 
+        currentSlide++; 
+        renderOnboardingSlide(); 
+      } else { 
+        localStorage.setItem('mykas_has_seen_onboarding', 'true');
+        window.navigasiKeAuth('login'); 
+      }
     };
 
     window.navigasiKeAuth = function(type) {
@@ -686,22 +684,39 @@
       }
     };
 
-    function bukaHalamanSemuaBudget() {
-      document.getElementById('pageHome').classList.add('hidden');
+    // PERBAIKAN: Fungsi Navigasi Tambahan
+    window.bukaHalamanSemuaPengeluaran = function() {
       document.getElementById('pageAnalisis').classList.add('hidden');
-      document.getElementById('pageSemuaBudget').classList.remove('hidden');
-    }
+      const pageSemuaPengeluaran = document.getElementById('pageSemuaPengeluaran');
+      if(pageSemuaPengeluaran) pageSemuaPengeluaran.classList.remove('hidden');
+      
+      const scrollContainer = document.querySelector('.app-scroll-container');
+      if(scrollContainer) scrollContainer.scrollTo(0, 0);
+    };
 
-    function bukaHalamanSemuaTujuan() {
+    window.bukaHalamanSemuaBudget = function() {
       document.getElementById('pageAnalisis').classList.add('hidden');
-      document.getElementById('pageSemuaTujuan').classList.remove('hidden');
-    }
+      const pageSemuaBudget = document.getElementById('pageSemuaBudget');
+      if (pageSemuaBudget) pageSemuaBudget.classList.remove('hidden');
+    };
 
-    function tutupHalamanSub() {
-      document.getElementById('pageSemuaBudget').classList.add('hidden');
-      document.getElementById('pageSemuaTujuan').classList.add('hidden');
-      document.getElementById('pageHome').classList.remove('hidden');
-    }
+    window.bukaHalamanSemuaTujuan = function() {
+      document.getElementById('pageAnalisis').classList.add('hidden');
+      const pageSemuaTujuan = document.getElementById('pageSemuaTujuan');
+      if (pageSemuaTujuan) pageSemuaTujuan.classList.remove('hidden');
+    };
+
+    window.tutupHalamanSub = function() {
+      const pBudget = document.getElementById('pageSemuaBudget');
+      const pTujuan = document.getElementById('pageSemuaTujuan');
+      const pPengeluaran = document.getElementById('pageSemuaPengeluaran');
+      
+      if(pBudget) pBudget.classList.add('hidden');
+      if(pTujuan) pTujuan.classList.add('hidden');
+      if(pPengeluaran) pPengeluaran.classList.add('hidden');
+      
+      document.getElementById('pageAnalisis').classList.remove('hidden');
+    };
 
     function updateUIDenganDataGas(data, isFromCache) {
       if (!data) return;
