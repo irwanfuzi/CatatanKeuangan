@@ -172,7 +172,8 @@
           </div>
         </div>
 
-        <button onclick="bukaHalamanSemuaBudget()" class="text-[11px] sm:text-xs font-extrabold text-blue-600 dark:text-blue-400 flex items-center justify-end gap-1 mt-3 active:opacity-60 transition-opacity">
+        <!-- PERBAIKAN PANGGILAN FUNGSI -->
+        <button onclick="window.bukaHalamanSemuaBudget()" class="text-[11px] sm:text-xs font-extrabold text-blue-600 dark:text-blue-400 flex items-center justify-end gap-1 mt-3 active:opacity-60 transition-opacity">
           Detail <i class="fa-solid fa-chevron-right text-[9px]"></i>
         </button>
       </div>
@@ -217,7 +218,8 @@
           </div>
         </div>
 
-        <button onclick="bukaHalamanSemuaTujuan()" class="text-[11px] sm:text-xs font-extrabold text-blue-600 dark:text-blue-400 flex items-center justify-end gap-1 mt-3 active:opacity-60 transition-opacity">
+        <!-- PERBAIKAN PANGGILAN FUNGSI -->
+        <button onclick="window.bukaHalamanSemuaTujuan()" class="text-[11px] sm:text-xs font-extrabold text-blue-600 dark:text-blue-400 flex items-center justify-end gap-1 mt-3 active:opacity-60 transition-opacity">
           Lihat Semua <i class="fa-solid fa-chevron-right text-[9px]"></i>
         </button>
       </div>
@@ -316,12 +318,14 @@
     <div class="bg-white dark:bg-slate-900 rounded-[28px] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 dark:border-slate-800">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-black text-slate-900 dark:text-white tracking-tight">Transaksi Terakhir</h3>
-        <button onclick="window.bukaModalDetailSemua()" class="text-xs font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1 active:opacity-60">
+        <!-- PERBAIKAN: Fungsi Onclick telah diubah ke bukaHalamanSemuaPengeluaran -->
+        <button onclick="window.bukaHalamanSemuaPengeluaran()" class="text-xs font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1 active:opacity-60">
           Lihat Semua <i class="fa-solid fa-chevron-right text-[10px]"></i>
         </button>
       </div>
 
       <div id="listTransaksiKeluar" class="space-y-3">
+        <!-- Item Transaksi -->
         <div class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50/70 dark:bg-slate-800/40 hover:bg-slate-100/80 dark:hover:bg-slate-800/70 transition-colors border border-slate-100 dark:border-slate-800">
           <div class="flex items-center gap-3.5">
             <div class="w-11 h-11 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-sm shrink-0"><i class="fa-solid fa-utensils"></i></div>
@@ -531,7 +535,7 @@
 <!-- ============================= -->
 <section id="pageSemuaBudget" class="p-4 sm:p-6 flex flex-col gap-4 hidden bg-[#F8FAFC] dark:bg-[#0B132B] min-h-full">
   <div class="flex items-center gap-3 pt-1">
-    <button onclick="tutupHalamanSub()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-sm flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-90 transition-all duration-200">
+    <button onclick="window.tutupHalamanSub()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-sm flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-90 transition-all duration-200">
       <i class="fa-solid fa-arrow-left text-sm"></i>
     </button>
     <h1 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">Semua Budget</h1>
@@ -543,7 +547,7 @@
 <!-- ============================= -->
 <section id="pageSemuaTujuan" class="p-4 sm:p-6 flex flex-col gap-4 hidden bg-[#F8FAFC] dark:bg-[#0B132B] min-h-full">
   <div class="flex items-center gap-3 pt-1">
-    <button onclick="tutupHalamanSub()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-sm flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-90 transition-all duration-200">
+    <button onclick="window.tutupHalamanSub()" class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-sm flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-90 transition-all duration-200">
       <i class="fa-solid fa-arrow-left text-sm"></i>
     </button>
     <h1 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">Semua Tujuan</h1>
@@ -559,7 +563,8 @@
   <!-- HEADER -->
   <!-- ============================= -->
   <div class="flex items-center gap-4 pt-1">
-    <button onclick="tutupHalamanSub()" class="w-11 h-11 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-90 transition-transform duration-200 shrink-0">
+    <!-- PERBAIKAN PANGGILAN FUNGSI -->
+    <button onclick="window.tutupHalamanSub()" class="w-11 h-11 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] flex items-center justify-center text-slate-700 dark:text-slate-200 active:scale-90 transition-transform duration-200 shrink-0">
       <i class="fa-solid fa-arrow-left text-lg"></i>
     </button>
     <h1 class="text-xl font-black text-slate-900 dark:text-white tracking-tight flex-1">Semua Pengeluaran</h1>
