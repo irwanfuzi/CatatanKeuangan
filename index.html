@@ -52,6 +52,15 @@
       --mk-bg-light: #F8FAFC;
       --mk-card-light: rgba(255, 255, 255, 0.92);
       --mk-border-light: rgba(226, 232, 240, 0.8);
+
+      /* === TAMBAHAN: variabel layout agar konsisten di semua ukuran layar HP === */
+      --mk-app-max-width: 480px;
+      --mk-nav-height: 72px;
+      --mk-nav-bottom-gap: 14px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
     }
 
     * { 
@@ -74,21 +83,47 @@
       padding: 0; 
       overflow: hidden; 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      background-color: var(--mk-bg-light); 
+      /* GANTI: backdrop netral di belakang app-frame (kelihatan saat dibuka di layar lebar),
+         warna app sesungguhnya sekarang dipindah ke #appCanvasWrapper */
+      background-color: #E2E8F0; 
       color: #0F172A; 
       -webkit-font-smoothing: antialiased;
       overscroll-behavior: none;
+    }
+
+    body.dark { 
+      /* GANTI: backdrop gelap netral untuk mode dark */
+      background-color: #05070F !important; 
+      color: #F8FAFC !important; 
     }
 
     .font-urbanist { font-family: 'Urbanist', sans-serif; }
 
     #appCanvasWrapper { 
       height: 100dvh !important; 
+      /* TAMBAHAN: dibatasi max-width & ditengahkan biar proporsional di semua ukuran HP,
+         dan tetap rapi (tidak melebar) kalau file dibuka di tablet/desktop untuk testing */
+      max-width: var(--mk-app-max-width);
       width: 100% !important; 
+      margin: 0 auto;
       display: flex; 
       flex-direction: column; 
       position: relative; 
       overflow: hidden; 
+      /* TAMBAHAN: background app dipindah ke sini (bukan ke body) */
+      background-color: var(--mk-bg-light);
+    }
+
+    /* TAMBAHAN: efek "device frame" HANYA aktif di layar lebar (>=500px),
+       tidak berpengaruh di HP asli karena lebar HP hampir selalu < 500px */
+    @media (min-width: 500px) {
+      #appCanvasWrapper {
+        height: min(100dvh, 880px) !important;
+        margin-top: max(20px, var(--safe-top));
+        margin-bottom: 20px;
+        border-radius: 36px;
+        box-shadow: 0 30px 70px -15px rgba(15, 23, 42, 0.28), 0 0 0 1px rgba(15, 23, 42, 0.06);
+      }
     }
 
     .app-scroll-container { 
@@ -98,8 +133,12 @@
       -webkit-overflow-scrolling: touch !important; 
       overscroll-behavior-y: contain; 
       touch-action: pan-y; 
-      padding-bottom: 120px; 
-      padding-top: env(safe-area-inset-top);
+      /* GANTI: dari angka mati 120px jadi perhitungan dinamis mengikuti tinggi navbar + safe area,
+         supaya konten tidak pernah ketutup/nge-gap aneh di HP dengan home-indicator berbeda-beda */
+      padding-bottom: calc(var(--mk-nav-height) + var(--mk-nav-bottom-gap) + var(--safe-bottom) + 24px); 
+      padding-top: var(--safe-top);
+      padding-left: var(--safe-left);
+      padding-right: var(--safe-right);
     }
 
     .app-scroll-container::-webkit-scrollbar,
@@ -118,14 +157,16 @@
 
     .mk-navbar-wrapper { 
       position: absolute; 
-      bottom: calc(14px + env(safe-area-inset-bottom)); 
-      left: 16px; 
-      right: 16px; 
+      bottom: calc(var(--mk-nav-bottom-gap) + var(--safe-bottom)); 
+      /* GANTI: tambah safe-area kiri/kanan untuk jaga-jaga orientasi landscape / perangkat foldable */
+      left: calc(16px + var(--safe-left)); 
+      right: calc(16px + var(--safe-right)); 
       z-index: 50; 
     }
 
     .mk-navbar { 
-      height: 72px; 
+      /* GANTI: pakai variabel, satu sumber kebenaran dengan padding-bottom di .app-scroll-container */
+      height: var(--mk-nav-height); 
       background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(24px); 
       -webkit-backdrop-filter: blur(24px); 
@@ -185,17 +226,24 @@
     .bottom-sheet-backdrop.active .bottom-sheet-panel { transform: translateY(0); }
     .sheet-handle { width: 48px; height: 5px; background: #E2E8F0; border-radius: 99px; margin: 0 auto 20px; }
 
-    body.dark { 
+    body.dark #appCanvasWrapper { 
+      /* GANTI: dari "transparent" jadi warna solid, karena body sekarang jadi backdrop netral */
       background-color: #0B132B !important; 
-      color: #F8FAFC !important; 
     }
-    body.dark #appCanvasWrapper { background-color: transparent !important; }
     body.dark .mk-card, body.dark .bottom-sheet-panel { background-color: rgba(19, 28, 51, 0.85) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
     body.dark .mk-navbar { background: rgba(19, 28, 51, 0.85) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
     body.dark .mk-btn-add-main { border-color: #0B132B !important; }
     body.dark .text-slate-900, body.dark .text-slate-800, body.dark .text-slate-700 { color: #F8FAFC !important; }
     body.dark .text-slate-500, body.dark .text-slate-400 { color: #94A3B8 !important; }
     body.dark input, body.dark select { background-color: #1E293B !important; color: #FFFFFF !important; border-color: #334155 !important; }
+
+    /* TAMBAHAN: samakan lebar splash screen dengan app-frame, agar tidak "lompat" saat transisi
+       ke onboarding/dashboard (splash sebelumnya full-viewport, wrapper sekarang max-width) */
+    #mykasSplashScreen {
+      max-width: var(--mk-app-max-width);
+      margin: 0 auto;
+      right: auto;
+    }
   </style>
 </head>
 
