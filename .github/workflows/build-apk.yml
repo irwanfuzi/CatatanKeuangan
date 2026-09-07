@@ -1,4 +1,4 @@
-name: Ubah HTML-JS Jadi APK
+name: Build Flutter APK
 
 on:
   push:
@@ -11,55 +11,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Tarik Code HTML/JS
+      - name: Tarik Code Repository
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
 
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '21'
+          java-version: '17'
 
-      - name: Bersihkan Build Lama & Siapkan Folder Aset
-        run: |
-          rm -rf www android capacitor.config.json capacitor.config.ts
-          mkdir -p www
-          cp index.html www/
-          [ -f sw.js ] && cp sw.js www/ || echo "No sw.js"
-          [ -f manifest.json ] && cp manifest.json www/ || echo "No manifest"
-          cp *.svg www/ 2>/dev/null || echo "Tidak ada file SVG tambahan"
-          cp *.png www/ 2>/dev/null || echo "Tidak ada file PNG tambahan"
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
 
-      - name: Install & Init Project Capacitor
-        run: |
-          npm install
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
-          npx cap init "MyKas - Own Your Money" com.mykas.ownyourmoney --web-dir=www
-          npx cap add android
+      - name: Install Dependencies
+        run: flutter pub get
 
-      - name: Generasi Ikon Aplikasi
-        run: |
-          if [ -f icon.png ]; then
-            npx --yes @capacitor/assets generate --android || echo "Menggunakan ikon bawaan Capacitor"
-          fi
-
-      - name: Sinkronisasi & Beri Izin Gradlew
-        run: |
-          npx cap sync
-          chmod +x android/gradlew
-
-      - name: Rakit APK
-        run: |
-          cd android
-          ./gradlew assembleDebug --no-daemon
+      - name: Build APK Native (Release)
+        run: flutter build apk --release
 
       - name: Upload APK Jadi
         uses: actions/upload-artifact@v4
         with:
-          name: MyKas-Own-Your-Money-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: MyKas-Native-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
