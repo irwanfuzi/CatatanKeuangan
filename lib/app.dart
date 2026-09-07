@@ -1,86 +1,44 @@
 import 'package:flutter/material.dart';
-import 'theme/app_theme.dart';
+import 'screens/beranda/beranda_screen.dart';
+import 'screens/analisis/analisis_screen.dart';
+import 'screens/dompet/dompet_screen.dart';
+import 'screens/profil/profil_screen.dart';
+import 'widgets/bottom_nav_bar.dart';
 
-// 1. IMPORT FILE POPUP-NYA DI SINI
-import 'widgets/cta_bottom_sheet.dart'; 
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Catatan Keuangan',
-      theme: AppTheme.lightTheme,
-      debugShowCheckedModeBanner: false,
-      home: const MainWrapper(), 
-    );
-  }
-}
-
-class MainWrapper extends StatefulWidget {
-  const MainWrapper({super.key});
+class MainAppScreen extends StatefulWidget {
+  const MainAppScreen({super.key});
 
   @override
-  State<MainWrapper> createState() => _MainWrapperState();
+  State<MainAppScreen> createState() => _MainAppScreenState();
 }
 
-class _MainWrapperState extends State<MainWrapper> {
+class _MainAppScreenState extends State<MainAppScreen> {
   int _currentIndex = 0;
 
-  // Placeholder untuk halaman-halaman lu nanti
   final List<Widget> _screens = [
-    const Center(child: Text('Ini Halaman Beranda\nNanti diganti UI Beranda', textAlign: TextAlign.center)),
-    const Center(child: Text('Ini Halaman Analisis\nNanti diganti UI Analisis', textAlign: TextAlign.center)),
-    const Center(child: Text('Ini Halaman Dompet\nNanti diganti UI Dompet', textAlign: TextAlign.center)),
-    const Center(child: Text('Ini Halaman Profil\nNanti diganti UI Profil', textAlign: TextAlign.center)),
+    const BerandaScreen(),
+    const AnalisisScreen(),
+    const DompetScreen(),
+    const ProfilScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
-      
-      // ==========================================
-      // 2. INI TOMBOL PLUS (+) DI TENGAH BAWAH
-      // ==========================================
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF0052FF), // Warna biru brand lu
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16), // Biar tombolnya agak kotak kekinian
-        ),
-        onPressed: () {
-          // 3. PANGGIL FUNGSI POPUP DARI FILE cta_bottom_sheet.dart
-          showCtaBottomSheet(context);
-        },
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
       ),
-      // Posisi tombol dibikin ngambang di tengah bawah
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      
-      // ==========================================
-      // NAVIGASI BAWAH (BOTTOM NAVBAR)
-      // ==========================================
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: MKBottomNavBar(
         currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed, 
-        selectedItemColor: const Color(0xFF0052FF),
-        unselectedItemColor: Colors.grey,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Analisis'),
-          // Dikasih label kosong biar ada jarak buat tombol Plus (+) di tengah
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet, color: Colors.transparent), label: ''), 
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Dompet'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profil'),
-        ],
+        onAddTap: () {
+          // TODO: Panggil CTA Bottom Sheet Tambah Transaksi
+        },
       ),
     );
   }
