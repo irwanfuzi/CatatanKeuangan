@@ -53,11 +53,7 @@ class MKBottomNavBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: isSelected ? const Color(0xFF0052FF) : Colors.grey,
-          ),
+          Icon(icon, size: 20, color: isSelected ? const Color(0xFF0052FF) : Colors.grey),
           const SizedBox(height: 4),
           Text(
             label,
@@ -76,20 +72,16 @@ class MKBottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: onAddTap,
       child: Container(
-        height: 56,
-        width: 56,
-        margin: const EdgeInsets.only(bottom: 20), // Angkat ke atas (floating)
+        height: 56, width: 56,
+        margin: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF0052FF), Color(0xFF0038FF)],
-          ),
+          gradient: const LinearGradient(colors: [Color(0xFF0052FF), Color(0xFF0038FF)]),
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white, width: 4),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF0052FF).withOpacity(0.4),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              blurRadius: 12, offset: const Offset(0, 4),
             )
           ],
         ),
