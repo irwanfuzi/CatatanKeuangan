@@ -1,75 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../services/api_service.dart';
 
 class DompetScreen extends StatelessWidget {
   const DompetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: FutureBuilder<Map<String, dynamic>>(
+        future: ApiService.getSummary(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
+          if (snapshot.hasError) return Center(child: Text('Error: ${snapshot.error}'));
+
+          final data = snapshot.data ?? {};
+          final dompet = data['dompet'] ?? {};
+
+          return ListView(
+            padding: const EdgeInsets.all(16),
             children: [
               const Text('Dompet & Rekening', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
-              IconButton(
-                icon: const Icon(FontAwesomeIcons.circlePlus, color: Color(0xFF0052FF)),
-                onPressed: () {},
-              )
+              const SizedBox(height: 20),
+              _buildWalletCard('Kantong Tunai', dompet['tunai'] ?? 'Rp 0', FontAwesomeIcons.wallet, Colors.teal),
+              _buildWalletCard('Rekening Bank', dompet['bank'] ?? 'Rp 0', FontAwesomeIcons.buildingColumns, Colors.blue),
+              _buildWalletCard('Dompet Digital', dompet['digital'] ?? 'Rp 0', FontAwesomeIcons.mobileScreen, Colors.orange),
+              _buildWalletCard('Tabungan', dompet['tabungan'] ?? 'Rp 0', FontAwesomeIcons.piggyBank, Colors.indigo),
             ],
-          ),
-          const SizedBox(height: 16),
-          
-          // List Dompet Kartu
-          _buildWalletCard('wondr by BNI', 'Utama / Pengeluaran', 'Rp 1.450.333', FontAwesomeIcons.buildingColumns, Colors.teal, isDark),
-          _buildWalletCard('BYOND by BSI', 'Tabungan Syariah', 'Rp 600.000', FontAwesomeIcons.landmark, Colors.green, isDark),
-          _buildWalletCard('ShopeePay / E-Wallet', 'Belanja & Jajan', 'Rp 195.500', FontAwesomeIcons.wallet, Colors.deepOrange, isDark),
-          _buildWalletCard('Bibit / Reksa Dana', 'Investasi Portofolio', 'Rp 100.000', FontAwesomeIcons.chartLine, Colors.indigo, isDark),
-          
-          const SizedBox(height: 24),
-          const Text('Aset Fisik', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
-          _buildWalletCard('BRANKAS Logam Mulia (Antam)', 'Investasi Emas', 'Rp 0', FontAwesomeIcons.gem, Colors.amber, isDark),
-        ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildWalletCard(String name, String type, String balance, IconData icon, Color accentColor, bool isDark) {
+  Widget _buildWalletCard(String name, String balance, IconData icon, Color color) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF131C33) : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: isDark ? Colors.white10 : Colors.grey.shade200),
-      ),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.grey.shade200)),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: accentColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Icon(icon, color: accentColor, size: 20),
+            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(16)),
+            child: Icon(icon, color: color, size: 20),
           ),
           const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 2),
-                Text(type, style: const TextStyle(fontSize: 11, color: Colors.grey)),
-              ],
-            ),
-          ),
-          Text(balance, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900)),
+          Expanded(child: Text(name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold))),
+          Text(balance, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
         ],
       ),
     );
