@@ -4,6 +4,7 @@ import 'screens/analisis/analisis_screen.dart';
 import 'screens/dompet/dompet_screen.dart';
 import 'screens/profil/profil_screen.dart';
 import 'widgets/bottom_nav_bar.dart';
+import 'widgets/cta_bottom_sheet.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
@@ -37,7 +38,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
           });
         },
         onAddTap: () {
-          // TODO: Panggil CTA Bottom Sheet Tambah Transaksi
+          showCtaBottomSheet(context);
         },
       ),
     );
