@@ -23,14 +23,15 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3' # 👈 TAMBAHKAN BARIS INI (Kunci versi Flutter)
+          flutter-version: '3.24.3' 
           channel: 'stable'
 
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Generate Folder Android
-        run: flutter create --platforms=android .
+        # 👇 BARIS INI YANG DIUPDATE 👇
+        run: flutter create --project-name mykas --platforms=android .
 
       - name: Build APK Native (Release)
         run: flutter build apk --release
