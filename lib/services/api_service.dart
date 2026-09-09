@@ -2,16 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // TODO: Ganti URL ini dengan URL Web App dari Google Apps Script Anda (Deployment terbaru)
-  static const String scriptUrl = "https://script.google.com/macros/s/AKfycb.../exec";
+  static const String scriptUrl = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
 
-  // Fungsi untuk MENGAMBIL data (Contoh: Total Kekayaan)
-  static Future<Map<String, dynamic>> getRingkasan() async {
+  // Fungsi untuk Mengambil Data Summary
+  static Future<Map<String, dynamic>> getSummary() async {
     try {
-      final response = await http.get(Uri.parse('$scriptUrl?action=getRingkasan'));
-
+      final response = await http.get(Uri.parse(scriptUrl));
       if (response.statusCode == 200) {
-        // Asumsi output dari Apps Script adalah JSON
         return json.decode(response.body);
       } else {
         throw Exception('Gagal memuat data');
@@ -21,23 +18,24 @@ class ApiService {
     }
   }
 
-  // Fungsi untuk MENGIRIM data (Contoh: Tambah Transaksi Baru)
-  static Future<bool> tambahTransaksi(String jenis, String nominal, String kategori, String dompet) async {
+  // Fungsi untuk Mengirim Data (POST) ke Google Sheets
+  static Future<bool> tambahTransaksi(String jenis, String nominal, String keterangan, String kategori, String dompet) async {
     try {
       final response = await http.post(
         Uri.parse(scriptUrl),
-        body: {
-          "action": "tambahTransaksi",
-          "jenis": jenis,       // "Pemasukan" atau "Pengeluaran"
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "tanggal": DateTime.now().toIso8601String(),
+          "jenis": jenis,
           "nominal": nominal,
+          "keterangan": keterangan,
           "kategori": kategori,
           "dompet": dompet,
-        },
+        }),
       );
 
-      if (response.statusCode == 200) {
-        final result = json.decode(response.body);
-        return result['status'] == 'success';
+      if (response.statusCode == 200 || response.statusCode == 302) {
+        return true;
       }
       return false;
     } catch (e) {
