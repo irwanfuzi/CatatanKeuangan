@@ -13,6 +13,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   fl_chart: ^0.65.0
   flutter_svg: ^2.0.9
+  http: ^1.2.0 # Tambahkan baris ini
 
 dev_dependencies:
   flutter_test:
