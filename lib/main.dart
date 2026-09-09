@@ -16,7 +16,7 @@ class MyKasApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system, // Otomatis menyesuaikan perangkat
+      themeMode: ThemeMode.system,
       home: const MainAppScreen(),
     );
   }
