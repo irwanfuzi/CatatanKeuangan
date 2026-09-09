@@ -28,6 +28,11 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      # 👇 TAMBAHKAN BAGIAN INI 👇
+      - name: Generate Folder Android
+        run: flutter create --platforms=android .
+      # 👆 --------------------- 👆
+
       - name: Build APK Native (Release)
         run: flutter build apk --release
 
