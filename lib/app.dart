@@ -26,7 +26,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true, // Memungkinkan konten melayang di bawah floating bottom navbar
+      extendBody: true,
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
