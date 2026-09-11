@@ -21,9 +21,7 @@ class BerandaScreen extends StatelessWidget {
       backgroundColor: surfaceDark,
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async {
-            // Logika reload data jika diperlukan
-          },
+          onRefresh: () async {},
           color: accentGlow,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -31,35 +29,22 @@ class BerandaScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // 1. TOP BAR (HEADER & USER AVATAR)
                 _buildTopHeader(),
                 const SizedBox(height: 20),
-
-                // 2. HERO CARD (TOTAL ASET & ROYAL GRADIENT)
                 _buildRoyalHeroCard(),
                 const SizedBox(height: 24),
-
-                // 3. DOMPET & REKENING (SLIDER CARD)
                 _buildSectionHeader('Dompet & Rekening', onSeeAll: () {}),
                 const SizedBox(height: 12),
                 _buildDompetHorizontalList(),
                 const SizedBox(height: 24),
-
-                // 4. QUICK ACTIONS (GRID AKSES CEPAT)
                 _buildSectionHeader('Akses Cepat'),
                 const SizedBox(height: 12),
                 _buildQuickActionGrid(context),
                 const SizedBox(height: 24),
-
-                // 5. PROGRESS BUDGET BULAN INI
                 _buildBudgetProgressBar(),
                 const SizedBox(height: 24),
-
-                // 6. FINANCIAL INSIGHT BANNER
                 _buildFinancialInsightCard(),
                 const SizedBox(height: 24),
-
-                // 7. 4 TRANSAKSI TERBARU
                 _buildSectionHeader('Transaksi Terbaru', onSeeAll: () {}),
                 const SizedBox(height: 12),
                 _buildRecentTransactionsList(empatTransaksiTerbaru),
@@ -71,8 +56,6 @@ class BerandaScreen extends StatelessWidget {
       ),
     );
   }
-
-  // --- WIDGET COMPONENTS ---
 
   Widget _buildTopHeader() {
     return Row(
@@ -174,14 +157,14 @@ class BerandaScreen extends StatelessWidget {
               color: Colors.black.withOpacity(0.2),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.auto_graph_rounded, color: accentGlow, size: 18),
-                SizedBox(width: 10),
+                const Icon(Icons.auto_graph_rounded, color: accentGlow, size: 18),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     'Pengeluaran bulan ini 12% lebih hemat dari bulan lalu.',
-                    style: TextStyle(color: Colors.white90, fontSize: 12, fontWeight: FontWeight.w400),
+                    style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 12, fontWeight: FontWeight.w400),
                   ),
                 ),
               ],
@@ -195,7 +178,7 @@ class BerandaScreen extends StatelessWidget {
   Widget _buildDompetHorizontalList() {
     final dompet = summaryData['dompet'] ?? {};
     final listDompet = [
-      {'nama': 'Kantong Tunai', 'saldo': dompet['tunai'] ?? 'Rp 0', 'icon': Icons.account_balance_wallet_rounded, 'color': Colors.emeraldAccent},
+      {'nama': 'Kantong Tunai', 'saldo': dompet['tunai'] ?? 'Rp 0', 'icon': Icons.account_balance_wallet_rounded, 'color': Colors.greenAccent},
       {'nama': 'Rekening Bank', 'saldo': dompet['bank'] ?? 'Rp 0', 'icon': Icons.account_balance_rounded, 'color': accentGlow},
       {'nama': 'Dompet Digital', 'saldo': dompet['digital'] ?? 'Rp 0', 'icon': Icons.qr_code_scanner_rounded, 'color': Colors.amberAccent},
       {'nama': 'Tabungan', 'saldo': dompet['tabungan'] ?? 'Rp 0', 'icon': Icons.savings_rounded, 'color': Colors.purpleAccent},
@@ -253,7 +236,7 @@ class BerandaScreen extends StatelessWidget {
     final actions = [
       {'label': 'Scan Struk', 'icon': Icons.document_scanner_rounded, 'color': accentGlow},
       {'label': 'Budget', 'icon': Icons.pie_chart_outline_rounded, 'color': Colors.amberAccent},
-      {'label': 'Laporan', 'icon': Icons.bar_chart_rounded, 'color': Colors.emeraldAccent},
+      {'label': 'Laporan', 'icon': Icons.bar_chart_rounded, 'color': Colors.greenAccent},
       {'label': 'Kategori', 'icon': Icons.grid_view_rounded, 'color': Colors.purpleAccent},
       {'label': 'Cari', 'icon': Icons.search_rounded, 'color': Colors.pinkAccent},
     ];
@@ -292,7 +275,7 @@ class BerandaScreen extends StatelessWidget {
   }
 
   Widget _buildBudgetProgressBar() {
-    double progress = 0.65; // Persentase budget terpakai
+    double progress = 0.65;
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -308,7 +291,7 @@ class BerandaScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Sisa Budget Bulan Ini', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
-              Text('${((1 - progress) * 100).toInt()}% Tersisa', style: const TextStyle(color: Colors.emeraldAccent, fontSize: 12, fontWeight: FontWeight.bold)),
+              Text('${((1 - progress) * 100).toInt()}% Tersisa', style: const TextStyle(color: Colors.greenAccent, fontSize: 12, fontWeight: FontWeight.bold)),
             ],
           ),
           const SizedBox(height: 12),
@@ -357,15 +340,15 @@ class BerandaScreen extends StatelessWidget {
             child: const Icon(Icons.lightbulb_rounded, color: Colors.amberAccent, size: 22),
           ),
           const SizedBox(width: 14),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Insight Keuangan', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amberAccent, fontSize: 13)),
-                SizedBox(height: 2),
+                const Text('Insight Keuangan', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amberAccent, fontSize: 13)),
+                const SizedBox(height: 2),
                 Text(
                   'Kategori "Makanan" mendominasi 60% pengeluaranmu. Yuk, atur ulang batas bulananmu!',
-                  style: TextStyle(fontSize: 11, color: Colors.white80, height: 1.3),
+                  style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(0.8), height: 1.3),
                 ),
               ],
             ),
@@ -407,12 +390,12 @@ class BerandaScreen extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: isPengeluaran ? Colors.redAccent.withOpacity(0.12) : Colors.emeraldAccent.withOpacity(0.12),
+                  color: isPengeluaran ? Colors.redAccent.withOpacity(0.12) : Colors.greenAccent.withOpacity(0.12),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(
                   isPengeluaran ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                  color: isPengeluaran ? Colors.redAccent : Colors.emeraldAccent,
+                  color: isPengeluaran ? Colors.redAccent : Colors.greenAccent,
                   size: 20,
                 ),
               ),
@@ -429,7 +412,7 @@ class BerandaScreen extends StatelessWidget {
                     const SizedBox(height: 3),
                     Text(
                       '${item['kategori']} • ${item['dompet']}',
-                      style: const TextStyle(color: Colors.white42, fontSize: 11),
+                      style: TextStyle(color: Colors.white.withOpacity(0.42), fontSize: 11),
                     ),
                   ],
                 ),
@@ -439,7 +422,7 @@ class BerandaScreen extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  color: isPengeluaran ? Colors.redAccent : Colors.emeraldAccent,
+                  color: isPengeluaran ? Colors.redAccent : Colors.greenAccent,
                 ),
               ),
             ],
