@@ -19,18 +19,19 @@ class TransaksiModel {
 
   factory TransaksiModel.fromJson(Map<String, dynamic> json) {
     return TransaksiModel(
-      id: json['id'] ?? '',
-      tanggal: json['tanggal'] ?? '',
-      jenis: json['jenis'] ?? '',
-      nominal: double.tryParse(json['nominal'].toString()) ?? 0.0,
-      keterangan: json['keterangan'] ?? '',
-      kategori: json['kategori'] ?? '',
-      dompet: json['dompet'] ?? '',
+      id: json['id']?.toString() ?? '',
+      tanggal: json['tanggal']?.toString() ?? '',
+      jenis: json['jenis']?.toString() ?? '',
+      nominal: double.tryParse(json['nominal']?.toString() ?? '0') ?? 0.0,
+      keterangan: json['keterangan']?.toString() ?? '',
+      kategori: json['kategori']?.toString() ?? '',
+      dompet: json['dompet']?.toString() ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'tanggal': tanggal,
       'jenis': jenis,
       'nominal': nominal,
