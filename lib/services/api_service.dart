@@ -5,27 +5,22 @@ class ApiService {
   static const String scriptUrl =
       "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
 
-  // Fungsi untuk Mengambil Data Summary (GET)
+  // Fungsi Fetch Summary yang kompatibel sempurna dengan Flutter Web & Android
   static Future<Map<String, dynamic>> getSummary() async {
     try {
-      final response = await http.get(
-        Uri.parse(scriptUrl),
-        headers: {
-          'Accept': 'application/json',
-        },
-      );
+      final response = await http.get(Uri.parse(scriptUrl));
 
       if (response.statusCode == 200 || response.statusCode == 302) {
         return json.decode(response.body) as Map<String, dynamic>;
       } else {
-        throw Exception('Gagal memuat data dari server (${response.statusCode})');
+        throw Exception('Gagal memuat data (${response.statusCode})');
       }
     } catch (e) {
       throw Exception('Error koneksi: $e');
     }
   }
 
-  // Fungsi untuk Mengirim Data Transaksi Baru (POST Bypass CORS)
+  // Fungsi Tambah Transaksi
   static Future<bool> tambahTransaksi(
     String jenis,
     String nominal,
@@ -52,10 +47,7 @@ class ApiService {
         }),
       );
 
-      if (response.statusCode == 200 || response.statusCode == 302) {
-        return true;
-      }
-      return false;
+      return response.statusCode == 200 || response.statusCode == 302;
     } catch (e) {
       print("Error simpan data: $e");
       return false;
