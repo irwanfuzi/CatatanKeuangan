@@ -41,6 +41,10 @@ class _MainAppScreenState extends State<MainAppScreen> {
         },
         onAddTap: () {
           showCtaBottomSheet(context);
+          // Contoh pemanggilan di dalam MainAppScreen atau IndexedStack lib/app.dart
+BerandaScreen(
+  summaryData: summaryData, // Kirimkan data summary dari API
+)
         },
       ),
     );
