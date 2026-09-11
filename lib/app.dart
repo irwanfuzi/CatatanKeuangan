@@ -3,8 +3,9 @@ import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/dompet/dompet_screen.dart';
 import 'screens/profil/profil_screen.dart';
-import 'widgets/mk_bottom_nav_bar.dart';
-import 'widgets/add_transaction_bottom_sheet.dart';
+// PERBAIKAN PATH IMPORT DIBAWAH INI:
+import 'widgets/bottom_nav_bar.dart';
+import 'widgets/cta_bottom_sheet.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
