@@ -36,7 +36,6 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: bgLight,
         elevation: 0,
-        scaffoldColorScheme: ColorScheme.light(),
         iconTheme: IconThemeData(color: Colors.black),
       ),
       cardTheme: CardTheme(
