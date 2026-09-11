@@ -1,27 +1,42 @@
-name: mykas
-description: Premium Financial Tracker App.
-publish_to: 'none'
-version: 1.0.0+1
+name: Build Flutter APK
 
-environment:
-  sdk: '>=3.0.0 <4.0.0'
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
-dependencies:
-  flutter:
-    sdk: flutter
-  google_fonts: ^6.1.0
-  font_awesome_flutter: ^10.7.0
-  fl_chart: ^0.65.0
-  flutter_svg: ^2.0.9
-  http: ^1.2.0
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.0
+    steps:
+      - name: Tarik Code Repository
+        uses: actions/checkout@v4
 
-flutter:
-  uses-material-design: true
-  assets:
-    - assets/icons/
-    - assets/images/
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter (Lock Version 3.24.3)
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Generate Folder Android
+        run: flutter create --project-name mykas --platforms=android .
+
+      - name: Build APK Native (Release)
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyKas-Native-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
