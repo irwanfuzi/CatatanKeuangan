@@ -1,14 +1,21 @@
-import 'dart:convert';
+import 'dart0:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String scriptUrl = "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
+  static const String scriptUrl =
+      "https://script.google.com/macros/s/AKfycbwk9WxEshShA_NdpfYl_ol9w520n1m9WtzUJ6Kxrv5u-5WzOvqKTeCyLjdMe3QJrAf4/exec";
 
   // Fungsi untuk Mengambil Data Summary (GET)
   static Future<Map<String, dynamic>> getSummary() async {
     try {
-      final response = await http.get(Uri.parse(scriptUrl));
-      if (response.statusCode == 200) {
+      final response = await http.get(
+        Uri.parse(scriptUrl),
+        headers: {
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 302) {
         return json.decode(response.body) as Map<String, dynamic>;
       } else {
         throw Exception('Gagal memuat data dari server (${response.statusCode})');
@@ -18,21 +25,24 @@ class ApiService {
     }
   }
 
-  // Fungsi untuk Mengirim Data Transaksi Baru (POST)
+  // Fungsi untuk Mengirim Data Transaksi Baru (POST Bypass CORS)
   static Future<bool> tambahTransaksi(
-    String jenis, 
-    String nominal, 
-    String keterangan, 
-    String kategori, 
-    String dompet
+    String jenis,
+    String nominal,
+    String keterangan,
+    String kategori,
+    String dompet,
   ) async {
     try {
-      // Pastikan nominal dikirim dalam bentuk angka murni tanpa titik/koma
+      // Pastikan nominal dikirim dalam bentuk angka murni
       final cleanNominal = nominal.replaceAll(RegExp(r'[^0-9]'), '');
 
+      // Menggunakan Content-Type: text/plain mencegah browser melakukan CORS preflight (OPTIONS)
       final response = await http.post(
         Uri.parse(scriptUrl),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "text/plain",
+        },
         body: json.encode({
           "action": "tambahTransaksi",
           "tanggal": DateTime.now().toIso8601String(),
@@ -44,7 +54,6 @@ class ApiService {
         }),
       );
 
-      // Google Apps Script sering mengembalikan status 200 atau 302 saat redirect sukses
       if (response.statusCode == 200 || response.statusCode == 302) {
         return true;
       }
