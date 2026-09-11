@@ -1,10 +1,15 @@
-name: Build Flutter APK & Web
+name: Build Flutter APK & Deploy Web
 
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
@@ -29,9 +34,13 @@ jobs:
       - name: Generate Project Android & Web
         run: flutter create --project-name mykas --platforms=android,web .
 
+      - name: Inject Internet Permission (Android)
+        run: sed -i '/<manifest/a \    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>' android/app/src/main/AndroidManifest.xml
+
       - name: Install Dependencies
         run: flutter pub get
 
+      # 1. BUILD APK NATIVE
       - name: Build APK Native (Release)
         run: flutter build apk --release
 
@@ -40,3 +49,23 @@ jobs:
         with:
           name: MyKas-Native-APK
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      # 2. BUILD FLUTTER WEB FOR GITHUB PAGES
+      - name: Build Flutter Web
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Upload Web Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy-web:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
