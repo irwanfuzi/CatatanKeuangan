@@ -1,4 +1,4 @@
-import 'dart0:convert';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -34,10 +34,8 @@ class ApiService {
     String dompet,
   ) async {
     try {
-      // Pastikan nominal dikirim dalam bentuk angka murni
       final cleanNominal = nominal.replaceAll(RegExp(r'[^0-9]'), '');
 
-      // Menggunakan Content-Type: text/plain mencegah browser melakukan CORS preflight (OPTIONS)
       final response = await http.post(
         Uri.parse(scriptUrl),
         headers: {
