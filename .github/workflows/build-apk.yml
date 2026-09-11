@@ -1,4 +1,4 @@
-name: Build Flutter APK
+name: Build Flutter APK & Web
 
 on:
   push:
@@ -26,8 +26,8 @@ jobs:
           flutter-version: '3.24.3'
           channel: 'stable'
 
-      - name: Generate Project & Folder Android
-        run: flutter create --project-name mykas --platforms=android .
+      - name: Generate Project Android & Web
+        run: flutter create --project-name mykas --platforms=android,web .
 
       - name: Install Dependencies
         run: flutter pub get
