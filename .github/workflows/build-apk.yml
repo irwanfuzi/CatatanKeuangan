@@ -20,23 +20,22 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter
+      - name: Setup Flutter (Lock Version 3.24.3)
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3' 
+          flutter-version: '3.24.3'
           channel: 'stable'
+
+      - name: Generate Project & Folder Android
+        run: flutter create --project-name mykas --platforms=android .
 
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Generate Folder Android
-        # 👇 BARIS INI YANG DIUPDATE 👇
-        run: flutter create --project-name mykas --platforms=android .
-
       - name: Build APK Native (Release)
         run: flutter build apk --release
 
-      - name: Upload APK Jadi
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: MyKas-Native-APK
