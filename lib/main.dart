@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'theme/app_theme.dart';
-import 'app.dart';
+import 'theme/app_theme.dart'; // Sesuaikan jika lokasi file berada di utils/app_theme.dart
+import 'screens/main_navigation.dart';
 
 void main() {
   runApp(const MyKasApp());
@@ -16,8 +16,8 @@ class MyKasApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      home: const MainAppScreen(),
+      themeMode: ThemeMode.system, // Otomatis ikuti mode Light/Dark HP
+      home: const MainNavigation(),
     );
   }
 }
