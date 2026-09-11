@@ -1,0 +1,10 @@
+{
+  "outputDirectory": "build/web",
+  "buildCommand": "if [ ! -d \"flutter\" ]; then git clone https://github.com/flutter/flutter.git -b 3.24.3 --depth 1; fi && ./flutter/bin/flutter create --project-name mykas --platforms=web . && ./flutter/bin/flutter build web --release",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
