@@ -1,6 +1,6 @@
 {
   "outputDirectory": "build/web",
-  "buildCommand": "if [ ! -d \"flutter\" ]; then git clone https://github.com/flutter/flutter.git -b 3.24.3 --depth 1; fi && chmod +x ./flutter/bin/flutter && ./flutter/bin/flutter config --enable-web && ./flutter/bin/flutter build web --release",
+  "buildCommand": "if [ ! -d \"flutter\" ]; then git clone https://github.com/flutter/flutter.git -b 3.24.3 --depth 1; fi && export PATH=\"$PATH:`pwd`/flutter/bin\" && flutter config --enable-web && flutter pub get && flutter build web --release",
   "rewrites": [
     {
       "source": "/(.*)",
