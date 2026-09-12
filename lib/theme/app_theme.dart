@@ -2,16 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const Color brandPrimary = Color(0xFF0052FF);
+  // Brand Color
+  static const Color brandPrimary = Color(0xFF0D47A1); // Royal Blue
+  static const Color brandLightBlue = Color(0xFF1976D2);
+  static const Color brandAccent = Color(0xFF42A5F5);
+
+  // Light Theme Palette
   static const Color bgLight = Color(0xFFF8FAFC);
   static const Color cardLight = Colors.white;
-  
-  static const Color bgDark = Color(0xFF0B132B);
-  static const Color cardDark = Color(0xFF131C33);
+  static const Color borderLight = Color(0xFFE2E8F0);
+  static const Color textPrimaryLight = Color(0xFF0F172A);
+  static const Color textSecondaryLight = Color(0xFF64748B);
+
+  // Dark Theme Palette
+  static const Color bgDark = Color(0xFF0B0E14);
+  static const Color cardDark = Color(0xFF151C28);
+  static const Color borderDark = Color(0xFF1E293B);
+  static const Color textPrimaryDark = Color(0xFFF8FAFC);
+  static const Color textSecondaryDark = Color(0xFF94A3B8);
 
   static ThemeData get lightTheme {
     final baseTextTheme = ThemeData.light().textTheme;
-    
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
@@ -26,32 +38,38 @@ class AppTheme {
       textTheme: GoogleFonts.plusJakartaSansTextTheme(baseTextTheme).copyWith(
         displayLarge: GoogleFonts.urbanist(
           fontWeight: FontWeight.w900,
-          color: Colors.black,
+          color: textPrimaryLight,
         ),
         titleLarge: GoogleFonts.urbanist(
           fontWeight: FontWeight.w800,
-          color: Colors.black,
+          color: textPrimaryLight,
         ),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: bgLight,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: textPrimaryLight),
       ),
       cardTheme: CardTheme(
         color: cardLight,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: BorderSide(color: Colors.grey.shade200),
+          side: const BorderSide(color: borderLight),
         ),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: cardLight,
+        selectedItemColor: brandPrimary,
+        unselectedItemColor: textSecondaryLight,
+        elevation: 0,
       ),
     );
   }
 
   static ThemeData get darkTheme {
     final baseTextTheme = ThemeData.dark().textTheme;
-    
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
@@ -66,25 +84,31 @@ class AppTheme {
       textTheme: GoogleFonts.plusJakartaSansTextTheme(baseTextTheme).copyWith(
         displayLarge: GoogleFonts.urbanist(
           fontWeight: FontWeight.w900,
-          color: Colors.white,
+          color: textPrimaryDark,
         ),
         titleLarge: GoogleFonts.urbanist(
           fontWeight: FontWeight.w800,
-          color: Colors.white,
+          color: textPrimaryDark,
         ),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: bgDark,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: textPrimaryDark),
       ),
       cardTheme: CardTheme(
         color: cardDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Colors.white10),
+          side: const BorderSide(color: borderDark),
         ),
+      ),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: cardDark,
+        selectedItemColor: brandAccent,
+        unselectedItemColor: textSecondaryDark,
+        elevation: 0,
       ),
     );
   }
