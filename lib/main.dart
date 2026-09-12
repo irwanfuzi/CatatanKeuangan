@@ -15,10 +15,15 @@ class MyKasApp extends StatelessWidget {
       title: 'MyKas',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF0B0E14),
-        primaryColor: const Color(0xFF0D47A1),
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: const Color(0xFFF8FAFC), // Ultra Light Blue-Grey Background
+        primaryColor: const Color(0xFF0D47A1), // Royal Blue
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0D47A1),
+          brightness: Brightness.light,
+        ),
         fontFamily: 'Roboto',
+        useMaterial3: true,
       ),
       home: const App(),
     );
