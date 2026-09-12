@@ -13,6 +13,8 @@ class BerandaScreen extends StatelessWidget {
   static const Color cardLightBackground = Colors.white;
   static const Color textPrimary = Color(0xFF0F172A);
   static const Color textSecondary = Color(0xFF64748B);
+  static const Color borderSlate200 = Color(0xFFE2E8F0);
+  static const Color bgSlate100 = Color(0xFFF1F5F9);
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +93,7 @@ class BerandaScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: cardLightBackground,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.slate.shade200),
+            border: Border.all(color: borderSlate200),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.04),
@@ -134,9 +136,9 @@ class BerandaScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'TOTAL ASET',
-                style: TextStyle(color: Colors.white80, fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2),
+                style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 1.2),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -208,7 +210,7 @@ class BerandaScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: cardLightBackground,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: Colors.slate.shade200),
+              border: Border.all(color: borderSlate200),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.02),
@@ -268,7 +270,7 @@ class BerandaScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: cardLightBackground,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.slate.shade200),
+                border: Border.all(color: borderSlate200),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.04),
@@ -298,7 +300,7 @@ class BerandaScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: cardLightBackground,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.slate.shade200),
+        border: Border.all(color: borderSlate200),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.02),
@@ -323,7 +325,7 @@ class BerandaScreen extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 10,
-              backgroundColor: Colors.slate.shade100,
+              backgroundColor: bgSlate100,
               valueColor: const AlwaysStoppedAnimation<Color>(primaryRoyalBlue),
             ),
           ),
@@ -385,7 +387,7 @@ class BerandaScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: cardLightBackground,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.slate.shade200),
+          border: Border.all(color: borderSlate200),
         ),
         child: const Center(
           child: Text('Belum ada transaksi tercatat', style: TextStyle(color: textSecondary, fontSize: 13)),
@@ -402,7 +404,7 @@ class BerandaScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: cardLightBackground,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.slate.shade200),
+            border: Border.all(color: borderSlate200),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.02),
