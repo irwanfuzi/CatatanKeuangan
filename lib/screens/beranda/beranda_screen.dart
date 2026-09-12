@@ -1,57 +1,52 @@
 import 'package:flutter/material.dart';
+import '../../theme/app_theme.dart';
 
 class BerandaScreen extends StatelessWidget {
   final Map<String, dynamic> summaryData;
 
   const BerandaScreen({super.key, required this.summaryData});
 
-  // Skema Warna Royal Blue & Light Theme
-  static const Color primaryRoyalBlue = Color(0xFF0D47A1);
-  static const Color lightRoyalBlue = Color(0xFF1976D2);
-  static const Color accentBlue = Color(0xFF0284C7);
-  static const Color surfaceLight = Color(0xFFF8FAFC);
-  static const Color cardLightBackground = Colors.white;
-  static const Color textPrimary = Color(0xFF0F172A);
-  static const Color textSecondary = Color(0xFF64748B);
-  static const Color borderSlate200 = Color(0xFFE2E8F0);
-  static const Color bgSlate100 = Color(0xFFF1F5F9);
-
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final List riwayat = summaryData['riwayat'] ?? [];
     final List empatTransaksiTerbaru = riwayat.take(4).toList();
 
+    final Color textPrimary = isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight;
+    final Color textSecondary = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
+    final Color cardBg = isDark ? AppTheme.cardDark : AppTheme.cardLight;
+    final Color borderTheme = isDark ? AppTheme.borderDark : AppTheme.borderLight;
+
     return Scaffold(
-      backgroundColor: surfaceLight,
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {},
-          color: primaryRoyalBlue,
+          color: AppTheme.brandPrimary,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTopHeader(),
+                _buildTopHeader(textPrimary, textSecondary, cardBg, borderTheme),
                 const SizedBox(height: 20),
                 _buildRoyalHeroCard(),
                 const SizedBox(height: 24),
-                _buildSectionHeader('Dompet & Rekening', onSeeAll: () {}),
+                _buildSectionHeader('Dompet & Rekening', textPrimary, onSeeAll: () {}),
                 const SizedBox(height: 12),
-                _buildDompetHorizontalList(),
+                _buildDompetHorizontalList(textPrimary, textSecondary, cardBg, borderTheme),
                 const SizedBox(height: 24),
-                _buildSectionHeader('Akses Cepat'),
+                _buildSectionHeader('Akses Cepat', textPrimary),
                 const SizedBox(height: 12),
-                _buildQuickActionGrid(context),
+                _buildQuickActionGrid(context, textSecondary, cardBg, borderTheme),
                 const SizedBox(height: 24),
-                _buildBudgetProgressBar(),
+                _buildBudgetProgressBar(textPrimary, textSecondary, cardBg, borderTheme, isDark),
                 const SizedBox(height: 24),
-                _buildFinancialInsightCard(),
+                _buildFinancialInsightCard(textPrimary, isDark),
                 const SizedBox(height: 24),
-                _buildSectionHeader('Transaksi Terbaru', onSeeAll: () {}),
+                _buildSectionHeader('Transaksi Terbaru', textPrimary, onSeeAll: () {}),
                 const SizedBox(height: 12),
-                _buildRecentTransactionsList(empatTransaksiTerbaru),
+                _buildRecentTransactionsList(empatTransaksiTerbaru, textPrimary, textSecondary, cardBg, borderTheme),
                 const SizedBox(height: 20),
               ],
             ),
@@ -61,7 +56,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTopHeader() {
+  Widget _buildTopHeader(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -70,17 +65,17 @@ class BerandaScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(2),
               decoration: const BoxDecoration(
-                color: primaryRoyalBlue,
+                color: AppTheme.brandPrimary,
                 shape: BoxShape.circle,
               ),
               child: const CircleAvatar(
                 radius: 20,
-                backgroundColor: primaryRoyalBlue,
+                backgroundColor: AppTheme.brandPrimary,
                 child: Text('IF', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
               ),
             ),
             const SizedBox(width: 12),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Selamat Datang,', style: TextStyle(color: textSecondary, fontSize: 12)),
@@ -91,19 +86,12 @@ class BerandaScreen extends StatelessWidget {
         ),
         Container(
           decoration: BoxDecoration(
-            color: cardLightBackground,
+            color: cardBg,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: borderSlate200),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-            ],
+            border: Border.all(color: borderTheme),
           ),
           child: IconButton(
-            icon: const Icon(Icons.notifications_none_rounded, color: textPrimary),
+            icon: Icon(Icons.notifications_none_rounded, color: textPrimary),
             onPressed: () {},
           ),
         ),
@@ -118,13 +106,13 @@ class BerandaScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
-          colors: [primaryRoyalBlue, lightRoyalBlue],
+          colors: [AppTheme.brandPrimary, AppTheme.brandLightBlue],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: primaryRoyalBlue.withOpacity(0.3),
+            color: AppTheme.brandPrimary.withOpacity(0.3),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -186,11 +174,11 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDompetHorizontalList() {
+  Widget _buildDompetHorizontalList(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
     final dompet = summaryData['dompet'] ?? {};
     final listDompet = [
       {'nama': 'Kantong Tunai', 'saldo': dompet['tunai'] ?? 'Rp 0', 'icon': Icons.account_balance_wallet_rounded, 'color': Colors.green.shade600},
-      {'nama': 'Rekening Bank', 'saldo': dompet['bank'] ?? 'Rp 0', 'icon': Icons.account_balance_rounded, 'color': primaryRoyalBlue},
+      {'nama': 'Rekening Bank', 'saldo': dompet['bank'] ?? 'Rp 0', 'icon': Icons.account_balance_rounded, 'color': AppTheme.brandPrimary},
       {'nama': 'Dompet Digital', 'saldo': dompet['digital'] ?? 'Rp 0', 'icon': Icons.qr_code_scanner_rounded, 'color': Colors.orange.shade700},
       {'nama': 'Tabungan', 'saldo': dompet['tabungan'] ?? 'Rp 0', 'icon': Icons.savings_rounded, 'color': Colors.purple.shade600},
     ];
@@ -208,16 +196,9 @@ class BerandaScreen extends StatelessWidget {
             margin: const EdgeInsets.only(right: 14),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: cardLightBackground,
+              color: cardBg,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: borderSlate200),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              border: Border.all(color: borderTheme),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,7 +211,7 @@ class BerandaScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         item['nama'] as String,
-                        style: const TextStyle(fontSize: 12, color: textSecondary, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 12, color: textSecondary, fontWeight: FontWeight.w500),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -239,7 +220,7 @@ class BerandaScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   item['saldo'] as String,
-                  style: const TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 15),
+                  style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 15),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -250,9 +231,9 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickActionGrid(BuildContext context) {
+  Widget _buildQuickActionGrid(BuildContext context, Color textSecondary, Color cardBg, Color borderTheme) {
     final actions = [
-      {'label': 'Scan Struk', 'icon': Icons.document_scanner_rounded, 'color': primaryRoyalBlue},
+      {'label': 'Scan Struk', 'icon': Icons.document_scanner_rounded, 'color': AppTheme.brandPrimary},
       {'label': 'Budget', 'icon': Icons.pie_chart_outline_rounded, 'color': Colors.amber.shade800},
       {'label': 'Laporan', 'icon': Icons.bar_chart_rounded, 'color': Colors.green.shade600},
       {'label': 'Kategori', 'icon': Icons.grid_view_rounded, 'color': Colors.purple.shade600},
@@ -268,23 +249,16 @@ class BerandaScreen extends StatelessWidget {
               width: 54,
               height: 54,
               decoration: BoxDecoration(
-                color: cardLightBackground,
+                color: cardBg,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: borderSlate200),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  )
-                ],
+                border: Border.all(color: borderTheme),
               ),
               child: Icon(act['icon'] as IconData, color: act['color'] as Color, size: 24),
             ),
             const SizedBox(height: 8),
             Text(
               act['label'] as String,
-              style: const TextStyle(fontSize: 11, color: textSecondary, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 11, color: textSecondary, fontWeight: FontWeight.w500),
             ),
           ],
         );
@@ -292,22 +266,15 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBudgetProgressBar() {
+  Widget _buildBudgetProgressBar(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme, bool isDark) {
     double progress = 0.65;
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: cardLightBackground,
+        color: cardBg,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: borderSlate200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: borderTheme),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,7 +282,7 @@ class BerandaScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Sisa Budget Bulan Ini', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+              Text('Sisa Budget Bulan Ini', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
               Text('${((1 - progress) * 100).toInt()}% Tersisa', style: TextStyle(color: Colors.green.shade600, fontSize: 12, fontWeight: FontWeight.bold)),
             ],
           ),
@@ -325,12 +292,12 @@ class BerandaScreen extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progress,
               minHeight: 10,
-              backgroundColor: bgSlate100,
-              valueColor: const AlwaysStoppedAnimation<Color>(primaryRoyalBlue),
+              backgroundColor: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
+              valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.brandPrimary),
             ),
           ),
           const SizedBox(height: 12),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Terpakai: Rp 1.950.000', style: TextStyle(color: textSecondary, fontSize: 11)),
@@ -342,32 +309,32 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFinancialInsightCard() {
+  Widget _buildFinancialInsightCard(Color textPrimary, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.amber.shade50,
+        color: isDark ? Colors.amber.shade900.withOpacity(0.2) : Colors.amber.shade50,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.amber.shade200),
+        border: Border.all(color: isDark ? Colors.amber.shade700.withOpacity(0.3) : Colors.amber.shade200),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.amber.shade100,
+              color: isDark ? Colors.amber.shade600.withOpacity(0.2) : Colors.amber.shade100,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.lightbulb_rounded, color: Colors.amber.shade900, size: 22),
+            child: Icon(Icons.lightbulb_rounded, color: isDark ? Colors.amberAccent : Colors.amber.shade900, size: 22),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Insight Keuangan', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber.shade900, fontSize: 13)),
+                Text('Insight Keuangan', style: TextStyle(fontWeight: FontWeight.bold, color: isDark ? Colors.amberAccent : Colors.amber.shade900, fontSize: 13)),
                 const SizedBox(height: 2),
-                const Text(
+                Text(
                   'Kategori "Makanan" mendominasi 60% pengeluaranmu. Yuk, atur ulang batas bulananmu!',
                   style: TextStyle(fontSize: 11, color: textPrimary, height: 1.3),
                 ),
@@ -379,17 +346,17 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentTransactionsList(List transaksi) {
+  Widget _buildRecentTransactionsList(List transaksi, Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
     if (transaksi.isEmpty) {
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: cardLightBackground,
+          color: cardBg,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderSlate200),
+          border: Border.all(color: borderTheme),
         ),
-        child: const Center(
+        child: Center(
           child: Text('Belum ada transaksi tercatat', style: TextStyle(color: textSecondary, fontSize: 13)),
         ),
       );
@@ -402,16 +369,9 @@ class BerandaScreen extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 10),
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: cardLightBackground,
+            color: cardBg,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: borderSlate200),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.02),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
+            border: Border.all(color: borderTheme),
           ),
           child: Row(
             children: [
@@ -435,13 +395,13 @@ class BerandaScreen extends StatelessWidget {
                   children: [
                     Text(
                       item['keterangan'] ?? '-',
-                      style: const TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                      style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 3),
                     Text(
                       '${item['kategori']} • ${item['dompet']}',
-                      style: const TextStyle(color: textSecondary, fontSize: 11),
+                      style: TextStyle(color: textSecondary, fontSize: 11),
                     ),
                   ],
                 ),
@@ -461,20 +421,20 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(String title, {VoidCallback? onSeeAll}) {
+  Widget _buildSectionHeader(String title, Color textPrimary, {VoidCallback? onSeeAll}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: const TextStyle(color: textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
+          style: TextStyle(color: textPrimary, fontSize: 16, fontWeight: FontWeight.bold),
         ),
         if (onSeeAll != null)
           GestureDetector(
             onTap: onSeeAll,
             child: const Text(
               'Lihat Semua',
-              style: TextStyle(color: primaryRoyalBlue, fontSize: 12, fontWeight: FontWeight.w600),
+              style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12, fontWeight: FontWeight.w600),
             ),
           ),
       ],
