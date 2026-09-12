@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^6.1.0
+  google_fonts: ^6.2.1
   font_awesome_flutter: 10.7.0
   fl_chart: ^0.65.0
   flutter_svg: ^2.0.9
