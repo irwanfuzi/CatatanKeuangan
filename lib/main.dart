@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'theme/app_theme.dart';
 import 'app.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyKasApp());
 }
 
@@ -14,10 +14,13 @@ class MyKasApp extends StatelessWidget {
     return MaterialApp(
       title: 'MyKas',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      home: const MainAppScreen(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: const Color(0xFF0B0E14),
+        primaryColor: const Color(0xFF0D47A1),
+        fontFamily: 'Roboto',
+      ),
+      home: const App(),
     );
   }
-} 
+}
