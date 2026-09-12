@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'theme.dart';
+import 'app_theme.dart';
 import 'app.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyKasApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system, // Menyesuaikan tema sistem HP secara otomatis
+      themeMode: ThemeMode.system,
       home: const App(),
     );
   }
