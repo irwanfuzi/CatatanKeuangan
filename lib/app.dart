@@ -72,7 +72,7 @@ class _AppState extends State<App> {
           color: Colors.white,
           border: Border(
             top: BorderSide(
-              color: Colors.slate.shade200,
+              color: const Color(0xFFE2E8F0),
               width: 1,
             ),
           ),
@@ -93,7 +93,7 @@ class _AppState extends State<App> {
           },
           backgroundColor: Colors.white,
           selectedItemColor: const Color(0xFF0D47A1),
-          unselectedItemColor: Colors.slate.shade400,
+          unselectedItemColor: const Color(0xFF94A3B8),
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           items: const [
@@ -118,4 +118,4 @@ class _AppState extends State<App> {
       ),
     );
   }
-}}
+}
