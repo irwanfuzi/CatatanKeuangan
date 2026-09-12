@@ -36,46 +36,53 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    // List halaman dengan passing summaryData secara aman ke BerandaScreen
     final List<Widget> pages = [
       _isLoading
           ? const Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF42A5F5),
+                color: Color(0xFF0D47A1),
               ),
             )
           : BerandaScreen(summaryData: _summaryData),
       const Center(
         child: Text(
           'Analisis Keuangan',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color(0xFF1E293B)),
         ),
       ),
       const Center(
         child: Text(
           'Dompet & Rekening',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color(0xFF1E293B)),
         ),
       ),
       const Center(
         child: Text(
           'Profil',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color(0xFF1E293B)),
         ),
       ),
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0B0E14),
+      backgroundColor: const Color(0xFFF8FAFC),
       body: pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF151C28),
+          color: Colors.white,
           border: Border(
             top: BorderSide(
-              color: Colors.white.withOpacity(0.08),
+              color: Colors.slate.shade200,
+              width: 1,
             ),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
@@ -84,9 +91,9 @@ class _AppState extends State<App> {
               _currentIndex = index;
             });
           },
-          backgroundColor: const Color(0xFF151C28),
-          selectedItemColor: const Color(0xFF42A5F5),
-          unselectedItemColor: Colors.white38,
+          backgroundColor: Colors.white,
+          selectedItemColor: const Color(0xFF0D47A1),
+          unselectedItemColor: Colors.slate.shade400,
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           items: const [
@@ -111,4 +118,4 @@ class _AppState extends State<App> {
       ),
     );
   }
-}
+}}
