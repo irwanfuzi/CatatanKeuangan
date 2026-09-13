@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 void main() {
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: const Color(0xFFF1F5F9),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(color: const Color(0xFFEF4444)),
           ),
           child: Column(
@@ -65,11 +65,11 @@ class MyKasApp extends StatelessWidget {
         summaryData: {
           'saldo': 'Rp 2.345.833',
           'riwayat': [
-            {'keterangan': 'Nasi Goreng Spesial', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '12.345', 'jenis': 'pemasukan', 'icon': Icons.restaurant_rounded},
-            {'keterangan': 'Air + UC1000', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '11.000', 'jenis': 'pengeluaran', 'icon': Icons.local_drink_rounded},
-            {'keterangan': 'Kerupuk & Camilan', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '5.000', 'jenis': 'pengeluaran', 'icon': Icons.fastfood_rounded},
-            {'keterangan': 'Jajan Tahu Kress', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '10.000', 'jenis': 'pengeluaran', 'icon': Icons.bakery_dining_rounded},
-            {'keterangan': 'Bensin Pertamax', 'kategori': 'Transportasi', 'dompet': 'Kantong Tunai', 'nominal': '50.000', 'jenis': 'pengeluaran', 'icon': Icons.directions_car_rounded},
+            {'keterangan': 'Nasi Goreng Spesial', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '12.345', 'jenis': 'pemasukan', 'icon': Icons.restaurant_rounded, 'color': Color(0xFF10B981)},
+            {'keterangan': 'Air + UC1000', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '11.000', 'jenis': 'pengeluaran', 'icon': Icons.local_drink_rounded, 'color': Color(0xFFEF4444)},
+            {'keterangan': 'Kerupuk & Camilan', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '5.000', 'jenis': 'pengeluaran', 'icon': Icons.fastfood_rounded, 'color': Color(0xFFFF9F00)},
+            {'keterangan': 'Jajan Tahu Kress', 'kategori': 'Makanan', 'dompet': 'Kantong Tunai', 'nominal': '10.000', 'jenis': 'pengeluaran', 'icon': Icons.bakery_dining_rounded, 'color': Color(0xFF8B5CF6)},
+            {'keterangan': 'Bensin Pertamax', 'kategori': 'Transport', 'dompet': 'Kantong Tunai', 'nominal': '50.000', 'jenis': 'pengeluaran', 'icon': Icons.directions_car_rounded, 'color': Color(0xFF0284C7)},
           ]
         },
       ),
@@ -95,7 +95,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
   bool _isBalanceVisible = true;
   int _selectedDesktopNav = 0;
 
-  // Modernized Quick Action Items
   final List<Map<String, dynamic>> _allAvailableActions = const [
     {'id': 'scan', 'label': 'Scan Struk', 'icon': Icons.qr_code_scanner_rounded, 'color': Color(0xFF0052FF)},
     {'id': 'transfer', 'label': 'Transfer', 'icon': Icons.swap_horizontal_circle_rounded, 'color': Color(0xFFFF9F00)},
@@ -114,7 +113,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     _userQuickActions = List.from(_allAvailableActions.take(4));
   }
 
-  // --- MODERNIZED MODERN CUSTOMIZATION BOTTOM SHEET ---
+  // MODAL KUSTOMISASI KEKINIAN
   void _openCustomActionModal() {
     showModalBottomSheet(
       context: context,
@@ -129,9 +128,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
             return Container(
               decoration: BoxDecoration(
                 color: surfaceColor,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
                 boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 25, offset: const Offset(0, -5))
+                  BoxShadow(color: Colors.black.withOpacity(0.18), blurRadius: 30, offset: const Offset(0, -10))
                 ],
               ),
               padding: const EdgeInsets.all(24),
@@ -141,15 +140,15 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 children: [
                   Center(
                     child: Container(
-                      width: 40,
-                      height: 4,
+                      width: 44,
+                      height: 5,
                       decoration: BoxDecoration(
                         color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
-                        borderRadius: BorderRadius.circular(2),
+                        borderRadius: BorderRadius.circular(3),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -166,7 +165,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            'Pilih maksimal 4-5 menu akses cepat favoritmu',
+                            'Atur akses cepat sesuai kebutuhan harianmu',
                             style: TextStyle(
                               fontSize: 12,
                               color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
@@ -206,15 +205,15 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           });
                           setState(() {});
                         },
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(16),
                         child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 180),
+                          duration: const Duration(milliseconds: 200),
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                           decoration: BoxDecoration(
                             color: isSelected
                                 ? const Color(0xFF0052FF)
                                 : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF8FAFC)),
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                               color: isSelected
                                   ? const Color(0xFF0052FF)
@@ -255,7 +254,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0052FF),
                         padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         elevation: 0,
                       ),
                       onPressed: () => Navigator.pop(context),
@@ -308,23 +307,23 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           _buildBrandHeader(colorScheme, isDark),
                           const SizedBox(height: 14),
 
-                          // 2. HERO TOTAL ASET CARD
+                          // 2. HERO TOTAL ASET CARD (ASYMMETRICAL RADIUS)
                           _buildHeroCard(isDark),
-                          const SizedBox(height: 18),
+                          const SizedBox(height: 20),
 
-                          // 3. DOMPET SAYA (PREMIUM COMPACT TACTILE CARD)
+                          // 3. DOMPET SAYA (SOFT NEUMORPHIC TILES)
                           _buildSectionHeader('Dompet Saya', colorScheme),
                           const SizedBox(height: 10),
                           _buildDompetCardsGrid(colorScheme, isDark),
-                          const SizedBox(height: 18),
+                          const SizedBox(height: 20),
 
                           // 4. QUICK ACTION DOCK WITH EDIT BUTTON
                           _buildQuickActionHeader(colorScheme),
                           const SizedBox(height: 8),
                           _buildUnifiedQuickActionBar(colorScheme, isDark),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 24),
 
-                          // 5. TRANSAKSI TERBARU & BENTO BUNDLE (BUDGET + INSIGHT)
+                          // 5. TRANSAKSI TERBARU & BENTO BUNDLE
                           if (isDesktop)
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -336,7 +335,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             )
                           else ...[
                             _buildRecentTransactions(colorScheme, isDark),
-                            const SizedBox(height: 18),
+                            const SizedBox(height: 20),
                             _buildBentoBudgetInsight(colorScheme, isDark),
                           ],
 
@@ -354,20 +353,18 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- BRAND HEADER (DIRECT ASET PATH LOGO) ---
+  // --- BRAND HEADER (DIRECT ASSET LOGO) ---
   Widget _buildBrandHeader(ColorScheme colorScheme, bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
-            // Direct asset image logo loader
             Image.asset(
               'assets/images/logo_mykas.png',
               height: 32,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
-                // Fallback icon jika berjalan di web preview terpisah
                 return Container(
                   width: 32,
                   height: 32,
@@ -414,14 +411,19 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- HERO TOTAL ASET CARD ---
+  // --- HERO TOTAL ASET CARD (ASYMMETRICAL RADIUS & POCKET GLOW) ---
   Widget _buildHeroCard(bool isDark) {
     final String rawSaldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(28),
+          topRight: Radius.circular(12),
+          bottomLeft: Radius.circular(12),
+          bottomRight: Radius.circular(28),
+        ),
         gradient: LinearGradient(
           colors: isDark
               ? const [Color(0xFF0F172A), Color(0xFF1E3A8A)]
@@ -431,9 +433,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0052FF).withOpacity(0.18),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
+            color: const Color(0xFF0052FF).withOpacity(0.22),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           )
         ],
       ),
@@ -449,7 +451,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(22.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -505,18 +507,18 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 12),
                 Text(
                   _isBalanceVisible ? rawSaldo : 'Rp ••••••••',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 30,
+                    fontSize: 32,
                     fontWeight: FontWeight.w900,
                     letterSpacing: -1.0,
                     fontFamily: 'monospace',
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 14),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
@@ -540,7 +542,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- DOMPET SAYA (PREMIUM DUAL-TONAL TILE & GLOW ACCENTS) ---
+  // --- DOMPET SAYA (TACTILE MICRO TILES) ---
   Widget _buildDompetCardsGrid(ColorScheme colorScheme, bool isDark) {
     final dompetList = [
       {'title': 'Tunai Utama', 'amount': 'Rp 1.250.000', 'sub': '1 dompet', 'icon': Icons.account_balance_wallet_rounded, 'color': const Color(0xFF10B981), 'progress': 0.4},
@@ -617,10 +619,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- QUICK ACTION HEADER WITH CUSTOM EDIT BUTTON ---
+  // --- QUICK ACTION HEADER ---
   Widget _buildQuickActionHeader(ColorScheme colorScheme) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -628,15 +628,15 @@ class _BerandaScreenState extends State<BerandaScreen> {
         InkWell(
           onTap: _openCustomActionModal,
           borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             child: Row(
               children: [
-                Icon(Icons.edit_note_rounded, size: 16, color: const Color(0xFF0052FF)),
-                const SizedBox(width: 4),
+                Icon(Icons.edit_note_rounded, size: 16, color: Color(0xFF0052FF)),
+                SizedBox(width: 4),
                 Text(
                   'Edit',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF0052FF)),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF0052FF)),
                 ),
               ],
             ),
@@ -646,7 +646,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- UNIFIED QUICK ACTION DOCK (SINGLE CONTAINER WITH DIVIDERS) ---
+  // --- UNIFIED QUICK ACTION DOCK ---
   Widget _buildUnifiedQuickActionBar(ColorScheme colorScheme, bool isDark) {
     return Container(
       decoration: BoxDecoration(
@@ -719,7 +719,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- TRANSAKSI TERBARU (MODERN CATEGORY ICONS & MONOSPACE NUMBERS) ---
+  // --- TRANSAKSI TERBARU (CATEGORY PILLS & MONOSPACED DATA) ---
   Widget _buildRecentTransactions(ColorScheme colorScheme, bool isDark) {
     final List rawTransaksi = widget.summaryData?['riwayat'] ?? [];
     final items = rawTransaksi.take(5).toList();
@@ -754,6 +754,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
             children: items.map((item) {
               final isExpense = (item['jenis'] ?? '').toString().toLowerCase().contains('pengeluaran');
               final iconData = item['icon'] as IconData? ?? Icons.receipt_long_rounded;
+              final categoryColor = item['color'] as Color? ?? const Color(0xFF0052FF);
 
               return Container(
                 margin: const EdgeInsets.only(bottom: 8),
@@ -768,14 +769,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     Container(
                       padding: const EdgeInsets.all(9),
                       decoration: BoxDecoration(
-                        color: isExpense
-                            ? const Color(0xFFEF4444).withOpacity(0.1)
-                            : const Color(0xFF10B981).withOpacity(0.1),
+                        color: categoryColor.withOpacity(0.12),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
                         iconData,
-                        color: isExpense ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                        color: categoryColor,
                         size: 18,
                       ),
                     ),
@@ -792,14 +791,14 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                                 decoration: BoxDecoration(
-                                  color: isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0),
+                                  color: categoryColor.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   item['kategori'] ?? '',
-                                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: isDark ? Colors.white70 : const Color(0xFF475569)),
+                                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: categoryColor),
                                 ),
                               ),
                               const SizedBox(width: 6),
@@ -831,7 +830,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- BENTO BUNDLE: SISA BUDGET & INSIGHT (MODERN ASYMMETRICAL RELAYOUT) ---
+  // --- BENTO BUNDLE: SISA BUDGET & AI INSIGHT (ASYMMETRICAL RELAYOUT) ---
   Widget _buildBentoBudgetInsight(ColorScheme colorScheme, bool isDark) {
     return Column(
       children: [
@@ -998,3 +997,4 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 }
+
