@@ -124,11 +124,14 @@ class _BerandaScreenState extends State<BerandaScreen> {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // 1. DESKTOP PERSISTENT NAVIGATION SIDEBAR
               if (isDesktop)
                 SizedBox(
                   width: 260,
                   child: _buildDesktopSidebar(isDark, colorScheme),
                 ),
+
+              // 2. MAIN DASHBOARD CONTENT
               Expanded(
                 child: SafeArea(
                   child: RefreshIndicator(
@@ -142,18 +145,27 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildAppHeader(colorScheme, isDesktop),
+                          // HEADER STANDALONE WITH LOGO
+                          _buildBrandHeader(colorScheme, isDesktop),
                           const SizedBox(height: 20),
+
+                          // HERO BALANCE CARD STANDALONE
                           _buildHeroCard(isDark, colorScheme),
                           const SizedBox(height: 24),
+
+                          // DOMPET CARDS
                           _buildSectionHeader('Dompet Saya', colorScheme),
                           const SizedBox(height: 12),
                           _buildDompetCardsGrid(colorScheme, isDesktop),
                           const SizedBox(height: 24),
+
+                          // QUICK ACTION BAR
                           _buildSectionHeader('Quick Action', colorScheme),
                           const SizedBox(height: 12),
                           _buildQuickActionsBar(colorScheme),
                           const SizedBox(height: 24),
+
+                          // RESPONSIVE GRID LAYOUT
                           if (isDesktop)
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,6 +180,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             const SizedBox(height: 20),
                             _buildBudgetCard(colorScheme, isDark),
                           ],
+
                           const SizedBox(height: 20),
                           _buildInsightBanner(colorScheme, isDark),
                           const SizedBox(height: 32),
@@ -184,8 +197,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- APP HEADER ---
-  Widget _buildAppHeader(ColorScheme colorScheme, bool isDesktop) {
+  // --- BRAND HEADER WITH LOGO ---
+  Widget _buildBrandHeader(ColorScheme colorScheme, bool isDesktop) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -196,8 +209,15 @@ class _BerandaScreenState extends State<BerandaScreen> {
               decoration: BoxDecoration(
                 color: colorScheme.primary,
                 borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: colorScheme.primary.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  )
+                ],
               ),
-              child: const Icon(Icons.account_balance_wallet, color: Colors.white, size: 22),
+              child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 22),
             ),
             const SizedBox(width: 12),
             Column(
@@ -248,7 +268,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- HERO CARD ---
+  // --- STANDALONE HERO BALANCE CARD ---
   Widget _buildHeroCard(bool isDark, ColorScheme colorScheme) {
     final String rawSaldo = widget.summaryData?['saldo'] ?? 'Rp 12.500.000';
 
