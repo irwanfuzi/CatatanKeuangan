@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class PremiumBerandaScreen extends StatefulWidget {
+class BerandaScreen extends StatefulWidget {
   final Map<String, dynamic> summaryData;
   final VoidCallback? onNavigateToAnalisis;
 
-  const PremiumBerandaScreen({
+  const BerandaScreen({
     super.key,
     required this.summaryData,
     this.onNavigateToAnalisis,
   });
 
   @override
-  State<PremiumBerandaScreen> createState() => _PremiumBerandaScreenState();
+  State<BerandaScreen> createState() => _BerandaScreenState();
 }
 
-class _PremiumBerandaScreenState extends State<PremiumBerandaScreen> {
+class _BerandaScreenState extends State<BerandaScreen> {
   bool _isBalanceVisible = true;
   int _selectedDesktopNav = 0;
 
@@ -181,7 +181,7 @@ class _PremiumBerandaScreenState extends State<PremiumBerandaScreen> {
     );
   }
 
-  // --- DESKTOP LAYOUT (ASYMMETRICAL BENTO) ---
+  // --- DESKTOP LAYOUT ---
   Widget _buildDesktopLayout(Color surfaceColor, Color borderColor, Color textPrimary, Color textMuted, bool isDark) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
