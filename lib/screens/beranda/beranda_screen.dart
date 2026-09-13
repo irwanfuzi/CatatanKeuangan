@@ -18,36 +18,36 @@ class BerandaScreen extends StatefulWidget {
 class _BerandaScreenState extends State<BerandaScreen> {
   bool _isBalanceVisible = true;
 
-  // 5 Quick Actions Utama di Beranda (Tanpa Pengeluaran/Pemasukan karena sudah ada di CTA)
-  List<Map<String, dynamic>> _quickActions = [
-    {'id': 'scan', 'label': 'Scan Struk', 'icon': Icons.document_scanner_rounded, 'color': AppTheme.brandPrimary},
-    {'id': 'transfer', 'label': 'Transfer', 'icon': Icons.swap_horiz_rounded, 'color': Colors.amber.shade800},
-    {'id': 'laporan', 'label': 'Laporan', 'icon': Icons.bar_chart_rounded, 'color': Colors.green.shade600},
-    {'id': 'kategori', 'label': 'Kategori', 'icon': Icons.grid_view_rounded, 'color': Colors.purple.shade600},
-    {'id': 'import', 'label': 'Import CSV', 'icon': Icons.file_upload_rounded, 'color': Colors.teal.shade600},
+  final List<Map<String, dynamic>> _quickActions = [
+    {'id': 'scan', 'label': 'Scan Struk', 'icon': Icons.qr_code_scanner_rounded, 'color': const Color(0xFF0D47A1), 'bg': const Color(0xFFE3F2FD)},
+    {'id': 'transfer', 'label': 'Transfer', 'icon': Icons.swap_horizontal_circle_rounded, 'color': const Color(0xFFD97706), 'bg': const Color(0xFFFEF3C7)},
+    {'id': 'laporan', 'label': 'Laporan', 'icon': Icons.insights_rounded, 'color': const Color(0xFF059669), 'bg': const Color(0xFFD1FAE5)},
+    {'id': 'kategori', 'label': 'Kategori', 'icon': Icons.category_rounded, 'color': const Color(0xFF7C3AED), 'bg': const Color(0xFFEDE9FE)},
+    {'id': 'import', 'label': 'Import CSV', 'icon': Icons.cloud_upload_rounded, 'color': const Color(0xFF0284C7), 'bg': const Color(0xFFE0F2FE)},
   ];
 
-  // Daftar Seluruh Pilihan Menu Pintasan untuk Kustomisasi
   final List<Map<String, dynamic>> _allAvailableActions = [
-    {'id': 'scan', 'label': 'Scan Struk (OCR)', 'icon': Icons.document_scanner_rounded},
+    {'id': 'scan', 'label': 'Scan Struk (OCR)', 'icon': Icons.qr_code_scanner_rounded},
     {'id': 'transfer', 'label': 'Transfer Rekening', 'icon': Icons.swap_horiz_rounded},
-    {'id': 'laporan', 'label': 'Laporan Keuangan', 'icon': Icons.bar_chart_rounded},
-    {'id': 'kategori', 'label': 'Kelola Kategori', 'icon': Icons.grid_view_rounded},
-    {'id': 'import', 'label': 'Import Mutasi CSV', 'icon': Icons.file_upload_rounded},
+    {'id': 'laporan', 'label': 'Laporan Keuangan', 'icon': Icons.insights_rounded},
+    {'id': 'kategori', 'label': 'Kelola Kategori', 'icon': Icons.category_rounded},
+    {'id': 'import', 'label': 'Import Mutasi CSV', 'icon': Icons.cloud_upload_rounded},
     {'id': 'target', 'label': 'Target Tabungan', 'icon': Icons.stars_rounded},
     {'id': 'statistik', 'label': 'Statistik Arus Kas', 'icon': Icons.pie_chart_outline_rounded},
-    {'id': 'tagihan', 'label': 'Pengingat Tagihan', 'icon': Icons.event_note_rounded},
   ];
 
   void _showCustomizeActionsDialog() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
+      backgroundColor: Colors.transparent,
       builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
         return Container(
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF151C28) : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -56,7 +56,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Kelola Akses Cepat', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  const Text('Kelola Akses Cepat', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   IconButton(
                     icon: const Icon(Icons.close_rounded),
                     onPressed: () => Navigator.pop(context),
@@ -64,9 +64,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ],
               ),
               const SizedBox(height: 4),
-              const Text(
-                'Pilih 5 pintasan yang ingin kamu tampilkan di halaman Beranda:',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+              Text(
+                'Pilih menu utama yang tampil di beranda:',
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
               ),
               const SizedBox(height: 16),
               Flexible(
@@ -78,9 +78,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     final bool isSelected = _quickActions.any((element) => element['id'] == item['id']);
 
                     return CheckboxListTile(
-                      activeColor: AppTheme.brandPrimary,
+                      activeColor: const Color(0xFF0D47A1),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      secondary: Icon(item['icon'] as IconData, color: AppTheme.brandPrimary),
+                      secondary: Icon(item['icon'] as IconData, color: const Color(0xFF0D47A1)),
                       title: Text(item['label'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
                       value: isSelected,
                       onChanged: (bool? value) {
@@ -106,33 +106,33 @@ class _BerandaScreenState extends State<BerandaScreen> {
     final Color textPrimary = isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight;
     final Color textSecondary = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
     final Color cardBg = isDark ? AppTheme.cardDark : AppTheme.cardLight;
-    final Color borderTheme = isDark ? AppTheme.borderDark : AppTheme.borderLight;
+    final Color borderTheme = isDark ? AppTheme.borderDark : const Color(0xFFCBD5E1);
 
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {},
-          color: AppTheme.brandPrimary,
+          color: const Color(0xFF0D47A1),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTopHeader(textPrimary, textSecondary, cardBg, borderTheme),
+                _buildUltraHeader(textPrimary, textSecondary, cardBg, borderTheme, isDark),
                 const SizedBox(height: 20),
-                _buildExecutiveHeroCard(),
+                _buildUltraHeroCard(),
                 const SizedBox(height: 24),
                 _buildSectionHeader('Dompet Saya', textPrimary, onSeeAll: () {}),
                 const SizedBox(height: 12),
-                _buildDompetHorizontalList(textPrimary, textSecondary, cardBg, borderTheme),
+                _buildUltraDompetList(textPrimary, textSecondary, cardBg, borderTheme, isDark),
                 const SizedBox(height: 24),
                 _buildQuickActionHeader('Akses Cepat', textPrimary),
-                const SizedBox(height: 12),
-                _buildQuickActionGrid(textSecondary, cardBg, borderTheme),
+                const SizedBox(height: 14),
+                _buildUltraQuickActionGrid(textPrimary, textSecondary, cardBg),
                 const SizedBox(height: 24),
-
-                // Layout Bento Grid (2-Kolom) untuk Budget & Target Tabungan
+                
+                // Bento 2-Kolom untuk Budget & Target Tabungan
                 Row(
                   children: [
                     Expanded(
@@ -146,12 +146,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ),
 
                 const SizedBox(height: 24),
-                _buildModernAIInsightCard(textPrimary, isDark),
+                _buildGlowingAIInsightCard(isDark),
                 const SizedBox(height: 24),
                 _buildSectionHeader('Transaksi Terbaru', textPrimary, onSeeAll: widget.onNavigateToAnalisis),
                 const SizedBox(height: 12),
-                _buildRecentTransactionsList(empatTransaksiTerbaru, textPrimary, textSecondary, cardBg, borderTheme),
-                const SizedBox(height: 20),
+                _buildUltraRecentTransactionsList(empatTransaksiTerbaru, textPrimary, textSecondary, cardBg, borderTheme),
+                const SizedBox(height: 24),
               ],
             ),
           ),
@@ -160,88 +160,89 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 1. Header dengan Gambar Asset Logo
-  Widget _buildTopHeader(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
+  // 1. Header (Logo Asset MyKas + User Profile Badge)
+  Widget _buildUltraHeader(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme, bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Pemanggilan Asset Gambar Logo
         Row(
           children: [
             Image.asset(
               'assets/images/logo_mykas.png',
-              height: 36,
+              height: 38,
+              fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
-                // Placeholder jika file belum di-upload ke repo
                 return Container(
-                  width: 36,
-                  height: 36,
-                  decoration: BoxDecoration(color: AppTheme.brandPrimary, borderRadius: BorderRadius.circular(10)),
-                  child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 20),
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [Color(0xFF0D47A1), Color(0xFF1976D2)]),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(color: const Color(0xFF0D47A1).withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3)),
+                    ],
+                  ),
+                  child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 22),
                 );
               },
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 10),
             RichText(
               text: const TextSpan(
                 children: [
                   TextSpan(
                     text: 'My',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFFF59E0B), // Honey Gold
-                      letterSpacing: -0.5,
-                    ),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFFF59E0B), letterSpacing: -0.5),
                   ),
                   TextSpan(
                     text: 'Kas',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: Color(0xFF0D47A1), // Royal Blue
-                      letterSpacing: -0.5,
-                    ),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Color(0xFF0D47A1), letterSpacing: -0.5),
                   ),
                 ],
               ),
             ),
           ],
         ),
-        // Badge User Profile
         Row(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               decoration: BoxDecoration(
-                color: cardBg,
+                color: isDark ? const Color(0xFF151C28) : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: borderTheme),
+                border: Border.all(color: borderTheme.withOpacity(0.5)),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 10,
-                    backgroundColor: AppTheme.brandPrimary,
-                    child: Text('I', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                  Container(
+                    width: 22,
+                    height: 22,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(colors: [Color(0xFF0D47A1), Color(0xFF0284C7)]),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Center(
+                      child: Text('I', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                    ),
                   ),
-                  SizedBox(width: 6),
+                  const SizedBox(width: 6),
                   Text(
                     'Irwan Fuzi',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: textPrimary),
                   ),
                 ],
               ),
             ),
             const SizedBox(width: 8),
             Container(
+              width: 38,
+              height: 38,
               decoration: BoxDecoration(
-                color: cardBg,
+                color: isDark ? const Color(0xFF151C28) : const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: borderTheme),
+                border: Border.all(color: borderTheme.withOpacity(0.5)),
               ),
               child: IconButton(
-                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
                 padding: EdgeInsets.zero,
                 icon: Icon(Icons.notifications_none_rounded, color: textPrimary, size: 20),
                 onPressed: () {},
@@ -253,26 +254,26 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 2. Executive Hero Card
-  Widget _buildExecutiveHeroCard() {
+  // 2. Ultra-Modern Hero Card
+  Widget _buildUltraHeroCard() {
     final String rawSaldo = widget.summaryData['saldo'] ?? 'Rp 0';
     final String displaySaldo = _isBalanceVisible ? rawSaldo : 'Rp ••••••••';
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(22),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(26),
         gradient: const LinearGradient(
-          colors: [AppTheme.brandPrimary, Color(0xFF1976D2)],
+          colors: [Color(0xFF0A369D), Color(0xFF0D47A1), Color(0xFF0284C7)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.brandPrimary.withOpacity(0.3),
-            blurRadius: 16,
-            offset: const Offset(0, 8),
+            color: const Color(0xFF0D47A1).withOpacity(0.35),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -282,9 +283,19 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'TOTAL ASET',
-                style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 1.2),
+              Row(
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(color: Color(0xFF10B981), shape: BoxShape.circle),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'TOTAL ASET',
+                    style: TextStyle(color: Colors.white.withOpacity(0.85), fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.2),
+                  ),
+                ],
               ),
               GestureDetector(
                 onTap: () {
@@ -293,48 +304,63 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   });
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
-                    shape: BoxShape.circle,
+                    color: Colors.white.withOpacity(0.18),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.white.withOpacity(0.25)),
                   ),
-                  child: Icon(
-                    _isBalanceVisible ? Icons.visibility_rounded : Icons.visibility_off_rounded,
-                    color: Colors.white,
-                    size: 16,
+                  child: Row(
+                    children: [
+                      Icon(
+                        _isBalanceVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                        color: Colors.white,
+                        size: 14,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        _isBalanceVisible ? 'Sembunyi' : 'Tampil',
+                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Text(
             displaySaldo,
-            style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: -0.5),
+            style: const TextStyle(color: Colors.white, fontSize: 34, fontWeight: FontWeight.w900, letterSpacing: -0.8),
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.trending_down_rounded, color: Colors.lightGreenAccent, size: 16),
-                  const SizedBox(width: 6),
-                  Text(
-                    '12% lebih hemat bulan ini',
-                    style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 11, fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(8),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: Colors.white.withOpacity(0.12)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(color: const Color(0xFF10B981).withOpacity(0.2), shape: BoxShape.circle),
+                      child: const Icon(Icons.trending_down_rounded, color: Color(0xFF34D399), size: 14),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      '12% lebih hemat dari bulan lalu',
+                      style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-                child: const Text('Terupdate', style: TextStyle(color: Colors.white70, fontSize: 9, fontWeight: FontWeight.w500)),
-              ),
-            ],
+                const Icon(Icons.chevron_right_rounded, color: Colors.white60, size: 18),
+              ],
+            ),
           ),
         ],
       ),
@@ -342,16 +368,16 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // 3. Dompet Saya
-  Widget _buildDompetHorizontalList(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
+  Widget _buildUltraDompetList(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme, bool isDark) {
     final dompet = widget.summaryData['dompet'] ?? {};
     final listDompet = [
-      {'nama': 'Tunai', 'saldo': dompet['tunai'] ?? 'Rp 0', 'icon': Icons.account_balance_wallet_rounded, 'color': Colors.green.shade600},
-      {'nama': 'Rekening Bank', 'saldo': dompet['bank'] ?? 'Rp 0', 'icon': Icons.account_balance_rounded, 'color': AppTheme.brandPrimary},
-      {'nama': 'E-Wallet', 'saldo': dompet['digital'] ?? 'Rp 0', 'icon': Icons.qr_code_scanner_rounded, 'color': Colors.orange.shade700},
+      {'nama': 'Tunai', 'saldo': dompet['tunai'] ?? 'Rp 0', 'icon': Icons.payments_rounded, 'color': const Color(0xFF059669), 'bg': const Color(0xFFECFDF5)},
+      {'nama': 'Rekening Bank', 'saldo': dompet['bank'] ?? 'Rp 0', 'icon': Icons.account_balance_rounded, 'color': const Color(0xFF0D47A1), 'bg': const Color(0xFFEFF6FF)},
+      {'nama': 'E-Wallet', 'saldo': dompet['digital'] ?? 'Rp 0', 'icon': Icons.account_balance_wallet_rounded, 'color': const Color(0xFFD97706), 'bg': const Color(0xFFFFFBEB)},
     ];
 
     return SizedBox(
-      height: 88,
+      height: 104,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
@@ -362,16 +388,20 @@ class _BerandaScreenState extends State<BerandaScreen> {
               width: 100,
               margin: const EdgeInsets.only(right: 14),
               decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: borderTheme),
+                color: isDark ? const Color(0xFF151C28) : Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: borderTheme.withOpacity(0.6)),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add_circle_outline_rounded, color: textSecondary, size: 22),
-                  const SizedBox(height: 4),
-                  Text('+ Kelola', style: TextStyle(fontSize: 11, color: textSecondary, fontWeight: FontWeight.w600)),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: const Color(0xFF0D47A1).withOpacity(0.1), shape: BoxShape.circle),
+                    child: const Icon(Icons.add_rounded, color: Color(0xFF0D47A1), size: 20),
+                  ),
+                  const SizedBox(height: 6),
+                  Text('Kelola', style: TextStyle(fontSize: 11, color: textPrimary, fontWeight: FontWeight.bold)),
                 ],
               ),
             );
@@ -381,35 +411,45 @@ class _BerandaScreenState extends State<BerandaScreen> {
           final String saldoText = _isBalanceVisible ? (item['saldo'] as String) : 'Rp ••••••';
 
           return Container(
-            width: 146,
+            width: 156,
             margin: const EdgeInsets.only(right: 14),
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: cardBg,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: borderTheme),
+              color: isDark ? const Color(0xFF151C28) : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: borderTheme.withOpacity(0.6)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(item['icon'] as IconData, color: item['color'] as Color, size: 16),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        item['nama'] as String,
-                        style: TextStyle(fontSize: 11, color: textSecondary, fontWeight: FontWeight.w500),
-                        overflow: TextOverflow.ellipsis,
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: isDark ? (item['color'] as Color).withOpacity(0.2) : (item['bg'] as Color),
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                      child: Icon(item['icon'] as IconData, color: item['color'] as Color, size: 16),
+                    ),
+                    Text(
+                      item['nama'] as String,
+                      style: TextStyle(fontSize: 11, color: textSecondary, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
                 Text(
                   saldoText,
-                  style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13),
+                  style: TextStyle(color: textPrimary, fontWeight: FontWeight.w800, fontSize: 15),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -420,49 +460,67 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 4. Quick Action Grid
+  // 4. Quick Actions
   Widget _buildQuickActionHeader(String title, Color textPrimary) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
-          style: TextStyle(color: textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
+          style: TextStyle(color: textPrimary, fontSize: 16, fontWeight: FontWeight.w800),
         ),
         GestureDetector(
           onTap: _showCustomizeActionsDialog,
-          child: const Row(
-            children: [
-              Icon(Icons.tune_rounded, size: 14, color: AppTheme.brandPrimary),
-              SizedBox(width: 4),
-              Text('Atur', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 11, fontWeight: FontWeight.bold)),
-            ],
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0D47A1).withOpacity(0.08),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.tune_rounded, size: 13, color: Color(0xFF0D47A1)),
+                SizedBox(width: 4),
+                Text('Atur', style: TextStyle(color: Color(0xFF0D47A1), fontSize: 11, fontWeight: FontWeight.bold)),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildQuickActionGrid(Color textSecondary, Color cardBg, Color borderTheme) {
+  Widget _buildUltraQuickActionGrid(Color textPrimary, Color textSecondary, Color cardBg) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: _quickActions.map((act) {
+        final Color itemColor = act['color'] as Color;
+        final Color itemBg = isDark ? itemColor.withOpacity(0.18) : (act['bg'] as Color);
+
         return Column(
           children: [
             Container(
-              width: 52,
-              height: 52,
+              width: 54,
+              height: 54,
               decoration: BoxDecoration(
-                color: cardBg,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: borderTheme),
+                color: itemBg,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: itemColor.withOpacity(0.12),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  )
+                ],
               ),
-              child: Icon(act['icon'] as IconData, color: act['color'] as Color, size: 22),
+              child: Icon(act['icon'] as IconData, color: itemColor, size: 24),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
             Text(
               act['label'] as String,
-              style: TextStyle(fontSize: 10, color: textSecondary, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 11, color: textPrimary, fontWeight: FontWeight.w600),
             ),
           ],
         );
@@ -470,16 +528,23 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 5A. Bento Grid: Budget Card (Kolom Kiri)
+  // 5A. Bento Grid: Budget
   Widget _buildBentoBudgetCard(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme, bool isDark) {
     double progress = 0.65;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: borderTheme),
+        color: isDark ? const Color(0xFF151C28) : Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: borderTheme.withOpacity(0.6)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -487,26 +552,30 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.pie_chart_rounded, color: AppTheme.brandPrimary, size: 18),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(8)),
-                child: Text('${((1 - progress) * 100).toInt()}% Sisa', style: TextStyle(color: Colors.green.shade700, fontSize: 9, fontWeight: FontWeight.bold)),
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(color: const Color(0xFF0D47A1).withOpacity(0.1), shape: BoxShape.circle),
+                child: const Icon(Icons.pie_chart_rounded, color: Color(0xFF0D47A1), size: 16),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(color: const Color(0xFFD1FAE5), borderRadius: BorderRadius.circular(10)),
+                child: Text('${((1 - progress) * 100).toInt()}% Sisa', style: const TextStyle(color: Color(0xFF059669), fontSize: 10, fontWeight: FontWeight.w800)),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text('Budget Bulan Ini', style: TextStyle(color: textSecondary, fontSize: 10, fontWeight: FontWeight.w500)),
+          const SizedBox(height: 14),
+          Text('Budget Bulan Ini', style: TextStyle(color: textSecondary, fontSize: 10, fontWeight: FontWeight.w600)),
           const SizedBox(height: 2),
-          Text('Rp 1.950.000', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
-          const SizedBox(height: 10),
+          Text('Rp 1.950.000', style: TextStyle(color: textPrimary, fontWeight: FontWeight.w900, fontSize: 14)),
+          const SizedBox(height: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
               value: progress,
-              minHeight: 6,
+              minHeight: 7,
               backgroundColor: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.brandPrimary),
+              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF0D47A1)),
             ),
           ),
         ],
@@ -514,16 +583,23 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 5B. Bento Grid: Target Tabungan (Kolom Kanan)
+  // 5B. Bento Grid: Goal Card
   Widget _buildBentoGoalCard(Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme, bool isDark) {
     double goalProgress = 0.75;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: borderTheme),
+        color: isDark ? const Color(0xFF151C28) : Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: borderTheme.withOpacity(0.6)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,26 +607,30 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.stars_rounded, color: Colors.purple, size: 18),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(color: Colors.purple.shade50, borderRadius: BorderRadius.circular(8)),
-                child: Text('${(goalProgress * 100).toInt()}% Goal', style: TextStyle(color: Colors.purple.shade700, fontSize: 9, fontWeight: FontWeight.bold)),
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(color: const Color(0xFF7C3AED).withOpacity(0.1), shape: BoxShape.circle),
+                child: const Icon(Icons.stars_rounded, color: Color(0xFF7C3AED), size: 16),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(color: const Color(0xFFEDE9FE), borderRadius: BorderRadius.circular(10)),
+                child: Text('${(goalProgress * 100).toInt()}% Goal', style: const TextStyle(color: Color(0xFF7C3AED), fontSize: 10, fontWeight: FontWeight.w800)),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text('Dana Darurat', style: TextStyle(color: textSecondary, fontSize: 10, fontWeight: FontWeight.w500)),
+          const SizedBox(height: 14),
+          Text('Dana Darurat', style: TextStyle(color: textSecondary, fontSize: 10, fontWeight: FontWeight.w600)),
           const SizedBox(height: 2),
-          Text('Rp 7.500.000', style: TextStyle(color: textPrimary, fontWeight: FontWeight.bold, fontSize: 13)),
-          const SizedBox(height: 10),
+          Text('Rp 7.500.000', style: TextStyle(color: textPrimary, fontWeight: FontWeight.w900, fontSize: 14)),
+          const SizedBox(height: 12),
           ClipRRect(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
               value: goalProgress,
-              minHeight: 6,
+              minHeight: 7,
               backgroundColor: isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple),
+              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF7C3AED)),
             ),
           ),
         ],
@@ -558,44 +638,61 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 6. Dynamic AI Smart Insight Card
-  Widget _buildModernAIInsightCard(Color textPrimary, bool isDark) {
+  // 6. Glowing AI Insight Card
+  Widget _buildGlowingAIInsightCard(bool isDark) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         gradient: LinearGradient(
           colors: isDark
               ? [const Color(0xFF1E1B4B), const Color(0xFF311B92)]
-              : [const Color(0xFFEEF2FF), const Color(0xFFE0E7FF)],
+              : [const Color(0xFF4338CA), const Color(0xFF6366F1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        border: Border.all(color: isDark ? const Color(0xFF4338CA) : const Color(0xFFC7D2FE)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF6366F1).withOpacity(0.3),
+            blurRadius: 14,
+            offset: const Offset(0, 6),
+          )
+        ],
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-              color: Color(0xFF6366F1),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
               shape: BoxShape.circle,
+              border: Border.all(color: Colors.white.withOpacity(0.3)),
             ),
-            child: const Icon(Icons.auto_awesome_rounded, color: Colors.white, size: 18),
+            child: const Icon(Icons.auto_awesome_rounded, color: Color(0xFFFDE047), size: 22),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'AI SMART INSIGHT',
-                  style: TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF4338CA), fontSize: 10, letterSpacing: 0.8),
+                Row(
+                  children: [
+                    const Text(
+                      'AI SMART INSIGHT',
+                      style: TextStyle(fontWeight: FontWeight.w900, color: Color(0xFFFDE047), fontSize: 10, letterSpacing: 1.0),
+                    ),
+                    const SizedBox(width: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(6)),
+                      child: const Text('PRO', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 2),
-                Text(
+                const SizedBox(height: 4),
+                const Text(
                   'Pengeluaran "Makanan" mendominasi 55% anggaranmu. Hemat Rp 200rb lagi untuk mencapai target tabungan!',
-                  style: TextStyle(fontSize: 11, color: isDark ? Colors.white : const Color(0xFF1E1B4B), height: 1.3, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 11, color: Colors.white, height: 1.35, fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -606,15 +703,17 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // 7. Recent Transactions List
-  Widget _buildRecentTransactionsList(List transaksi, Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
+  Widget _buildUltraRecentTransactionsList(List transaksi, Color textPrimary, Color textSecondary, Color cardBg, Color borderTheme) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     if (transaksi.isEmpty) {
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: cardBg,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: borderTheme),
+          color: isDark ? const Color(0xFF151C28) : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: borderTheme.withOpacity(0.6)),
         ),
         child: Center(
           child: Text('Belum ada transaksi tercatat', style: TextStyle(color: textSecondary, fontSize: 13)),
@@ -630,40 +729,47 @@ class _BerandaScreenState extends State<BerandaScreen> {
         final String displayNominal = _isBalanceVisible ? rawNominal : 'Rp ••••••';
 
         IconData categoryIcon = Icons.receipt_long_rounded;
-        Color categoryBg = Colors.blue.shade50;
-        Color categoryColor = Colors.blue.shade700;
+        Color categoryBg = const Color(0xFFEFF6FF);
+        Color categoryColor = const Color(0xFF0D47A1);
 
         if (kategori.toLowerCase().contains('makan')) {
           categoryIcon = Icons.fastfood_rounded;
-          categoryBg = Colors.orange.shade50;
-          categoryColor = Colors.orange.shade700;
+          categoryBg = const Color(0xFFFFF7ED);
+          categoryColor = const Color(0xFFEA580C);
         } else if (kategori.toLowerCase().contains('belanja')) {
           categoryIcon = Icons.shopping_bag_rounded;
-          categoryBg = Colors.pink.shade50;
-          categoryColor = Colors.pink.shade700;
+          categoryBg = const Color(0xFFFDF2F8);
+          categoryColor = const Color(0xFFDB2777);
         } else if (kategori.toLowerCase().contains('gaji') || !isPengeluaran) {
           categoryIcon = Icons.account_balance_wallet_rounded;
-          categoryBg = Colors.green.shade50;
-          categoryColor = Colors.green.shade700;
+          categoryBg = const Color(0xFFECFDF5);
+          categoryColor = const Color(0xFF059669);
         }
 
         return Container(
           margin: const EdgeInsets.only(bottom: 10),
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: cardBg,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: borderTheme),
+            color: isDark ? const Color(0xFF151C28) : Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: borderTheme.withOpacity(0.5)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(isDark ? 0.2 : 0.02),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              )
+            ],
           ),
           child: Row(
             children: [
               Stack(
                 children: [
                   Container(
-                    width: 42,
-                    height: 42,
+                    width: 44,
+                    height: 44,
                     decoration: BoxDecoration(
-                      color: categoryBg,
+                      color: isDark ? categoryColor.withOpacity(0.18) : categoryBg,
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: Icon(categoryIcon, color: categoryColor, size: 20),
@@ -672,10 +778,11 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     right: 0,
                     bottom: 0,
                     child: Container(
-                      padding: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(3),
                       decoration: BoxDecoration(
-                        color: isPengeluaran ? Colors.red : Colors.green,
+                        color: isPengeluaran ? const Color(0xFFEF4444) : const Color(0xFF10B981),
                         shape: BoxShape.circle,
+                        border: Border.all(color: isDark ? const Color(0xFF151C28) : Colors.white, width: 1.5),
                       ),
                       child: Icon(
                         isPengeluaran ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
@@ -686,7 +793,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   ),
                 ],
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -707,9 +814,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
               Text(
                 '${isPengeluaran ? '-' : '+'} $displayNominal',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  color: isPengeluaran ? Colors.red.shade600 : Colors.green.shade600,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 14,
+                  color: isPengeluaran ? const Color(0xFFEF4444) : const Color(0xFF10B981),
                 ),
               ),
             ],
@@ -725,18 +832,17 @@ class _BerandaScreenState extends State<BerandaScreen> {
       children: [
         Text(
           title,
-          style: TextStyle(color: textPrimary, fontSize: 15, fontWeight: FontWeight.bold),
+          style: TextStyle(color: textPrimary, fontSize: 16, fontWeight: FontWeight.w800),
         ),
         if (onSeeAll != null)
           GestureDetector(
             onTap: onSeeAll,
             child: const Text(
               'Lihat Semua',
-              style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Color(0xFF0D47A1), fontSize: 12, fontWeight: FontWeight.w700),
             ),
           ),
       ],
     );
   }
 }
-
