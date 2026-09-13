@@ -36,53 +36,57 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final navTheme = theme.bottomNavigationBarTheme;
+
     final List<Widget> pages = [
       _isLoading
-          ? const Center(
+          ? Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF0D47A1),
+                color: theme.primaryColor,
               ),
             )
-          : BerandaScreen(summaryData: _summaryData),
-      const Center(
+          : BerandaScreen(
+              summaryData: _summaryData,
+              onNavigateToAnalisis: () {
+                setState(() {
+                  _currentIndex = 1; // Pindah otomatis ke Tab Analisis
+                });
+              },
+            ),
+      Center(
         child: Text(
           'Analisis Keuangan',
-          style: TextStyle(color: Color(0xFF1E293B)),
+          style: TextStyle(color: theme.textTheme.bodyLarge?.color),
         ),
       ),
-      const Center(
+      Center(
         child: Text(
           'Dompet & Rekening',
-          style: TextStyle(color: Color(0xFF1E293B)),
+          style: TextStyle(color: theme.textTheme.bodyLarge?.color),
         ),
       ),
-      const Center(
+      Center(
         child: Text(
           'Profil',
-          style: TextStyle(color: Color(0xFF1E293B)),
+          style: TextStyle(color: theme.textTheme.bodyLarge?.color),
         ),
       ),
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
       body: pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: navTheme.backgroundColor,
           border: Border(
             top: BorderSide(
-              color: const Color(0xFFE2E8F0),
+              color: theme.brightness == Brightness.dark
+                  ? const Color(0xFF1E293B)
+                  : const Color(0xFFE2E8F0),
               width: 1,
             ),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.03),
-              blurRadius: 10,
-              offset: const Offset(0, -5),
-            ),
-          ],
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
@@ -91,9 +95,9 @@ class _AppState extends State<App> {
               _currentIndex = index;
             });
           },
-          backgroundColor: Colors.white,
-          selectedItemColor: const Color(0xFF0D47A1),
-          unselectedItemColor: const Color(0xFF94A3B8),
+          backgroundColor: navTheme.backgroundColor,
+          selectedItemColor: navTheme.selectedItemColor,
+          unselectedItemColor: navTheme.unselectedItemColor,
           type: BottomNavigationBarType.fixed,
           elevation: 0,
           items: const [
