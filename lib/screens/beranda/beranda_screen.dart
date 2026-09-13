@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  // Catch rendering errors to prevent Blank Black Screen on Web Desktop
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Scaffold(
-      backgroundColor: const Color(0xFF070C18),
+      backgroundColor: const Color(0xFF040711),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: const Color(0xFF0F172A),
+            color: const Color(0xFF090D16),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: const Color(0xFFEF4444)),
           ),
@@ -53,6 +52,7 @@ class MyKasApp extends StatelessWidget {
           seedColor: const Color(0xFF0052FF),
           brightness: Brightness.light,
           surface: const Color(0xFFF8FAFC),
+          surfaceContainerHighest: const Color(0xFFEDF2F7),
         ),
         scaffoldBackgroundColor: const Color(0xFFF1F5F9),
       ),
@@ -63,6 +63,7 @@ class MyKasApp extends StatelessWidget {
           seedColor: const Color(0xFF3B82F6),
           brightness: Brightness.dark,
           surface: const Color(0xFF090D16),
+          surfaceContainerHighest: const Color(0xFF131C2E),
         ),
         scaffoldBackgroundColor: const Color(0xFF040711),
       ),
@@ -110,26 +111,24 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: colorScheme.scaffoldBackgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isDesktop = constraints.maxWidth >= 1024;
-          final isDark = Theme.of(context).brightness == Brightness.dark;
+          final isDark = theme.brightness == Brightness.dark;
 
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. SAFE SIDEBAR FOR DESKTOP
               if (isDesktop)
                 SizedBox(
                   width: 260,
                   child: _buildDesktopSidebar(isDark, colorScheme),
                 ),
-
-              // 2. MAIN CONTENT AREA WITH BOUNDED CONSTRAINTS
               Expanded(
                 child: SafeArea(
                   child: RefreshIndicator(
@@ -155,8 +154,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           const SizedBox(height: 12),
                           _buildQuickActionsBar(colorScheme),
                           const SizedBox(height: 24),
-                          
-                          // SAFE RESPONSIVE GRID (DESKTOP VS MOBILE)
                           if (isDesktop)
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +168,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             const SizedBox(height: 20),
                             _buildBudgetCard(colorScheme, isDark),
                           ],
-
                           const SizedBox(height: 20),
                           _buildInsightBanner(colorScheme, isDark),
                           const SizedBox(height: 32),
@@ -252,7 +248,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- HERO CARD WITH NULL-SAFETY GUARANTEE ---
+  // --- HERO CARD ---
   Widget _buildHeroCard(bool isDark, ColorScheme colorScheme) {
     final String rawSaldo = widget.summaryData?['saldo'] ?? 'Rp 12.500.000';
 
