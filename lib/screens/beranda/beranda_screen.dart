@@ -26,6 +26,77 @@ class _BerandaScreenState extends State<BerandaScreen> {
     {'id': 'import', 'label': 'Import CSV', 'icon': Icons.cloud_upload_rounded, 'color': const Color(0xFF0284C7), 'bg': const Color(0xFFF0F9FF)},
   ];
 
+  final List<Map<String, dynamic>> _allAvailableActions = [
+    {'id': 'scan', 'label': 'Scan Struk (OCR)', 'icon': Icons.qr_code_scanner_rounded},
+    {'id': 'transfer', 'label': 'Transfer Rekening', 'icon': Icons.swap_horiz_rounded},
+    {'id': 'laporan', 'label': 'Laporan Keuangan', 'icon': Icons.insights_rounded},
+    {'id': 'kategori', 'label': 'Kelola Kategori', 'icon': Icons.category_rounded},
+    {'id': 'import', 'label': 'Import Mutasi CSV', 'icon': Icons.cloud_upload_rounded},
+    {'id': 'target', 'label': 'Target Tabungan', 'icon': Icons.stars_rounded},
+    {'id': 'statistik', 'label': 'Statistik Arus Kas', 'icon': Icons.pie_chart_outline_rounded},
+  ];
+
+  void _showCustomizeActionsDialog() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return Container(
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF1E293B) : Colors.white,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Kelola Akses Cepat', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  IconButton(
+                    icon: const Icon(Icons.close_rounded),
+                    onPressed: () => Navigator.pop(context),
+                  )
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Pilih menu utama yang tampil di beranda:',
+                style: TextStyle(fontSize: 12, color: isDark ? Colors.grey.shade400 : Colors.grey.shade600),
+              ),
+              const SizedBox(height: 16),
+              Flexible(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _allAvailableActions.length,
+                  itemBuilder: (context, index) {
+                    final item = _allAvailableActions[index];
+                    final bool isSelected = _quickActions.any((element) => element['id'] == item['id']);
+
+                    return CheckboxListTile(
+                      activeColor: const Color(0xFF1E40AF),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      secondary: Icon(item['icon'] as IconData, color: const Color(0xFF1E40AF)),
+                      title: Text(item['label'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                      value: isSelected,
+                      onChanged: (bool? value) {
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -42,7 +113,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 800), // Responsive PWA Web Container
+            constraints: const BoxConstraints(maxWidth: 800),
             child: RefreshIndicator(
               onRefresh: () async {},
               color: const Color(0xFF1E40AF),
@@ -65,7 +136,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     _buildQuickActionGrid(textPrimary, surfaceColor),
                     const SizedBox(height: 24),
                     
-                    // Bento Grid
                     Row(
                       children: [
                         Expanded(
@@ -123,7 +193,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 1. Refined Header
   Widget _buildRefinedHeader(Color textPrimary, Color borderColor, bool isDark) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -181,7 +250,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 2. Refined Hero Card
   Widget _buildHeroCard() {
     final String rawSaldo = widget.summaryData['saldo'] ?? 'Rp 2.345.833';
     final String displaySaldo = _isBalanceVisible ? rawSaldo : 'Rp ••••••••';
@@ -191,7 +259,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: const Color(0xFF0F172A), // Dark Slate Modern Background
+        color: const Color(0xFF0F172A),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
@@ -252,7 +320,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 3. Dompet List
   Widget _buildDompetList(Color textPrimary, Color textSecondary, Color surfaceColor, Color borderColor, bool isDark) {
     final dompet = widget.summaryData['dompet'] ?? {};
     final listDompet = [
@@ -301,7 +368,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 4. Quick Actions
   Widget _buildQuickActionHeader(String title, Color textPrimary) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -340,7 +406,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 5. Clean Bento Card
   Widget _buildBentoCard({
     required String title,
     required String value,
@@ -393,7 +458,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 6. Clean AI Insight
   Widget _buildAIInsightCard(bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -417,7 +481,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // 7. Borderless / Flat Clean Transactions
   Widget _buildCleanTransactionsList(List transaksi, Color textPrimary, Color textSecondary, Color surfaceColor, Color borderColor, bool isDark) {
     if (transaksi.isEmpty) return const SizedBox.shrink();
 
