@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class BerandaScreen extends StatefulWidget {
@@ -34,11 +35,11 @@ class _BerandaScreenState extends State<BerandaScreen> {
           final isDesktop = constraints.maxWidth >= 1024;
           final isDark = Theme.of(context).brightness == Brightness.dark;
 
-          final bgPrimary = isDark ? const Color(0xFF090D16) : const Color(0xFFF8FAFC);
-          final surfaceColor = isDark ? const Color(0xFF131C2E) : Colors.white;
-          final borderColor = isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9);
+          final bgPrimary = isDark ? const Color(0xFF080B11) : const Color(0xFFF1F5F9);
+          final surfaceColor = isDark ? const Color(0xFF0F172A) : Colors.white;
+          final borderColor = isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0).withOpacity(0.8);
           final textPrimary = isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A);
-          final textMuted = isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8);
+          final textMuted = isDark ? const Color(0xFF64748B) : const Color(0xFF64748B);
 
           return Container(
             color: bgPrimary,
@@ -81,12 +82,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
   // --- DESKTOP SIDEBAR ---
   Widget _buildDesktopSidebar(bool isDark, Color borderColor, Color textPrimary) {
     return Container(
-      width: 260,
+      width: 270,
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF0F172A) : Colors.white,
+        color: isDark ? const Color(0xFF0B0F17) : Colors.white,
         border: Border(right: BorderSide(color: borderColor)),
       ),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,20 +96,32 @@ class _BerandaScreenState extends State<BerandaScreen> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF4F46E5)]),
-                  borderRadius: BorderRadius.circular(12),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF6366F1), Color(0xFF4338CA)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF6366F1).withOpacity(0.3),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
+                      color: const Color(0xFF6366F1).withOpacity(0.4),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
                     )
                   ],
                 ),
-                child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 20),
+                child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 22),
               ),
-              const SizedBox(width: 12),
-              Text('MyKas Pro', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: textPrimary, letterSpacing: -0.5)),
+              const SizedBox(width: 14),
+              Text(
+                'MyKas Pro',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                  color: textPrimary,
+                  letterSpacing: -0.8,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 40),
@@ -127,27 +140,34 @@ class _BerandaScreenState extends State<BerandaScreen> {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         child: InkWell(
           onTap: () => setState(() => _selectedDesktopNav = index),
-          hoverColor: const Color(0xFF6366F1).withOpacity(0.05),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14),
+          hoverColor: const Color(0xFF6366F1).withOpacity(0.06),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: isSelected ? const Color(0xFF6366F1).withOpacity(0.12) : Colors.transparent,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(14),
+              border: isSelected
+                  ? Border.all(color: const Color(0xFF6366F1).withOpacity(0.3))
+                  : Border.all(color: Colors.transparent),
             ),
             child: Row(
               children: [
-                Icon(icon, size: 20, color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B)),
+                Icon(
+                  icon,
+                  size: 20,
+                  color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B),
+                ),
                 const SizedBox(width: 14),
                 Text(
                   label,
                   style: TextStyle(
                     color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B),
-                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                     fontSize: 14,
                   ),
                 ),
@@ -167,26 +187,56 @@ class _BerandaScreenState extends State<BerandaScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Ringkasan Keuangan', style: TextStyle(fontSize: isDesktop ? 28 : 22, fontWeight: FontWeight.w900, color: textPrimary, letterSpacing: -0.8)),
+            Text(
+              'Ringkasan Keuangan',
+              style: TextStyle(
+                fontSize: isDesktop ? 30 : 24,
+                fontWeight: FontWeight.w900,
+                color: textPrimary,
+                letterSpacing: -1.0,
+              ),
+            ),
             const SizedBox(height: 4),
-            Text('Selamat datang kembali, Irwan Fuzi 👋', style: TextStyle(fontSize: 13, color: textMuted, fontWeight: FontWeight.w500)),
+            Text(
+              'Selamat datang kembali, Irwan Fuzi 👋',
+              style: TextStyle(fontSize: 13, color: textMuted, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
         Row(
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notifications_outlined),
-              style: IconButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                padding: const EdgeInsets.all(12),
+            Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF1E293B)
+                    : Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.03),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  )
+                ],
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications_outlined, size: 20),
+                style: IconButton.styleFrom(padding: const EdgeInsets.all(12)),
               ),
             ),
-            const SizedBox(width: 8),
-            const CircleAvatar(
-              radius: 20,
-              backgroundColor: Color(0xFF6366F1),
-              child: Text('IF', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+            const SizedBox(width: 12),
+            Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFF6366F1), width: 2),
+              ),
+              child: const CircleAvatar(
+                radius: 18,
+                backgroundColor: Color(0xFF6366F1),
+                child: Text('IF', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+              ),
             ),
           ],
         ),
@@ -233,7 +283,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     return Column(
       children: [
         _buildHeroBalanceCard(),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         _buildQuickActionsModern(surfaceColor, borderColor, textPrimary, isDesktop: false),
         const SizedBox(height: 24),
         _buildWalletsCard(surfaceColor, borderColor, textPrimary, textMuted),
@@ -247,74 +297,144 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- HERO BALANCE CARD ---
+  // --- HERO BALANCE CARD (GLASS & MESH GRADIENT LOOK) ---
   Widget _buildHeroBalanceCard() {
     final String rawSaldo = widget.summaryData['saldo'] ?? 'Rp 2.345.833';
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(28),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(32),
         gradient: const LinearGradient(
-          colors: [Color(0xFF1E1B4B), Color(0xFF0F172A)],
+          colors: [Color(0xFF312E81), Color(0xFF1E1B4B), Color(0xFF0F172A)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6366F1).withOpacity(0.18),
-            blurRadius: 32,
-            offset: const Offset(0, 12),
+            color: const Color(0xFF4338CA).withOpacity(0.25),
+            blurRadius: 36,
+            offset: const Offset(0, 16),
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('PORTTOFOLIO ASET', style: TextStyle(color: Color(0xFF818CF8), fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
-              InkWell(
-                onTap: () => setState(() => _isBalanceVisible = !_isBalanceVisible),
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(20),
+          // Background Glow Accents
+          Positioned(
+            top: -40,
+            right: -40,
+            child: Container(
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: const Color(0xFF6366F1).withOpacity(0.25),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF10B981),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'PORTOFOLIO ASET',
+                          style: TextStyle(
+                            color: Color(0xFFA5B4FC),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 1.6,
+                          ),
+                        ),
+                      ],
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                        child: InkWell(
+                          onTap: () => setState(() => _isBalanceVisible = !_isBalanceVisible),
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: Colors.white.withOpacity(0.15)),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  _isBalanceVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                                  color: Colors.white.withOpacity(0.9),
+                                  size: 14,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  _isBalanceVisible ? 'Sembunyikan' : 'Tampilkan',
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  _isBalanceVisible ? rawSaldo : 'Rp ••••••••',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 38,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1.2,
                   ),
-                  child: Row(
+                ),
+                const SizedBox(height: 22),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF10B981).withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(_isBalanceVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined, color: Colors.white70, size: 14),
-                      const SizedBox(width: 6),
-                      Text(_isBalanceVisible ? 'Sembunyikan' : 'Tampilkan', style: const TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w600)),
+                      Icon(Icons.trending_down_rounded, color: Color(0xFF34D399), size: 16),
+                      SizedBox(width: 8),
+                      Text(
+                        '12% lebih hemat dibanding bulan lalu',
+                        style: TextStyle(
+                          color: Color(0xFF34D399),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Text(
-            _isBalanceVisible ? rawSaldo : 'Rp ••••••••',
-            style: const TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w900, letterSpacing: -1.0),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF10B981).withOpacity(0.12),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFF10B981).withOpacity(0.3)),
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.trending_down_rounded, color: Color(0xFF34D399), size: 16),
-                SizedBox(width: 8),
-                Text('12% lebih hemat dibanding bulan lalu', style: TextStyle(color: Color(0xFF34D399), fontSize: 12, fontWeight: FontWeight.w600)),
               ],
             ),
           ),
@@ -323,42 +443,50 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- ADAPTIVE QUICK ACTIONS (Scrollable / Desktop Fit) ---
+  // --- MODERN QUICK ACTIONS ---
   Widget _buildQuickActionsModern(Color surfaceColor, Color borderColor, Color textPrimary, {required bool isDesktop}) {
     final list = _quickActions.map((act) {
+      final accentColor = act['accent'] as Color;
       return Container(
-        width: isDesktop ? null : 92,
-        margin: EdgeInsets.only(right: isDesktop ? 0 : 8),
+        width: isDesktop ? null : 88,
+        margin: EdgeInsets.only(right: isDesktop ? 0 : 10),
         child: Material(
           color: surfaceColor,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(20),
           child: InkWell(
             onTap: () {},
-            hoverColor: (act['accent'] as Color).withOpacity(0.05),
-            borderRadius: BorderRadius.circular(18),
+            hoverColor: accentColor.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(20),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: borderColor),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.02),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  )
+                ],
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: (act['accent'] as Color).withOpacity(0.12),
+                      color: accentColor.withOpacity(0.1),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(act['icon'] as IconData, color: act['accent'] as Color, size: 20),
+                    child: Icon(act['icon'] as IconData, color: accentColor, size: 22),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 10),
                   Text(
                     act['label'] as String,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 11, color: textPrimary, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 12, color: textPrimary, fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
@@ -371,7 +499,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     if (isDesktop) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: list.map((w) => Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: w))).toList(),
+        children: list.map((w) => Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 6), child: w))).toList(),
       );
     }
 
@@ -382,14 +510,21 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- WALLETS CARD ---
+  // --- WALLETS CARD (CLEAN LIST GROUPING) ---
   Widget _buildWalletsCard(Color surfaceColor, Color borderColor, Color textPrimary, Color textMuted) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: surfaceColor,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(26),
         border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,14 +532,14 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Dompet Saya', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: textPrimary)),
+              Text('Dompet Saya', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: textPrimary)),
               TextButton(
                 onPressed: () {},
-                child: const Text('Kelola', style: TextStyle(color: Color(0xFF6366F1), fontWeight: FontWeight.w700, fontSize: 12)),
+                child: const Text('Kelola', style: TextStyle(color: Color(0xFF6366F1), fontWeight: FontWeight.w700, fontSize: 13)),
               )
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           _walletRowItem('Tunai Utama', 'Rp 148.845', Icons.account_balance_wallet_rounded, const Color(0xFF10B981), textPrimary, textMuted),
           _walletRowItem('Rekening Bank', 'Rp 2.196.988', Icons.account_balance_rounded, const Color(0xFF6366F1), textPrimary, textMuted),
           _walletRowItem('E-Wallet', 'Rp 0', Icons.qr_code_2_rounded, const Color(0xFFF59E0B), textPrimary, textMuted),
@@ -414,18 +549,26 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   Widget _walletRowItem(String name, String balance, IconData icon, Color color, Color textPrimary, Color textMuted) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+    return Container(
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.04),
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
-            child: Icon(icon, color: color, size: 18),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+            child: Icon(icon, color: color, size: 20),
           ),
-          const SizedBox(width: 12),
-          Expanded(child: Text(name, style: TextStyle(color: textMuted, fontSize: 13, fontWeight: FontWeight.w500))),
-          Text(_isBalanceVisible ? balance : 'Rp ••••••', style: TextStyle(color: textPrimary, fontWeight: FontWeight.w700, fontSize: 14)),
+          const SizedBox(width: 14),
+          Expanded(child: Text(name, style: TextStyle(color: textPrimary, fontSize: 13, fontWeight: FontWeight.w600))),
+          Text(
+            _isBalanceVisible ? balance : 'Rp ••••••',
+            style: TextStyle(color: textPrimary, fontWeight: FontWeight.w800, fontSize: 14),
+          ),
         ],
       ),
     );
@@ -448,11 +591,18 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
   Widget _bentoItem(String title, String value, String badge, double progress, Color accent, Color surfaceColor, Color borderColor, Color textPrimary, Color textMuted, bool isDark) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: surfaceColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          )
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,25 +610,51 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: textMuted, fontSize: 11, fontWeight: FontWeight.w600))),
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: textMuted, fontSize: 11, fontWeight: FontWeight.w700),
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(color: accent.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(color: accent.withOpacity(0.15), borderRadius: BorderRadius.circular(8)),
                 child: Text(badge, style: TextStyle(color: accent, fontSize: 10, fontWeight: FontWeight.w800)),
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          Text(value, style: TextStyle(color: textPrimary, fontWeight: FontWeight.w800, fontSize: 15)),
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 6,
-              backgroundColor: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
-              valueColor: AlwaysStoppedAnimation<Color>(accent),
-            ),
+          Text(value, style: TextStyle(color: textPrimary, fontWeight: FontWeight.w900, fontSize: 16)),
+          const SizedBox(height: 14),
+          Stack(
+            children: [
+              Container(
+                height: 6,
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              FractionallySizedBox(
+                widthFactor: progress,
+                child: Container(
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: accent,
+                    borderRadius: BorderRadius.circular(4),
+                    boxShadow: [
+                      BoxShadow(
+                        color: accent.withOpacity(0.4),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -488,28 +664,35 @@ class _BerandaScreenState extends State<BerandaScreen> {
   // --- INSIGHT BANNER ---
   Widget _buildAIInsightBanner(bool isDark) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDark
               ? [const Color(0xFF1E1B4B), const Color(0xFF311B92)]
               : [const Color(0xFFEEF2FF), const Color(0xFFE0E7FF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: const Color(0xFF818CF8).withOpacity(0.3)),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(color: const Color(0xFF6366F1).withOpacity(0.2), shape: BoxShape.circle),
-            child: const Icon(Icons.auto_awesome_rounded, color: Color(0xFF818CF8), size: 20),
+            child: const Icon(Icons.auto_awesome_rounded, color: Color(0xFF818CF8), size: 22),
           ),
           const SizedBox(width: 14),
           Expanded(
             child: Text(
               'Pengeluaran "Makanan" mendominasi 55% anggaranmu. Hemat Rp 200rb lagi untuk mencapai target tabungan!',
-              style: TextStyle(fontSize: 12, color: isDark ? const Color(0xFFE0E7FF) : const Color(0xFF3730A3), height: 1.4, fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontSize: 12,
+                color: isDark ? const Color(0xFFE0E7FF) : const Color(0xFF3730A3),
+                height: 1.4,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
@@ -525,26 +708,33 @@ class _BerandaScreenState extends State<BerandaScreen> {
     return Container(
       decoration: BoxDecoration(
         color: surfaceColor,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(26),
         border: Border.all(color: borderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          )
+        ],
       ),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(22),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Transaksi Terbaru', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: textPrimary)),
+              Text('Transaksi Terbaru', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: textPrimary)),
               TextButton(
                 onPressed: widget.onNavigateToAnalisis,
-                child: const Text('Lihat Semua', style: TextStyle(color: Color(0xFF6366F1), fontWeight: FontWeight.w700, fontSize: 12)),
+                child: const Text('Lihat Semua', style: TextStyle(color: Color(0xFF6366F1), fontWeight: FontWeight.w700, fontSize: 13)),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           if (items.isEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
               child: Text('Belum ada transaksi', style: TextStyle(color: textMuted, fontSize: 13)),
             )
           else
@@ -552,34 +742,61 @@ class _BerandaScreenState extends State<BerandaScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: items.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
               itemBuilder: (context, index) {
                 final item = items[index];
                 final isExpense = (item['jenis'] ?? '').toString().toLowerCase().contains('pengeluaran');
 
-                return ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: isExpense ? const Color(0xFFEF4444).withOpacity(0.1) : const Color(0xFF10B981).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      isExpense ? Icons.arrow_outward_rounded : Icons.south_west_rounded,
-                      color: isExpense ? const Color(0xFFEF4444) : const Color(0xFF10B981),
-                      size: 18,
-                    ),
+                return Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF1E293B).withOpacity(0.4)
+                        : const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  title: Text(item['keterangan'] ?? '-', style: TextStyle(color: textPrimary, fontWeight: FontWeight.w700, fontSize: 14)),
-                  subtitle: Text('${item['kategori']} • ${item['dompet']}', style: TextStyle(color: textMuted, fontSize: 12)),
-                  trailing: Text(
-                    '${isExpense ? '-' : '+'} ${_isBalanceVisible ? 'Rp ${item['nominal']}' : 'Rp ••••••'}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 14,
-                      color: isExpense ? const Color(0xFFEF4444) : const Color(0xFF10B981),
-                    ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: isExpense
+                              ? const Color(0xFFEF4444).withOpacity(0.12)
+                              : const Color(0xFF10B981).withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          isExpense ? Icons.arrow_outward_rounded : Icons.south_west_rounded,
+                          color: isExpense ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                          size: 18,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['keterangan'] ?? '-',
+                              style: TextStyle(color: textPrimary, fontWeight: FontWeight.w700, fontSize: 14),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              '${item['kategori']} • ${item['dompet']}',
+                              style: TextStyle(color: textMuted, fontSize: 12),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        '${isExpense ? '-' : '+'} ${_isBalanceVisible ? 'Rp ${item['nominal']}' : 'Rp ••••••'}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                          color: isExpense ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
