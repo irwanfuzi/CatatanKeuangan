@@ -34,9 +34,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
           final isDesktop = constraints.maxWidth >= 1024;
           final isDark = Theme.of(context).brightness == Brightness.dark;
 
-          final bgPrimary = isDark ? const Color(0xFF0B0F17) : const Color(0xFFF8FAFC);
-          final surfaceColor = isDark ? const Color(0xFF131B2E) : Colors.white;
-          final borderColor = isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0);
+          final bgPrimary = isDark ? const Color(0xFF090D16) : const Color(0xFFF8FAFC);
+          final surfaceColor = isDark ? const Color(0xFF131C2E) : Colors.white;
+          final borderColor = isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9);
           final textPrimary = isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A);
           final textMuted = isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8);
 
@@ -93,12 +93,19 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF4F46E5)]),
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF6366F1).withOpacity(0.3),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    )
+                  ],
                 ),
-                child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 22),
+                child: const Icon(Icons.account_balance_wallet_rounded, color: Colors.white, size: 20),
               ),
               const SizedBox(width: 12),
               Text('MyKas Pro', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: textPrimary, letterSpacing: -0.5)),
@@ -118,28 +125,34 @@ class _BerandaScreenState extends State<BerandaScreen> {
     final isSelected = _selectedDesktopNav == index;
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: InkWell(
-        onTap: () => setState(() => _selectedDesktopNav = index),
+      child: Material(
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFF6366F1).withOpacity(0.12) : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Row(
-            children: [
-              Icon(icon, size: 20, color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B)),
-              const SizedBox(width: 14),
-              Text(
-                label,
-                style: TextStyle(
-                  color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B),
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  fontSize: 14,
+        child: InkWell(
+          onTap: () => setState(() => _selectedDesktopNav = index),
+          hoverColor: const Color(0xFF6366F1).withOpacity(0.05),
+          borderRadius: BorderRadius.circular(12),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: isSelected ? const Color(0xFF6366F1).withOpacity(0.12) : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: [
+                Icon(icon, size: 20, color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B)),
+                const SizedBox(width: 14),
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: isSelected ? const Color(0xFF6366F1) : const Color(0xFF64748B),
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    fontSize: 14,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -190,11 +203,11 @@ class _BerandaScreenState extends State<BerandaScreen> {
           flex: 6,
           child: Column(
             children: [
-              _buildHeroBalanceCard(isDark),
+              _buildHeroBalanceCard(),
               const SizedBox(height: 24),
-              _buildQuickActionsModern(surfaceColor, borderColor, textPrimary),
+              _buildQuickActionsModern(surfaceColor, borderColor, textPrimary, isDesktop: true),
               const SizedBox(height: 24),
-              _buildTransactionsCard(surfaceColor, borderColor, textPrimary, textMuted, isDark),
+              _buildTransactionsCard(surfaceColor, borderColor, textPrimary, textMuted),
             ],
           ),
         ),
@@ -219,9 +232,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
   Widget _buildMobileLayout(Color surfaceColor, Color borderColor, Color textPrimary, Color textMuted, bool isDark) {
     return Column(
       children: [
-        _buildHeroBalanceCard(isDark),
+        _buildHeroBalanceCard(),
         const SizedBox(height: 20),
-        _buildQuickActionsModern(surfaceColor, borderColor, textPrimary),
+        _buildQuickActionsModern(surfaceColor, borderColor, textPrimary, isDesktop: false),
         const SizedBox(height: 24),
         _buildWalletsCard(surfaceColor, borderColor, textPrimary, textMuted),
         const SizedBox(height: 24),
@@ -229,13 +242,13 @@ class _BerandaScreenState extends State<BerandaScreen> {
         const SizedBox(height: 24),
         _buildAIInsightBanner(isDark),
         const SizedBox(height: 24),
-        _buildTransactionsCard(surfaceColor, borderColor, textPrimary, textMuted, isDark),
+        _buildTransactionsCard(surfaceColor, borderColor, textPrimary, textMuted),
       ],
     );
   }
 
   // --- HERO BALANCE CARD ---
-  Widget _buildHeroBalanceCard(bool isDark) {
+  Widget _buildHeroBalanceCard() {
     final String rawSaldo = widget.summaryData['saldo'] ?? 'Rp 2.345.833';
 
     return Container(
@@ -250,7 +263,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6366F1).withOpacity(0.15),
+            color: const Color(0xFF6366F1).withOpacity(0.18),
             blurRadius: 32,
             offset: const Offset(0, 12),
           ),
@@ -262,7 +275,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('TOTAL PORTTOFOLIO ASET', style: TextStyle(color: Color(0xFF818CF8), fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+              const Text('PORTTOFOLIO ASET', style: TextStyle(color: Color(0xFF818CF8), fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
               InkWell(
                 onTap: () => setState(() => _isBalanceVisible = !_isBalanceVisible),
                 borderRadius: BorderRadius.circular(20),
@@ -310,46 +323,62 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- MODERN QUICK ACTIONS ---
-  Widget _buildQuickActionsModern(Color surfaceColor, Color borderColor, Color textPrimary) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: _quickActions.map((act) {
-        return Expanded(
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            child: Material(
-              color: surfaceColor,
-              borderRadius: BorderRadius.circular(18),
-              child: InkWell(
-                onTap: () {},
+  // --- ADAPTIVE QUICK ACTIONS (Scrollable / Desktop Fit) ---
+  Widget _buildQuickActionsModern(Color surfaceColor, Color borderColor, Color textPrimary, {required bool isDesktop}) {
+    final list = _quickActions.map((act) {
+      return Container(
+        width: isDesktop ? null : 92,
+        margin: EdgeInsets.only(right: isDesktop ? 0 : 8),
+        child: Material(
+          color: surfaceColor,
+          borderRadius: BorderRadius.circular(18),
+          child: InkWell(
+            onTap: () {},
+            hoverColor: (act['accent'] as Color).withOpacity(0.05),
+            borderRadius: BorderRadius.circular(18),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+              decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(18),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: borderColor),
+                border: Border.all(color: borderColor),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: (act['accent'] as Color).withOpacity(0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(act['icon'] as IconData, color: act['accent'] as Color, size: 20),
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: (act['accent'] as Color).withOpacity(0.12),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(act['icon'] as IconData, color: act['accent'] as Color, size: 20),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(act['label'] as String, style: TextStyle(fontSize: 11, color: textPrimary, fontWeight: FontWeight.w600)),
-                    ],
+                  const SizedBox(height: 8),
+                  Text(
+                    act['label'] as String,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 11, color: textPrimary, fontWeight: FontWeight.w600),
                   ),
-                ),
+                ],
               ),
             ),
           ),
-        );
-      }).toList(),
+        ),
+      );
+    }).toList();
+
+    if (isDesktop) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: list.map((w) => Expanded(child: Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: w))).toList(),
+      );
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      child: Row(children: list),
     );
   }
 
@@ -377,9 +406,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           ),
           const SizedBox(height: 12),
           _walletRowItem('Tunai Utama', 'Rp 148.845', Icons.account_balance_wallet_rounded, const Color(0xFF10B981), textPrimary, textMuted),
-          Divider(height: 20, color: borderColor),
           _walletRowItem('Rekening Bank', 'Rp 2.196.988', Icons.account_balance_rounded, const Color(0xFF6366F1), textPrimary, textMuted),
-          Divider(height: 20, color: borderColor),
           _walletRowItem('E-Wallet', 'Rp 0', Icons.qr_code_2_rounded, const Color(0xFFF59E0B), textPrimary, textMuted),
         ],
       ),
@@ -387,17 +414,20 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   Widget _walletRowItem(String name, String balance, IconData icon, Color color, Color textPrimary, Color textMuted) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
-          child: Icon(icon, color: color, size: 18),
-        ),
-        const SizedBox(width: 12),
-        Expanded(child: Text(name, style: TextStyle(color: textMuted, fontSize: 13, fontWeight: FontWeight.w500))),
-        Text(_isBalanceVisible ? balance : 'Rp ••••••', style: TextStyle(color: textPrimary, fontWeight: FontWeight.w700, fontSize: 14)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+            child: Icon(icon, color: color, size: 18),
+          ),
+          const SizedBox(width: 12),
+          Expanded(child: Text(name, style: TextStyle(color: textMuted, fontSize: 13, fontWeight: FontWeight.w500))),
+          Text(_isBalanceVisible ? balance : 'Rp ••••••', style: TextStyle(color: textPrimary, fontWeight: FontWeight.w700, fontSize: 14)),
+        ],
+      ),
     );
   }
 
@@ -430,7 +460,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title, style: TextStyle(color: textMuted, fontSize: 11, fontWeight: FontWeight.w600)),
+              Expanded(child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: textMuted, fontSize: 11, fontWeight: FontWeight.w600))),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(color: accent.withOpacity(0.15), borderRadius: BorderRadius.circular(6)),
@@ -455,7 +485,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- AI INSIGHT BANNER ---
+  // --- INSIGHT BANNER ---
   Widget _buildAIInsightBanner(bool isDark) {
     return Container(
       padding: const EdgeInsets.all(18),
@@ -488,7 +518,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // --- TRANSACTIONS CARD ---
-  Widget _buildTransactionsCard(Color surfaceColor, Color borderColor, Color textPrimary, Color textMuted, bool isDark) {
+  Widget _buildTransactionsCard(Color surfaceColor, Color borderColor, Color textPrimary, Color textMuted) {
     final List transaksi = widget.summaryData['riwayat'] ?? [];
     final items = transaksi.take(4).toList();
 
@@ -522,7 +552,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: items.length,
-              separatorBuilder: (context, index) => Divider(height: 16, color: borderColor.withOpacity(0.5)),
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final item = items[index];
                 final isExpense = (item['jenis'] ?? '').toString().toLowerCase().contains('pengeluaran');
