@@ -1,7 +1,40 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 void main() {
+  // Catch rendering errors to prevent Blank Black Screen on Web Desktop
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF070C18),
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFF0F172A),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFEF4444)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.warning_amber_rounded, color: Color(0xFFEF4444), size: 48),
+              const SizedBox(height: 16),
+              const Text(
+                'Terjadi Kesalahan Visual',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                details.exceptionAsString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Color(0xFF94A3B8), fontSize: 12),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  };
+
   runApp(const MyKasApp());
 }
 
@@ -20,7 +53,6 @@ class MyKasApp extends StatelessWidget {
           seedColor: const Color(0xFF0052FF),
           brightness: Brightness.light,
           surface: const Color(0xFFF8FAFC),
-          surfaceContainerHighest: const Color(0xFFEDF2F7),
         ),
         scaffoldBackgroundColor: const Color(0xFFF1F5F9),
       ),
@@ -31,7 +63,6 @@ class MyKasApp extends StatelessWidget {
           seedColor: const Color(0xFF3B82F6),
           brightness: Brightness.dark,
           surface: const Color(0xFF090D16),
-          surfaceContainerHighest: const Color(0xFF131C2E),
         ),
         scaffoldBackgroundColor: const Color(0xFF040711),
       ),
@@ -52,12 +83,12 @@ class MyKasApp extends StatelessWidget {
 }
 
 class BerandaScreen extends StatefulWidget {
-  final Map<String, dynamic> summaryData;
+  final Map<String, dynamic>? summaryData;
   final VoidCallback? onNavigateToAnalisis;
 
   const BerandaScreen({
     super.key,
-    required this.summaryData,
+    this.summaryData,
     this.onNavigateToAnalisis,
   });
 
@@ -69,78 +100,88 @@ class _BerandaScreenState extends State<BerandaScreen> {
   bool _isBalanceVisible = true;
   int _selectedDesktopNav = 0;
 
-  final List<Map<String, dynamic>> _quickActions = [
-    {'id': 'scan', 'label': 'Scan Struk', 'icon': Icons.crop_free_rounded, 'color': const Color(0xFF0052FF)},
-    {'id': 'budget', 'label': 'Budget', 'icon': Icons.track_changes_rounded, 'color': const Color(0xFF0052FF)},
-    {'id': 'laporan', 'label': 'Laporan', 'icon': Icons.description_outlined, 'color': const Color(0xFF0052FF)},
-    {'id': 'kategori', 'label': 'Kategori', 'icon': Icons.local_offer_outlined, 'color': const Color(0xFF0052FF)},
-    {'id': 'search', 'label': 'Cari', 'icon': Icons.search_rounded, 'color': const Color(0xFF0052FF)},
+  final List<Map<String, dynamic>> _quickActions = const [
+    {'id': 'scan', 'label': 'Scan Struk', 'icon': Icons.crop_free_rounded, 'color': Color(0xFF0052FF)},
+    {'id': 'budget', 'label': 'Budget', 'icon': Icons.track_changes_rounded, 'color': Color(0xFF0052FF)},
+    {'id': 'laporan', 'label': 'Laporan', 'icon': Icons.description_outlined, 'color': Color(0xFF0052FF)},
+    {'id': 'kategori', 'label': 'Kategori', 'icon': Icons.local_offer_outlined, 'color': Color(0xFF0052FF)},
+    {'id': 'search', 'label': 'Cari', 'icon': Icons.search_rounded, 'color': Color(0xFF0052FF)},
   ];
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
+      backgroundColor: colorScheme.scaffoldBackgroundColor,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isDesktop = constraints.maxWidth >= 1024;
           final isDark = Theme.of(context).brightness == Brightness.dark;
-          final colorScheme = Theme.of(context).colorScheme;
 
-          return Container(
-            color: colorScheme.scaffoldBackgroundColor,
-            child: Row(
-              children: [
-                if (isDesktop) _buildDesktopSidebar(isDark, colorScheme),
-                Expanded(
-                  child: SafeArea(
-                    child: RefreshIndicator(
-                      onRefresh: () async {},
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isDesktop ? 36.0 : 16.0,
-                          vertical: 20.0,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildAppHeader(colorScheme, isDesktop),
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 1. SAFE SIDEBAR FOR DESKTOP
+              if (isDesktop)
+                SizedBox(
+                  width: 260,
+                  child: _buildDesktopSidebar(isDark, colorScheme),
+                ),
+
+              // 2. MAIN CONTENT AREA WITH BOUNDED CONSTRAINTS
+              Expanded(
+                child: SafeArea(
+                  child: RefreshIndicator(
+                    onRefresh: () async {},
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isDesktop ? 36.0 : 16.0,
+                        vertical: 20.0,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildAppHeader(colorScheme, isDesktop),
+                          const SizedBox(height: 20),
+                          _buildHeroCard(isDark, colorScheme),
+                          const SizedBox(height: 24),
+                          _buildSectionHeader('Dompet Saya', colorScheme),
+                          const SizedBox(height: 12),
+                          _buildDompetCardsGrid(colorScheme, isDesktop),
+                          const SizedBox(height: 24),
+                          _buildSectionHeader('Quick Action', colorScheme),
+                          const SizedBox(height: 12),
+                          _buildQuickActionsBar(colorScheme),
+                          const SizedBox(height: 24),
+                          
+                          // SAFE RESPONSIVE GRID (DESKTOP VS MOBILE)
+                          if (isDesktop)
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: _buildRecentTransactions(colorScheme)),
+                                const SizedBox(width: 20),
+                                Expanded(child: _buildBudgetCard(colorScheme, isDark)),
+                              ],
+                            )
+                          else ...[
+                            _buildRecentTransactions(colorScheme),
                             const SizedBox(height: 20),
-                            _buildHeroCard(isDark, colorScheme),
-                            const SizedBox(height: 24),
-                            _buildSectionHeader('Dompet Saya', colorScheme),
-                            const SizedBox(height: 12),
-                            _buildDompetCardsGrid(colorScheme, isDesktop),
-                            const SizedBox(height: 24),
-                            _buildSectionHeader('Quick Action', colorScheme),
-                            const SizedBox(height: 12),
-                            _buildQuickActionsBar(colorScheme),
-                            const SizedBox(height: 24),
-                            if (isDesktop)
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(child: _buildRecentTransactions(colorScheme)),
-                                  const SizedBox(width: 20),
-                                  Expanded(child: _buildBudgetCard(colorScheme, isDark)),
-                                ],
-                              )
-                            else ...[
-                              _buildRecentTransactions(colorScheme),
-                              const SizedBox(height: 20),
-                              _buildBudgetCard(colorScheme, isDark),
-                            ],
-                            const SizedBox(height: 20),
-                            _buildInsightBanner(colorScheme, isDark),
-                            const SizedBox(height: 32),
+                            _buildBudgetCard(colorScheme, isDark),
                           ],
-                        ),
+
+                          const SizedBox(height: 20),
+                          _buildInsightBanner(colorScheme, isDark),
+                          const SizedBox(height: 32),
+                        ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
@@ -211,9 +252,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- HERO CARD (MATERIAL 3 TONAL SURFACE + NEOMATERIAL ACCENT) ---
+  // --- HERO CARD WITH NULL-SAFETY GUARANTEE ---
   Widget _buildHeroCard(bool isDark, ColorScheme colorScheme) {
-    final String rawSaldo = widget.summaryData['saldo'] ?? 'Rp 12.500.000';
+    final String rawSaldo = widget.summaryData?['saldo'] ?? 'Rp 12.500.000';
 
     return Container(
       width: double.infinity,
@@ -221,8 +262,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
         borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
           colors: isDark
-              ? [const Color(0xFF0B192C), const Color(0xFF1E3E62)]
-              : [const Color(0xFF0052FF), const Color(0xFF0038B8)],
+              ? const [Color(0xFF0B192C), Color(0xFF1E3E62)]
+              : const [Color(0xFF0052FF), Color(0xFF0038B8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -438,9 +479,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- TRANSAKSI TERBARU (TACTILE INSET SURFACE) ---
+  // --- TRANSAKSI TERBARU ---
   Widget _buildRecentTransactions(ColorScheme colorScheme) {
-    final List transaksi = widget.summaryData['riwayat'] ?? [];
+    final List transaksi = widget.summaryData?['riwayat'] ?? [];
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -467,56 +508,62 @@ class _BerandaScreenState extends State<BerandaScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          Column(
-            children: transaksi.map((item) {
-              final isExpense = (item['jenis'] ?? '').toString().toLowerCase().contains('pengeluaran');
-              return Container(
-                margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: colorScheme.surfaceContainerHighest.withOpacity(0.4),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: colorScheme.outlineVariant.withOpacity(0.2)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: isExpense ? Colors.red.withOpacity(0.12) : Colors.green.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(12),
+          if (transaksi.isEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text('Belum ada transaksi', style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12)),
+            )
+          else
+            Column(
+              children: transaksi.map((item) {
+                final isExpense = (item['jenis'] ?? '').toString().toLowerCase().contains('pengeluaran');
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceContainerHighest.withOpacity(0.4),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: colorScheme.outlineVariant.withOpacity(0.2)),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: isExpense ? Colors.red.withOpacity(0.12) : Colors.green.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          isExpense ? Icons.arrow_outward_rounded : Icons.south_west_rounded,
+                          color: isExpense ? Colors.red : Colors.green,
+                          size: 18,
+                        ),
                       ),
-                      child: Icon(
-                        isExpense ? Icons.arrow_outward_rounded : Icons.south_west_rounded,
-                        color: isExpense ? Colors.red : Colors.green,
-                        size: 18,
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(item['keterangan'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: colorScheme.onSurface)),
+                            const SizedBox(height: 2),
+                            Text('${item['kategori']} • ${item['dompet']}', style: TextStyle(fontSize: 11, color: colorScheme.onSurfaceVariant)),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(item['keterangan'] ?? '-', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: colorScheme.onSurface)),
-                          const SizedBox(height: 2),
-                          Text('${item['kategori']} • ${item['dompet']}', style: TextStyle(fontSize: 11, color: colorScheme.onSurfaceVariant)),
-                        ],
+                      Text(
+                        '${isExpense ? '-' : '+'} ${_isBalanceVisible ? 'Rp ${item['nominal']}' : 'Rp ••••••'}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 13,
+                          fontFamily: 'monospace',
+                          color: isExpense ? Colors.red : Colors.green,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${isExpense ? '-' : '+'} ${_isBalanceVisible ? 'Rp ${item['nominal']}' : 'Rp ••••••'}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 13,
-                        fontFamily: 'monospace',
-                        color: isExpense ? Colors.red : Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
         ],
       ),
     );
@@ -638,7 +685,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   // --- DESKTOP SIDEBAR ---
   Widget _buildDesktopSidebar(bool isDark, ColorScheme colorScheme) {
     return Container(
-      width: 260,
+      height: double.infinity,
       decoration: BoxDecoration(
         color: colorScheme.surface,
         border: Border(right: BorderSide(color: colorScheme.outlineVariant.withOpacity(0.4))),
