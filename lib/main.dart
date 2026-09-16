@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'theme/app_theme.dart'; // <--- Jalur impor disesuaikan ke folder lib/theme/
-import 'app.dart';
+import 'theme/app_theme.dart';
+import 'app.dart'; // Impor wajib agar konstruktor App() dikenali compiler
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
