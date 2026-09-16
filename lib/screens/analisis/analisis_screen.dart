@@ -15,13 +15,13 @@ class AnalisisScreen extends StatefulWidget {
 class _AnalisisScreenState extends State<AnalisisScreen> {
   int _selectedMonth = DateTime.now().month;
   int _selectedYear = DateTime.now().year;
+  String _selectedWalletCategory = 'Semua';
 
   final List<String> _namaBulan = const [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
 
-  // Modern Fintech Palette
   static const Color primaryRoyalBlue = Color(0xFF0052FF);
   static const Color accentHoneyGold = Color(0xFFFF9F00);
   static const Color emeraldGreen = Color(0xFF10B981);
@@ -64,7 +64,7 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Pilih Periode Laporan',
+                    'Pilih Periode Analisis',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w900,
@@ -73,8 +73,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                     ),
                   ),
                   const SizedBox(height: 18),
-                  
-                  // Selection Tahun
                   Text('Tahun', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: isDark ? Colors.white60 : Colors.black54)),
                   const SizedBox(height: 8),
                   Row(
@@ -98,8 +96,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                     }).toList(),
                   ),
                   const SizedBox(height: 16),
-
-                  // Grid Selection Bulan
                   Text('Bulan', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: isDark ? Colors.white60 : Colors.black54)),
                   const SizedBox(height: 10),
                   Wrap(
@@ -193,40 +189,41 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                       _buildHeader(textColor, subTextColor, surfaceColor, borderColor, isDark),
                       const SizedBox(height: 20),
 
-                      // 2. HERO EXECUTIVE SUMMARY CARD
-                      _buildHeroExecutiveCard(surfaceColor, borderColor, textColor, subTextColor, isDark),
+                      // 2. RINGKASAN 3 KOLOM NOMINAL (PEMASUKAN, PENGELUARAN, SALDO BERSIH)
+                      _buildThreeColumnSummaryCard(surfaceColor, borderColor, textColor, subTextColor, isDark),
                       const SizedBox(height: 24),
 
-                      // 3. RINCIAN MY WALLET TRACK
-                      _buildSectionHeader('Portofolio Dompet Saya', textColor),
+                      // 3. RINCIAN DOMPET SAYA (BANK, E-WALLET, TABUNGAN, TUNAI)
+                      _buildSectionHeader('Rincian Dompet Saya', textColor),
                       const SizedBox(height: 12),
-                      _buildMyWalletTrack(surfaceColor, borderColor, textColor, subTextColor, isDark),
+                      _buildGroupedWalletCategoryChips(isDark),
+                      const SizedBox(height: 14),
+                      _buildGroupedWalletList(surfaceColor, borderColor, textColor, subTextColor, isDark),
                       const SizedBox(height: 24),
 
-                      // 4. TREN KEUANGAN 5 BULAN (DUAL BAR STREAM)
-                      _buildTrenKeuanganCard(surfaceColor, borderColor, textColor, subTextColor, isDark),
-                      const SizedBox(height: 24),
-
-                      // 5. GRAFIK KATEGORI PENGELUARAN (KETERANGAN DI KANAN)
-                      _buildCategoryGraphWithRightLegend(surfaceColor, borderColor, textColor, subTextColor, isDark),
-                      const SizedBox(height: 24),
-
-                      // 6. 2-COLUMN BENTO GRID: BUDGETING & GOALS
+                      // 4. MODUL BUDGETING & TUJUAN KEUANGAN (HIDUP & INTUITIF)
                       if (isDesktop)
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(child: _buildBudgetingModule(surfaceColor, borderColor, textColor, subTextColor, isDark)),
+                            Expanded(child: _buildIntuitiveBudgetCard(surfaceColor, borderColor, textColor, subTextColor, isDark)),
                             const SizedBox(width: 16),
-                            Expanded(child: _buildFinancialGoalsModule(surfaceColor, borderColor, textColor, subTextColor, isDark)),
+                            Expanded(child: _buildIntuitiveGoalsCard(surfaceColor, borderColor, textColor, subTextColor, isDark)),
                           ],
                         )
                       else ...[
-                        _buildBudgetingModule(surfaceColor, borderColor, textColor, subTextColor, isDark),
+                        _buildIntuitiveBudgetCard(surfaceColor, borderColor, textColor, subTextColor, isDark),
                         const SizedBox(height: 16),
-                        _buildFinancialGoalsModule(surfaceColor, borderColor, textColor, subTextColor, isDark),
+                        _buildIntuitiveGoalsCard(surfaceColor, borderColor, textColor, subTextColor, isDark),
                       ],
+                      const SizedBox(height: 24),
 
+                      // 5. TREN KEUANGAN 5 BULAN
+                      _buildTrenKeuanganCard(surfaceColor, borderColor, textColor, subTextColor, isDark),
+                      const SizedBox(height: 24),
+
+                      // 6. PENGELUARAN PER KATEGORI
+                      _buildCategoryGraphWithRightLegend(surfaceColor, borderColor, textColor, subTextColor, isDark),
                       const SizedBox(height: 40),
                     ],
                   ),
@@ -258,7 +255,7 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
             ),
             const SizedBox(height: 2),
             Text(
-              'Evaluasi arus kas & pertumbuhan aset',
+              'Laporan arus kas dan performa portofolio',
               style: TextStyle(fontSize: 12, color: subTextColor, fontWeight: FontWeight.w500),
             ),
           ],
@@ -272,9 +269,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
               color: surfaceColor,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: borderColor, width: 1),
-              boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 8, offset: const Offset(0, 2)),
-              ],
             ),
             child: Row(
               children: [
@@ -294,11 +288,11 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
     );
   }
 
-  // --- 2. EXECUTIVE HERO SUMMARY CARD ---
-  Widget _buildHeroExecutiveCard(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
-    final saldoTotal = widget.summaryData?['saldo'] ?? 'Rp 11.250.000';
-    final pemasukan = widget.summaryData?['pemasukan'] ?? 'Rp 5.250.000';
-    final pengeluaran = widget.summaryData?['pengeluaran'] ?? 'Rp 2.804.178';
+  // --- 2. CARD RINGKASAN 3 KOLOM NOMINAL ---
+  Widget _buildThreeColumnSummaryCard(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
+    final pemasukan = widget.summaryData?['pemasukan'] ?? 'Rp 15.450.000';
+    final pengeluaran = widget.summaryData?['pengeluaran'] ?? 'Rp 7.780.000';
+    final saldoBersih = widget.summaryData?['saldo'] ?? 'Rp 7.670.000';
 
     return Container(
       width: double.infinity,
@@ -307,136 +301,144 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: borderColor, width: 1),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 14, offset: const Offset(0, 4)),
+          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4)),
         ],
       ),
-      padding: const EdgeInsets.all(22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+      child: Row(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(color: primaryRoyalBlue, shape: BoxShape.circle),
-                  ),
-                  const SizedBox(width: 8),
-                  Text('TOTAL ASET KESELURUHAN', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: subTextColor, letterSpacing: 1.2)),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: primaryRoyalBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
-                child: const Text('Aktif', style: TextStyle(color: primaryRoyalBlue, fontSize: 10, fontWeight: FontWeight.bold)),
-              ),
-            ],
+          // Kolom 1: Pemasukan
+          Expanded(
+            child: _buildSummaryColumnItem(
+              title: 'Pemasukan',
+              amount: pemasukan,
+              percentage: '12,5%',
+              isUp: true,
+              accentColor: emeraldGreen,
+              subTextColor: subTextColor,
+              textColor: textColor,
+            ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            saldoTotal,
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace', letterSpacing: -0.8),
+          Container(width: 1, height: 64, color: borderColor),
+          // Kolom 2: Pengeluaran
+          Expanded(
+            child: _buildSummaryColumnItem(
+              title: 'Pengeluaran',
+              amount: pengeluaran,
+              percentage: '8,3%',
+              isUp: true,
+              accentColor: crimsonRed,
+              subTextColor: subTextColor,
+              textColor: textColor,
+            ),
           ),
-          const SizedBox(height: 18),
-          Divider(color: borderColor, height: 1),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: emeraldGreen.withOpacity(0.12), borderRadius: BorderRadius.circular(10)),
-                      child: const Icon(Icons.arrow_downward_rounded, size: 14, color: emeraldGreen),
-                    ),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('PEMASUKAN BULAN INI', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: subTextColor, letterSpacing: 0.8)),
-                        const SizedBox(height: 2),
-                        Text(pemasukan, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: emeraldGreen, fontFamily: 'monospace')),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(width: 1, height: 36, color: borderColor),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: crimsonRed.withOpacity(0.12), borderRadius: BorderRadius.circular(10)),
-                      child: const Icon(Icons.arrow_upward_rounded, size: 14, color: crimsonRed),
-                    ),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('PENGELUARAN BULAN INI', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: subTextColor, letterSpacing: 0.8)),
-                        const SizedBox(height: 2),
-                        Text(pengeluaran, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: crimsonRed, fontFamily: 'monospace')),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Container(width: 1, height: 64, color: borderColor),
+          // Kolom 3: Saldo Bersih
+          Expanded(
+            child: _buildSummaryColumnItem(
+              title: 'Saldo Bersih',
+              amount: saldoBersih,
+              percentage: '10,7%',
+              isUp: true,
+              accentColor: primaryRoyalBlue,
+              subTextColor: subTextColor,
+              textColor: textColor,
+            ),
           ),
         ],
       ),
     );
   }
 
-  // --- 3. PORTOFOLIO DOMPET TRACK ---
-  Widget _buildMyWalletTrack(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
-    final wallets = [
-      {'title': 'Tunai Utama', 'amount': 'Rp 1.250.000', 'icon': Icons.account_balance_wallet_rounded, 'color': emeraldGreen},
-      {'title': 'Rekening Bank', 'amount': 'Rp 7.850.000', 'icon': Icons.account_balance_rounded, 'color': primaryRoyalBlue},
-      {'title': 'E-Wallet', 'amount': 'Rp 2.150.000', 'icon': Icons.qr_code_2_rounded, 'color': accentHoneyGold},
-    ];
+  Widget _buildSummaryColumnItem({
+    required String title,
+    required String amount,
+    required String percentage,
+    required bool isUp,
+    required Color accentColor,
+    required Color subTextColor,
+    required Color textColor,
+  }) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: accentColor,
+          ),
+        ),
+        const SizedBox(height: 6),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(
+              amount,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w900,
+                color: textColor,
+                fontFamily: 'monospace',
+                letterSpacing: -0.5,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              isUp ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
+              size: 13,
+              color: accentColor,
+            ),
+            const SizedBox(width: 3),
+            Text(
+              percentage,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: accentColor),
+            ),
+          ],
+        ),
+        const SizedBox(height: 2),
+        Text(
+          'dari bulan lalu',
+          style: TextStyle(fontSize: 9, color: subTextColor, fontWeight: FontWeight.w500),
+        ),
+      ],
+    );
+  }
+
+  // --- 3. CHIPS CATEGORY & RINCIAN DOMPET KELOMPOK ---
+  Widget _buildGroupedWalletCategoryChips(bool isDark) {
+    final categories = ['Semua', 'Bank', 'E-Wallet', 'Tabungan', 'Tunai'];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       child: Row(
-        children: wallets.map((w) {
-          final color = w['color'] as Color;
-
-          return Container(
-            width: 160,
-            margin: const EdgeInsets.only(right: 12),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: surfaceColor,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: borderColor, width: 1),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(7),
-                      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(10)),
-                      child: Icon(w['icon'] as IconData, color: color, size: 16),
-                    ),
-                    Icon(Icons.more_horiz_rounded, size: 16, color: subTextColor.withOpacity(0.6)),
-                  ],
-                ),
-                const SizedBox(height: 14),
-                Text(w['title'] as String, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: subTextColor)),
-                const SizedBox(height: 2),
-                Text(w['amount'] as String, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
-              ],
+        children: categories.map((cat) {
+          final isSelected = _selectedWalletCategory == cat;
+          return Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: ChoiceChip(
+              label: Text(cat),
+              selected: isSelected,
+              selectedColor: const Color(0xFF0F172A),
+              backgroundColor: isDark ? const Color(0xFF1F2937) : const Color(0xFFF1F5F9),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              labelStyle: TextStyle(
+                color: isSelected ? Colors.white : (isDark ? Colors.white70 : const Color(0xFF475569)),
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+              onSelected: (val) {
+                setState(() {
+                  _selectedWalletCategory = cat;
+                });
+              },
             ),
           );
         }).toList(),
@@ -444,7 +446,463 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
     );
   }
 
-  // --- 4. TREN KEUANGAN 5 BULAN ---
+  Widget _buildGroupedWalletList(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
+    final showAll = _selectedWalletCategory == 'Semua';
+
+    return Column(
+      children: [
+        if (showAll || _selectedWalletCategory == 'Bank')
+          _buildWalletGroupCard(
+            title: 'Rekening Bank',
+            totalAmount: 'Rp 7.850.000',
+            surfaceColor: surfaceColor,
+            borderColor: borderColor,
+            textColor: textColor,
+            subTextColor: subTextColor,
+            isDark: isDark,
+            items: [
+              _buildWalletItem(name: 'BCA', subtitle: '**** 1234 • Terhubung', amount: 'Rp 3.500.000', icon: Icons.account_balance_rounded, color: primaryRoyalBlue, textColor: textColor, subTextColor: subTextColor),
+              _buildWalletItem(name: 'BRI', subtitle: '**** 5678 • Terhubung', amount: 'Rp 2.000.000', icon: Icons.account_balance_rounded, color: primaryRoyalBlue, textColor: textColor, subTextColor: subTextColor),
+              _buildWalletItem(name: 'Mandiri', subtitle: '**** 9012 • Terhubung', amount: 'Rp 1.750.000', icon: Icons.account_balance_rounded, color: primaryRoyalBlue, textColor: textColor, subTextColor: subTextColor),
+            ],
+            onAddTap: () {},
+            addLabel: 'Tambah Rekening Bank',
+          ),
+
+        if (showAll || _selectedWalletCategory == 'E-Wallet') ...[
+          const SizedBox(height: 14),
+          _buildWalletGroupCard(
+            title: 'E-Wallet',
+            totalAmount: 'Rp 2.250.000',
+            surfaceColor: surfaceColor,
+            borderColor: borderColor,
+            textColor: textColor,
+            subTextColor: subTextColor,
+            isDark: isDark,
+            items: [
+              _buildWalletItem(name: 'GoPay', subtitle: 'Terhubung', amount: 'Rp 1.200.000', icon: Icons.qr_code_2_rounded, color: const Color(0xFF00AED6), textColor: textColor, subTextColor: subTextColor),
+              _buildWalletItem(name: 'OVO', subtitle: 'Terhubung', amount: 'Rp 650.000', icon: Icons.qr_code_2_rounded, color: const Color(0xFF4C2A86), textColor: textColor, subTextColor: subTextColor),
+              _buildWalletItem(name: 'DANA', subtitle: 'Terhubung', amount: 'Rp 400.000', icon: Icons.qr_code_2_rounded, color: const Color(0xFF118EEA), textColor: textColor, subTextColor: subTextColor),
+            ],
+            onAddTap: () {},
+            addLabel: 'Tambah E-Wallet',
+          ),
+        ],
+
+        if (showAll || _selectedWalletCategory == 'Tabungan') ...[
+          const SizedBox(height: 14),
+          _buildWalletGroupCard(
+            title: 'Tabungan',
+            totalAmount: 'Rp 1.150.000',
+            surfaceColor: surfaceColor,
+            borderColor: borderColor,
+            textColor: textColor,
+            subTextColor: subTextColor,
+            isDark: isDark,
+            items: [
+              _buildSavingsWalletItem(name: 'Tabungan Liburan', target: 'Target: Rp 5.000.000', amount: 'Rp 1.150.000', progress: 0.25, textColor: textColor, subTextColor: subTextColor),
+            ],
+          ),
+        ],
+
+        if (showAll || _selectedWalletCategory == 'Tunai') ...[
+          const SizedBox(height: 14),
+          _buildWalletGroupCard(
+            title: 'Dompet Tunai',
+            totalAmount: 'Rp 1.250.000',
+            surfaceColor: surfaceColor,
+            borderColor: borderColor,
+            textColor: textColor,
+            subTextColor: subTextColor,
+            isDark: isDark,
+            items: [
+              _buildWalletItem(name: 'Kas Utama', subtitle: 'Tunai Fisik', amount: 'Rp 1.250.000', icon: Icons.account_balance_wallet_rounded, color: emeraldGreen, textColor: textColor, subTextColor: subTextColor),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildWalletGroupCard({
+    required String title,
+    required String totalAmount,
+    required Color surfaceColor,
+    required Color borderColor,
+    required Color textColor,
+    required Color subTextColor,
+    required bool isDark,
+    required List<Widget> items,
+    VoidCallback? onAddTap,
+    String? addLabel,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: borderColor, width: 1),
+      ),
+      padding: const EdgeInsets.all(18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: textColor)),
+              Text(totalAmount, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Column(children: items),
+          if (onAddTap != null && addLabel != null) ...[
+            const SizedBox(height: 8),
+            InkWell(
+              onTap: onAddTap,
+              borderRadius: BorderRadius.circular(10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.add_rounded, size: 16, color: primaryRoyalBlue),
+                    const SizedBox(width: 8),
+                    Text(addLabel, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primaryRoyalBlue)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWalletItem({
+    required String name,
+    required String subtitle,
+    required String amount,
+    required IconData icon,
+    required Color color,
+    required Color textColor,
+    required Color subTextColor,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(9),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: color, size: 18),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor)),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
+                    if (subtitle.contains('Terhubung')) ...[
+                      const Icon(Icons.check_circle_rounded, size: 10, color: emeraldGreen),
+                      const SizedBox(width: 4),
+                    ],
+                    Text(subtitle, style: TextStyle(fontSize: 10, color: subTextColor, fontWeight: FontWeight.w500)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Text(amount, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSavingsWalletItem({
+    required String name,
+    required String target,
+    required String amount,
+    required double progress,
+    required Color textColor,
+    required Color subTextColor,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(9),
+              decoration: BoxDecoration(
+                color: emeraldGreen.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.shopping_bag_outlined, color: emeraldGreen, size: 18),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(name, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor)),
+                  const SizedBox(height: 2),
+                  Text(target, style: TextStyle(fontSize: 10, color: subTextColor, fontWeight: FontWeight.w500)),
+                ],
+              ),
+            ),
+            Text(amount, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  minHeight: 5,
+                  backgroundColor: const Color(0xFFE2E8F0),
+                  valueColor: const AlwaysStoppedAnimation<Color>(emeraldGreen),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Text('${(progress * 100).toInt()}%', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: textColor)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // --- 4A. INTUITIVE HEATMAP BUDGET CARD ---
+  Widget _buildIntuitiveBudgetCard(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: borderColor, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Budget Bulan Ini', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: emeraldGreen.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                child: const Text('70%', style: TextStyle(color: emeraldGreen, fontSize: 12, fontWeight: FontWeight.w900)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Text('Sisa Budget', style: TextStyle(fontSize: 11, color: subTextColor, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 2),
+          Text(
+            'Rp 1.800.000',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace', letterSpacing: -0.5),
+          ),
+          Text('dari Rp 6.000.000', style: TextStyle(fontSize: 11, color: subTextColor)),
+          const SizedBox(height: 18),
+
+          // Dynamic Heatmap Gradient Bar (Hijau -> Oranye -> Merah)
+          Container(
+            height: 12,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Stack(
+              children: [
+                FractionallySizedBox(
+                  widthFactor: 0.70,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF10B981), Color(0xFFF59E0B), Color(0xFFEF4444)],
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('0%', style: TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
+              Text('50%', style: TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
+              Text('75%', style: TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
+              Text('100%', style: TextStyle(fontSize: 10, color: Colors.grey, fontWeight: FontWeight.bold)),
+            ],
+          ),
+          const SizedBox(height: 18),
+          Align(
+            alignment: Alignment.centerRight,
+            child: InkWell(
+              onTap: () {},
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Lihat Semua', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primaryRoyalBlue)),
+                  SizedBox(width: 4),
+                  Icon(Icons.arrow_forward_ios_rounded, size: 12, color: primaryRoyalBlue),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- 4B. INTUITIVE MILESTONE GOALS CARD ---
+  Widget _buildIntuitiveGoalsCard(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: surfaceColor,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: borderColor, width: 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Tujuan Keuangan', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: primaryRoyalBlue.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                child: const Text('55%', style: TextStyle(color: primaryRoyalBlue, fontSize: 12, fontWeight: FontWeight.w900)),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(color: primaryRoyalBlue.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+                child: const Icon(Icons.shield_outlined, color: primaryRoyalBlue, size: 20),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Dana Darurat', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor)),
+                  Text('Rp 2.750.000', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
+                  Text('dari Rp 5.000.000', style: TextStyle(fontSize: 10, color: subTextColor)),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // Interactive Milestone Node Slider Bar
+          SizedBox(
+            height: 20,
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Container(
+                  height: 4,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                FractionallySizedBox(
+                  widthFactor: 0.55,
+                  child: Container(
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: primaryRoyalBlue,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                // Left Node
+                Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: primaryRoyalBlue, width: 3),
+                  ),
+                ),
+                // Glowing Current Node
+                Align(
+                  alignment: const Alignment(-0.1, 0),
+                  child: Container(
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      color: primaryRoyalBlue,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(color: primaryRoyalBlue.withOpacity(0.4), blurRadius: 8, spreadRadius: 2),
+                      ],
+                    ),
+                  ),
+                ),
+                // End Node
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Icon(Icons.calendar_today_outlined, size: 12, color: primaryRoyalBlue),
+              const SizedBox(width: 6),
+              Text('Target 31 Des 2026', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textColor)),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Align(
+            alignment: Alignment.centerRight,
+            child: InkWell(
+              onTap: () {},
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Lihat Semua', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: primaryRoyalBlue)),
+                  SizedBox(width: 4),
+                  Icon(Icons.arrow_forward_ios_rounded, size: 12, color: primaryRoyalBlue),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- 5. TREN KEUANGAN ---
   Widget _buildTrenKeuanganCard(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
     final mockTrend = [
       {'bulan': 'Mei', 'masuk': 0.6, 'keluar': 0.35},
@@ -458,7 +916,7 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: surfaceColor,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: borderColor, width: 1),
       ),
       child: Column(
@@ -493,19 +951,9 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          width: 10,
-                          height: hMasuk,
-                          decoration: BoxDecoration(color: primaryRoyalBlue, borderRadius: BorderRadius.circular(4)),
-                        ),
+                        Container(width: 10, height: hMasuk, decoration: BoxDecoration(color: primaryRoyalBlue, borderRadius: BorderRadius.circular(4))),
                         const SizedBox(width: 4),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          width: 10,
-                          height: hKeluar,
-                          decoration: BoxDecoration(color: accentHoneyGold, borderRadius: BorderRadius.circular(4)),
-                        ),
+                        Container(width: 10, height: hKeluar, decoration: BoxDecoration(color: accentHoneyGold, borderRadius: BorderRadius.circular(4))),
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -530,7 +978,7 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
     );
   }
 
-  // --- 5. GRAFIK PENGELUARAN PER KATEGORI (KETERANGAN DI KANAN) ---
+  // --- 6. CATEGORY GRAPH ---
   Widget _buildCategoryGraphWithRightLegend(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
     final categories = [
       {'nama': 'Makanan & Konsumsi', 'persen': 40, 'nominal': 'Rp 1.121.600', 'color': primaryRoyalBlue},
@@ -543,27 +991,16 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: surfaceColor,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: borderColor, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Pengeluaran Per Kategori', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor)),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(color: primaryRoyalBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
-                child: const Text('Proporsional', style: TextStyle(color: primaryRoyalBlue, fontSize: 10, fontWeight: FontWeight.bold)),
-              ),
-            ],
-          ),
+          Text('Pengeluaran Per Kategori', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor)),
           const SizedBox(height: 20),
           Row(
             children: [
-              // Custom Clean Donut Representation (Kiri)
               SizedBox(
                 width: 110,
                 height: 110,
@@ -582,10 +1019,10 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                     SizedBox(
                       width: 96,
                       height: 96,
-                      child: CircularProgressIndicator(
+                      child: const CircularProgressIndicator(
                         value: 0.40,
                         strokeWidth: 14,
-                        valueColor: const AlwaysStoppedAnimation<Color>(primaryRoyalBlue),
+                        valueColor: AlwaysStoppedAnimation<Color>(primaryRoyalBlue),
                       ),
                     ),
                     Column(
@@ -599,8 +1036,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                 ),
               ),
               const SizedBox(width: 22),
-
-              // Legenda Kategori Detail (Kanan Grafik)
               Expanded(
                 child: Column(
                   children: categories.map((c) {
@@ -617,13 +1052,7 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                               Text(c['nama'] as String, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textColor)),
                             ],
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text('${c['persen']}%', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: color, fontFamily: 'monospace')),
-                              Text(c['nominal'] as String, style: TextStyle(fontSize: 9, color: subTextColor, fontFamily: 'monospace')),
-                            ],
-                          ),
+                          Text('${c['persen']}%', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: color, fontFamily: 'monospace')),
                         ],
                       ),
                     );
@@ -637,249 +1066,10 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
     );
   }
 
-  // --- 6A. BUDGETING MODULE ---
-  Widget _buildBudgetingModule(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: surfaceColor,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: borderColor, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Budgeting Bulan Ini', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: textColor)),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SemuaBudgetScreen()));
-                },
-                child: const Text('Lihat Semua', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: primaryRoyalBlue)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Rp 2.350.000', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
-              Text('dari Rp 5.000.000', style: TextStyle(fontSize: 11, color: subTextColor)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: 0.47,
-              minHeight: 7,
-              backgroundColor: isDark ? const Color(0xFF1F2937) : const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(emeraldGreen),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text('47% Terpakai (Hemat Rp 2.650.000)', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: emeraldGreen)),
-        ],
-      ),
-    );
-  }
-
-  // --- 6B. TUJUAN KEUANGAN MODULE ---
-  Widget _buildFinancialGoalsModule(Color surfaceColor, Color borderColor, Color textColor, Color subTextColor, bool isDark) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: surfaceColor,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: borderColor, width: 1),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Tujuan Keuangan', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: textColor)),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SemuaTujuanKeuanganScreen()));
-                },
-                child: const Text('Lihat Semua', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: primaryRoyalBlue)),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Rp 7.500.000', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
-              Text('Target Rp 10.000.000', style: TextStyle(fontSize: 11, color: subTextColor)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: 0.75,
-              minHeight: 7,
-              backgroundColor: isDark ? const Color(0xFF1F2937) : const Color(0xFFF1F5F9),
-              valueColor: const AlwaysStoppedAnimation<Color>(accentHoneyGold),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text('Dana Darurat 6 Bulan (75% Tercapai)', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: accentHoneyGold)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildSectionHeader(String title, Color textColor) {
     return Text(
       title,
       style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor, letterSpacing: -0.3),
-    );
-  }
-}
-
-// ==========================================
-// HALAMAN LIST SEMUA BUDGET
-// ==========================================
-class SemuaBudgetScreen extends StatelessWidget {
-  const SemuaBudgetScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceColor = isDark ? const Color(0xFF111827) : Colors.white;
-    final borderColor = isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0);
-    final textColor = isDark ? Colors.white : const Color(0xFF0F172A);
-
-    final budgetList = [
-      {'nama': 'Makanan & Konsumsi', 'terpakai': 'Rp 1.200.000', 'total': 'Rp 2.000.000', 'progress': 0.6, 'color': const Color(0xFF0052FF)},
-      {'nama': 'Belanja Bulanan', 'terpakai': 'Rp 650.000', 'total': 'Rp 1.000.000', 'progress': 0.65, 'color': const Color(0xFFFF9F00)},
-      {'nama': 'Transportasi & Bensin', 'terpakai': 'Rp 300.000', 'total': 'Rp 500.000', 'progress': 0.6, 'color': const Color(0xFF10B981)},
-      {'nama': 'Hiburan & Rekreasi', 'terpakai': 'Rp 200.000', 'total': 'Rp 1.000.000', 'progress': 0.2, 'color': const Color(0xFF8B5CF6)},
-    ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Semua Budget', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        elevation: 0,
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(18),
-        itemCount: budgetList.length,
-        itemBuilder: (context, index) {
-          final item = budgetList[index];
-          final color = item['color'] as Color;
-
-          return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: surfaceColor,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: borderColor),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item['nama'] as String, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: textColor)),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(item['terpakai'] as String, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: textColor, fontFamily: 'monospace')),
-                    Text('dari ${item['total']}', style: const TextStyle(fontSize: 11, color: Colors.grey)),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: item['progress'] as double,
-                    minHeight: 6,
-                    backgroundColor: const Color(0xFFE2E8F0),
-                    valueColor: AlwaysStoppedAnimation<Color>(color),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// ==========================================
-// HALAMAN LIST SEMUA TUJUAN KEUANGAN
-// ==========================================
-class SemuaTujuanKeuanganScreen extends StatelessWidget {
-  const SemuaTujuanKeuanganScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final surfaceColor = isDark ? const Color(0xFF111827) : Colors.white;
-    final borderColor = isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0);
-    final textColor = isDark ? Colors.white : const Color(0xFF0F172A);
-
-    final goalList = [
-      {'nama': 'Dana Darurat 6 Bulan', 'terkumpul': 'Rp 7.500.000', 'target': 'Rp 10.000.000', 'progress': 0.75, 'color': const Color(0xFFFF9F00)},
-      {'nama': 'Liburan Akhir Tahun', 'terkumpul': 'Rp 3.000.000', 'target': 'Rp 5.000.000', 'progress': 0.60, 'color': const Color(0xFF0052FF)},
-      {'nama': 'Beli Laptop Baru', 'terkumpul': 'Rp 12.000.000', 'target': 'Rp 15.000.000', 'progress': 0.80, 'color': const Color(0xFF10B981)},
-    ];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Semua Tujuan Keuangan', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        elevation: 0,
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(18),
-        itemCount: goalList.length,
-        itemBuilder: (context, index) {
-          final item = goalList[index];
-          final color = item['color'] as Color;
-
-          return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: surfaceColor,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: borderColor),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item['nama'] as String, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: textColor)),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(item['terkumpul'] as String, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: textColor, fontFamily: 'monospace')),
-                    Text('Target ${item['target']}', style: const TextStyle(fontSize: 11, color: Colors.grey)),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: LinearProgressIndicator(
-                    value: item['progress'] as double,
-                    minHeight: 6,
-                    backgroundColor: const Color(0xFFE2E8F0),
-                    valueColor: AlwaysStoppedAnimation<Color>(color),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
     );
   }
 }
