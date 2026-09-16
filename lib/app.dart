@@ -1,47 +1,23 @@
 import 'package:flutter/material.dart';
-import 'screens/beranda/beranda_screen.dart';
-import 'screens/analisis/analisis_screen.dart';
-import 'services/api_service.dart';
+import 'package:mykas/screens/analisis/analisis_screen.dart';
 
 class App extends StatefulWidget {
-  const App({super.key});
+  const App({super.key}); // Standardized const constructor
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 0;
-  Map<String, dynamic> _summaryData = {};
-  bool _isLoading = true;
+  int _currentIndex = 1; // Default ke Tab Analisis
+  final Map<String, dynamic> _summaryData = {
+    'saldo': 'Rp 11.250.000',
+    'pemasukan': 'Rp 5.250.000',
+    'pengeluaran': 'Rp 2.804.178',
+  };
 
-  // Identitas Warna Utama MyKas (Royal Blue & Honey Gold)
   static const Color primaryRoyalBlue = Color(0xFF0052FF);
   static const Color accentHoneyGold = Color(0xFFFF9F00);
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchSummaryData();
-  }
-
-  Future<void> _fetchSummaryData() async {
-    try {
-      final data = await ApiService.getSummary();
-      if (mounted) {
-        setState(() {
-          _summaryData = data;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,33 +33,19 @@ class _AppState extends State<App> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // Interactive Navigation Pages (Dikelola dalam IndexedStack)
+        // IndexedStack menjaga State agar navigasi smooth & tidak reload
         final List<Widget> pages = [
-          _isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: primaryRoyalBlue,
-                    strokeWidth: 3,
-                  ),
-                )
-              : BerandaScreen(
-                  summaryData: _summaryData,
-                  onNavigateToAnalisis: () {
-                    setState(() {
-                      _currentIndex = 1; // Pindah otomatis ke Tab Analisis dari Beranda
-                    });
-                  },
-                ),
+          _buildPlaceholderPage('Beranda', Icons.grid_view_rounded, isDark, textColor, subTextColor),
           AnalisisScreen(summaryData: _summaryData),
           _buildPlaceholderPage('Dompet & Aset', Icons.account_balance_wallet_rounded, isDark, textColor, subTextColor),
-          _buildPlaceholderPage('Profil & Pengaturan', Icons.person_rounded, isDark, textColor, subTextColor),
+          _buildPlaceholderPage('Profil', Icons.person_rounded, isDark, textColor, subTextColor),
         ];
 
         return Scaffold(
           backgroundColor: theme.scaffoldBackgroundColor,
           body: Row(
             children: [
-              // 1. DESKTOP SIDEBAR NAVIGATION (Untuk Tampilan Web Monitor)
+              // Navigation Sidebar untuk Web Desktop Dashboard
               if (isDesktop)
                 Container(
                   width: 260,
@@ -98,21 +60,14 @@ class _AppState extends State<App> {
                         padding: const EdgeInsets.all(24.0),
                         child: Row(
                           children: [
-                            Image.asset(
-                              'assets/images/logo_mykas.png',
+                            Container(
+                              width: 32,
                               height: 32,
-                              fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  width: 32,
-                                  height: 32,
-                                  decoration: BoxDecoration(
-                                    color: primaryRoyalBlue,
-                                    borderRadius: BorderRadius.circular(9),
-                                  ),
-                                  child: const Icon(Icons.account_balance_wallet_rounded, color: accentHoneyGold, size: 18),
-                                );
-                              },
+                              decoration: BoxDecoration(
+                                color: primaryRoyalBlue,
+                                borderRadius: BorderRadius.circular(9),
+                              ),
+                              child: const Icon(Icons.account_balance_wallet_rounded, color: accentHoneyGold, size: 18),
                             ),
                             const SizedBox(width: 10),
                             Text(
@@ -136,7 +91,7 @@ class _AppState extends State<App> {
                   ),
                 ),
 
-              // 2. MAIN CONTENT STREAM (Menggunakan IndexedStack agar Bebas Reload)
+              // Viewport utama dengan IndexedStack
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -146,7 +101,7 @@ class _AppState extends State<App> {
             ],
           ),
 
-          // 3. MOBILE BOTTOM NAVIGATION BAR (Untuk HP Native & Mobile PWA)
+          // Bottom Navigation Bar untuk Mobile
           bottomNavigationBar: isDesktop
               ? null
               : Container(
@@ -156,11 +111,7 @@ class _AppState extends State<App> {
                   ),
                   child: BottomNavigationBar(
                     currentIndex: _currentIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
+                    onTap: (index) => setState(() => _currentIndex = index),
                     backgroundColor: surfaceColor,
                     selectedItemColor: primaryRoyalBlue,
                     unselectedItemColor: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
@@ -169,26 +120,10 @@ class _AppState extends State<App> {
                     type: BottomNavigationBarType.fixed,
                     elevation: 0,
                     items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.grid_view_rounded),
-                        activeIcon: Icon(Icons.grid_view_rounded, color: primaryRoyalBlue),
-                        label: 'Beranda',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.analytics_outlined),
-                        activeIcon: Icon(Icons.analytics_rounded, color: primaryRoyalBlue),
-                        label: 'Analisis',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.account_balance_wallet_outlined),
-                        activeIcon: Icon(Icons.account_balance_wallet_rounded, color: primaryRoyalBlue),
-                        label: 'Dompet',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.person_outline_rounded),
-                        activeIcon: Icon(Icons.person_rounded, color: primaryRoyalBlue),
-                        label: 'Profil',
-                      ),
+                      BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded), label: 'Beranda'),
+                      BottomNavigationBarItem(icon: Icon(Icons.analytics_rounded), label: 'Analisis'),
+                      BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_rounded), label: 'Dompet'),
+                      BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Profil'),
                     ],
                   ),
                 ),
@@ -197,7 +132,6 @@ class _AppState extends State<App> {
     );
   }
 
-  // Helper Item Navigasi Desktop dengan Animated Feedback
   Widget _buildDesktopNavItem(int index, IconData icon, String label, bool isDark) {
     final isSelected = _currentIndex == index;
     return Padding(
@@ -231,7 +165,6 @@ class _AppState extends State<App> {
     );
   }
 
-  // Placeholder Halaman untuk Modul Tambahan
   Widget _buildPlaceholderPage(String title, IconData icon, bool isDark, Color textColor, Color subTextColor) {
     return Scaffold(
       backgroundColor: isDark ? const Color(0xFF060A12) : const Color(0xFFF1F4F9),
@@ -239,29 +172,9 @@ class _AppState extends State<App> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: primaryRoyalBlue.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: primaryRoyalBlue, size: 36),
-            ),
-            const SizedBox(height: 14),
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
-                color: textColor,
-                letterSpacing: -0.4,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Modul $title sedang dalam tahap sinkronisasi data.',
-              style: TextStyle(fontSize: 12, color: subTextColor),
-            ),
+            Icon(icon, color: primaryRoyalBlue, size: 36),
+            const SizedBox(height: 12),
+            Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor)),
           ],
         ),
       ),
