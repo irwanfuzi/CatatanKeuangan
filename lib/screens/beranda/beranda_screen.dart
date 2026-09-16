@@ -10,7 +10,7 @@ class BerandaScreen extends StatelessWidget {
     this.onNavigateToAnalisis,
   });
 
-  // Modern Fintech Design System Palette
+  // Modern Fintech Design System Palette (Royal Blue & Honey Gold)
   static const Color primaryRoyalBlue = Color(0xFF0052FF);
   static const Color accentHoneyGold = Color(0xFFFF9F00);
   static const Color emeraldGreen = Color(0xFF10B981);
@@ -32,7 +32,7 @@ class BerandaScreen extends StatelessWidget {
     final pengeluaran = summaryData?['pengeluaran'] ?? 'Rp 666.512';
     final List riwayat = summaryData?['riwayat'] as List? ?? [];
 
-    // Ambil maksimal 5 transaksi terbaru agar layar tidak melar kebawah
+    // Ambil maksimal 5 transaksi terbaru agar tidak terjadi List Fatigue
     final recentTransactions = riwayat.take(5).toList();
 
     return Scaffold(
@@ -323,7 +323,7 @@ class BerandaScreen extends StatelessWidget {
     ];
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.between,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween, // <--- Perbaikan typo sintaks (bukan MainAxisAlignment.between)
       children: actions.map((act) {
         final color = act['color'] as Color;
         return Expanded(
