@@ -26,7 +26,7 @@ class BerandaScreen extends StatelessWidget {
     final recentTransactions = riwayat.take(5).toList();
 
     return Scaffold(
-      backgroundColor: primaryRoyalBlue, // Latar atas menyatu dengan Top Bar
+      backgroundColor: primaryRoyalBlue,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -59,7 +59,7 @@ class BerandaScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Indicator handle bar
+                              // Handle indicator bar
                               Center(
                                 child: Container(
                                   width: 38,
@@ -444,6 +444,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
+  // Perbaikan: Menghapus keyword 'const' berlebih agar Container di dalamnya bernilai non-const yang valid
   Widget _buildAddAccountCard(bool isDark) {
     return Container(
       decoration: BoxDecoration(
@@ -454,19 +455,19 @@ class BerandaScreen extends StatelessWidget {
           width: 1.5,
         ),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
               color: Color(0xFFEFF6FF),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.add_rounded, color: primaryRoyalBlue, size: 20),
+            child: const Icon(Icons.add_rounded, color: primaryRoyalBlue, size: 20),
           ),
-          SizedBox(height: 8),
-          Text(
+          const SizedBox(height: 8),
+          const Text(
             'Tambah Akun',
             style: TextStyle(
               fontSize: 12,
