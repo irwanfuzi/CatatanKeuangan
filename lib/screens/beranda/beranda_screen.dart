@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -11,64 +12,88 @@ class BerandaScreen extends StatelessWidget {
     this.onNavigateToAnalisis,
   });
 
+  // Premium Fintech Color Palette
   static const Color primaryRoyalBlue = Color(0xFF0052FF);
   static const Color accentNotificationOrange = Color(0xFFFF9F00);
   static const Color textDark = Color(0xFF0F172A);
   static const Color textMuted = Color(0xFF64748B);
+
+  // Helper untuk format nominal menjadi Rp X.XXX.XXX
+  String _formatCurrency(dynamic rawNominal) {
+    if (rawNominal == null) return 'Rp 0';
+    String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
+    if (strVal.isEmpty) return 'Rp 0';
+
+    final intValue = int.tryParse(strVal) ?? 0;
+    final buffer = StringBuffer();
+    final numStr = intValue.toString();
+
+    for (int i = 0; i < numStr.length; i++) {
+      if (i > 0 && (numStr.length - i) % 3 == 0) {
+        buffer.write('.');
+      }
+      buffer.write(numStr[i]);
+    }
+    return 'Rp $buffer';
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    final saldo = summaryData?['saldo'] ?? 'Rp 642.795.000';
+    final saldo = summaryData?['saldo'] ?? 'Rp 2.345.833';
+
+    // 5 Transaksi Terbaru dengan Nama Merchant Spesifik & Ikon Bervariasi
     final List riwayat = summaryData?['riwayat'] as List? ?? [
       {
-        'judul': 'Apple Store',
-        'kategori': 'BSI Debit',
-        'tanggal': 'Today, 10:23 AM',
-        'nominal': 'Rp 1.950.000',
+        'judul': 'Gudeg Bu Dani Solo',
+        'kategori': 'Kuliner & Makanan',
+        'tanggal': 'Hari Ini, 12:45',
+        'nominal': '45000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.laptop,
-        'iconBg': const Color(0xFF0F172A),
+        'icon': LucideIcons.utensils,
+        'iconBg': const Color(0xFFF97316),
       },
       {
-        'judul': 'Tokopedia',
-        'kategori': 'Mandiri Virtual',
-        'tanggal': 'Yesterday, 19:40',
-        'nominal': 'Rp 620.000',
-        'jenis': 'pengeluaran',
-        'icon': LucideIcons.shoppingBag,
+        'judul': 'Gaji Bulanan Utama',
+        'kategori': 'Payroll Inflow',
+        'tanggal': '25 Agu 2026',
+        'nominal': '8500000',
+        'jenis': 'pemasukan',
+        'icon': LucideIcons.wallet,
         'iconBg': const Color(0xFF10B981),
       },
       {
-        'judul': 'Transfer BSI',
-        'kategori': 'Payroll Inflow',
-        'tanggal': '22 Mei, 14:15',
-        'nominal': 'Rp 8.500.000',
-        'jenis': 'pemasukan',
-        'icon': LucideIcons.arrowDownLeft,
-        'iconBg': const Color(0xFF06B6D4),
+        'judul': 'GoFood Indonesia',
+        'kategori': 'Layanan Antar',
+        'tanggal': '24 Agu 2026',
+        'nominal': '68000',
+        'jenis': 'pengeluaran',
+        'icon': LucideIcons.shoppingBag,
+        'iconBg': const Color(0xFF00AED6),
       },
       {
-        'judul': 'GoFood',
-        'kategori': 'GoPay Linked',
-        'tanggal': '21 Mei, 12:30',
-        'nominal': 'Rp 78.500',
+        'judul': 'Supermarket Transmart',
+        'kategori': 'Kebutuhan Harian',
+        'tanggal': '22 Agu 2026',
+        'nominal': '235000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.utensils,
-        'iconBg': const Color(0xFFF43F5E),
+        'icon': LucideIcons.shoppingCart,
+        'iconBg': const Color(0xFF8B5CF6),
       },
       {
-        'judul': 'Starbucks Coffee',
-        'kategori': 'QRIS Debit',
-        'tanggal': '20 Mei, 08:45',
-        'nominal': 'Rp 58.000',
+        'judul': 'Transfer Ke Rekening BSI',
+        'kategori': 'Pindah Kas',
+        'tanggal': '20 Agu 2026',
+        'nominal': '500000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.coffee,
-        'iconBg': const Color(0xFF059669),
+        'icon': LucideIcons.arrowUpRight,
+        'iconBg': const Color(0xFF00A39D),
       },
     ];
+
+    final recentTransactions = riwayat.take(5).toList();
 
     final surfaceColor = isDark ? const Color(0xFF0B0F19) : Colors.white;
     final cardBg = isDark ? const Color(0xFF111827) : const Color(0xFFF8FAFC);
@@ -84,33 +109,33 @@ class BerandaScreen extends StatelessWidget {
 
             return Center(
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: isDesktop ? 1080 : 540),
+                constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
                 child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    // DYNAMIC COLLAPSIBLE HEADER WITH SHRINKING TOP BAR
+                    // TOP BAR & HEADER SALDO DENGAN POLA KONTUR TOPOGRAFI
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: _CollapsingHeaderDelegate(
                         saldo: saldo,
-                        minHeight: 64.0,
-                        maxHeight: 180.0,
+                        minHeight: 52.0,
+                        maxHeight: 160.0,
                       ),
                     ),
 
-                    // MAIN WHITE SHEET CANVAS
+                    // WHITE SHEET CANVAS DENGAN LAYOUT ADAPTIF MULTI-PLATFORM
                     SliverToBoxAdapter(
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: surfaceColor,
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
                         ),
-                        padding: const EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(isDesktop ? 32.0 : 20.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Handle bar
+                            // Indicator Bar
                             Center(
                               child: Container(
                                 width: 38,
@@ -123,24 +148,24 @@ class BerandaScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 18),
 
-                            // KANTONG KEUANGAN (2x2 FLAT WHITE CARDS)
-                            _buildKantongKeuanganSection(textColor, cardBg, borderColor, isDark),
+                            // KANTONG KEUANGAN (2x2 GRID)
+                            _buildKantongKeuanganSection(textColor, cardBg, borderColor, isDark, isDesktop),
                             const SizedBox(height: 24),
 
                             // QUICK ACTIONS (PERFECT CIRCLE LUCIDE ICONS)
-                            _buildQuickActionsSection(textColor, isDark),
+                            _buildQuickActionsSection(textColor, isDark, isDesktop),
                             const SizedBox(height: 20),
 
                             // MY INSIGHT CARD
                             _buildMyInsightCard(isDark),
                             const SizedBox(height: 20),
 
-                            // OVERVIEW KEUANGAN
+                            // OVERVIEW KEUANGAN (BUDGET & GOALS)
                             _buildOverviewKeuanganSection(textColor, cardBg, borderColor, isDark),
                             const SizedBox(height: 24),
 
-                            // RECENT TRANSACTIONS
-                            _buildRecentTransactionsSection(riwayat, textColor, cardBg, borderColor, isDark),
+                            // RECENT TRANSACTIONS (5 MERCHANT UNIK)
+                            _buildRecentTransactionsSection(recentTransactions, textColor, cardBg, borderColor, isDark),
                             const SizedBox(height: 40),
                           ],
                         ),
@@ -156,8 +181,8 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- KANTONG KEUANGAN ---
-  Widget _buildKantongKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark) {
+  // --- 1. KANTONG KEUANGAN SECTION ---
+  Widget _buildKantongKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark, bool isDesktop) {
     final whiteCardBg = isDark ? const Color(0xFF111827) : Colors.white;
 
     return Column(
@@ -197,19 +222,23 @@ class BerandaScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {},
-              child: const Row(
-                children: [
-                  Text(
-                    'Lihat Semua',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: primaryRoyalBlue,
+              borderRadius: BorderRadius.circular(8),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                child: Row(
+                  children: [
+                    Text(
+                      'Lihat Semua',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: primaryRoyalBlue,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 2),
-                  Icon(LucideIcons.chevronRight, size: 16, color: primaryRoyalBlue),
-                ],
+                    SizedBox(width: 2),
+                    Icon(LucideIcons.chevronRight, size: 16, color: primaryRoyalBlue),
+                  ],
+                ),
               ),
             ),
           ],
@@ -219,10 +248,10 @@ class BerandaScreen extends StatelessWidget {
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
+          crossAxisCount: isDesktop ? 4 : 2,
           mainAxisSpacing: 12,
           crossAxisSpacing: 12,
-          childAspectRatio: 1.4,
+          childAspectRatio: isDesktop ? 1.8 : 1.4,
           children: [
             _buildFlatWalletCard(
               badgeText: 'BSI',
@@ -385,8 +414,8 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- QUICK ACTIONS ---
-  Widget _buildQuickActionsSection(Color textColor, bool isDark) {
+  // --- 2. QUICK ACTIONS SECTION ---
+  Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
     final actions = [
       {'label': 'Scan Struk', 'icon': LucideIcons.qrCode, 'color': const Color(0xFFF59E0B)},
       {'label': 'Transfer', 'icon': LucideIcons.arrowLeftRight, 'color': primaryRoyalBlue},
@@ -439,7 +468,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- MY INSIGHT ---
+  // --- 3. MY INSIGHT CARD ---
   Widget _buildMyInsightCard(bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -482,7 +511,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- OVERVIEW KEUANGAN ---
+  // --- 4. OVERVIEW KEUANGAN ---
   Widget _buildOverviewKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark) {
     return Column(
       children: [
@@ -548,7 +577,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- RECENT TRANSACTIONS ---
+  // --- 5. RECENT TRANSACTIONS ---
   Widget _buildRecentTransactionsSection(List riwayat, Color textColor, Color cardBg, Color borderColor, bool isDark) {
     return Column(
       children: [
@@ -575,6 +604,7 @@ class BerandaScreen extends StatelessWidget {
               final item = riwayat[index];
               final isPemasukan = item['jenis'].toString().toLowerCase().contains('pemasukan');
               final iconBg = (item['iconBg'] as Color?) ?? (isPemasukan ? const Color(0xFF10B981) : const Color(0xFF0F172A));
+              final formattedNominal = _formatCurrency(item['nominal']);
 
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -594,14 +624,19 @@ class BerandaScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(item['judul']?.toString() ?? 'Transaksi', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor)),
+                          Text(
+                            item['judul']?.toString() ?? 'Transaksi',
+                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           const SizedBox(height: 2),
                           Text('${item['tanggal']} • ${item['kategori']}', style: const TextStyle(fontSize: 10, color: textMuted)),
                         ],
                       ),
                     ),
                     Text(
-                      isPemasukan ? '+${item['nominal']}' : '-${item['nominal']}',
+                      isPemasukan ? '+$formattedNominal' : '-$formattedNominal',
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w900,
@@ -621,7 +656,60 @@ class BerandaScreen extends StatelessWidget {
 }
 
 // =========================================================================
-// CUSTOM SLIVER PERSISTENT HEADER DELEGATE FOR SHRINKING TOP APP BAR
+// CUSTOM PAINTER UNTUK POLA KONTUR TOPOGRAFI (TOPOGRAPHIC CONTOUR LINES)
+// =========================================================================
+class TopographicContourPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.08)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+
+    final path1 = Path();
+    path1.moveTo(0, size.height * 0.3);
+    path1.cubicTo(
+      size.width * 0.25, size.height * 0.1,
+      size.width * 0.50, size.height * 0.6,
+      size.width, size.height * 0.25,
+    );
+
+    final path2 = Path();
+    path2.moveTo(0, size.height * 0.5);
+    path2.cubicTo(
+      size.width * 0.30, size.height * 0.25,
+      size.width * 0.60, size.height * 0.85,
+      size.width, size.height * 0.45,
+    );
+
+    final path3 = Path();
+    path3.moveTo(0, size.height * 0.75);
+    path3.cubicTo(
+      size.width * 0.35, size.height * 0.45,
+      size.width * 0.70, size.height * 0.95,
+      size.width, size.height * 0.70,
+    );
+
+    final path4 = Path();
+    path4.moveTo(size.width * 0.2, 0);
+    path4.cubicTo(
+      size.width * 0.5, size.height * 0.4,
+      size.width * 0.8, size.height * 0.1,
+      size.width, size.height * 0.9,
+    );
+
+    canvas.drawPath(path1, paint);
+    canvas.drawPath(path2, paint);
+    canvas.drawPath(path3, paint);
+    canvas.drawPath(path4, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+// =========================================================================
+// PROPORTIONAL COLLAPSED HEADER DELEGATE
 // =========================================================================
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String saldo;
@@ -642,96 +730,113 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    // Rasio scroll dari 0.0 (Expanded) ke 1.0 (Collapsed)
-    final progress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
-    // Skala penyusutan elemen Top Bar dari 1.0 ke 0.78
-    final topBarScale = 1.0 - (progress * 0.22);
-    // Opacity informasi Total Saldo
-    final saldoOpacity = (1.0 - (progress * 1.8)).clamp(0.0, 1.0);
+    final rawProgress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
+    final progress = Curves.easeInOutCubic.transform(rawProgress);
 
-    return Container(
-      color: BerandaScreen.primaryRoyalBlue,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // 1. DYNAMIC SHRINKING TOP BAR (Avatar, MyKas, Bell)
-          Positioned(
-            top: 8,
-            left: 20,
-            right: 20,
-            child: Transform.scale(
-              scale: topBarScale,
-              alignment: Alignment.center,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Kiri: Avatar User (36px)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        color: Colors.white24,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Icon(LucideIcons.user, color: BerandaScreen.primaryRoyalBlue, size: 20),
-                      ),
+    final topBarScale = 1.0 - (progress * 0.18);
+    final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
+    final topPosition = 8.0 + ((1.0 - progress) * 4.0);
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // 1. ROYAL BLUE BACKGROUND WITH TOPOGRAPHIC CONTOUR PATTERN
+        Container(
+          color: BerandaScreen.primaryRoyalBlue,
+          child: CustomPaint(
+            painter: TopographicContourPainter(),
+          ),
+        ),
+
+        // 2. TOP APP BAR (Avatar Kiri | Title Tengah | Bell Kanan)
+        Positioned(
+          top: topPosition,
+          left: 20,
+          right: 20,
+          height: 40,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Avatar User (Anchor: CenterLeft)
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Transform.scale(
+                  scale: topBarScale,
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: const BoxDecoration(
+                      color: Colors.white24,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(LucideIcons.user, color: BerandaScreen.primaryRoyalBlue, size: 20),
                     ),
                   ),
+                ),
+              ),
 
-                  // Tengah: MyKas (Semi-Bold)
-                  const Text(
+              // Title MyKas (Anchor: Center)
+              Align(
+                alignment: Alignment.center,
+                child: Transform.scale(
+                  scale: topBarScale,
+                  alignment: Alignment.center,
+                  child: const Text(
                     'MyKas',
                     style: TextStyle(
                       fontSize: 20,
-                      fontWeight: FontWeight.w600, // <--- Semi-Bold
+                      fontWeight: FontWeight.w600,
                       color: Colors.white,
                       letterSpacing: -0.4,
                     ),
                   ),
+                ),
+              ),
 
-                  // Kanan: Lucide Bell + Badge
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () {},
-                      borderRadius: BorderRadius.circular(18),
-                      child: SizedBox(
-                        width: 36,
-                        height: 36,
-                        child: Stack(
-                          children: [
-                            const Center(
-                              child: Icon(
-                                LucideIcons.bell, // <--- Lucide Icon
-                                color: Colors.white,
-                                size: 22,
-                              ),
+              // Bell Notifikasi (Anchor: CenterRight)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Transform.scale(
+                  scale: topBarScale,
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(18),
+                    child: SizedBox(
+                      width: 36,
+                      height: 36,
+                      child: Stack(
+                        children: [
+                          const Center(
+                            child: Icon(
+                              LucideIcons.bell,
+                              color: Colors.white,
+                              size: 22,
                             ),
-                            Positioned(
-                              top: 2,
-                              right: 2,
-                              child: Container(
-                                padding: const EdgeInsets.all(3),
-                                decoration: const BoxDecoration(
-                                  color: BerandaScreen.accentNotificationOrange,
-                                  shape: BoxShape.circle,
-                                ),
-                                constraints: const BoxConstraints(
-                                  minWidth: 16,
-                                  minHeight: 16,
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w900,
-                                    ),
+                          ),
+                          Positioned(
+                            top: 2,
+                            right: 2,
+                            child: Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: const BoxDecoration(
+                                color: BerandaScreen.accentNotificationOrange,
+                                shape: BoxShape.circle,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '3',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ),
@@ -741,12 +846,14 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
+        ),
 
-          // 2. TOTAL SALDO SECTION (Fades out on scroll)
+        // 3. TOTAL SALDO SECTION
+        if (saldoOpacity > 0.0)
           Positioned(
             bottom: 12,
             left: 24,
@@ -797,8 +904,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 
