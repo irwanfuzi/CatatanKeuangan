@@ -493,6 +493,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
+  // Strictly non-const method without illegal const constructors
   Widget _buildDashedAddAccountCard(bool isDark) {
     return Container(
       decoration: BoxDecoration(
@@ -503,19 +504,19 @@ class BerandaScreen extends StatelessWidget {
           width: 1.5,
         ),
       ),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
               color: Color(0xFFEFF6FF),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.add_rounded, color: primaryRoyalBlue, size: 20),
+            child: const Icon(Icons.add_rounded, color: primaryRoyalBlue, size: 20),
           ),
-          SizedBox(height: 6),
-          Text(
+          const SizedBox(height: 6),
+          const Text(
             '+ Tambah Akun',
             style: TextStyle(
               fontSize: 11,
