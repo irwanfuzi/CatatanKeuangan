@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class BerandaScreen extends StatelessWidget {
   final Map<String, dynamic>? summaryData;
@@ -10,7 +11,6 @@ class BerandaScreen extends StatelessWidget {
     this.onNavigateToAnalisis,
   });
 
-  // Strict Brand Design Palette
   static const Color primaryRoyalBlue = Color(0xFF0052FF);
   static const Color accentNotificationOrange = Color(0xFFFF9F00);
   static const Color textDark = Color(0xFF0F172A);
@@ -29,7 +29,7 @@ class BerandaScreen extends StatelessWidget {
         'tanggal': 'Today, 10:23 AM',
         'nominal': 'Rp 1.950.000',
         'jenis': 'pengeluaran',
-        'icon': Icons.apple,
+        'icon': LucideIcons.laptop,
         'iconBg': const Color(0xFF0F172A),
       },
       {
@@ -38,7 +38,7 @@ class BerandaScreen extends StatelessWidget {
         'tanggal': 'Yesterday, 19:40',
         'nominal': 'Rp 620.000',
         'jenis': 'pengeluaran',
-        'icon': Icons.shopping_bag_outlined,
+        'icon': LucideIcons.shoppingBag,
         'iconBg': const Color(0xFF10B981),
       },
       {
@@ -47,7 +47,7 @@ class BerandaScreen extends StatelessWidget {
         'tanggal': '22 Mei, 14:15',
         'nominal': 'Rp 8.500.000',
         'jenis': 'pemasukan',
-        'icon': Icons.south_west_rounded,
+        'icon': LucideIcons.arrowDownLeft,
         'iconBg': const Color(0xFF06B6D4),
       },
       {
@@ -56,7 +56,7 @@ class BerandaScreen extends StatelessWidget {
         'tanggal': '21 Mei, 12:30',
         'nominal': 'Rp 78.500',
         'jenis': 'pengeluaran',
-        'icon': Icons.fastfood_outlined,
+        'icon': LucideIcons.utensils,
         'iconBg': const Color(0xFFF43F5E),
       },
       {
@@ -65,7 +65,7 @@ class BerandaScreen extends StatelessWidget {
         'tanggal': '20 Mei, 08:45',
         'nominal': 'Rp 58.000',
         'jenis': 'pengeluaran',
-        'icon': Icons.coffee_outlined,
+        'icon': LucideIcons.coffee,
         'iconBg': const Color(0xFF059669),
       },
     ];
@@ -88,66 +88,17 @@ class BerandaScreen extends StatelessWidget {
                 child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    // 1. COLLAPSIBLE ROYAL BLUE HEADER WITH STICKY TOP APP BAR
-                    SliverAppBar(
+                    // DYNAMIC COLLAPSIBLE HEADER WITH SHRINKING TOP BAR
+                    SliverPersistentHeader(
                       pinned: true,
-                      expandedHeight: 180.0,
-                      backgroundColor: primaryRoyalBlue,
-                      elevation: 0,
-                      automaticallyImplyLeading: false,
-                      flexibleSpace: FlexibleSpaceBar(
-                        collapseMode: CollapseMode.pin,
-                        background: Padding(
-                          padding: const EdgeInsets.only(top: 60.0, left: 24.0, right: 24.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Row(
-                                children: [
-                                  Text(
-                                    'Total Saldo',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white70,
-                                    ),
-                                  ),
-                                  SizedBox(width: 6),
-                                  Icon(Icons.visibility_outlined, color: Colors.white70, size: 16),
-                                ],
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                saldo,
-                                style: const TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                  fontFamily: 'monospace',
-                                  letterSpacing: -1.0,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              const Row(
-                                children: [
-                                  Icon(Icons.access_time_rounded, color: Colors.white60, size: 12),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    'Updated 2m ago',
-                                    style: TextStyle(fontSize: 11, color: Colors.white60, fontWeight: FontWeight.w500),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                      delegate: _CollapsingHeaderDelegate(
+                        saldo: saldo,
+                        minHeight: 64.0,
+                        maxHeight: 180.0,
                       ),
-                      title: _buildStickyTopAppBar(context),
-                      titleSpacing: 0,
                     ),
 
-                    // 2. WHITE CANVAS SHEET CONTAINING MAIN APP CONTENT
+                    // MAIN WHITE SHEET CANVAS
                     SliverToBoxAdapter(
                       child: Container(
                         width: double.infinity,
@@ -172,11 +123,11 @@ class BerandaScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 18),
 
-                            // KANTONG KEUANGAN (STRICT 2x2 GRID & ALL WHITE FLAT CARDS)
+                            // KANTONG KEUANGAN (2x2 FLAT WHITE CARDS)
                             _buildKantongKeuanganSection(textColor, cardBg, borderColor, isDark),
                             const SizedBox(height: 24),
 
-                            // QUICK ACTIONS (PERFECT CIRCLES ONLY)
+                            // QUICK ACTIONS (PERFECT CIRCLE LUCIDE ICONS)
                             _buildQuickActionsSection(textColor, isDark),
                             const SizedBox(height: 20),
 
@@ -184,7 +135,7 @@ class BerandaScreen extends StatelessWidget {
                             _buildMyInsightCard(isDark),
                             const SizedBox(height: 20),
 
-                            // OVERVIEW KEUANGAN (BUDGET & GOALS SPLIT)
+                            // OVERVIEW KEUANGAN
                             _buildOverviewKeuanganSection(textColor, cardBg, borderColor, isDark),
                             const SizedBox(height: 24),
 
@@ -205,96 +156,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- 1. STICKY TOP APP BAR ---
-  Widget _buildStickyTopAppBar(BuildContext context) {
-    return Container(
-      color: primaryRoyalBlue,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Left: User Avatar
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: 38,
-              height: 38,
-              decoration: const BoxDecoration(
-                color: Colors.white24,
-                shape: BoxShape.circle,
-              ),
-              child: const CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.person_rounded, color: primaryRoyalBlue, size: 22),
-              ),
-            ),
-          ),
-
-          // Center: Title MyKas
-          const Text(
-            'MyKas',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              letterSpacing: -0.5,
-            ),
-          ),
-
-          // Right: Bell + Notification Badge
-          Align(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(20),
-              child: SizedBox(
-                width: 38,
-                height: 38,
-                child: Stack(
-                  children: [
-                    const Center(
-                      child: Icon(
-                        Icons.notifications_none_rounded,
-                        color: Colors.white,
-                        size: 26,
-                      ),
-                    ),
-                    Positioned(
-                      top: 2,
-                      right: 2,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: const BoxDecoration(
-                          color: accentNotificationOrange,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 17,
-                          minHeight: 17,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            '3',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // --- 2. KANTONG KEUANGAN (2x2 GRID ALL WHITE FLAT CARDS) ---
+  // --- KANTONG KEUANGAN ---
   Widget _buildKantongKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark) {
     final whiteCardBg = isDark ? const Color(0xFF111827) : Colors.white;
 
@@ -346,7 +208,7 @@ class BerandaScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 2),
-                  Icon(Icons.chevron_right_rounded, size: 16, color: primaryRoyalBlue),
+                  Icon(LucideIcons.chevronRight, size: 16, color: primaryRoyalBlue),
                 ],
               ),
             ),
@@ -354,7 +216,6 @@ class BerandaScreen extends StatelessWidget {
         ),
         const SizedBox(height: 14),
 
-        // Strict 2x2 Grid (2 Columns, 2 Rows)
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -363,7 +224,6 @@ class BerandaScreen extends StatelessWidget {
           crossAxisSpacing: 12,
           childAspectRatio: 1.4,
           children: [
-            // Slot 1: BSI
             _buildFlatWalletCard(
               badgeText: 'BSI',
               badgeBg: const Color(0xFF00A39D),
@@ -373,7 +233,6 @@ class BerandaScreen extends StatelessWidget {
               borderColor: borderColor,
               textColor: textColor,
             ),
-            // Slot 2: Mandiri
             _buildFlatWalletCard(
               badgeText: 'MANDIRI',
               badgeBg: const Color(0xFFF59E0B),
@@ -383,9 +242,8 @@ class BerandaScreen extends StatelessWidget {
               borderColor: borderColor,
               textColor: textColor,
             ),
-            // Slot 3: GoPay Wallet
             _buildFlatWalletCard(
-              icon: Icons.account_balance_wallet_rounded,
+              icon: LucideIcons.wallet,
               iconColor: const Color(0xFF00AED6),
               title: 'GoPay Wallet',
               amount: 'Rp 5.000.000',
@@ -394,7 +252,6 @@ class BerandaScreen extends StatelessWidget {
               borderColor: borderColor,
               textColor: textColor,
             ),
-            // Slot 4: + Tambah Akun (Dashed Border Card)
             _buildDashedAddAccountCard(isDark),
           ],
         ),
@@ -461,7 +318,7 @@ class BerandaScreen extends StatelessWidget {
                   child: Icon(icon, color: iconColor, size: 16),
                 ),
               if (hasArrow)
-                const Icon(Icons.chevron_right_rounded, size: 16, color: textMuted),
+                const Icon(LucideIcons.chevronRight, size: 16, color: textMuted),
             ],
           ),
           Column(
@@ -493,7 +350,6 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // Strictly non-const method without illegal const constructors
   Widget _buildDashedAddAccountCard(bool isDark) {
     return Container(
       decoration: BoxDecoration(
@@ -513,7 +369,7 @@ class BerandaScreen extends StatelessWidget {
               color: Color(0xFFEFF6FF),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.add_rounded, color: primaryRoyalBlue, size: 20),
+            child: const Icon(LucideIcons.plus, color: primaryRoyalBlue, size: 18),
           ),
           const SizedBox(height: 6),
           const Text(
@@ -529,13 +385,13 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- 3. QUICK ACTIONS (PERFECT CIRCLES ONLY) ---
+  // --- QUICK ACTIONS ---
   Widget _buildQuickActionsSection(Color textColor, bool isDark) {
     final actions = [
-      {'label': 'Scan Struk', 'icon': Icons.qr_code_scanner_rounded, 'color': const Color(0xFFF59E0B)},
-      {'label': 'Transfer', 'icon': Icons.swap_horiz_rounded, 'color': primaryRoyalBlue},
-      {'label': 'Berulang', 'icon': Icons.autorenew_rounded, 'color': const Color(0xFF10B981)},
-      {'label': 'Tujuan', 'icon': Icons.track_changes_rounded, 'color': const Color(0xFF8B5CF6)},
+      {'label': 'Scan Struk', 'icon': LucideIcons.qrCode, 'color': const Color(0xFFF59E0B)},
+      {'label': 'Transfer', 'icon': LucideIcons.arrowLeftRight, 'color': primaryRoyalBlue},
+      {'label': 'Berulang', 'icon': LucideIcons.repeat, 'color': const Color(0xFF10B981)},
+      {'label': 'Tujuan', 'icon': LucideIcons.target, 'color': const Color(0xFF8B5CF6)},
     ];
 
     return Column(
@@ -554,7 +410,6 @@ class BerandaScreen extends StatelessWidget {
             final color = act['color'] as Color;
             return Column(
               children: [
-                // PERFECT CIRCLE BACKGROUND
                 Container(
                   width: 52,
                   height: 52,
@@ -569,7 +424,7 @@ class BerandaScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Icon(act['icon'] as IconData, color: Colors.white, size: 24),
+                  child: Icon(act['icon'] as IconData, color: Colors.white, size: 22),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -584,7 +439,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- 4. MY INSIGHT CARD ---
+  // --- MY INSIGHT ---
   Widget _buildMyInsightCard(bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -596,7 +451,7 @@ class BerandaScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.auto_awesome_rounded, color: Color(0xFFF59E0B), size: 20),
+          const Icon(LucideIcons.sparkles, color: Color(0xFFF59E0B), size: 18),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -627,7 +482,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- 5. OVERVIEW KEUANGAN ---
+  // --- OVERVIEW KEUANGAN ---
   Widget _buildOverviewKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark) {
     return Column(
       children: [
@@ -651,7 +506,6 @@ class BerandaScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              // Sisa Budget
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -670,7 +524,6 @@ class BerandaScreen extends StatelessWidget {
                 ),
               ),
               Container(width: 1, height: 60, color: borderColor, margin: const EdgeInsets.symmetric(horizontal: 14)),
-              // Tujuan Keuangan
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -695,7 +548,7 @@ class BerandaScreen extends StatelessWidget {
     );
   }
 
-  // --- 6. RECENT TRANSACTIONS ---
+  // --- RECENT TRANSACTIONS ---
   Widget _buildRecentTransactionsSection(List riwayat, Color textColor, Color cardBg, Color borderColor, bool isDark) {
     return Column(
       children: [
@@ -734,7 +587,7 @@ class BerandaScreen extends StatelessWidget {
                         color: iconBg,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon((item['icon'] as IconData?) ?? Icons.receipt_long_rounded, color: Colors.white, size: 20),
+                      child: Icon((item['icon'] as IconData?) ?? LucideIcons.receipt, color: Colors.white, size: 18),
                     ),
                     const SizedBox(width: 14),
                     Expanded(
@@ -764,5 +617,195 @@ class BerandaScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+// =========================================================================
+// CUSTOM SLIVER PERSISTENT HEADER DELEGATE FOR SHRINKING TOP APP BAR
+// =========================================================================
+class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final String saldo;
+  final double minHeight;
+  final double maxHeight;
+
+  _CollapsingHeaderDelegate({
+    required this.saldo,
+    required this.minHeight,
+    required this.maxHeight,
+  });
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    // Rasio scroll dari 0.0 (Expanded) ke 1.0 (Collapsed)
+    final progress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
+    // Skala penyusutan elemen Top Bar dari 1.0 ke 0.78
+    final topBarScale = 1.0 - (progress * 0.22);
+    // Opacity informasi Total Saldo
+    final saldoOpacity = (1.0 - (progress * 1.8)).clamp(0.0, 1.0);
+
+    return Container(
+      color: BerandaScreen.primaryRoyalBlue,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // 1. DYNAMIC SHRINKING TOP BAR (Avatar, MyKas, Bell)
+          Positioned(
+            top: 8,
+            left: 20,
+            right: 20,
+            child: Transform.scale(
+              scale: topBarScale,
+              alignment: Alignment.center,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Kiri: Avatar User (36px)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        color: Colors.white24,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(LucideIcons.user, color: BerandaScreen.primaryRoyalBlue, size: 20),
+                      ),
+                    ),
+                  ),
+
+                  // Tengah: MyKas (Semi-Bold)
+                  const Text(
+                    'MyKas',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600, // <--- Semi-Bold
+                      color: Colors.white,
+                      letterSpacing: -0.4,
+                    ),
+                  ),
+
+                  // Kanan: Lucide Bell + Badge
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: InkWell(
+                      onTap: () {},
+                      borderRadius: BorderRadius.circular(18),
+                      child: SizedBox(
+                        width: 36,
+                        height: 36,
+                        child: Stack(
+                          children: [
+                            const Center(
+                              child: Icon(
+                                LucideIcons.bell, // <--- Lucide Icon
+                                color: Colors.white,
+                                size: 22,
+                              ),
+                            ),
+                            Positioned(
+                              top: 2,
+                              right: 2,
+                              child: Container(
+                                padding: const EdgeInsets.all(3),
+                                decoration: const BoxDecoration(
+                                  color: BerandaScreen.accentNotificationOrange,
+                                  shape: BoxShape.circle,
+                                ),
+                                constraints: const BoxConstraints(
+                                  minWidth: 16,
+                                  minHeight: 16,
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    '3',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          // 2. TOTAL SALDO SECTION (Fades out on scroll)
+          Positioned(
+            bottom: 12,
+            left: 24,
+            right: 24,
+            child: Opacity(
+              opacity: saldoOpacity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Row(
+                    children: [
+                      Text(
+                        'Total Saldo',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      SizedBox(width: 6),
+                      Icon(LucideIcons.eye, color: Colors.white70, size: 14),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    saldo,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                      fontFamily: 'monospace',
+                      letterSpacing: -1.0,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Row(
+                    children: [
+                      Icon(LucideIcons.clock, color: Colors.white60, size: 11),
+                      SizedBox(width: 4),
+                      Text(
+                        'Updated 2m ago',
+                        style: TextStyle(fontSize: 10, color: Colors.white60, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _CollapsingHeaderDelegate oldDelegate) {
+    return oldDelegate.saldo != saldo ||
+        oldDelegate.minHeight != minHeight ||
+        oldDelegate.maxHeight != maxHeight;
   }
 }
