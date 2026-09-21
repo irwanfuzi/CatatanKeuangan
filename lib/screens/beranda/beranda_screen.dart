@@ -29,10 +29,8 @@ class BerandaScreen extends StatefulWidget {
 }
 
 class _BerandaScreenState extends State<BerandaScreen> {
-  // Flag kontrol sub-page navigasi internal
   bool _showAllKantongSubPage = false;
 
-  // Helper untuk format nominal menjadi Rp X.XXX.XXX
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp 0';
     String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
@@ -66,7 +64,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
-    // Data Transaksi Terbaru Dummy
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
         'judul': 'Gudeg Bu Dani Solo',
@@ -197,8 +194,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   pinned: true,
                   delegate: _CollapsingHeaderDelegate(
                     saldo: saldo,
-                    minHeight: 44.0,
-                    maxHeight: 160.0,
+                    minHeight: 64.0, // Diperbesar dari 44px ke 64px
+                    maxHeight: 180.0, // Diperbesar dari 160px ke 180px
                   ),
                 ),
 
@@ -605,7 +602,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // --- KANTONG KEUANGAN HOME SUMMARY (2x2 GRID DENGAN KARTU TAMBAH AKUN) ---
+  // --- KANTONG KEUANGAN HOME SUMMARY (2x2 GRID) ---
   Widget _buildKantongKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark, bool isDesktop) {
     final whiteCardBg = isDark ? const Color(0xFF111827) : Colors.white;
 
@@ -673,7 +670,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         ),
         const SizedBox(height: 14),
 
-        // GRID 2x2: 3 KANTONG KEUANGAN + 1 KARTU TAMBAH AKUN
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -1145,7 +1141,7 @@ class TopographicContourPainter extends CustomPainter {
 }
 
 // =========================================================================
-// COLLAPSING HEADER DELEGATE WITH OPTICAL ALIGNMENT
+// COLLAPSING HEADER DELEGATE WITH OPTICAL ALIGNMENT (PERBAIKAN UKURAN)
 // =========================================================================
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String saldo;
@@ -1169,14 +1165,14 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
     final rawProgress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
     final progress = Curves.easeInOutCubic.transform(rawProgress);
 
-    final topBarScale = 1.0 - (progress * 0.18);
+    final topBarScale = 1.0 - (progress * 0.12); // Dibuat lebih stabil saat scroll
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
-    final topPosition = 6.0 + ((1.0 - progress) * 6.0);
+    final topPosition = 10.0 + ((1.0 - progress) * 6.0); // Padding top disesuaikan
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        // ROYAL BLUE BACKGROUND WITH TOPOGRAPHIC PATTERN
+        // BACKGROUND BLUE ROYAL WITH TOPOGRAPHIC PATTERN
         Container(
           color: BerandaScreen.primaryRoyalBlue,
           child: CustomPaint(
@@ -1184,22 +1180,22 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
 
-        // TOP APP BAR (PRESISI SUMBU VERTIKAL)
+        // TOP APP BAR (PRESISI SUMBU VERTIKAL & PROPORSI DITINGKATKAN)
         Positioned(
           top: topPosition,
           left: 20,
           right: 20,
-          height: 32,
+          height: 48, // Diperbesar dari 32px ke 48px agar bounding box lapang
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // 1. Avatar User
+              // 1. Avatar User (Ukuran Diperbesar Ke 40x40)
               Transform.scale(
                 scale: topBarScale,
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  width: 30,
-                  height: 30,
+                  width: 40,
+                  height: 40,
                   decoration: const BoxDecoration(
                     color: Colors.white24,
                     shape: BoxShape.circle,
@@ -1207,18 +1203,18 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                   child: const Center(
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      radius: 13,
+                      radius: 18, // Diperbesar dari 13 ke 18
                       child: Icon(
                         LucideIcons.user,
                         color: BerandaScreen.primaryRoyalBlue,
-                        size: 16,
+                        size: 20, // Diperbesar dari 16 ke 20
                       ),
                     ),
                   ),
                 ),
               ),
 
-              // 2. Title MyKas
+              // 2. Title MyKas (Font Size Diperbesar Ke 22px)
               Expanded(
                 child: Center(
                   child: Transform.scale(
@@ -1227,10 +1223,10 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                     child: const Text(
                       'MyKas',
                       style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 22, // Diperbesar dari 19px ke 22px
+                        fontWeight: FontWeight.w800,
                         color: Colors.white,
-                        letterSpacing: -0.4,
+                        letterSpacing: -0.5,
                         height: 1.0,
                       ),
                     ),
@@ -1238,52 +1234,55 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ),
 
-              // 3. Bell Notifikasi
+              // 3. Bell Notifikasi (Ukuran Icon & Target Tap Diperbesar)
               Transform.scale(
                 scale: topBarScale,
                 alignment: Alignment.centerRight,
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(16),
-                  child: SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        const Icon(
-                          LucideIcons.bell,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        Positioned(
-                          top: 2,
-                          right: 2,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                            decoration: BoxDecoration(
-                              color: BerandaScreen.accentNotificationOrange,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: BerandaScreen.primaryRoyalBlue, width: 1.5),
-                            ),
-                            constraints: const BoxConstraints(
-                              minWidth: 14,
-                              minHeight: 14,
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '3',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w900,
-                                  height: 1.0,
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                    borderRadius: BorderRadius.circular(22),
+                    child: SizedBox(
+                      width: 44, // Touch Target Ideal Mobile 44x44
+                      height: 44,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          const Icon(
+                            LucideIcons.bell,
+                            color: Colors.white,
+                            size: 24, // Diperbesar dari 20px ke 24px
+                          ),
+                          Positioned(
+                            top: 6,
+                            right: 6,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: BerandaScreen.accentNotificationOrange,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: BerandaScreen.primaryRoyalBlue, width: 1.8),
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 16,
+                                minHeight: 16,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '3',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w900,
+                                    height: 1.0,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -1295,7 +1294,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
         // TOTAL SALDO SECTION
         if (saldoOpacity > 0.0)
           Positioned(
-            bottom: 12,
+            bottom: 16,
             left: 24,
             right: 24,
             child: Opacity(
