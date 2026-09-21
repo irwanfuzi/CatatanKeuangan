@@ -370,7 +370,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW (PERBAIKAN DENGAN MENGHAPUS CONST ILEGAL)
+  // MAIN BERANDA VIEW
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -386,7 +386,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // DIBERSIHKAN: Tanpa keyword 'const' pada Center atau ConstrainedBox
+        // FIXED: Center & ConstrainedBox dipanggil secara murni tanpa keyword 'const'
         return Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
