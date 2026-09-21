@@ -43,7 +43,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     return 'Rp $buffer';
   }
 
-  // Fungsi penanganan tombol Back HP / Gesture Swipe
   void _handleBackPress() {
     if (_showAllKantongSubPage) {
       setState(() {
@@ -59,7 +58,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
-    // Data Transaksi Terbaru Dummy (5 Merchant Unik)
+    // Data Transaksi Terbaru Dummy
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
         'judul': 'Gudeg Bu Dani Solo',
@@ -115,7 +114,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     final borderColor = isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0);
     final textColor = isDark ? Colors.white : BerandaScreen.textDark;
 
-    // BINDING POP SCOPE UNTUK MENDUKUNG TOMBOL BACK HP / GESTURE POP
     return PopScope(
       canPop: !_showAllKantongSubPage,
       onPopInvokedWithResult: (didPop, result) {
@@ -131,7 +129,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
             reverseDuration: const Duration(milliseconds: 280),
             switchInCurve: Curves.fastOutSlowIn,
             switchOutCurve: Curves.easeInCubic,
-            // TRANSISI SLIDE HALUS SEPERTI PERPINDAHAN HALAMAN NATIVE
             transitionBuilder: (Widget child, Animation<double> animation) {
               final isSubPage = child.key == const ValueKey('SemuaKantongSubPage');
 
@@ -184,12 +181,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // TOP BAR & HEADER SALDO
+                // TOP BAR & HEADER SALDO WITH OPTICAL ALIGNMENT
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: _CollapsingHeaderDelegate(
                     saldo: saldo,
-                    minHeight: 44.0, // Ukuran minHeight ultra-compact saat di-scroll
+                    minHeight: 44.0,
                     maxHeight: 160.0,
                   ),
                 ),
@@ -206,7 +203,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Handle bar indicator
                         Center(
                           child: Container(
                             width: 38,
@@ -219,23 +215,18 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         ),
                         const SizedBox(height: 18),
 
-                        // KANTONG KEUANGAN SUMMARY (2x2 GRID)
                         _buildKantongKeuanganSection(textColor, cardBg, borderColor, isDark, isDesktop),
                         const SizedBox(height: 24),
 
-                        // QUICK ACTIONS
                         _buildQuickActionsSection(textColor, isDark, isDesktop),
                         const SizedBox(height: 20),
 
-                        // MY INSIGHT CARD
                         _buildMyInsightCard(isDark),
                         const SizedBox(height: 20),
 
-                        // OVERVIEW KEUANGAN
                         _buildOverviewKeuanganSection(textColor, cardBg, borderColor, isDark),
                         const SizedBox(height: 24),
 
-                        // RECENT TRANSACTIONS
                         _buildRecentTransactionsSection(recentTransactions, textColor, cardBg, borderColor, isDark),
                         const SizedBox(height: 40),
                       ],
@@ -251,7 +242,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // SUB-PAGE: SEMUA KANTONG KEUANGAN (SUPPORT SWIPE / BACK BUTTON HP)
+  // SUB-PAGE: SEMUA KANTONG KEUANGAN
   // =========================================================================
   Widget _buildSemuaKantongSubPage(
     Color textColor,
@@ -329,7 +320,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
               constraints: BoxConstraints(maxWidth: isDesktop ? 1080 : 600),
               child: Column(
                 children: [
-                  // SUB-PAGE APP BAR WITH BACK ACTION
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
                     decoration: BoxDecoration(
@@ -393,8 +383,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       ],
                     ),
                   ),
-
-                  // CONTENT AREA WITH SCROLL
                   Expanded(
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
@@ -402,7 +390,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // TOTAL COMBINED BALANCE BANNER
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(20),
@@ -458,7 +445,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                               ],
                             ),
                           ),
-
                           const SizedBox(height: 24),
                           Text(
                             'Daftar Kantong Aktif',
@@ -469,8 +455,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             ),
                           ),
                           const SizedBox(height: 12),
-
-                          // GRID ALL WALLETS
                           GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -491,7 +475,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                               );
                             },
                           ),
-
                           const SizedBox(height: 32),
                         ],
                       ),
@@ -678,7 +661,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
           ],
         ),
         const SizedBox(height: 14),
-
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -1143,7 +1125,7 @@ class TopographicContourPainter extends CustomPainter {
 }
 
 // =========================================================================
-// ULTRA COMPACT COLLAPSED HEADER DELEGATE (PAS MEPET AVATAR, MYKAS, & BELL)
+// COLLAPSING HEADER DELEGATE WITH OPTICAL ALIGNMENT & PRECISE BASELINE
 // =========================================================================
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String saldo;
@@ -1169,8 +1151,8 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     final topBarScale = 1.0 - (progress * 0.18);
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
-    
-    // Posisi top mepet presisi saat collapsed
+
+    // Kunci posisi top saat collapsed (progress == 1.0 -> 6.0px agar pas terbungkus)
     final topPosition = 6.0 + ((1.0 - progress) * 6.0);
 
     return Stack(
@@ -1184,112 +1166,107 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
 
-        // TOP APP BAR (Mepet Presisi saat Collapsed)
+        // TOP APP BAR: PURE ROW OPTICAL CENTER ALIGNMENT
         Positioned(
           top: topPosition,
           left: 20,
           right: 20,
-          height: 32,
-          child: Stack(
-            alignment: Alignment.center,
+          height: 32, // Bounding box persis 32px
+          child: Row(
+            crossAxisAlignment: CrossAlignment.center, // Presisi Sumbu Vertikal
             children: [
-              // 1. Avatar User
-              Align(
+              // 1. Avatar User (Sumbu Tengah Presisi)
+              Transform.scale(
+                scale: topBarScale,
                 alignment: Alignment.centerLeft,
-                child: Transform.scale(
-                  scale: topBarScale,
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: const BoxDecoration(
-                      color: Colors.white24,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const CircleAvatar(
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.white24,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Center(
+                    child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      radius: 14,
+                      radius: 13,
                       child: Icon(
                         LucideIcons.user,
                         color: BerandaScreen.primaryRoyalBlue,
-                        size: 18,
+                        size: 16,
                       ),
                     ),
                   ),
                 ),
               ),
 
-              // 2. Title MyKas
-              Align(
-                alignment: Alignment.center,
-                child: Transform.scale(
-                  scale: topBarScale,
-                  alignment: Alignment.center,
-                  child: const SizedBox(
-                    height: 32,
-                    child: Center(
-                      child: Text(
-                        'MyKas',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: -0.4,
-                        ),
+              // 2. Title MyKas (Center Horizontal & Vertikal)
+              Expanded(
+                child: Center(
+                  child: Transform.scale(
+                    scale: topBarScale,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'MyKas',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        letterSpacing: -0.4,
+                        height: 1.0, // Mencegah font padding bawaan melebarkan tinggi
                       ),
                     ),
                   ),
                 ),
               ),
 
-              // 3. Bell Notifikasi
-              Align(
+              // 3. Bell Notifikasi (Tinggi Ikon + Badge Dinetralisir Optical Alignment-nya)
+              Transform.scale(
+                scale: topBarScale,
                 alignment: Alignment.centerRight,
-                child: Transform.scale(
-                  scale: topBarScale,
-                  alignment: Alignment.centerRight,
-                  child: InkWell(
-                    onTap: () {},
-                    borderRadius: BorderRadius.circular(16),
-                    child: SizedBox(
-                      width: 32,
-                      height: 32,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        alignment: Alignment.center,
-                        children: [
-                          const Icon(
-                            LucideIcons.bell,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          Positioned(
-                            top: 1,
-                            right: 1,
-                            child: Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: const BoxDecoration(
-                                color: BerandaScreen.accentNotificationOrange,
-                                shape: BoxShape.circle,
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 14,
-                                minHeight: 14,
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  '3',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                child: InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(16),
+                  child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Icon(
+                          LucideIcons.bell,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        // Badge diletakkan dengan Offset presisi tanpa merusak center icon
+                        Positioned(
+                          top: 2,
+                          right: 2,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                            decoration: BoxDecoration(
+                              color: BerandaScreen.accentNotificationOrange,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: BerandaScreen.primaryRoyalBlue, width: 1.5),
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 14,
+                              minHeight: 14,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                '3',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.0,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
