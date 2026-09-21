@@ -50,7 +50,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
-    // Data Transaksi Terbaru Dummy (5 Item Spesifik)
+    // Data Transaksi Terbaru Dummy (5 Item Merchant Unik)
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
         'judul': 'Gudeg Bu Dani Solo',
@@ -110,9 +110,27 @@ class _BerandaScreenState extends State<BerandaScreen> {
       backgroundColor: BerandaScreen.primaryRoyalBlue,
       body: SafeArea(
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 280),
+          duration: const Duration(milliseconds: 380),
+          reverseDuration: const Duration(milliseconds: 320),
           switchInCurve: Curves.easeInOutCubic,
           switchOutCurve: Curves.easeInOutCubic,
+          // TRANSISI HALUS: KOMBINASI SLIDE + FADE
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            final isSubPage = child.key == const ValueKey('SemuaKantongSubPage');
+
+            // Slide dari kanan (0.08, 0) ke (0, 0) saat masuk subpage
+            final inOffset = isSubPage
+                ? Tween<Offset>(begin: const Offset(0.06, 0.0), end: Offset.zero).animate(animation)
+                : Tween<Offset>(begin: const Offset(-0.06, 0.0), end: Offset.zero).animate(animation);
+
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: inOffset,
+                child: child,
+              ),
+            );
+          },
           child: _showAllKantongSubPage
               ? _buildSemuaKantongSubPage(textColor, cardBg, borderColor, surfaceColor, isDark)
               : _buildMainBerandaView(
@@ -174,7 +192,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Indicator Bar
+                        // Handle bar indicator
                         Center(
                           child: Container(
                             width: 38,
@@ -622,7 +640,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ),
               ],
             ),
-            // TOMBOL "LIHAT SEMUA >" UNTUK INTERNAL SUB-PAGE
             InkWell(
               onTap: () {
                 setState(() {
@@ -1116,7 +1133,7 @@ class TopographicContourPainter extends CustomPainter {
 }
 
 // =========================================================================
-// PROPORTIONAL COLLAPSED HEADER DELEGATE
+// PROPORTIONAL COLLAPSED HEADER DELEGATE WITH EXACT 32PX TOP BAR SYMMETRY
 // =========================================================================
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String saldo;
@@ -1155,55 +1172,65 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
 
-        // TOP APP BAR
+        // TOP APP BAR (Ukuran Avatar, MyKas, & Bell disamakan presisi 32x32px)
         Positioned(
           top: topPosition,
           left: 20,
           right: 20,
-          height: 40,
+          height: 32,
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Avatar User
+              // 1. Avatar User (Ukuran disamakan 32x32px)
               Align(
                 alignment: Alignment.centerLeft,
                 child: Transform.scale(
                   scale: topBarScale,
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    width: 36,
-                    height: 36,
+                    width: 32,
+                    height: 32,
                     decoration: const BoxDecoration(
                       color: Colors.white24,
                       shape: BoxShape.circle,
                     ),
                     child: const CircleAvatar(
                       backgroundColor: Colors.white,
-                      child: Icon(LucideIcons.user, color: BerandaScreen.primaryRoyalBlue, size: 20),
+                      radius: 14,
+                      child: Icon(
+                        LucideIcons.user,
+                        color: BerandaScreen.primaryRoyalBlue,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ),
               ),
 
-              // Title MyKas
+              // 2. Title MyKas (Tinggi disamakan 32px)
               Align(
                 alignment: Alignment.center,
                 child: Transform.scale(
                   scale: topBarScale,
                   alignment: Alignment.center,
-                  child: const Text(
-                    'MyKas',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      letterSpacing: -0.4,
+                  child: const SizedBox(
+                    height: 32,
+                    child: Center(
+                      child: Text(
+                        'MyKas',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                          letterSpacing: -0.4,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
 
-              // Bell Notifikasi
+              // 3. Bell Notifikasi (Ukuran disamakan 32x32px)
               Align(
                 alignment: Alignment.centerRight,
                 child: Transform.scale(
@@ -1211,38 +1238,38 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                   alignment: Alignment.centerRight,
                   child: InkWell(
                     onTap: () {},
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(16),
                     child: SizedBox(
-                      width: 36,
-                      height: 36,
+                      width: 32,
+                      height: 32,
                       child: Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.center,
                         children: [
-                          const Center(
-                            child: Icon(
-                              LucideIcons.bell,
-                              color: Colors.white,
-                              size: 22,
-                            ),
+                          const Icon(
+                            LucideIcons.bell,
+                            color: Colors.white,
+                            size: 20,
                           ),
                           Positioned(
-                            top: 2,
-                            right: 2,
+                            top: 1,
+                            right: 1,
                             child: Container(
-                              padding: const EdgeInsets.all(3),
+                              padding: const EdgeInsets.all(2),
                               decoration: const BoxDecoration(
                                 color: BerandaScreen.accentNotificationOrange,
                                 shape: BoxShape.circle,
                               ),
                               constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
+                                minWidth: 14,
+                                minHeight: 14,
                               ),
                               child: const Center(
                                 child: Text(
                                   '3',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 9,
+                                    fontSize: 8,
                                     fontWeight: FontWeight.w900,
                                   ),
                                 ),
