@@ -21,7 +21,7 @@ class BerandaScreen extends StatefulWidget {
 }
 
 class _BerandaScreenState extends State<BerandaScreen> {
-  // Enum/State untuk kontrol sub-page navigasi internal
+  // Flag kontrol sub-page navigasi internal
   bool _showAllKantongSubPage = false;
 
   // Helper untuk format nominal menjadi Rp X.XXX.XXX
@@ -50,7 +50,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
-    // Data Transaksi Terbaru Dummy
+    // Data Transaksi Terbaru Dummy (5 Item Spesifik)
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
         'judul': 'Gudeg Bu Dani Solo',
@@ -114,10 +114,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
           switchInCurve: Curves.easeInOutCubic,
           switchOutCurve: Curves.easeInOutCubic,
           child: _showAllKantongSubPage
-              // SUB-PAGE: DETAIL SEMUA KANTONG KEUANGAN
               ? _buildSemuaKantongSubPage(textColor, cardBg, borderColor, surfaceColor, isDark)
-              // MAIN PAGE: BERANDA HOME VIEW
-              ? _buildMainBerandaView(
+              : _buildMainBerandaView(
                   saldo,
                   recentTransactions,
                   textColor,
@@ -230,7 +228,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     Color surfaceColor,
     bool isDark,
   ) {
-    // Data Lengkap Seluruh Kantong Keuangan Terhubung
     final List<Map<String, dynamic>> allWallets = [
       {
         'title': 'BSI Debit Hasanah',
@@ -300,7 +297,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               constraints: BoxConstraints(maxWidth: isDesktop ? 1080 : 600),
               child: Column(
                 children: [
-                  // 1. SUB-PAGE APP BAR WITH BACK BUTTON
+                  // SUB-PAGE APP BAR WITH BACK BUTTON
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
                     decoration: BoxDecoration(
@@ -369,7 +366,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     ),
                   ),
 
-                  // 2. CONTENT AREA WITH SCROLL
+                  // CONTENT AREA WITH SCROLL
                   Expanded(
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
@@ -625,7 +622,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ),
               ],
             ),
-            // TOMBOL "LIHAT SEMUA >" MEMBUKA SUB-PAGE FULL KANTONG
+            // TOMBOL "LIHAT SEMUA >" UNTUK INTERNAL SUB-PAGE
             InkWell(
               onTap: () {
                 setState(() {
@@ -1167,7 +1164,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // Avatar User (CenterLeft Anchor)
+              // Avatar User
               Align(
                 alignment: Alignment.centerLeft,
                 child: Transform.scale(
@@ -1188,7 +1185,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ),
 
-              // Title MyKas (Center Anchor)
+              // Title MyKas
               Align(
                 alignment: Alignment.center,
                 child: Transform.scale(
@@ -1206,7 +1203,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ),
 
-              // Bell Notifikasi (CenterRight Anchor)
+              // Bell Notifikasi
               Align(
                 alignment: Alignment.centerRight,
                 child: Transform.scale(
