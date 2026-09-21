@@ -31,7 +31,6 @@ class MyKasApp extends StatelessWidget {
   }
 }
 
-// ScrollBehavior Kustom untuk Menyembunyikan Garis Visual Scrollbar
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
@@ -89,7 +88,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         barrierDismissible: true,
         builder: (context) => const Dialog(
           backgroundColor: Colors.transparent,
-          // PERBAIKAN: ConstrainedBox dipanggil tanpa keyword const di parent konteks dinamis
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 480),
             child: TambahAkunFormContent(),
@@ -372,7 +370,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW
+  // MAIN BERANDA VIEW (PERBAIKAN DENGAN MENGHAPUS CONST ILEGAL)
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -388,8 +386,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
+        // DIBERSIHKAN: Tanpa keyword 'const' pada Center atau ConstrainedBox
         return Center(
-          // PERBAIKAN UTAMA: ConstrainedBox dibuat tanpa keyword 'const' yang tidak valid di baris 95
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
             child: CustomScrollView(
