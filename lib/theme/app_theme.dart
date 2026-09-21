@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// AppTheme MyKas - Definisi Sistem Desain Multi-Platform (Light & Dark Mode)
 class AppTheme {
-  // Brand Color (Royal Blue MyKas)
-  static const Color brandPrimary = Color(0xFF0D47A1);
-  static const Color brandLightBlue = Color(0xFF1976D2);
-  static const Color brandAccent = Color(0xFF42A5F5);
+  // --------------------------------------------------------------------------
+  // BRAND COLORS (IDENTITAS UTAMA MYKAS)
+  // --------------------------------------------------------------------------
+  static const Color brandPrimary = Color(0xFF0D47A1);   // Royal Blue Utama
+  static const Color brandLightBlue = Color(0xFF1976D2); // Royal Blue Sedang
+  static const Color brandAccent = Color(0xFF42A5F5);    // Soft Accent Blue
+  static const Color brandAmber = Color(0xFFFF9F00);     // Warm Amber (Warna Kancing Logo)
 
-  // Light Theme Palette
+  // --------------------------------------------------------------------------
+  // LIGHT THEME PALETTE
+  // --------------------------------------------------------------------------
   static const Color bgLight = Color(0xFFF8FAFC);
   static const Color cardLight = Colors.white;
   static const Color borderLight = Color(0xFFE2E8F0);
   static const Color textPrimaryLight = Color(0xFF0F172A);
   static const Color textSecondaryLight = Color(0xFF64748B);
 
-  // Dark Theme Palette (Deep Charcoal Matte ala Bibit & GoPay)
-  static const Color bgDark = Color(0xFF0F1117);        // Charcoal dasar (soft di mata)
-  static const Color cardDark = Color(0xFF181B22);      // Elevated surface matte
-  static const Color borderDark = Color(0xFF262A36);    // Stroke divider halus
-  static const Color textPrimaryDark = Color(0xFFF1F5F9); // White Off-Milk (tidak menyilaukan)
+  // --------------------------------------------------------------------------
+  // DARK THEME PALETTE (Deep Charcoal Matte ala Bibit & GoPay + Mesh Royal Accent)
+  // --------------------------------------------------------------------------
+  static const Color bgDark = Color(0xFF0F1117);          // Charcoal dasar (soft di mata)
+  static const Color cardDark = Color(0xFF181B22);        // Elevated surface matte
+  static const Color borderDark = Color(0xFF262A36);      // Stroke divider halus
+  static const Color textPrimaryDark = Color(0xFFF1F5F9);   // Off-white (tidak menyilaukan)
   static const Color textSecondaryDark = Color(0xFF94A3B8); // Muted slate text
 
+  // --------------------------------------------------------------------------
+  // LIGHT THEME CONFIGURATION
+  // --------------------------------------------------------------------------
   static ThemeData get lightTheme {
     final baseTextTheme = ThemeData.light().textTheme;
 
@@ -32,6 +43,7 @@ class AppTheme {
       colorScheme: const ColorScheme.light(
         primary: brandPrimary,
         secondary: brandLightBlue,
+        tertiary: brandAmber,
         surface: cardLight,
         background: bgLight,
         outline: borderLight,
@@ -74,6 +86,9 @@ class AppTheme {
     );
   }
 
+  // --------------------------------------------------------------------------
+  // DARK THEME CONFIGURATION
+  // --------------------------------------------------------------------------
   static ThemeData get darkTheme {
     final baseTextTheme = ThemeData.dark().textTheme;
 
@@ -85,6 +100,7 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: brandAccent,
         secondary: brandLightBlue,
+        tertiary: brandAmber,
         surface: cardDark,
         background: bgDark,
         outline: borderDark,
