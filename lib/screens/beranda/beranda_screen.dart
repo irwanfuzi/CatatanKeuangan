@@ -1,6 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+void main() {
+  runApp(const MyKasApp());
+}
+
+class MyKasApp extends StatelessWidget {
+  const MyKasApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'MyKas Mobile & Web',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: const Color(0xFF0052FF),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        fontFamily: 'Inter',
+        scaffoldBackgroundColor: const Color(0xFF0B0F19),
+      ),
+      themeMode: ThemeMode.system,
+      home: const BerandaScreen(),
+    );
+  }
+}
+
 // ScrollBehavior Kustom untuk Menyembunyikan Garis Visual Scrollbar
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
@@ -30,6 +60,9 @@ class BerandaScreen extends StatefulWidget {
 
 class _BerandaScreenState extends State<BerandaScreen> {
   bool _showAllKantongSubPage = false;
+  
+  // 1. STATE FITUR HIDDEN / SHOW SALDO
+  bool _isSaldoVisible = true;
 
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp 0';
@@ -49,6 +82,181 @@ class _BerandaScreenState extends State<BerandaScreen> {
     return 'Rp $buffer';
   }
 
+  // 2. MODAL ADAPTIF TOMBOL TAMBAH AKUN KANTONG
+  void _openTambahAkunModal(BuildContext context) {
+    final isDesktop = MediaQuery.of(context).size.width >= 1024;
+
+    if (isDesktop) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => const Dialog(
+          backgroundColor: Colors.transparent,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 480),
+            child: TambahAkunFormContent(),
+          ),
+        ),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: const TambahAkunFormContent(),
+        ),
+      );
+    }
+  }
+
+  // 3. BOTTOM SHEET PENGATURAN / DETAIL KANTONG INDIVIDUAL
+  void _openPengaturanKantongBottomSheet(BuildContext context, String namaKantong) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? const Color(0xFF111827) : Colors.white;
+    final textColor = isDark ? Colors.white : BerandaScreen.textDark;
+    final tileBg = isDark ? const Color(0xFF1F2937) : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? const Color(0xFF374151) : const Color(0xFFE2E8F0);
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 38,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: isDark ? const Color(0xFF374151) : const Color(0xFFCBD5E1),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Pengaturan Kantong',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                      ),
+                      Text(
+                        namaKantong,
+                        style: const TextStyle(fontSize: 12, color: BerandaScreen.textMuted),
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(LucideIcons.x, size: 18),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _buildSettingTileItem(
+                icon: LucideIcons.pencil,
+                title: 'Ubah Nama & Kategori',
+                subtitle: 'Ganti nama, jenis, atau ikon kantong',
+                tileBg: tileBg,
+                borderColor: borderColor,
+                textColor: textColor,
+                onTap: () => Navigator.pop(context),
+              ),
+              _buildSettingTileItem(
+                icon: LucideIcons.sliders,
+                title: 'Atur Limit Pengeluaran',
+                subtitle: 'Pasang batas budget bulanan kantong ini',
+                tileBg: tileBg,
+                borderColor: borderColor,
+                textColor: textColor,
+                onTap: () => Navigator.pop(context),
+              ),
+              _buildSettingTileItem(
+                icon: LucideIcons.checkCircle2,
+                title: 'Jadikan Kantong Utama',
+                subtitle: 'Gunakan sebagai sumber dana default',
+                tileBg: tileBg,
+                borderColor: borderColor,
+                textColor: textColor,
+                onTap: () => Navigator.pop(context),
+              ),
+              _buildSettingTileItem(
+                icon: LucideIcons.trash2,
+                title: 'Hapus Kantong',
+                subtitle: 'Keluarkan kantong ini dari daftar MyKas',
+                tileBg: tileBg,
+                borderColor: borderColor,
+                textColor: const Color(0xFFEF4444),
+                iconColor: const Color(0xFFEF4444),
+                onTap: () => Navigator.pop(context),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSettingTileItem({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color tileBg,
+    required Color borderColor,
+    required Color textColor,
+    Color iconColor = BerandaScreen.primaryRoyalBlue,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      decoration: BoxDecoration(
+        color: tileBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor),
+      ),
+      child: ListTile(
+        onTap: onTap,
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: iconColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(icon, size: 18, color: iconColor),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: const TextStyle(fontSize: 10, color: BerandaScreen.textMuted),
+        ),
+        trailing: const Icon(LucideIcons.chevronRight, size: 16, color: BerandaScreen.textMuted),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  }
+
   void _handleBackPress() {
     if (_showAllKantongSubPage) {
       setState(() {
@@ -62,7 +270,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
+    final rawSaldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
@@ -151,7 +359,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               child: _showAllKantongSubPage
                   ? _buildSemuaKantongSubPage(textColor, cardBg, borderColor, surfaceColor, isDark)
                   : _buildMainBerandaView(
-                      saldo,
+                      rawSaldo,
                       recentTransactions,
                       textColor,
                       cardBg,
@@ -170,7 +378,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   // MAIN BERANDA VIEW
   // =========================================================================
   Widget _buildMainBerandaView(
-    String saldo,
+    String rawSaldo,
     List recentTransactions,
     Color textColor,
     Color cardBg,
@@ -189,12 +397,18 @@ class _BerandaScreenState extends State<BerandaScreen> {
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // TOP BAR & HEADER SALDO
+                // TOP BAR & HEADER SALDO (DENGAN SLIM COLLAPSED EXTENT 42PX)
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: _CollapsingHeaderDelegate(
-                    saldo: saldo,
-                    minHeight: 42.0, // DIBUAT DENGAN TINGGI SUPER SLIM SAAT SCROLL (42px)
+                    rawSaldo: rawSaldo,
+                    isSaldoVisible: _isSaldoVisible,
+                    onToggleSaldoVisibility: () {
+                      setState(() {
+                        _isSaldoVisible = !_isSaldoVisible;
+                      });
+                    },
+                    minHeight: 42.0,
                     maxHeight: 170.0,
                   ),
                 ),
@@ -250,7 +464,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // SUB-PAGE: SEMUA KANTONG KEUANGAN
+  // SUB-PAGE: DETAIL DAFTAR KANTONG KEUANGAN
   // =========================================================================
   Widget _buildSemuaKantongSubPage(
     Color textColor,
@@ -267,7 +481,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'badgeText': 'BSI',
         'badgeBg': const Color(0xFF00A39D),
         'accountNumber': '7123 •••• 8819',
-        'isPrimary': true,
       },
       {
         'title': 'Taplus Muda Mandiri',
@@ -276,7 +489,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'badgeText': 'MANDIRI',
         'badgeBg': const Color(0xFFF59E0B),
         'accountNumber': '1370 •••• 4421',
-        'isPrimary': false,
       },
       {
         'title': 'GoPay Wallet',
@@ -285,7 +497,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'icon': LucideIcons.wallet,
         'iconColor': const Color(0xFF00AED6),
         'accountNumber': '0812 •••• 9920',
-        'isPrimary': false,
       },
       {
         'title': 'OVO Cash',
@@ -294,7 +505,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'icon': LucideIcons.smartphone,
         'iconColor': const Color(0xFF8B5CF6),
         'accountNumber': '0812 •••• 9920',
-        'isPrimary': false,
       },
       {
         'title': 'BCA Tahapan Ekpresi',
@@ -303,7 +513,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'badgeText': 'BCA',
         'badgeBg': const Color(0xFF0052FF),
         'accountNumber': '8830 •••• 1102',
-        'isPrimary': false,
       },
       {
         'title': 'Dompet Tunai & Kas',
@@ -312,7 +521,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'icon': LucideIcons.banknote,
         'iconColor': const Color(0xFF10B981),
         'accountNumber': 'Fisik / Tunai',
-        'isPrimary': false,
       },
     ];
 
@@ -329,63 +537,44 @@ class _BerandaScreenState extends State<BerandaScreen> {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                    decoration: BoxDecoration(
-                      color: BerandaScreen.primaryRoyalBlue,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                    color: BerandaScreen.primaryRoyalBlue,
                     child: Row(
                       children: [
                         IconButton(
                           onPressed: _handleBackPress,
-                          icon: const Icon(LucideIcons.arrowLeft, color: Colors.white, size: 22),
+                          icon: const Icon(LucideIcons.arrowLeft, color: Colors.white, size: 20),
                           tooltip: 'Kembali',
                         ),
                         const SizedBox(width: 8),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Kantong Keuangan',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              '6 Akun Terhubung',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.white70,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                        const Text(
+                          'Kantong Keuangan',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
                         ),
                         const Spacer(),
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(LucideIcons.plus, size: 16, color: BerandaScreen.primaryRoyalBlue),
-                          label: Text(
-                            isDesktop ? 'Tambah Kantong' : 'Tambah',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: BerandaScreen.primaryRoyalBlue,
+                        InkWell(
+                          onTap: () => _openTambahAkunModal(context),
+                          borderRadius: BorderRadius.circular(8),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.white24,
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            child: const Row(
+                              children: [
+                                Icon(LucideIcons.plus, size: 14, color: Colors.white),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Tambah',
+                                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -394,88 +583,18 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   Expanded(
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF0052FF), Color(0xFF1E40AF)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'TOTAL AKUMULASI KANTONG',
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white70,
-                                    letterSpacing: 0.8,
-                                  ),
-                                ),
-                                const SizedBox(height: 6),
-                                const Text(
-                                  'Rp 254.450.000',
-                                  style: TextStyle(
-                                    fontSize: 26,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white,
-                                    fontFamily: 'monospace',
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.15),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: const Row(
-                                        children: [
-                                          Icon(LucideIcons.shieldCheck, size: 12, color: Colors.white),
-                                          SizedBox(width: 4),
-                                          Text('Tersinkronisasi Otomatis', style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            'Daftar Kantong Aktif',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                              color: textColor,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          GridView.builder(
+                          ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: isDesktop ? 3 : 1,
-                              mainAxisSpacing: 12,
-                              crossAxisSpacing: 12,
-                              childAspectRatio: isDesktop ? 1.6 : 2.5,
-                            ),
                             itemCount: allWallets.length,
+                            separatorBuilder: (context, index) => const SizedBox(height: 10),
                             itemBuilder: (context, index) {
                               final item = allWallets[index];
-                              return _buildFullWalletCardDetail(
+                              return _buildSlimWalletListItem(
                                 item: item,
                                 cardBg: cardBg,
                                 borderColor: borderColor,
@@ -483,7 +602,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                               );
                             },
                           ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 24),
                         ],
                       ),
                     ),
@@ -497,7 +616,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  Widget _buildFullWalletCardDetail({
+  Widget _buildSlimWalletListItem({
     required Map<String, dynamic> item,
     required Color cardBg,
     required Color borderColor,
@@ -506,103 +625,89 @@ class _BerandaScreenState extends State<BerandaScreen> {
     final title = item['title'] as String;
     final type = item['type'] as String;
     final formattedAmount = _formatCurrency(item['amount']);
-    final accountNumber = item['accountNumber'] as String;
-    final isPrimary = item['isPrimary'] as bool? ?? false;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cardBg,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: isPrimary ? BerandaScreen.primaryRoyalBlue : borderColor,
-          width: isPrimary ? 1.8 : 1.0,
+    return InkWell(
+      onTap: () => _openPengaturanKantongBottomSheet(context, title),
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: cardBg,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: borderColor, width: 1.0),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  if (item['badgeText'] != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: item['badgeBg'] as Color,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        item['badgeText'] as String,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    )
-                  else if (item['icon'] != null)
-                    Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: (item['iconColor'] as Color).withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Icon(item['icon'] as IconData, color: item['iconColor'] as Color, size: 16),
+        child: Row(
+          children: [
+            if (item['badgeText'] != null)
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: (item['badgeBg'] as Color).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    item['badgeText'] as String,
+                    style: TextStyle(
+                      color: item['badgeBg'] as Color,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
                     ),
-                  const SizedBox(width: 8),
+                  ),
+                ),
+              )
+            else if (item['icon'] != null)
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: (item['iconColor'] as Color).withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(item['icon'] as IconData, color: item['iconColor'] as Color, size: 20),
+              ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 2),
                   Text(
                     type,
-                    style: const TextStyle(fontSize: 11, color: BerandaScreen.textMuted, fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontSize: 10, color: BerandaScreen.textMuted, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
-              if (isPrimary)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: BerandaScreen.primaryRoyalBlue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: const Text(' Utama ', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: BerandaScreen.primaryRoyalBlue)),
-                )
-              else
-                const Icon(LucideIcons.moreVertical, size: 16, color: BerandaScreen.textMuted),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: textColor),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                accountNumber,
-                style: const TextStyle(fontSize: 10, color: BerandaScreen.textMuted),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                formattedAmount,
+            ),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: Text(
+                _isSaldoVisible ? formattedAmount : '••••••••',
+                key: ValueKey(_isSaldoVisible),
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
                   color: textColor,
                   fontFamily: 'monospace',
                 ),
               ),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(width: 4),
+            const Icon(LucideIcons.chevronRight, size: 16, color: BerandaScreen.textMuted),
+          ],
+        ),
       ),
     );
   }
 
-  // --- KANTONG KEUANGAN HOME SUMMARY (2x2 GRID) ---
+  // --- KANTONG KEUANGAN HOME SUMMARY ---
   Widget _buildKantongKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark, bool isDesktop) {
     final whiteCardBg = isDark ? const Color(0xFF111827) : Colors.white;
 
@@ -641,6 +746,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ),
               ],
             ),
+            // TOMBOL DETAIL KANTONG ("Lihat Semua")
             InkWell(
               onTap: () {
                 setState(() {
@@ -686,6 +792,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               cardBg: whiteCardBg,
               borderColor: borderColor,
               textColor: textColor,
+              onTap: () => _openPengaturanKantongBottomSheet(context, 'BSI Debit Hasanah'),
             ),
             _buildFlatWalletCard(
               badgeText: 'MANDIRI',
@@ -695,6 +802,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               cardBg: whiteCardBg,
               borderColor: borderColor,
               textColor: textColor,
+              onTap: () => _openPengaturanKantongBottomSheet(context, 'Taplus Muda Mandiri'),
             ),
             _buildFlatWalletCard(
               icon: LucideIcons.wallet,
@@ -705,7 +813,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
               cardBg: whiteCardBg,
               borderColor: borderColor,
               textColor: textColor,
+              onTap: () => _openPengaturanKantongBottomSheet(context, 'GoPay Wallet'),
             ),
+            // TOMBOL TAMBAH AKUN KANTONG
             _buildDashedAddAccountCard(isDark),
           ],
         ),
@@ -724,9 +834,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
     required Color cardBg,
     required Color borderColor,
     required Color textColor,
+    required VoidCallback onTap,
   }) {
     return Container(
-      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: cardBg,
         borderRadius: BorderRadius.circular(16),
@@ -739,67 +849,81 @@ class _BerandaScreenState extends State<BerandaScreen> {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (badgeText != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: badgeBg,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    badgeText,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w900,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (badgeText != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: badgeBg,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          badgeText,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      )
+                    else if (icon != null)
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: (iconColor ?? BerandaScreen.primaryRoyalBlue).withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(icon, color: iconColor, size: 16),
+                      ),
+                    if (hasArrow)
+                      const Icon(LucideIcons.chevronRight, size: 16, color: BerandaScreen.textMuted),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 11, color: BerandaScreen.textMuted, fontWeight: FontWeight.w500),
                     ),
-                  ),
-                )
-              else if (icon != null)
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: (iconColor ?? BerandaScreen.primaryRoyalBlue).withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(icon, color: iconColor, size: 16),
+                    const SizedBox(height: 2),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: Text(
+                          _isSaldoVisible ? amount : '••••••••',
+                          key: ValueKey(_isSaldoVisible),
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            color: textColor,
+                            fontFamily: 'monospace',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              if (hasArrow)
-                const Icon(LucideIcons.chevronRight, size: 16, color: BerandaScreen.textMuted),
-            ],
+              ],
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 11, color: BerandaScreen.textMuted, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 2),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  amount,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w900,
-                    color: textColor,
-                    fontFamily: 'monospace',
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -817,7 +941,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () => _openTambahAkunModal(context),
           borderRadius: BorderRadius.circular(16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1067,13 +1191,19 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         ],
                       ),
                     ),
-                    Text(
-                      isPemasukan ? '+$formattedNominal' : '-$formattedNominal',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        color: isPemasukan ? const Color(0xFF10B981) : BerandaScreen.textDark,
-                        fontFamily: 'monospace',
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        _isSaldoVisible
+                            ? (isPemasukan ? '+$formattedNominal' : '-$formattedNominal')
+                            : '••••••••',
+                        key: ValueKey(_isSaldoVisible),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                          color: isPemasukan ? const Color(0xFF10B981) : BerandaScreen.textDark,
+                          fontFamily: 'monospace',
+                        ),
                       ),
                     ),
                   ],
@@ -1087,9 +1217,199 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 }
 
-// =========================================================================
-// CUSTOM PAINTER UNTUK POLA KONTUR TOPOGRAFI
-// =========================================================================
+// FORM TAMBAH AKUN DI BOTTOMSHEET/DIALOG
+class TambahAkunFormContent extends StatefulWidget {
+  const TambahAkunFormContent({super.key});
+
+  @override
+  State<TambahAkunFormContent> createState() => _TambahAkunFormContentState();
+}
+
+class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
+  int _selectedCategoryIndex = 0;
+  final List<String> _categories = ['Bank Transfer', 'E-Wallet', 'Kas Tunai', 'Investasi'];
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final bgColor = isDark ? const Color(0xFF111827) : Colors.white;
+    final textColor = isDark ? Colors.white : BerandaScreen.textDark;
+    final inputBg = isDark ? const Color(0xFF1F2937) : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? const Color(0xFF374151) : const Color(0xFFE2E8F0);
+
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28), bottom: Radius.circular(28)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: 38,
+              height: 4,
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF374151) : const Color(0xFFCBD5E1),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Tambah Kantong Baru',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: textColor,
+                ),
+              ),
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(LucideIcons.x, size: 20),
+                style: IconButton.styleFrom(
+                  backgroundColor: inputBg,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 18),
+
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(_categories.length, (index) {
+                final isSelected = _selectedCategoryIndex == index;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ChoiceChip(
+                    label: Text(_categories[index]),
+                    selected: isSelected,
+                    onSelected: (val) {
+                      setState(() {
+                        _selectedCategoryIndex = index;
+                      });
+                    },
+                    selectedColor: BerandaScreen.primaryRoyalBlue,
+                    backgroundColor: inputBg,
+                    labelStyle: TextStyle(
+                      color: isSelected ? Colors.white : BerandaScreen.textMuted,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(
+                        color: isSelected ? BerandaScreen.primaryRoyalBlue : borderColor,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          Text(
+            'Nama Kantong / Rekening',
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textColor),
+          ),
+          const SizedBox(height: 6),
+          TextField(
+            style: TextStyle(fontSize: 13, color: textColor),
+            decoration: InputDecoration(
+              hintText: 'Contoh: Tabungan Darurat BSI',
+              hintStyle: const TextStyle(fontSize: 12, color: BerandaScreen.textMuted),
+              filled: true,
+              fillColor: inputBg,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(color: BerandaScreen.primaryRoyalBlue, width: 1.8),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          Text(
+            'Saldo Awal (Rp)',
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textColor),
+          ),
+          const SizedBox(height: 6),
+          TextField(
+            keyboardType: TextInputType.number,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor, fontFamily: 'monospace'),
+            decoration: InputDecoration(
+              hintText: '0',
+              prefixText: 'Rp ',
+              prefixStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: BerandaScreen.primaryRoyalBlue),
+              hintStyle: const TextStyle(fontSize: 12, color: BerandaScreen.textMuted),
+              filled: true,
+              fillColor: inputBg,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(color: BerandaScreen.primaryRoyalBlue, width: 1.8),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: BerandaScreen.primaryRoyalBlue,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: const Text(
+                'Simpan Kantong Baru',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Custom Painter Topografi Background
 class TopographicContourPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1114,42 +1434,26 @@ class TopographicContourPainter extends CustomPainter {
       size.width, size.height * 0.45,
     );
 
-    final path3 = Path();
-    path3.moveTo(0, size.height * 0.75);
-    path3.cubicTo(
-      size.width * 0.35, size.height * 0.45,
-      size.width * 0.70, size.height * 0.95,
-      size.width, size.height * 0.70,
-    );
-
-    final path4 = Path();
-    path4.moveTo(size.width * 0.2, 0);
-    path4.cubicTo(
-      size.width * 0.5, size.height * 0.4,
-      size.width * 0.8, size.height * 0.1,
-      size.width, size.height * 0.9,
-    );
-
     canvas.drawPath(path1, paint);
     canvas.drawPath(path2, paint);
-    canvas.drawPath(path3, paint);
-    canvas.drawPath(path4, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-// =========================================================================
-// COLLAPSING HEADER DELEGATE WITH OPTICAL ALIGNMENT (SUPER SLIM)
-// =========================================================================
+// Collapsing Header Delegate
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final String saldo;
+  final String rawSaldo;
+  final bool isSaldoVisible;
+  final VoidCallback onToggleSaldoVisibility;
   final double minHeight;
   final double maxHeight;
 
   _CollapsingHeaderDelegate({
-    required this.saldo,
+    required this.rawSaldo,
+    required this.isSaldoVisible,
+    required this.onToggleSaldoVisibility,
     required this.minHeight,
     required this.maxHeight,
   });
@@ -1166,8 +1470,6 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
     final progress = Curves.easeInOutCubic.transform(rawProgress);
 
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
-    
-    // Perhitungan posisi vertikal top bar presisi agar pas terpusat di minExtent 42px
     final topPosition = (1.0 - progress) * 12.0 + 2.0;
 
     return Container(
@@ -1186,21 +1488,18 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // BACKGROUND BLUE ROYAL WITH TOPOGRAPHIC PATTERN
           CustomPaint(
             painter: TopographicContourPainter(),
           ),
-
-          // TOP APP BAR (PRESISI COMPACT 36PX IN A 42PX SLIM BAR)
+          // TOP APP BAR
           Positioned(
             top: topPosition,
             left: 20,
             right: 20,
-            height: 36, // Diperkecil dari 48px ke 36px agar rapat dengan canvas bawah
+            height: 36,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 1. Avatar User
                 Container(
                   width: 34,
                   height: 34,
@@ -1220,8 +1519,6 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
                 ),
-
-                // 2. Title MyKas
                 const Expanded(
                   child: Center(
                     child: Text(
@@ -1236,8 +1533,6 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
                 ),
-
-                // 3. Bell Notifikasi
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
@@ -1290,7 +1585,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
 
-          // TOTAL SALDO SECTION (TAMPIL HANYA SAAT EXPANDED)
+          // TOTAL SALDO SECTION (DENGAN SLOTS HIDDEN / SHOW EYE TOGGLE)
           if (saldoOpacity > 0.0)
             Positioned(
               bottom: 14,
@@ -1302,9 +1597,9 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Text(
+                        const Text(
                           'Total Saldo',
                           style: TextStyle(
                             fontSize: 12,
@@ -1312,19 +1607,37 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                             color: Colors.white70,
                           ),
                         ),
-                        SizedBox(width: 6),
-                        Icon(LucideIcons.eye, color: Colors.white70, size: 14),
+                        const SizedBox(width: 6),
+                        InkWell(
+                          onTap: onToggleSaldoVisibility,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Icon(
+                              isSaldoVisible ? LucideIcons.eye : LucideIcons.eyeOff,
+                              color: Colors.white70,
+                              size: 15,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      saldo,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        fontFamily: 'monospace',
-                        letterSpacing: -1.0,
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 220),
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return FadeTransition(opacity: animation, child: child);
+                      },
+                      child: Text(
+                        isSaldoVisible ? rawSaldo : '••••••••••••',
+                        key: ValueKey<bool>(isSaldoVisible),
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                          fontFamily: 'monospace',
+                          letterSpacing: -1.0,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -1349,7 +1662,8 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant _CollapsingHeaderDelegate oldDelegate) {
-    return oldDelegate.saldo != saldo ||
+    return oldDelegate.rawSaldo != rawSaldo ||
+        oldDelegate.isSaldoVisible != isSaldoVisible ||
         oldDelegate.minHeight != minHeight ||
         oldDelegate.maxHeight != maxHeight;
   }
