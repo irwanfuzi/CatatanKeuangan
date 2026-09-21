@@ -31,7 +31,6 @@ class MyKasApp extends StatelessWidget {
   }
 }
 
-// ScrollBehavior Kustom untuk Menyembunyikan Garis Visual Scrollbar
 class NoScrollbarBehavior extends ScrollBehavior {
   @override
   Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
@@ -63,9 +62,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
   bool _isSaldoVisible = true;
 
   String _formatCurrency(dynamic rawNominal) {
-    if (rawNominal == null) return 'Rp 0';
+    if (rawNominal == null) return 'Rp0';
     String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
-    if (strVal.isEmpty) return 'Rp 0';
+    if (strVal.isEmpty) return 'Rp0';
 
     final intValue = int.tryParse(strVal) ?? 0;
     final buffer = StringBuffer();
@@ -77,7 +76,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
       }
       buffer.write(numStr[i]);
     }
-    return 'Rp $buffer';
+    return 'Rp$buffer';
   }
 
   void _openTambahAkunModal(BuildContext context) {
@@ -371,7 +370,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW (TANPA PARENT 'CONST' ILEGAL)
+  // MAIN BERANDA VIEW
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -387,7 +386,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // PERBAIKAN UTAMA: Center dan ConstrainedBox murni tanpa keyword 'const'
         return Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
@@ -440,7 +438,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         _buildMyInsightCard(isDark),
                         const SizedBox(height: 20),
 
-                        _buildOverviewKeuanganSection(textColor, cardBg, borderColor, isDark),
+                        // KARTU OVERVIEW KEUANGAN SESUAI REFERENSI GAMBAR
+                        _buildOverviewKeuanganSection(textColor, cardBg, borderColor, isDark, isDesktop),
                         const SizedBox(height: 24),
 
                         _buildRecentTransactionsSection(recentTransactions, textColor, cardBg, borderColor, isDark),
@@ -454,6 +453,288 @@ class _BerandaScreenState extends State<BerandaScreen> {
           ),
         );
       },
+    );
+  }
+
+  // =========================================================================
+  // OVERVIEW KEUANGAN (DISESUAIKAN PRESISI GAMBAR REFERENSI)
+  // =========================================================================
+  Widget _buildOverviewKeuanganSection(
+    Color textColor,
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+    bool isDesktop,
+  ) {
+    final whiteCardBg = isDark ? const Color(0xFF111827) : Colors.white;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Overview Keuangan',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+                color: textColor,
+              ),
+            ),
+            InkWell(
+              onTap: widget.onNavigateToAnalisis,
+              child: const Text(
+                'Lihat Detail >',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: BerandaScreen.primaryRoyalBlue,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        Row(
+          children: [
+            // 1. KARTU SISA BUDGET (DENGAN GRADIENT PROGRESS BAR)
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: whiteCardBg,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: borderColor, width: 1),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Sisa Budget',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: BerandaScreen.textMuted,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        _isSaldoVisible ? 'Rp1.800.000' : '••••••••',
+                        key: ValueKey(_isSaldoVisible),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: textColor,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'dari Rp6.000.000',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: BerandaScreen.textMuted,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // GRADIENT PROGRESS BAR (Hijau -> Kuning -> Oranye)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 12,
+                            width: double.infinity,
+                            color: isDark ? const Color(0xFF1F2937) : const Color(0xFFF1F5F9),
+                          ),
+                          FractionallySizedBox(
+                            widthFactor: 0.75, // Budget Terpakai 75%
+                            child: Container(
+                              height: 12,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF22C55E), // Hijau
+                                    Color(0xFFEAB308), // Kuning
+                                    Color(0xFFF97316), // Oranye
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+
+            // 2. KARTU DANA DARURAT (DENGAN CUSTOM STEPPER SLIDER & GLOWING THUMB)
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: whiteCardBg,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: borderColor, width: 1),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.02),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(
+                          LucideIcons.shieldCheck,
+                          size: 20,
+                          color: BerandaScreen.primaryRoyalBlue,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Dana Darurat',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: BerandaScreen.textDark,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        _isSaldoVisible ? 'Rp2.750.000' : '••••••••',
+                        key: ValueKey(_isSaldoVisible),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: textColor,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'dari Rp5.000.000',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: BerandaScreen.textMuted,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // CUSTOM STEPPER SLIDER
+                    SizedBox(
+                      height: 12,
+                      child: Stack(
+                        alignment: Alignment.centerLeft,
+                        children: [
+                          // Background Gray Line
+                          Container(
+                            height: 3,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: isDark ? const Color(0xFF374151) : const Color(0xFFE2E8F0),
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                          // Active Blue Progress Line
+                          FractionallySizedBox(
+                            widthFactor: 0.55, // Progress 55%
+                            child: Container(
+                              height: 3,
+                              decoration: BoxDecoration(
+                                color: BerandaScreen.primaryRoyalBlue,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                          ),
+                          // Left Node Circle
+                          Positioned(
+                            left: 0,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: whiteCardBg,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: BerandaScreen.primaryRoyalBlue,
+                                  width: 2.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Right Node Circle (Target Endpoint)
+                          Positioned(
+                            right: 0,
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: whiteCardBg,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isDark ? const Color(0xFF4B5563) : const Color(0xFFCBD5E1),
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Current Thumb Glowing Indicator
+                          Positioned(
+                            left: 0.55 * 130, // Estimasi Posisi Thumb Active
+                            child: Container(
+                              width: 16,
+                              height: 16,
+                              decoration: BoxDecoration(
+                                color: BerandaScreen.primaryRoyalBlue,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: BerandaScreen.primaryRoyalBlue.withOpacity(0.35),
+                                    blurRadius: 6,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -781,7 +1062,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               badgeText: 'BSI',
               badgeBg: const Color(0xFF00A39D),
               title: 'BSI Debit Hasanah',
-              amount: 'Rp 186.750.000',
+              amount: 'Rp186.750.000',
               cardBg: whiteCardBg,
               borderColor: borderColor,
               textColor: textColor,
@@ -791,7 +1072,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               badgeText: 'MANDIRI',
               badgeBg: const Color(0xFFF59E0B),
               title: 'Taplus Muda Mandiri',
-              amount: 'Rp 12.400.000',
+              amount: 'Rp12.400.000',
               cardBg: whiteCardBg,
               borderColor: borderColor,
               textColor: textColor,
@@ -801,7 +1082,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               icon: LucideIcons.wallet,
               iconColor: const Color(0xFF00AED6),
               title: 'GoPay Wallet',
-              amount: 'Rp 5.000.000',
+              amount: 'Rp5.000.000',
               hasArrow: true,
               cardBg: whiteCardBg,
               borderColor: borderColor,
@@ -1044,7 +1325,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Pengeluaran menurun 12%! Hemat Rp 1.450.000 pada pos non-primer dibanding minggu lalu.',
+                  'Pengeluaran menurun 12%! Hemat Rp1.450.000 pada pos non-primer dibanding minggu lalu.',
                   style: TextStyle(
                     fontSize: 11,
                     color: isDark ? const Color(0xFF9CA3AF) : BerandaScreen.textMuted,
@@ -1056,72 +1337,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  // --- OVERVIEW KEUANGAN ---
-  Widget _buildOverviewKeuanganSection(Color textColor, Color cardBg, Color borderColor, bool isDark) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Overview Keuangan', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor)),
-            InkWell(
-              onTap: widget.onNavigateToAnalisis,
-              child: const Text('Lihat Detail >', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: BerandaScreen.primaryRoyalBlue)),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF111827) : Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: borderColor),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('SISA BUDGET', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: BerandaScreen.textMuted)),
-                    const SizedBox(height: 4),
-                    Text('Rp 3.250.000', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: const LinearProgressIndicator(value: 0.65, minHeight: 6, backgroundColor: Color(0xFFE2E8F0), valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B))),
-                    ),
-                    const SizedBox(height: 6),
-                    const Text('Terpakai 65% • 10 hr tersisa', style: TextStyle(fontSize: 9, color: BerandaScreen.textMuted, fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-              Container(width: 1, height: 60, color: borderColor, margin: const EdgeInsets.symmetric(horizontal: 14)),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('TUJUAN KEUANGAN', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: BerandaScreen.textMuted)),
-                    const SizedBox(height: 4),
-                    Text('Rp 15,5 Jt / 20 Jt', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: textColor, fontFamily: 'monospace')),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
-                      child: const LinearProgressIndicator(value: 0.77, minHeight: 6, backgroundColor: Color(0xFFE2E8F0), valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF8B5CF6))),
-                    ),
-                    const SizedBox(height: 6),
-                    const Text('3 dari 4 Target On-Track', style: TextStyle(fontSize: 9, color: Color(0xFF10B981), fontWeight: FontWeight.bold)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
