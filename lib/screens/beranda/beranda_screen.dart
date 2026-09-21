@@ -289,7 +289,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final recentTransactions = riwayat.take(5).toList();
 
-    // WARNA DIAMBIL DARI APPTHEME BUKAN HARDCODED
     final surfaceColor = isDark ? AppTheme.bgDark : AppTheme.bgLight;
     final cardBg = isDark ? AppTheme.cardDark : AppTheme.cardLight;
     final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
@@ -307,7 +306,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
         backgroundColor: isDark ? const Color(0xFF0A192F) : AppTheme.brandPrimary,
         body: SafeArea(
           child: ScrollConfiguration(
-            behavior: NoScrollbarBehavior(),
+            // BEHAVIOR STANDAR BEBAS ERROR GRADLE
+            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 320),
               reverseDuration: const Duration(milliseconds: 280),
@@ -1612,15 +1612,14 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
     final topPosition = (1.0 - progress) * 12.0 + 2.0;
 
-    // GRADIENT HEADER DENGAN BLEND KE DEEP CHARCOAL DI DARK MODE
     final BoxDecoration headerDecoration = isDark
         ? const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xFF0A192F), // Deep Navy Blue
-                Color(0xFF0F1117), // Deep Charcoal
+                Color(0xFF0A192F),
+                Color(0xFF0F1117),
               ],
             ),
           )
