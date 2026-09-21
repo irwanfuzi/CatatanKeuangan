@@ -21,10 +21,8 @@ class BerandaScreen extends StatefulWidget {
 }
 
 class _BerandaScreenState extends State<BerandaScreen> {
-  // Flag kontrol sub-page navigasi internal
   bool _showAllKantongSubPage = false;
 
-  // Helper untuk format nominal menjadi Rp X.XXX.XXX
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp 0';
     String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
@@ -58,7 +56,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
-    // Data Transaksi Terbaru Dummy
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
         'judul': 'Gudeg Bu Dani Solo',
@@ -141,7 +138,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW (FIXED FIT-TO-SCREEN WITHOUT SCROLL)
+  // MAIN BERANDA VIEW (FIT-TO-SCREEN / NO SCROLLBAR)
   // =========================================================================
   Widget _buildMainBerandaView(
     String saldo,
@@ -162,10 +159,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
             child: Column(
               children: [
-                // TOP BAR COMPACT
                 _buildStaticHeaderBar(saldo),
-
-                // WHITE SHEET CANVAS (COMPACT FIT TO SCREEN)
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -178,7 +172,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        // Indicator Bar
                         Center(
                           child: Container(
                             width: 38,
@@ -189,20 +182,10 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             ),
                           ),
                         ),
-
-                        // KANTONG KEUANGAN SUMMARY
                         _buildKantongKeuanganSection(textColor, cardBg, borderColor, isDark, isDesktop),
-
-                        // QUICK ACTIONS
                         _buildQuickActionsSection(textColor, isDark, isDesktop),
-
-                        // MY INSIGHT CARD
                         _buildMyInsightCard(isDark),
-
-                        // OVERVIEW KEUANGAN
                         _buildOverviewKeuanganSection(textColor, cardBg, borderColor, isDark),
-
-                        // RECENT TRANSACTIONS
                         _buildRecentTransactionsSection(recentTransactions, textColor, cardBg, borderColor, isDark),
                       ],
                     ),
@@ -227,7 +210,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Avatar
               Container(
                 width: 30,
                 height: 30,
@@ -261,7 +243,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   ),
                 ),
               ),
-              // Bell
               SizedBox(
                 width: 30,
                 height: 30,
