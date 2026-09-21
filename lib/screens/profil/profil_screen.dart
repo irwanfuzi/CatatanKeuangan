@@ -169,7 +169,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    // SLIVER HEADER DENGAN IDENTITY MYKAS
+                    // SLIVER HEADER PROFIL DENGAN TOPOGRAPHIC CONTOUR & BRAND GRADIENT
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: _ProfilHeaderDelegate(
@@ -179,7 +179,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                     ),
 
-                    // KONTEN UTAMA DENGAN ROUNDED CONTAINER
+                    // KONTEN UTAMA PROFIL
                     SliverToBoxAdapter(
                       child: Container(
                         width: double.infinity,
@@ -554,7 +554,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 }
 
-// HEADER DELEGATE PROFIL
+// HEADER DELEGATE PROFIL LOKAL (ISOLATED)
 class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
@@ -586,8 +586,8 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xFF0A192F),
-                Color(0xFF0F1117),
+                Color(0xFF0A192F), // Deep Navy Blue
+                Color(0xFF0F1117), // Deep Charcoal
               ],
             ),
           )
@@ -611,9 +611,9 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
         fit: StackFit.expand,
         children: [
           CustomPaint(
-            painter: TopographicContourPainter(),
+            painter: ProfilTopographicPainter(),
           ),
-          // TITLE TOP
+          // HEADER TITLE BAR
           Positioned(
             top: topPosition,
             left: 20,
@@ -640,7 +640,7 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
 
-          // AVATAR USER & DETAILS
+          // AVATAR USER & DETAILS CARD
           if (contentOpacity > 0.0)
             Positioned(
               bottom: 16,
@@ -713,8 +713,8 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-// PAINTER KONTUR TOPOGRAFI
-class TopographicContourPainter extends CustomPainter {
+// PAINTER KONTUR TOPOGRAFI ISOLATED KHUSUS PROFIL
+class ProfilTopographicPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
