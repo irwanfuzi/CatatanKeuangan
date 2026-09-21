@@ -194,8 +194,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   pinned: true,
                   delegate: _CollapsingHeaderDelegate(
                     saldo: saldo,
-                    minHeight: 64.0, // Diperbesar dari 44px ke 64px
-                    maxHeight: 180.0, // Diperbesar dari 160px ke 180px
+                    minHeight: 42.0, // DIBUAT DENGAN TINGGI SUPER SLIM SAAT SCROLL (42px)
+                    maxHeight: 170.0,
                   ),
                 ),
 
@@ -1141,7 +1141,7 @@ class TopographicContourPainter extends CustomPainter {
 }
 
 // =========================================================================
-// COLLAPSING HEADER DELEGATE WITH OPTICAL ALIGNMENT (PERBAIKAN UKURAN)
+// COLLAPSING HEADER DELEGATE WITH OPTICAL ALIGNMENT (SUPER SLIM)
 // =========================================================================
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String saldo;
@@ -1165,37 +1165,45 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
     final rawProgress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
     final progress = Curves.easeInOutCubic.transform(rawProgress);
 
-    final topBarScale = 1.0 - (progress * 0.12); // Dibuat lebih stabil saat scroll
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
-    final topPosition = 10.0 + ((1.0 - progress) * 6.0); // Padding top disesuaikan
+    
+    // Perhitungan posisi vertikal top bar presisi agar pas terpusat di minExtent 42px
+    final topPosition = (1.0 - progress) * 12.0 + 2.0;
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // BACKGROUND BLUE ROYAL WITH TOPOGRAPHIC PATTERN
-        Container(
-          color: BerandaScreen.primaryRoyalBlue,
-          child: CustomPaint(
+    return Container(
+      decoration: BoxDecoration(
+        color: BerandaScreen.primaryRoyalBlue,
+        boxShadow: shrinkOffset > 30
+            ? [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.12),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ]
+            : [],
+      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          // BACKGROUND BLUE ROYAL WITH TOPOGRAPHIC PATTERN
+          CustomPaint(
             painter: TopographicContourPainter(),
           ),
-        ),
 
-        // TOP APP BAR (PRESISI SUMBU VERTIKAL & PROPORSI DITINGKATKAN)
-        Positioned(
-          top: topPosition,
-          left: 20,
-          right: 20,
-          height: 48, // Diperbesar dari 32px ke 48px agar bounding box lapang
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // 1. Avatar User (Ukuran Diperbesar Ke 40x40)
-              Transform.scale(
-                scale: topBarScale,
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: 40,
-                  height: 40,
+          // TOP APP BAR (PRESISI COMPACT 36PX IN A 42PX SLIM BAR)
+          Positioned(
+            top: topPosition,
+            left: 20,
+            right: 20,
+            height: 36, // Diperkecil dari 48px ke 36px agar rapat dengan canvas bawah
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // 1. Avatar User
+                Container(
+                  width: 34,
+                  height: 34,
                   decoration: const BoxDecoration(
                     color: Colors.white24,
                     shape: BoxShape.circle,
@@ -1203,77 +1211,69 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                   child: const Center(
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      radius: 18, // Diperbesar dari 13 ke 18
+                      radius: 15,
                       child: Icon(
                         LucideIcons.user,
                         color: BerandaScreen.primaryRoyalBlue,
-                        size: 20, // Diperbesar dari 16 ke 20
+                        size: 17,
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              // 2. Title MyKas (Font Size Diperbesar Ke 22px)
-              Expanded(
-                child: Center(
-                  child: Transform.scale(
-                    scale: topBarScale,
-                    alignment: Alignment.center,
-                    child: const Text(
+                // 2. Title MyKas
+                const Expanded(
+                  child: Center(
+                    child: Text(
                       'MyKas',
                       style: TextStyle(
-                        fontSize: 22, // Diperbesar dari 19px ke 22px
+                        fontSize: 19,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
-                        letterSpacing: -0.5,
+                        letterSpacing: -0.4,
                         height: 1.0,
                       ),
                     ),
                   ),
                 ),
-              ),
 
-              // 3. Bell Notifikasi (Ukuran Icon & Target Tap Diperbesar)
-              Transform.scale(
-                scale: topBarScale,
-                alignment: Alignment.centerRight,
-                child: Material(
+                // 3. Bell Notifikasi
+                Material(
                   color: Colors.transparent,
                   child: InkWell(
                     onTap: () {},
-                    borderRadius: BorderRadius.circular(22),
+                    borderRadius: BorderRadius.circular(18),
                     child: SizedBox(
-                      width: 44, // Touch Target Ideal Mobile 44x44
-                      height: 44,
+                      width: 36,
+                      height: 36,
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
                           const Icon(
                             LucideIcons.bell,
                             color: Colors.white,
-                            size: 24, // Diperbesar dari 20px ke 24px
+                            size: 21,
                           ),
                           Positioned(
-                            top: 6,
-                            right: 6,
+                            top: 2,
+                            right: 2,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                              padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
                               decoration: BoxDecoration(
                                 color: BerandaScreen.accentNotificationOrange,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: BerandaScreen.primaryRoyalBlue, width: 1.8),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: BerandaScreen.primaryRoyalBlue, width: 1.5),
                               ),
                               constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
+                                minWidth: 14,
+                                minHeight: 14,
                               ),
                               child: const Center(
                                 child: Text(
                                   '3',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 9,
+                                    fontSize: 8,
                                     fontWeight: FontWeight.w900,
                                     height: 1.0,
                                   ),
@@ -1286,64 +1286,64 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-
-        // TOTAL SALDO SECTION
-        if (saldoOpacity > 0.0)
-          Positioned(
-            bottom: 16,
-            left: 24,
-            right: 24,
-            child: Opacity(
-              opacity: saldoOpacity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Row(
-                    children: [
-                      Text(
-                        'Total Saldo',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white70,
-                        ),
-                      ),
-                      SizedBox(width: 6),
-                      Icon(LucideIcons.eye, color: Colors.white70, size: 14),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    saldo,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      fontFamily: 'monospace',
-                      letterSpacing: -1.0,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const Row(
-                    children: [
-                      Icon(LucideIcons.clock, color: Colors.white60, size: 11),
-                      SizedBox(width: 4),
-                      Text(
-                        'Updated 2m ago',
-                        style: TextStyle(fontSize: 10, color: Colors.white60, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
-      ],
+
+          // TOTAL SALDO SECTION (TAMPIL HANYA SAAT EXPANDED)
+          if (saldoOpacity > 0.0)
+            Positioned(
+              bottom: 14,
+              left: 24,
+              right: 24,
+              child: Opacity(
+                opacity: saldoOpacity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Row(
+                      children: [
+                        Text(
+                          'Total Saldo',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white70,
+                          ),
+                        ),
+                        SizedBox(width: 6),
+                        Icon(LucideIcons.eye, color: Colors.white70, size: 14),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      saldo,
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        fontFamily: 'monospace',
+                        letterSpacing: -1.0,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Row(
+                      children: [
+                        Icon(LucideIcons.clock, color: Colors.white60, size: 11),
+                        SizedBox(width: 4),
+                        Text(
+                          'Updated 2m ago',
+                          style: TextStyle(fontSize: 10, color: Colors.white60, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
