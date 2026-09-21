@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-// Import AppTheme sesuai struktur proyek MyKas
+// Import AppTheme buatanmu
 import 'package:mykas/theme/app_theme.dart';
 
 class ProfilScreen extends StatefulWidget {
@@ -21,7 +21,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
   bool _isFingerprintEnabled = true;
   bool _isNotificationEnabled = true;
 
-  // Modal Dialog / Bottom Sheet Konfirmasi Logout
   void _showLogoutConfirmation(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppTheme.cardDark : AppTheme.cardLight;
@@ -110,7 +109,13 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        if (widget.onLogout != null) widget.onLogout!();
+                        if (widget.onLogout != null) {
+                          widget.onLogout!();
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Sesi berhasil diakhiri')),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFEF4444),
@@ -152,7 +157,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
     final textMuted = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0B0C10) : AppTheme.brandPrimary,
+      backgroundColor: isDark ? const Color(0xFF0A192F) : AppTheme.brandPrimary,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -164,7 +169,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
                   slivers: [
-                    // COLLAPSING HEADER DENGAN TOPOGRAPHIC CONTOUR & BRAND GRADIENT
+                    // SLIVER HEADER DENGAN IDENTITY MYKAS
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: _ProfilHeaderDelegate(
@@ -174,7 +179,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                     ),
 
-                    // KONTEN UTAMA DENGAN ROUNDED SHEET
+                    // KONTEN UTAMA DENGAN ROUNDED CONTAINER
                     SliverToBoxAdapter(
                       child: Container(
                         width: double.infinity,
@@ -348,7 +353,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                                   icon: LucideIcons.info,
                                   iconColor: const Color(0xFF8B5CF6),
                                   title: 'Tentang Aplikasi',
-                                  subtitle: 'MyKas v2.4.0 (Flutter Native)',
+                                  subtitle: 'MyKas v2.4.0 (Flutter Native & PWA)',
                                   textColor: textColor,
                                   textMuted: textMuted,
                                   onTap: () {},
@@ -358,7 +363,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
                             const SizedBox(height: 28),
 
-                            // TOMBOL KELUAR AKUN
+                            // TOMBOL LOGOUT
                             SizedBox(
                               width: double.infinity,
                               height: 50,
@@ -415,7 +420,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
     );
   }
 
-  // HELPER BUILDERS
+  // HELPER WIDGETS
   Widget _buildSectionHeader(String title, Color textColor) {
     return Text(
       title,
@@ -549,9 +554,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 }
 
-// ============================================================================
-// HEADER SLIVER DENGAN TOPOGRAPHIC CONTOUR & MESH BRANDING
-// ============================================================================
+// HEADER DELEGATE PROFIL
 class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double minHeight;
   final double maxHeight;
@@ -610,7 +613,7 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
           CustomPaint(
             painter: TopographicContourPainter(),
           ),
-          // TOP TITLE
+          // TITLE TOP
           Positioned(
             top: topPosition,
             left: 20,
@@ -637,7 +640,7 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
 
-          // PROFILE AVATAR & USER DETAILS CARD
+          // AVATAR USER & DETAILS
           if (contentOpacity > 0.0)
             Positioned(
               bottom: 16,
@@ -647,7 +650,6 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
                 opacity: contentOpacity,
                 child: Row(
                   children: [
-                    // AVATAR USER DENGAN GLASSMORPHISM ACCENT
                     Container(
                       width: 54,
                       height: 54,
@@ -711,7 +713,7 @@ class _ProfilHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-// PAINTER KONTUR TOPOGRAFI (IDENTITAS VISUAL MYKAS)
+// PAINTER KONTUR TOPOGRAFI
 class TopographicContourPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
