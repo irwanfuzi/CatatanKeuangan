@@ -43,6 +43,15 @@ class _BerandaScreenState extends State<BerandaScreen> {
     return 'Rp $buffer';
   }
 
+  // Fungsi penanganan tombol Back HP / Gesture Swipe
+  void _handleBackPress() {
+    if (_showAllKantongSubPage) {
+      setState(() {
+        _showAllKantongSubPage = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -50,7 +59,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
     final saldo = widget.summaryData?['saldo'] ?? 'Rp 2.345.833';
 
-    // Data Transaksi Terbaru Dummy (5 Item Merchant Unik)
+    // Data Transaksi Terbaru Dummy (5 Merchant Unik)
     final List riwayat = widget.summaryData?['riwayat'] as List? ?? [
       {
         'judul': 'Gudeg Bu Dani Solo',
@@ -106,42 +115,47 @@ class _BerandaScreenState extends State<BerandaScreen> {
     final borderColor = isDark ? const Color(0xFF1F2937) : const Color(0xFFE2E8F0);
     final textColor = isDark ? Colors.white : BerandaScreen.textDark;
 
-    return Scaffold(
-      backgroundColor: BerandaScreen.primaryRoyalBlue,
-      body: SafeArea(
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 380),
-          reverseDuration: const Duration(milliseconds: 320),
-          switchInCurve: Curves.easeInOutCubic,
-          switchOutCurve: Curves.easeInOutCubic,
-          // TRANSISI HALUS: KOMBINASI SLIDE + FADE
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            final isSubPage = child.key == const ValueKey('SemuaKantongSubPage');
+    // BINDING POP SCOPE UNTUK MENDUKUNG TOMBOL BACK HP / GESTURE POP
+    return PopScope(
+      canPop: !_showAllKantongSubPage,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop && _showAllKantongSubPage) {
+          _handleBackPress();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: BerandaScreen.primaryRoyalBlue,
+        body: SafeArea(
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 320),
+            reverseDuration: const Duration(milliseconds: 280),
+            switchInCurve: Curves.fastOutSlowIn,
+            switchOutCurve: Curves.easeInCubic,
+            // TRANSISI SLIDE HALUS SEPERTI PERPINDAHAN HALAMAN NATIVE
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              final isSubPage = child.key == const ValueKey('SemuaKantongSubPage');
 
-            // Slide dari kanan (0.08, 0) ke (0, 0) saat masuk subpage
-            final inOffset = isSubPage
-                ? Tween<Offset>(begin: const Offset(0.06, 0.0), end: Offset.zero).animate(animation)
-                : Tween<Offset>(begin: const Offset(-0.06, 0.0), end: Offset.zero).animate(animation);
+              final Tween<Offset> slideTween = isSubPage
+                  ? Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                  : Tween<Offset>(begin: const Offset(-0.25, 0.0), end: Offset.zero);
 
-            return FadeTransition(
-              opacity: animation,
-              child: SlideTransition(
-                position: inOffset,
+              return SlideTransition(
+                position: slideTween.animate(animation),
                 child: child,
-              ),
-            );
-          },
-          child: _showAllKantongSubPage
-              ? _buildSemuaKantongSubPage(textColor, cardBg, borderColor, surfaceColor, isDark)
-              : _buildMainBerandaView(
-                  saldo,
-                  recentTransactions,
-                  textColor,
-                  cardBg,
-                  borderColor,
-                  surfaceColor,
-                  isDark,
-                ),
+              );
+            },
+            child: _showAllKantongSubPage
+                ? _buildSemuaKantongSubPage(textColor, cardBg, borderColor, surfaceColor, isDark)
+                : _buildMainBerandaView(
+                    saldo,
+                    recentTransactions,
+                    textColor,
+                    cardBg,
+                    borderColor,
+                    surfaceColor,
+                    isDark,
+                  ),
+          ),
         ),
       ),
     );
@@ -175,7 +189,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   pinned: true,
                   delegate: _CollapsingHeaderDelegate(
                     saldo: saldo,
-                    minHeight: 52.0,
+                    minHeight: 44.0, // Ukuran minHeight ultra-compact saat di-scroll
                     maxHeight: 160.0,
                   ),
                 ),
@@ -237,7 +251,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // SUB-PAGE: SEMUA KANTONG KEUANGAN
+  // SUB-PAGE: SEMUA KANTONG KEUANGAN (SUPPORT SWIPE / BACK BUTTON HP)
   // =========================================================================
   Widget _buildSemuaKantongSubPage(
     Color textColor,
@@ -315,9 +329,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
               constraints: BoxConstraints(maxWidth: isDesktop ? 1080 : 600),
               child: Column(
                 children: [
-                  // SUB-PAGE APP BAR WITH BACK BUTTON
+                  // SUB-PAGE APP BAR WITH BACK ACTION
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
                     decoration: BoxDecoration(
                       color: BerandaScreen.primaryRoyalBlue,
                       boxShadow: [
@@ -331,13 +345,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     child: Row(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _showAllKantongSubPage = false;
-                            });
-                          },
+                          onPressed: _handleBackPress,
                           icon: const Icon(LucideIcons.arrowLeft, color: Colors.white, size: 22),
-                          tooltip: 'Kembali ke Beranda',
+                          tooltip: 'Kembali',
                         ),
                         const SizedBox(width: 8),
                         const Column(
@@ -1133,7 +1143,7 @@ class TopographicContourPainter extends CustomPainter {
 }
 
 // =========================================================================
-// PROPORTIONAL COLLAPSED HEADER DELEGATE WITH EXACT 32PX TOP BAR SYMMETRY
+// ULTRA COMPACT COLLAPSED HEADER DELEGATE (PAS MEPET AVATAR, MYKAS, & BELL)
 // =========================================================================
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String saldo;
@@ -1159,7 +1169,9 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     final topBarScale = 1.0 - (progress * 0.18);
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
-    final topPosition = 8.0 + ((1.0 - progress) * 4.0);
+    
+    // Posisi top mepet presisi saat collapsed
+    final topPosition = 6.0 + ((1.0 - progress) * 6.0);
 
     return Stack(
       fit: StackFit.expand,
@@ -1172,7 +1184,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
 
-        // TOP APP BAR (Ukuran Avatar, MyKas, & Bell disamakan presisi 32x32px)
+        // TOP APP BAR (Mepet Presisi saat Collapsed)
         Positioned(
           top: topPosition,
           left: 20,
@@ -1181,7 +1193,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              // 1. Avatar User (Ukuran disamakan 32x32px)
+              // 1. Avatar User
               Align(
                 alignment: Alignment.centerLeft,
                 child: Transform.scale(
@@ -1207,7 +1219,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ),
 
-              // 2. Title MyKas (Tinggi disamakan 32px)
+              // 2. Title MyKas
               Align(
                 alignment: Alignment.center,
                 child: Transform.scale(
@@ -1230,7 +1242,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ),
 
-              // 3. Bell Notifikasi (Ukuran disamakan 32x32px)
+              // 3. Bell Notifikasi
               Align(
                 alignment: Alignment.centerRight,
                 child: Transform.scale(
