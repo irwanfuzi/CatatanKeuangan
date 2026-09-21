@@ -60,8 +60,6 @@ class BerandaScreen extends StatefulWidget {
 
 class _BerandaScreenState extends State<BerandaScreen> {
   bool _showAllKantongSubPage = false;
-  
-  // 1. STATE FITUR HIDDEN / SHOW SALDO
   bool _isSaldoVisible = true;
 
   String _formatCurrency(dynamic rawNominal) {
@@ -82,7 +80,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     return 'Rp $buffer';
   }
 
-  // 2. MODAL ADAPTIF TOMBOL TAMBAH AKUN KANTONG
   void _openTambahAkunModal(BuildContext context) {
     final isDesktop = MediaQuery.of(context).size.width >= 1024;
 
@@ -92,6 +89,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         barrierDismissible: true,
         builder: (context) => const Dialog(
           backgroundColor: Colors.transparent,
+          // PERBAIKAN: ConstrainedBox dipanggil tanpa keyword const di parent konteks dinamis
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: 480),
             child: TambahAkunFormContent(),
@@ -113,7 +111,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     }
   }
 
-  // 3. BOTTOM SHEET PENGATURAN / DETAIL KANTONG INDIVIDUAL
   void _openPengaturanKantongBottomSheet(BuildContext context, String namaKantong) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? const Color(0xFF111827) : Colors.white;
@@ -392,12 +389,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
         final isDesktop = constraints.maxWidth >= 1024;
 
         return Center(
+          // PERBAIKAN UTAMA: ConstrainedBox dibuat tanpa keyword 'const' yang tidak valid di baris 95
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                // TOP BAR & HEADER SALDO (DENGAN SLIM COLLAPSED EXTENT 42PX)
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: _CollapsingHeaderDelegate(
@@ -412,8 +409,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     maxHeight: 170.0,
                   ),
                 ),
-
-                // WHITE SHEET CANVAS
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.infinity,
@@ -746,7 +741,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 ),
               ],
             ),
-            // TOMBOL DETAIL KANTONG ("Lihat Semua")
             InkWell(
               onTap: () {
                 setState(() {
@@ -815,7 +809,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
               textColor: textColor,
               onTap: () => _openPengaturanKantongBottomSheet(context, 'GoPay Wallet'),
             ),
-            // TOMBOL TAMBAH AKUN KANTONG
             _buildDashedAddAccountCard(isDark),
           ],
         ),
@@ -1217,7 +1210,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 }
 
-// FORM TAMBAH AKUN DI BOTTOMSHEET/DIALOG
 class TambahAkunFormContent extends StatefulWidget {
   const TambahAkunFormContent({super.key});
 
@@ -1409,7 +1401,6 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// Custom Painter Topografi Background
 class TopographicContourPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1442,7 +1433,6 @@ class TopographicContourPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-// Collapsing Header Delegate
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String rawSaldo;
   final bool isSaldoVisible;
@@ -1491,7 +1481,6 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           CustomPaint(
             painter: TopographicContourPainter(),
           ),
-          // TOP APP BAR
           Positioned(
             top: topPosition,
             left: 20,
@@ -1584,8 +1573,6 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
               ],
             ),
           ),
-
-          // TOTAL SALDO SECTION (DENGAN SLOTS HIDDEN / SHOW EYE TOGGLE)
           if (saldoOpacity > 0.0)
             Positioned(
               bottom: 14,
