@@ -6,7 +6,7 @@ import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/riwayat/riwayat_screen.dart';
 import 'screens/profil/profil_screen.dart';
-import 'widgets/mk_bottom_nav_bar.dart'; // MENGIMPOR WIDGET & SHOWCTABOTTOMSHEET
+import 'widgets/mk_bottom_nav_bar.dart'; // IMPORT PENTING: MENGHUBUNGKAN MKBottomNavBar & showCtaBottomSheet
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
@@ -60,7 +60,7 @@ class _AppState extends State<App> {
   }
 
   void _onAddTapped() {
-    // Memanggil fungsi dari widgets/mk_bottom_nav_bar.dart
+    // Dipanggil langsung dari top-level function di lib/widgets/mk_bottom_nav_bar.dart
     showCtaBottomSheet(context);
   }
 
@@ -99,7 +99,7 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
+          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight, // PERBAIKAN: Menggunakan Koma (,)
           extendBody: true,
           body: Row(
             children: [
