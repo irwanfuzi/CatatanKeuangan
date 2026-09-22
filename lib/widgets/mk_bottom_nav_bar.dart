@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../services/api_service.dart';
 
-/// Top-Level Function agar bisa dipanggil secara publik dari app.dart maupun file lainnya
+/// Top-Level Public Function agar dapat dipanggil langsung dari lib/app.dart
 void showCtaBottomSheet(BuildContext context) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -138,7 +138,7 @@ class MKBottomNavBar extends StatelessWidget {
   }
 }
 
-/// Form Modal Tambah Transaksi (Lengkap dengan Pill Indicator)
+/// Form Modal Tambah Transaksi (Lengkap dengan Pill Line Indicator)
 class FormTambahTransaksi extends StatefulWidget {
   const FormTambahTransaksi({super.key});
 
@@ -212,7 +212,7 @@ class _FormTambahTransaksiState extends State<FormTambahTransaksi> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Drag Handle Bar / Pill Line Indicator
+          // PILL LINE DRAG INDICATOR
           Center(
             child: Container(
               width: 42,
