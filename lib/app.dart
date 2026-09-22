@@ -23,7 +23,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _currentIndex = 0;
 
-  // Fallback Data Kas Utama
   Map<String, dynamic> _summaryData = {
     'saldo': 'Rp 11.250.000',
     'pemasukan': 'Rp 5.250.000',
@@ -49,9 +48,7 @@ class _AppState extends State<App> {
           _summaryData = data;
         });
       }
-    } catch (_) {
-      // Menggunakan fallback data jika server API sedang bermasalah
-    }
+    } catch (_) {}
   }
 
   @override
@@ -67,18 +64,17 @@ class _AppState extends State<App> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // DAFTAR HALAMAN UTAMA (BEBAS PLACEHOLDER)
         final List<Widget> pages = [
           BerandaScreen(
             summaryData: _summaryData,
             onNavigateToAnalisis: () {
               setState(() {
-                _currentIndex = 1; // Pindah langsung ke Tab Analisis
+                _currentIndex = 1;
               });
             },
           ),
           AnalisisScreen(summaryData: _summaryData),
-          RiwayatTransaksiScreen(summaryData: _summaryData), // HALAMAN RIWAYAT REAL
+          RiwayatTransaksiScreen(summaryData: _summaryData),
           ProfilScreen(
             onThemeChanged: widget.onThemeChanged,
             onLogout: () {
@@ -93,7 +89,6 @@ class _AppState extends State<App> {
           backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
           body: Row(
             children: [
-              // 1. WEB DESKTOP PERSISTENT SIDEBAR NAVIGATION
               if (isDesktop)
                 Container(
                   width: 260,
@@ -138,8 +133,6 @@ class _AppState extends State<App> {
                     ],
                   ),
                 ),
-
-              // 2. MAIN VIEWPORT DENGAN INDEXED STACK (Preserves State Across Tab Switches)
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -148,8 +141,6 @@ class _AppState extends State<App> {
               ),
             ],
           ),
-
-          // 3. MOBILE NATIVE & PWA BOTTOM NAVIGATION BAR
           bottomNavigationBar: isDesktop
               ? null
               : Container(
@@ -200,7 +191,6 @@ class _AppState extends State<App> {
     );
   }
 
-  // WIDGET ITEM NAVIGASI SIDEBAR DESKTOP
   Widget _buildDesktopNavItem(int index, IconData icon, String label) {
     final isSelected = _currentIndex == index;
     return Padding(
