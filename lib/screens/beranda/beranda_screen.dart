@@ -303,7 +303,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         }
       },
       child: Scaffold(
-        // WARNA DASAR HEADER BIRU ROYAL KONSISTEN (SAMA SEPERTI GOPAY)
+        // WARNA DASAR HEADER BIRU ROYAL KONSISTEN
         backgroundColor: AppTheme.brandPrimary,
         body: SafeArea(
           child: ScrollConfiguration(
@@ -1167,7 +1167,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           onTap: () => _openTambahAkunModal(context),
           borderRadius: BorderRadius.circular(16),
           child: Column(
-            mainAxisAlignment: Center,
+            mainAxisAlignment: MainAxisAlignment.center, // DIPERBAIKI: Menggunakan Enum MainAxisAlignment.center
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
