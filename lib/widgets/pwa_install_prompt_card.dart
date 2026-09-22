@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
-/// Banner Prompt PWA MyKas (Safe for Web Desktop & Mobile PWA)
+/// Banner Prompt PWA MyKas (Safe for Web & Mobile)
 class PwaInstallPromptCard extends StatefulWidget {
   const PwaInstallPromptCard({super.key});
 
