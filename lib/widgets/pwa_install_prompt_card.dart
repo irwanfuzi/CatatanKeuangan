@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
-/// Widget Banner Prompt PWA MyKas
-/// Aman digunakan di Android/iOS Native, PWA Mobile, maupun Web Desktop Dashboard.
+/// Banner Prompt PWA MyKas (Safe for Web Desktop & Mobile PWA)
 class PwaInstallPromptCard extends StatefulWidget {
   const PwaInstallPromptCard({super.key});
 
@@ -19,7 +18,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   @override
   void initState() {
     super.initState();
-    // Jalankan listener HANYA jika dijalankan di Web Browser
     if (kIsWeb) {
       _initPwaSafeListener();
     }
@@ -27,7 +25,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   void _initPwaSafeListener() {
     try {
-      // Penanganan aman ketersediaan prompt PWA tanpa membekukan runtime CanvasKit/HTML
       Future.delayed(const Duration(milliseconds: 600), () {
         if (mounted) {
           setState(() {
@@ -39,7 +36,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   }
 
   void _promptInstall() {
-    // Memicu prompt instalasi PWA browser bawaan
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Gunakan menu "Add to Home Screen" pada browser Anda.'),
@@ -52,7 +48,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Pada APK/iOS Native atau jika ditutup user, widget ini otomatis 0px
     if (!kIsWeb || !_canInstall || _isDismissed) {
       return const SizedBox.shrink();
     }
@@ -85,7 +80,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
       ),
       child: Row(
         children: [
-          // Container Logo
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -105,7 +99,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             ),
           ),
           const SizedBox(width: 12),
-          // Teks Deskripsi PWA
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +124,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             ),
           ),
           const SizedBox(width: 8),
-          // Tombol Aksi Install
           ElevatedButton(
             onPressed: _promptInstall,
             style: ElevatedButton.styleFrom(
@@ -149,7 +141,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             ),
           ),
           const SizedBox(width: 4),
-          // Tombol Tutup Banner
           IconButton(
             icon: const Icon(Icons.close_rounded, color: Colors.white70, size: 18),
             onPressed: () {
