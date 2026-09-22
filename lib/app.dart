@@ -7,7 +7,7 @@ import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/riwayat/riwayat_screen.dart';
 import 'screens/profil/profil_screen.dart';
-import 'widgets/mk_bottom_nav_bar.dart'; // Menghubungkan MKBottomNavBar 5-Tombol & Modal CTA
+import 'widgets/mk_bottom_nav_bar.dart'; // MENGIMPOR WIDGET & SHOWCTABOTTOMSHEET
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
@@ -61,7 +61,7 @@ class _AppState extends State<App> {
   }
 
   void _onAddTapped() {
-    // Membuka modal bottom sheet tambah transaksi cepat
+    // Dipanggil dari widgets/mk_bottom_nav_bar.dart
     showCtaBottomSheet(context);
   }
 
@@ -78,7 +78,6 @@ class _AppState extends State<App> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // 4 Halaman Utama
         final List<Widget> pages = [
           BerandaScreen(
             summaryData: _summaryData,
@@ -101,12 +100,10 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight;
-          // extendBody: true membuat floating navbar melayang halus di atas konten
+          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight, // PERBAIKAN SINTAKS
           extendBody: true,
           body: Row(
             children: [
-              // DESKTOP NAVIGATION RAIL
               if (isDesktop)
                 Container(
                   width: 260,
@@ -173,7 +170,6 @@ class _AppState extends State<App> {
                     ],
                   ),
                 ),
-              // CONTENT BODY
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -182,7 +178,6 @@ class _AppState extends State<App> {
               ),
             ],
           ),
-          // MOBILE FLOATING CURVED NAVBAR 5 TOMBOL
           bottomNavigationBar: isDesktop
               ? null
               : MKBottomNavBar(
