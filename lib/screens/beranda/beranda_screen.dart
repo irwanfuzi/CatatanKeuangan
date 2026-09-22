@@ -303,8 +303,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         }
       },
       child: Scaffold(
-        // WARNA DASAR KONSISTEN BERSAMA SHEET: LIGHT = ROYAL BLUE, DARK = DEEP CHARCOAL
-        backgroundColor: isDark ? const Color(0xFF0A192F) : AppTheme.brandPrimary,
+        backgroundColor: surfaceColor,
         body: SafeArea(
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -345,7 +344,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW
+  // MAIN BERANDA VIEW (COLLAPSING TOP BAR KANONIK ALA BANK JAGO - NO OVERPULL)
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -366,11 +365,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
             child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
+              // CLAMPING SCROLL PHYSICS: MENGHILANGKAN EFFECT PULL / ELASTIC OVERSCROLL
+              physics: const ClampingScrollPhysics(),
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _CollapsingHeaderDelegate(
+                  delegate: _BankJagoStyleHeaderDelegate(
                     rawSaldo: rawSaldo,
                     isSaldoVisible: _isSaldoVisible,
                     onToggleSaldoVisibility: () {
@@ -378,8 +378,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         _isSaldoVisible = !_isSaldoVisible;
                       });
                     },
-                    minHeight: 48.0,
-                    maxHeight: 118.0, // TIGHT-FIT PRECISION (MENGHILANGKAN CELAH SPASI KOSONG BIRU)
+                    minHeight: 52.0,  // TINGGI SAAT MEMENGIKUTI SCROLL (COLLAPSED TOP BAR)
+                    maxHeight: 160.0, // TINGGI FULL UTUH SAAT DI TOP
                     isDark: isDark,
                   ),
                 ),
@@ -388,7 +388,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: surfaceColor,
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                     ),
                     padding: EdgeInsets.all(isDesktop ? 32.0 : 20.0),
                     child: Column(
@@ -1580,8 +1580,8 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// HEADER DELEGATE BERANDA - WARNA BIRU LOCKED DI SEMUA MODE (PERSIS GOPAY)
-class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
+// HEADER DELEGATE BANK JAGO STYLE - MENGECIL SAAT LAYAR DISCROLL TANPA BISA DITARIK (NO OVERPULL)
+class _BankJagoStyleHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String rawSaldo;
   final bool isSaldoVisible;
   final VoidCallback onToggleSaldoVisibility;
@@ -1589,7 +1589,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double maxHeight;
   final bool isDark;
 
-  _CollapsingHeaderDelegate({
+  _BankJagoStyleHeaderDelegate({
     required this.rawSaldo,
     required this.isSaldoVisible,
     required this.onToggleSaldoVisibility,
@@ -1609,16 +1609,17 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
     final rawProgress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
     final progress = Curves.easeInOutCubic.transform(rawProgress);
 
+    // KETIKA SCROLL BERJALAN, SALDO FADE OUT MULUS
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
     final topPosition = (1.0 - progress) * 10.0 + 2.0;
 
-    // WARNA HEADER DILOCK PADA ROYAL SAPPHIRE BLUE KHAS MYKAS (LOCKED DI MODE LIGHT MAUPUN DARK)
+    // WARNA HEADER DILOCK ROYAL BLUE MAUPUN DI LIGHT/DARK MODE
     const BoxDecoration headerDecoration = BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF0052FF), // Royal Blue Primary
+          Color(0xFF0052FF), // Royal Blue Khas MyKas
           Color(0xFF0038FF), // Deep Sapphire Blue
         ],
       ),
@@ -1626,10 +1627,10 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     return Container(
       decoration: headerDecoration.copyWith(
-        boxShadow: shrinkOffset > 30
+        boxShadow: shrinkOffset > 20
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withOpacity(0.18),
                   blurRadius: 8,
                   offset: const Offset(0, 3),
                 ),
@@ -1738,7 +1739,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           if (saldoOpacity > 0.0)
             Positioned(
-              bottom: 4, // TIGHT-FIT: POSISI PAS MENEMPEL DI ATAS KANVAS MELENGKUNG
+              bottom: 12,
               left: 24,
               right: 24,
               child: Opacity(
@@ -1810,7 +1811,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant _CollapsingHeaderDelegate oldDelegate) {
+  bool shouldRebuild(covariant _BankJagoStyleHeaderDelegate oldDelegate) {
     return oldDelegate.rawSaldo != rawSaldo ||
         oldDelegate.isSaldoVisible != isSaldoVisible ||
         oldDelegate.minHeight != minHeight ||
