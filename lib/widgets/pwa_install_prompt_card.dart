@@ -22,9 +22,9 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   }
 
   void _initPwaSafeListener() {
-    // Fail-safe listener untuk PWA Web tanpa risiko runtime freeze
+    // Penanganan aman ketersediaan prompt PWA tanpa membekukan runtime
     try {
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 600), () {
         if (mounted) {
           setState(() {
             _canInstall = true;
@@ -35,12 +35,12 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   }
 
   void _promptInstall() {
-    // Memanggil dialog bawaan browser PWA jika tersedia
+    // Memicu prompt instalasi browser bawaan
   }
 
   @override
   Widget build(BuildContext context) {
-    // Di Mobile Native (APK/iOS), widget ini otomatis kosong (0px)
+    // Pada APK/iOS Native, widget ini otomatis tersembunyi (0px)
     if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
