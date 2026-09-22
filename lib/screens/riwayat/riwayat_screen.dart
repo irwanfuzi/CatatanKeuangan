@@ -27,6 +27,35 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     super.dispose();
   }
 
+  // ANTI-FALLBACK "TRANSAKSI": BACA MULTI-KEY TERMASUK 'KETERANGAN' DARI GOOGLE SHEETS
+  String _getItemTitle(Map<String, dynamic> item) {
+    final title = item['Keterangan'] ?? 
+                  item['keterangan'] ?? 
+                  item['judul'] ?? 
+                  item['nama'] ?? 
+                  item['deskripsi'] ?? 
+                  item['title'];
+    
+    if (title != null && title.toString().trim().isNotEmpty) {
+      // Clean string jika ada karakter spasi berlebih
+      return title.toString().trim();
+    }
+    return 'Transaksi Kas';
+  }
+
+  // AMBIL KATEGORI DAN BERSIHKAN DARI EMOJI BILA ADA (Contoh: "🍔 Makanan" -> "Makanan")
+  String _getItemCategory(Map<String, dynamic> item) {
+    final cat = item['Kategori'] ?? item['kategori'] ?? 'Lainnya';
+    return cat.toString().replaceAll(RegExp(r'[\u{1F300}-\u{1F9FF}]', unicode: true), '').trim();
+  }
+
+  // AMBIL SUMBER / KANTONG (Contoh: "Rekening Bank", "Kantong Tunai")
+  String _getItemSource(Map<String, dynamic> item) {
+    final source = item['Sumber'] ?? item['sumber'] ?? item['Kantong'] ?? item['kantong'] ?? item['F'] ?? 'Kas Utama';
+    return source.toString().replaceAll(RegExp(r'[\u{1F300}-\u{1F9FF}]', unicode: true), '').trim();
+  }
+
+  // FORMAT NOMINAL RUPIAH
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp0';
     String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
@@ -45,6 +74,25 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     return 'Rp$buffer';
   }
 
+  // IKON DINAMIS SESUAI KATEGORI KAS GOOGLE SHEETS
+  IconData _getCategoryIcon(String kategori) {
+    final katLower = kategori.toLowerCase();
+    if (katLower.contains('makan') || katLower.contains('kuliner') || katLower.contains('food')) {
+      return LucideIcons.utensils;
+    } else if (katLower.contains('gaji') || katLower.contains('payroll') || katLower.contains('income')) {
+      return LucideIcons.wallet;
+    } else if (katLower.contains('belanja') || katLower.contains('supermarket') || katLower.contains('mart')) {
+      return LucideIcons.shoppingBag;
+    } else if (katLower.contains('trans') || katLower.contains('bensin') || katLower.contains('ride')) {
+      return LucideIcons.car;
+    } else if (katLower.contains('tagihan') || katLower.contains('token') || katLower.contains('listrik')) {
+      return LucideIcons.zap;
+    } else if (katLower.contains('pindah') || katLower.contains('transfer') || katLower.contains('bank')) {
+      return LucideIcons.arrowLeftRight;
+    }
+    return LucideIcons.receipt;
+  }
+
   void _showDetailTransaksiModal(BuildContext context, Map<String, dynamic> item) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppTheme.cardDark : AppTheme.cardLight;
@@ -52,8 +100,12 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     final textMuted = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
     final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
 
-    final isPemasukan = item['jenis'].toString().toLowerCase().contains('pemasukan');
-    final formattedNominal = _formatCurrency(item['nominal']);
+    final jenis = (item['Jenis'] ?? item['jenis'] ?? '').toString().toLowerCase();
+    final isPemasukan = jenis.contains('pema') || jenis.contains('in');
+    final formattedNominal = _formatCurrency(item['Nominal'] ?? item['nominal']);
+    final title = _getItemTitle(item);
+    final kategori = _getItemCategory(item);
+    final sumber = _getItemSource(item);
 
     showModalBottomSheet(
       context: context,
@@ -97,7 +149,8 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                item['judul']?.toString() ?? 'Detail Transaksi',
+                title,
+                textAlign: TextAlign.center,
                 style: GoogleFonts.urbanist(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -121,10 +174,10 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
               const SizedBox(height: 24),
               Divider(color: borderColor, height: 1),
               const SizedBox(height: 16),
-              _buildDetailRow('Tanggal & Waktu', item['tanggal']?.toString() ?? 'Hari ini', textColor, textMuted),
-              _buildDetailRow('Kategori', item['kategori']?.toString() ?? 'Umum', textColor, textMuted),
-              _buildDetailRow('Sumber Dana', item['kantong']?.toString() ?? 'Utama (Kas)', textColor, textMuted),
-              _buildDetailRow('ID Transaksi', '#MK-2026-${(item['judul'].hashCode.abs() % 10000)}', textColor, textMuted),
+              _buildDetailRow('Tanggal & Waktu', item['Tanggal']?.toString() ?? item['tanggal']?.toString() ?? 'Hari ini', textColor, textMuted),
+              _buildDetailRow('Kategori', kategori, textColor, textMuted),
+              _buildDetailRow('Sumber Dana', sumber, textColor, textMuted),
+              _buildDetailRow('ID Transaksi', '#MK-2026-${(title.hashCode.abs() % 10000)}', textColor, textMuted),
               const SizedBox(height: 28),
               SizedBox(
                 width: double.infinity,
@@ -183,25 +236,25 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                 : (widget.summaryData ?? {});
 
             final List rawList = data['riwayat'] as List? ?? [
-              {'judul': 'Gudeg Bu Dani Solo', 'nominal': '45000', 'jenis': 'pengeluaran', 'kategori': 'Kuliner', 'tanggal': 'Hari Ini, 12:45'},
-              {'judul': 'Gaji Bulanan Utama', 'nominal': '8500000', 'jenis': 'pemasukan', 'kategori': 'Gaji', 'tanggal': '25 Agu 2026'},
-              {'judul': 'Bubur Ayam Spesial', 'nominal': '22000', 'jenis': 'pengeluaran', 'kategori': 'Kuliner', 'tanggal': '24 Agu 2026'},
-              {'judul': 'GoFood Indonesia', 'nominal': '68000', 'jenis': 'pengeluaran', 'kategori': 'Layanan Antar', 'tanggal': '24 Agu 2026'},
-              {'judul': 'Supermarket Transmart', 'nominal': '235000', 'jenis': 'pengeluaran', 'kategori': 'Kebutuhan', 'tanggal': '22 Agu 2026'},
-              {'judul': 'Transfer Ke Rekening BSI', 'nominal': '500000', 'jenis': 'pengeluaran', 'kategori': 'Pindah Kas', 'tanggal': '20 Agu 2026'},
+              {'Keterangan': 'Uang Bulanan', 'Nominal': '2500000', 'Jenis': 'Pemasukan', 'Kategori': 'Gaji', 'Tanggal': '28/06/2026 7:00:00'},
+              {'Keterangan': 'CO Masker', 'Nominal': '68000', 'Jenis': 'Pengeluaran', 'Kategori': 'Lainnya', 'Tanggal': '28/06/2026 7:00:00'},
+              {'Keterangan': 'Aeon Mall', 'Nominal': '111812', 'Jenis': 'Pengeluaran', 'Kategori': 'Makanan', 'Tanggal': '28/06/2026 7:00:00'},
+              {'Keterangan': 'Kerupuk+UC1000', 'Nominal': '13000', 'Jenis': 'Pengeluaran', 'Kategori': 'Makanan', 'Tanggal': '28/06/2026 7:00:00'},
+              {'Keterangan': 'Nasi Jinggo', 'Nominal': '30000', 'Jenis': 'Pengeluaran', 'Kategori': 'Makanan', 'Tanggal': '27/06/2026 7:00:00'},
+              {'Keterangan': 'Bensin', 'Nominal': '25000', 'Jenis': 'Pengeluaran', 'Kategori': 'Transport', 'Tanggal': '27/06/2026 7:00:00'},
             ];
 
             final filteredList = rawList.where((item) {
-              final jenis = item['jenis'].toString().toLowerCase();
-              final judul = item['judul'].toString().toLowerCase();
-              final kategori = item['kategori'].toString().toLowerCase();
+              final jenis = (item['Jenis'] ?? item['jenis'] ?? '').toString().toLowerCase();
+              final title = _getItemTitle(item).toLowerCase();
+              final kategori = _getItemCategory(item).toLowerCase();
 
               final matchesFilter = _selectedFilter == 'semua' ||
-                  (_selectedFilter == 'pemasukan' && jenis.contains('pemasukan')) ||
-                  (_selectedFilter == 'pengeluaran' && jenis.contains('pengeluaran'));
+                  (_selectedFilter == 'pemasukan' && (jenis.contains('pema') || jenis.contains('in'))) ||
+                  (_selectedFilter == 'pengeluaran' && (jenis.contains('peng') || jenis.contains('out')));
 
               final matchesSearch = _searchQuery.isEmpty ||
-                  judul.contains(_searchQuery.toLowerCase()) ||
+                  title.contains(_searchQuery.toLowerCase()) ||
                   kategori.contains(_searchQuery.toLowerCase());
 
               return matchesFilter && matchesSearch;
@@ -371,8 +424,12 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     required bool isDark,
     required VoidCallback onTap,
   }) {
-    final isPemasukan = item['jenis'].toString().toLowerCase().contains('pemasukan');
-    final formattedNominal = _formatCurrency(item['nominal']);
+    final jenis = (item['Jenis'] ?? item['jenis'] ?? '').toString().toLowerCase();
+    final isPemasukan = jenis.contains('pema') || jenis.contains('in');
+    final formattedNominal = _formatCurrency(item['Nominal'] ?? item['nominal']);
+    final title = _getItemTitle(item);
+    final kategori = _getItemCategory(item);
+    final tanggal = (item['Tanggal'] ?? item['tanggal'] ?? '').toString();
 
     return Container(
       decoration: BoxDecoration(
@@ -389,28 +446,31 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
             padding: const EdgeInsets.all(14.0),
             child: Row(
               children: [
+                // ICON KATEGORI DINAMIS
                 Container(
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
                     color: isPemasukan
                         ? const Color(0xFF10B981).withOpacity(0.12)
-                        : (isDark ? const Color(0xFF334155) : const Color(0xFFF1F5F9)),
+                        : (isDark ? const Color(0xFF1E293B) : const Color(0xFFF1F5F9)),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
-                    isPemasukan ? LucideIcons.arrowDownLeft : LucideIcons.arrowUpRight,
+                    isPemasukan ? LucideIcons.arrowDownLeft : _getCategoryIcon(kategori),
                     color: isPemasukan ? const Color(0xFF10B981) : (isDark ? Colors.white70 : const Color(0xFF475569)),
                     size: 20,
                   ),
                 ),
                 const SizedBox(width: 14),
+
+                // JUDUL DARI KOLOM KETERANGAN GOOGLE SHEETS
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item['judul']?.toString() ?? 'Transaksi',
+                        title,
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
@@ -420,13 +480,28 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 3),
-                      Text(
-                        '${item['tanggal']} • ${item['kategori']}',
-                        style: TextStyle(fontSize: 10, color: textMuted, fontWeight: FontWeight.w500),
+                      Row(
+                        children: [
+                          if (tanggal.isNotEmpty) ...[
+                            Text(
+                              tanggal.split(' ')[0], // Ambil bagian tanggal
+                              style: TextStyle(fontSize: 10, color: textMuted, fontWeight: FontWeight.w500),
+                            ),
+                            Text(' • ', style: TextStyle(fontSize: 10, color: textMuted)),
+                          ],
+                          Icon(LucideIcons.tag, size: 10, color: textMuted),
+                          const SizedBox(width: 3),
+                          Text(
+                            kategori,
+                            style: TextStyle(fontSize: 10, color: textMuted, fontWeight: FontWeight.w500),
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
+
+                // NOMINAL TRANSAKSI
                 Text(
                   isPemasukan ? '+$formattedNominal' : '-$formattedNominal',
                   style: GoogleFonts.urbanist(
