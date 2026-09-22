@@ -1,0 +1,6 @@
+# Abaikan folder build biasa
+/build/
+
+# PENGECUALIAN: Izinkan folder build/web ter-push agar Vercel & GitHub Pages bisa baca
+!/build/web
+
