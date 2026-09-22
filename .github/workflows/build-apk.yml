@@ -1,4 +1,4 @@
-name: Deploy Flutter PWA Web
+name: Build & Deploy Flutter PWA Web
 
 on:
   push:
@@ -16,11 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Tarik Code Repository
         uses: actions/checkout@v4
 
       - name: Setup Java JDK
@@ -29,7 +29,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter (3.24.3)
+      - name: Setup Flutter (Lock Version 3.24.3)
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
@@ -38,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # BUILD FLUTTER WEB UNTUK GITHUB PAGES
+      # KOMPILASI FLUTTER WEB DI GITHUB ACTIONS RUNNER
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --no-tree-shake-icons
 
@@ -47,6 +47,16 @@ jobs:
         with:
           path: build/web
 
+  deploy-web:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    # PERBAIKAN UTAMA: WAJIB ADA DEKLARASI ENVIRONMENT
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
