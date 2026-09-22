@@ -1,5 +1,6 @@
+
 {
-  "buildCommand": "flutter build web --release --base-href \"/\" --no-tree-shake-icons",
+  "buildCommand": null,
   "outputDirectory": "build/web",
   "framework": null,
   "rewrites": [
