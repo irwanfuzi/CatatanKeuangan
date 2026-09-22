@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../services/api_service.dart';
 
-/// Top-Level Function untuk membuka modal tambah transaksi
+/// Top-Level Function agar bisa dipanggil secara publik dari app.dart maupun file lainnya
 void showCtaBottomSheet(BuildContext context) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -62,7 +62,7 @@ class MKBottomNavBar extends StatelessWidget {
             color: Colors.black.withAlpha(isDark ? 80 : 25),
             blurRadius: 20,
             offset: const Offset(0, 8),
-          )
+          ),
         ],
       ),
       child: SafeArea(
@@ -105,7 +105,7 @@ class MKBottomNavBar extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: isSelected ? const Color(0xFF0052FF) : Colors.grey,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -129,7 +129,7 @@ class MKBottomNavBar extends StatelessWidget {
               color: const Color(0xFF0052FF).withAlpha(100),
               blurRadius: 12,
               offset: const Offset(0, 4),
-            )
+            ),
           ],
         ),
         child: const Icon(FontAwesomeIcons.plus, color: Colors.white, size: 18),
@@ -138,7 +138,7 @@ class MKBottomNavBar extends StatelessWidget {
   }
 }
 
-/// Form Modal Tambah Transaksi
+/// Form Modal Tambah Transaksi (Lengkap dengan Pill Indicator)
 class FormTambahTransaksi extends StatefulWidget {
   const FormTambahTransaksi({super.key});
 
