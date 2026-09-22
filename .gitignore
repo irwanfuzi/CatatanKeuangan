@@ -16,7 +16,7 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# Android Studio / Android
+# Android / iOS
 android/key.properties
 android/app/key.properties
 android/app/local.properties
@@ -25,6 +25,8 @@ android/captures/
 android/gradleApp.setting
 android/m2/
 .gradle/
+ios/Runner.xcodeproj/project.xcworkspace
+ios/Runner.gitignore
 
 # Flutter / Dart
 .dart_tool/
@@ -33,10 +35,9 @@ android/m2/
 .packages
 .pub-cache/
 .pub/
-/build/
 
-# PENGECUALIAN: Izinkan folder build/web untuk Vercel & GitHub Pages
-!/build/web
+# Abaikan murni seluruh folder build
+/build/
 
 # Web
 web/bundle*.js
