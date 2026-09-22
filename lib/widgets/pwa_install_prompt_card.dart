@@ -22,7 +22,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   }
 
   void _initPwaSafeListener() {
-    // Penanganan aman ketersediaan prompt PWA tanpa membekukan runtime
     try {
       Future.delayed(const Duration(milliseconds: 600), () {
         if (mounted) {
@@ -35,12 +34,11 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   }
 
   void _promptInstall() {
-    // Memicu prompt instalasi browser bawaan
+    // Pemicu pendaftaran PWA prompt bawaan browser
   }
 
   @override
   Widget build(BuildContext context) {
-    // Pada APK/iOS Native, widget ini otomatis tersembunyi (0px)
     if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
