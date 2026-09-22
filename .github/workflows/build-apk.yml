@@ -38,9 +38,9 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # BUILD FLUTTER WEB KHUSUS GITHUB PAGES
+      # BUILD FLUTTER WEB UNTUK GITHUB PAGES
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --no-tree-shake-icons[span_1](start_span)[span_1](end_span)
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --no-tree-shake-icons
 
       - name: Upload Web Artifact
         uses: actions/upload-pages-artifact@v3
