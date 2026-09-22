@@ -6,7 +6,7 @@ import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/riwayat/riwayat_screen.dart';
 import 'screens/profil/profil_screen.dart';
-import 'widgets/mk_bottom_nav_bar.dart'; // IMPORT PENTING: MENGHUBUNGKAN MKBottomNavBar & showCtaBottomSheet
+import 'widgets/mk_bottom_nav_bar.dart';
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
@@ -60,7 +60,6 @@ class _AppState extends State<App> {
   }
 
   void _onAddTapped() {
-    // Dipanggil langsung dari top-level function di lib/widgets/mk_bottom_nav_bar.dart
     showCtaBottomSheet(context);
   }
 
@@ -99,8 +98,8 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight, // PERBAIKAN: Menggunakan Koma (,)
-          extendBody: true,
+          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
+          extendBody: false, // DOCKED DESIGN: Konten beranda rapat di atas docked navbar
           body: Row(
             children: [
               if (isDesktop)
