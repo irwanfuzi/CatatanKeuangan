@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-// Import Screen Resmi
 import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
-import 'screens/profil/profil_screen.dart'; // <-- TERHUBUNG KELAS PROFIL
+import 'screens/profil/profil_screen.dart';
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
 class App extends StatefulWidget {
-  const App({super.key});
+  // 1. Tambahkan parameter callback ini
+  final Function(bool isDark)? onThemeChanged;
+
+  const App({
+    super.key,
+    this.onThemeChanged,
+  });
 
   @override
   State<App> createState() => _AppState();
@@ -18,7 +23,6 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _currentIndex = 0;
 
-  // Default Fallback Data agar UI Beranda TIDAK PERNAH Kosong
   Map<String, dynamic> _summaryData = {
     'saldo': 'Rp 11.250.000',
     'pemasukan': 'Rp 5.250.000',
@@ -44,9 +48,7 @@ class _AppState extends State<App> {
           _summaryData = data;
         });
       }
-    } catch (_) {
-      // Menggunakan fallback data jika jaringan bermasalah
-    }
+    } catch (_) {}
   }
 
   @override
@@ -63,7 +65,6 @@ class _AppState extends State<App> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // INDEX 3 MEMANGGIL PROFILSCREEN() ASLI
         final List<Widget> pages = [
           BerandaScreen(
             summaryData: _summaryData,
@@ -75,9 +76,10 @@ class _AppState extends State<App> {
           ),
           AnalisisScreen(summaryData: _summaryData),
           _buildDompetPlaceholderPage(isDark, textColor, subTextColor),
+          // 2. Teruskan widget.onThemeChanged ke ProfilScreen
           ProfilScreen(
+            onThemeChanged: widget.onThemeChanged,
             onLogout: () {
-              // Reset ke tab pertama jika logout
               setState(() {
                 _currentIndex = 0;
               });
@@ -89,7 +91,6 @@ class _AppState extends State<App> {
           backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
           body: Row(
             children: [
-              // 1. DESKTOP PERSISTENT SIDEBAR
               if (isDesktop)
                 Container(
                   width: 260,
@@ -134,8 +135,6 @@ class _AppState extends State<App> {
                     ],
                   ),
                 ),
-
-              // 2. MAIN VIEWPORT (INDEXED STACK MEMELIHARA STATE TAB)
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -144,8 +143,6 @@ class _AppState extends State<App> {
               ),
             ],
           ),
-
-          // 3. MOBILE BOTTOM NAVIGATION BAR
           bottomNavigationBar: isDesktop
               ? null
               : Container(
