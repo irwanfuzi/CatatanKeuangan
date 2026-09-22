@@ -1,4 +1,4 @@
-name: Build Flutter APK & Deploy Web
+name: Deploy Flutter PWA Web
 
 on:
   push:
@@ -16,11 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Tarik Code Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Java JDK
@@ -29,7 +29,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter (Lock Version 3.24.3)
+      - name: Setup Flutter (3.24.3)
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
@@ -38,32 +38,15 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # 1. BUILD APK NATIVE
-      - name: Build APK Native (Release)
-        run: flutter build apk --release --no-tree-shake-icons
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: MyKas-Native-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
-
-      # 2. BUILD FLUTTER WEB FOR GITHUB PAGES
+      # BUILD FLUTTER WEB KHUSUS GITHUB PAGES
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --no-tree-shake-icons
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --no-tree-shake-icons[span_1](start_span)[span_1](end_span)
 
       - name: Upload Web Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
 
-  deploy-web:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
