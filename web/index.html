@@ -2,33 +2,34 @@
 <html>
 <head>
   <base href="$FLUTTER_BASE_HREF">
+
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Aplikasi Pencatat Keuangan MyKas">
+  <meta name="description" content="MyKas - Catatan Keuangan Modern">
 
-  <!-- iOS meta tags & icons -->
+  <!-- Meta Tag Wajib PWA & iOS Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="theme-color" content="#0052FF">
 
-  <!-- Favicon -->
+  <!-- Link Icon untuk iOS -->
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>MyKas - Keuangan Pribadi</title>
+  <title>MyKas</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
-    // Service Worker Configuration
-    var serviceWorkerVersion = null;
+    // Inisialisasi Flutter Web Engine
+    const serviceWorkerVersion = null;
   </script>
-  <!-- Flutter Web Bootstrap JS -->
   <script src="flutter.js" defer></script>
 </head>
-<body style="background-color: #0B0E14;">
+<body style="background-color: #0B0F17;">
   <script>
     window.addEventListener('load', function(ev) {
-      // Download main.dart.js
+      // Load Flutter Engine & Register Service Worker
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
