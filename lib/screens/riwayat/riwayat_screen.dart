@@ -17,11 +17,16 @@ class RiwayatTransaksiScreen extends StatefulWidget {
 }
 
 class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
-  String _selectedFilter = 'semua'; // 'semua', 'pemasukan', 'pengeluaran'
+  String _selectedFilter = 'semua';
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
-  // Utility Format Rupiah
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp0';
     String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
@@ -40,7 +45,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     return 'Rp$buffer';
   }
 
-  // BottomSheet Detail Transaksi saat item diklik
   void _showDetailTransaksiModal(BuildContext context, Map<String, dynamic> item) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bgColor = isDark ? AppTheme.cardDark : AppTheme.cardLight;
@@ -76,8 +80,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // ICON TRANSAKSI & STATUS
               Container(
                 width: 60,
                 height: 60,
@@ -94,7 +96,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-
               Text(
                 item['judul']?.toString() ?? 'Detail Transaksi',
                 style: GoogleFonts.urbanist(
@@ -108,9 +109,7 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                 isPemasukan ? 'Pemasukan Kas' : 'Pengeluaran Kas',
                 style: TextStyle(fontSize: 12, color: textMuted, fontWeight: FontWeight.w600),
               ),
-
               const SizedBox(height: 16),
-
               Text(
                 isPemasukan ? '+$formattedNominal' : '-$formattedNominal',
                 style: GoogleFonts.urbanist(
@@ -119,19 +118,14 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                   color: isPemasukan ? const Color(0xFF10B981) : textColor,
                 ),
               ),
-
               const SizedBox(height: 24),
               Divider(color: borderColor, height: 1),
               const SizedBox(height: 16),
-
-              // INFORMASI DETAIL
               _buildDetailRow('Tanggal & Waktu', item['tanggal']?.toString() ?? 'Hari ini', textColor, textMuted),
               _buildDetailRow('Kategori', item['kategori']?.toString() ?? 'Umum', textColor, textMuted),
-              _buildDetailRow('Sumber Dana / Kantong', item['kantong']?.toString() ?? 'Utama (Kas)', textColor, textMuted),
+              _buildDetailRow('Sumber Dana', item['kantong']?.toString() ?? 'Utama (Kas)', textColor, textMuted),
               _buildDetailRow('ID Transaksi', '#MK-2026-${(item['judul'].hashCode.abs() % 10000)}', textColor, textMuted),
-
               const SizedBox(height: 28),
-
               SizedBox(
                 width: double.infinity,
                 height: 48,
@@ -184,7 +178,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
         child: FutureBuilder<Map<String, dynamic>>(
           future: ApiService.getSummary(),
           builder: (context, snapshot) {
-            // Gabungkan data dari API atau widget fallback
             final Map<String, dynamic> data = (snapshot.hasData && snapshot.data!.isNotEmpty)
                 ? snapshot.data!
                 : (widget.summaryData ?? {});
@@ -198,7 +191,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
               {'judul': 'Transfer Ke Rekening BSI', 'nominal': '500000', 'jenis': 'pengeluaran', 'kategori': 'Pindah Kas', 'tanggal': '20 Agu 2026'},
             ];
 
-            // 1. FILTER BERDASARKAN KATEGORI (SEMUA / PEMASUKAN / PENGELUARAN)
             final filteredList = rawList.where((item) {
               final jenis = item['jenis'].toString().toLowerCase();
               final judul = item['judul'].toString().toLowerCase();
@@ -225,7 +217,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // HEADER TITLE & SEARCH BAR
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20, 16, 20, 10),
                           child: Column(
@@ -246,8 +237,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                                 style: TextStyle(fontSize: 11, color: textMuted),
                               ),
                               const SizedBox(height: 16),
-
-                              // SEARCH BAR
                               TextField(
                                 controller: _searchController,
                                 onChanged: (val) {
@@ -288,10 +277,7 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                                   ),
                                 ),
                               ),
-
                               const SizedBox(height: 14),
-
-                              // FILTER CHIPS HORISONTAL
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -307,30 +293,26 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                             ],
                           ),
                         ),
-
-                        // KONTEN DAFTAR TRANSAKSI
                         Expanded(
-                          child: snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData
-                              ? const Center(child: CircularProgressIndicator())
-                              : filteredList.isEmpty
-                                  ? _buildEmptyState(textColor, textMuted)
-                                  : ListView.separated(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                      itemCount: filteredList.length,
-                                      separatorBuilder: (context, index) => const SizedBox(height: 10),
-                                      itemBuilder: (context, index) {
-                                        final item = filteredList[index];
-                                        return _buildTransactionCard(
-                                          item: item,
-                                          cardBg: cardBg,
-                                          borderColor: borderColor,
-                                          textColor: textColor,
-                                          textMuted: textMuted,
-                                          isDark: isDark,
-                                          onTap: () => _showDetailTransaksiModal(context, item),
-                                        );
-                                      },
-                                    ),
+                          child: filteredList.isEmpty
+                              ? _buildEmptyState(textColor, textMuted)
+                              : ListView.separated(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  itemCount: filteredList.length,
+                                  separatorBuilder: (context, index) => const SizedBox(height: 10),
+                                  itemBuilder: (context, index) {
+                                    final item = filteredList[index];
+                                    return _buildTransactionCard(
+                                      item: item,
+                                      cardBg: cardBg,
+                                      borderColor: borderColor,
+                                      textColor: textColor,
+                                      textMuted: textMuted,
+                                      isDark: isDark,
+                                      onTap: () => _showDetailTransaksiModal(context, item),
+                                    );
+                                  },
+                                ),
                         ),
                       ],
                     ),
@@ -344,7 +326,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     );
   }
 
-  // WIDGET FILTER CHIP
   Widget _buildFilterChip(String key, String label, IconData icon, bool isDark, [Color? activeColor]) {
     final isSelected = _selectedFilter == key;
     final color = activeColor ?? AppTheme.brandPrimary;
@@ -381,7 +362,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     );
   }
 
-  // KARTU ITEM TRANSAKSI
   Widget _buildTransactionCard({
     required Map<String, dynamic> item,
     required Color cardBg,
@@ -409,7 +389,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
             padding: const EdgeInsets.all(14.0),
             child: Row(
               children: [
-                // ICON KATEGORI / TYPE
                 Container(
                   width: 44,
                   height: 44,
@@ -426,8 +405,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                   ),
                 ),
                 const SizedBox(width: 14),
-
-                // JUDUL & TANGGAL
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -450,8 +427,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                     ],
                   ),
                 ),
-
-                // NOMINAL
                 Text(
                   isPemasukan ? '+$formattedNominal' : '-$formattedNominal',
                   style: GoogleFonts.urbanist(
@@ -468,7 +443,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     );
   }
 
-  // EMPTY STATE JIKA TIDAK ADA DATA
   Widget _buildEmptyState(Color textColor, Color textMuted) {
     return Center(
       child: Column(
