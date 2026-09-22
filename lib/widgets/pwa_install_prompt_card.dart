@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
-/// Banner Prompt PWA MyKas (Safe for Web & Mobile)
+/// Banner Prompt PWA MyKas (Fail-Safe Multi-Platform)
+/// Safe for Mobile Native, PWA Mobile, & Web Desktop
 class PwaInstallPromptCard extends StatefulWidget {
   const PwaInstallPromptCard({super.key});
 
@@ -25,6 +26,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   void _initPwaSafeListener() {
     try {
+      // Penanganan timer aman tanpa membekukan JS Runtime CanvasKit
       Future.delayed(const Duration(milliseconds: 600), () {
         if (mounted) {
           setState(() {
