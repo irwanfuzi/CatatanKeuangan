@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:js_interop' as js;
+import 'dart:js_interop_unsafe' as js_util;
+
+import '../theme/app_theme.dart';
 
 class PwaInstallPromptCard extends StatefulWidget {
   const PwaInstallPromptCard({super.key});
@@ -14,54 +18,96 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   @override
   void initState() {
     super.initState();
-    // Di Web PWA, komponen akan mendeteksi event sebelum prompt instalasi
     if (kIsWeb) {
       _initPwaListener();
     }
   }
 
   void _initPwaListener() {
-    // Logika aman untuk mendeteksi ketersediaan prompt PWA di browser
-    // tanpa merusak kompilasi Android/iOS Native
+    try {
+      // 1. Daftarkan callback JavaScript agar Flutter bisa mendeteksi event `beforeinstallprompt`
+      js.globalContext.setProperty(
+        'onPwaPromptReady'.toJS,
+        ((js.JSBoolean canPrompt) {
+          if (mounted) {
+            setState(() {
+              _canInstall = canPrompt.toDart;
+            });
+          }
+        }).toJS,
+      );
+
+      // 2. Periksa apakah prompt PWA sudah siap di objek `window.deferredPwaPrompt`
+      final deferredPrompt = js.globalContext.getProperty('deferredPwaPrompt'.toJS);
+      if (deferredPrompt != null && !deferredPrompt.isUndefined) {
+        setState(() {
+          _canInstall = true;
+        });
+      }
+    } catch (e) {
+      debugPrint('PWA Listener Error: $e');
+    }
   }
 
   void _promptInstall() {
-    // Memanggil prompt instalasi PWA
+    try {
+      if (kIsWeb) {
+        // Memanggil fungsi JS `triggerPwaInstall()` yang ada di web/index.html
+        if (js.globalContext.hasProperty('triggerPwaInstall'.toJS).toDart) {
+          js.globalContext.callMethod('triggerPwaInstall'.toJS);
+        }
+      }
+    } catch (e) {
+      debugPrint('Failed to trigger PWA Install: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Jika BUKAN running di Web PWA, widget ini otomatis tersembunyi (SizedBox.shrink)
-    // sehingga TIDAK AKAN mengganggu tampilan App Native Android/iOS!
+    // Apabila running di Mobile Native (Android/iOS) atau browser tidak mendukung PWA prompt,
+    // widget ini otomatis tersembunyi (SizedBox.shrink)
     if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFF0052FF), Color(0xFF0038FF)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0052FF).withOpacity(isDark ? 0.3 : 0.15),
-            blurRadius: 12,
+            color: const Color(0xFF0052FF).withOpacity(isDark ? 0.35 : 0.18),
+            blurRadius: 14,
             offset: const Offset(0, 4),
           )
         ],
       ),
       child: Row(
         children: [
+          // MEMAKAI LOGO MYKAS PADA BANNER PROMPT
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.get_app_rounded, color: Colors.white, size: 22),
+            child: Image.asset(
+              AppTheme.logoAsset,
+              width: 32,
+              height: 32,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.get_app_rounded,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
           ),
           const SizedBox(width: 12),
           const Expanded(
