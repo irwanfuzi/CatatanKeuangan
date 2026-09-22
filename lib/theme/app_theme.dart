@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// AppTheme MyKas - Design System untuk Mobile Native, PWA, & Web Desktop
+/// AppTheme MyKas - Definisi Sistem Desain Multi-Platform (Light & Dark Mode)
 class AppTheme {
   // --------------------------------------------------------------------------
-  // OFFICIAL ASSET TOKENS
+  // ASSET TOKENS
   // --------------------------------------------------------------------------
   /// Path gambar logo resmi MyKas untuk widget UI Flutter
   static const String logoAsset = 'assets/images/logo_mykas.png';
