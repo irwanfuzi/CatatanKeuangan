@@ -25,7 +25,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   void _initPwaListener() {
     try {
-      // 1. Daftarkan callback JavaScript agar Flutter bisa mendeteksi event `beforeinstallprompt`
+      // 1. Hubungkan callback JavaScript ke Flutter
       js.globalContext.setProperty(
         'onPwaPromptReady'.toJS,
         ((js.JSBoolean canPrompt) {
@@ -37,7 +37,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
         }).toJS,
       );
 
-      // 2. Periksa apakah prompt PWA sudah siap di objek `window.deferredPwaPrompt`
+      // 2. Cek apakah prompt PWA sudah tersedia di window.deferredPwaPrompt
       final deferredPrompt = js.globalContext.getProperty('deferredPwaPrompt'.toJS);
       if (deferredPrompt != null && !deferredPrompt.isUndefined) {
         setState(() {
@@ -45,14 +45,14 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
         });
       }
     } catch (e) {
-      debugPrint('PWA Listener Error: $e');
+      debugPrint('PWA Listener Exception: $e');
     }
   }
 
   void _promptInstall() {
     try {
       if (kIsWeb) {
-        // Memanggil fungsi JS `triggerPwaInstall()` yang ada di web/index.html
+        // Panggil fungsi JS triggerPwaInstall() yang terdaftar di index.html
         if (js.globalContext.hasProperty('triggerPwaInstall'.toJS).toDart) {
           js.globalContext.callMethod('triggerPwaInstall'.toJS);
         }
@@ -64,7 +64,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Apabila running di Mobile Native (Android/iOS) atau browser tidak mendukung PWA prompt,
+    // Apabila berjalan di Mobile Native (Android/iOS) atau browser tidak mendukung PWA prompt,
     // widget ini otomatis tersembunyi (SizedBox.shrink)
     if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
 
@@ -85,12 +85,12 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             color: const Color(0xFF0052FF).withOpacity(isDark ? 0.35 : 0.18),
             blurRadius: 14,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Row(
         children: [
-          // MEMAKAI LOGO MYKAS PADA BANNER PROMPT
+          // Logo MyKas Resmi
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
