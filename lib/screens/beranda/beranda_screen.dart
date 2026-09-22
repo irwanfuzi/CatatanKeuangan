@@ -549,4 +549,800 @@ class _BerandaScreenState extends State<BerandaScreen> {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-        
+                  color: cardBg,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF10B981).withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(LucideIcons.arrowDownLeft, size: 14, color: Color(0xFF10B981)),
+                        ),
+                        const SizedBox(width: 8),
+                        Text('Pemasukan', style: TextStyle(fontSize: 11, color: textMuted)),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      _isSaldoVisible ? rawPemasukan : '••••••••',
+                      style: GoogleFonts.urbanist(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: cardBg,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: borderColor),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEF4444).withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(LucideIcons.arrowUpRight, size: 14, color: Color(0xFFEF4444)),
+                        ),
+                        const SizedBox(width: 8),
+                        Text('Pengeluaran', style: TextStyle(fontSize: 11, color: textMuted)),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      _isSaldoVisible ? rawPengeluaran : '••••••••',
+                      style: GoogleFonts.urbanist(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // =========================================================================
+  // KANTONG KEUANGAN
+  // =========================================================================
+  Widget _buildKantongKeuanganSection(
+    Color textColor,
+    Color textMuted,
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+    bool isDesktop,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Kantong Keuangan',
+                  style: GoogleFonts.urbanist(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: textColor,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: AppTheme.brandPrimary.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Text(
+                    '4 Terhubung',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.brandPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _showAllKantongSubPage = true;
+                });
+              },
+              borderRadius: BorderRadius.circular(8),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                child: Text(
+                  'Lihat Semua >',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.brandPrimary,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: isDesktop ? 4 : 2,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+          childAspectRatio: isDesktop ? 1.6 : 1.35,
+          children: [
+            _buildWalletCard('BSI', const Color(0xFF00A39D), 'BSI Debit Hasanah', 'Rp186.750.000', cardBg, borderColor, textColor, textMuted),
+            _buildWalletCard('MANDIRI', const Color(0xFFF59E0B), 'Taplus Muda Mandiri', 'Rp12.400.000', cardBg, borderColor, textColor, textMuted),
+            _buildWalletCard('GOPAY', const Color(0xFF00AED6), 'GoPay Wallet', 'Rp5.000.000', cardBg, borderColor, textColor, textMuted),
+            _buildAddAccountCard(isDark, textMuted),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWalletCard(
+    String badge,
+    Color badgeBg,
+    String title,
+    String amount,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textMuted,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(6)),
+                child: Text(
+                  badge,
+                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900),
+                ),
+              ),
+              InkWell(
+                onTap: () => _openPengaturanKantongBottomSheet(context, title),
+                borderRadius: BorderRadius.circular(12),
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Icon(LucideIcons.chevronRight, size: 14, color: textMuted),
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontSize: 11, color: textMuted),
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 2),
+              Text(
+                _isSaldoVisible ? amount : '••••••••',
+                style: GoogleFonts.urbanist(fontSize: 14, fontWeight: FontWeight.w900, color: textColor),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAddAccountCard(bool isDark, Color textMuted) {
+    return InkWell(
+      onTap: () => _openTambahAkunModal(context),
+      borderRadius: BorderRadius.circular(18),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: isDark ? AppTheme.borderDark : AppTheme.borderLight,
+            width: 1.5,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.brandPrimary.withOpacity(0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(LucideIcons.plus, color: AppTheme.brandPrimary, size: 18),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                '+ Tambah Akun',
+                style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textMuted),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // =========================================================================
+  // QUICK ACTIONS
+  // =========================================================================
+  Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
+    final actions = [
+      {'label': 'Scan Struk', 'icon': LucideIcons.qrCode, 'color': const Color(0xFFF59E0B)},
+      {'label': 'Transfer', 'icon': LucideIcons.arrowLeftRight, 'color': AppTheme.brandPrimary},
+      {'label': 'Berulang', 'icon': LucideIcons.repeat, 'color': const Color(0xFF10B981)},
+      {'label': 'Tujuan', 'icon': LucideIcons.target, 'color': const Color(0xFF8B5CF6)},
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Quick Actions',
+              style: GoogleFonts.urbanist(fontSize: 15, fontWeight: FontWeight.w800, color: textColor),
+            ),
+            InkWell(
+              onTap: () {},
+              child: const Text(
+                'Edit',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.brandPrimary),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: actions.map((act) {
+            final color = act['color'] as Color;
+            return Column(
+              children: [
+                InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: isDark ? color.withOpacity(0.18) : color.withOpacity(0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(act['icon'] as IconData, color: color, size: 20),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  act['label'] as String,
+                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: textColor),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  // =========================================================================
+  // MY INSIGHT
+  // =========================================================================
+  Widget _buildMyInsightCard(Color textColor, Color textMuted, bool isDark) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: isDark ? AppTheme.cardDark : const Color(0xFFF0F7FF),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: isDark ? AppTheme.borderDark : AppTheme.brandPrimary.withOpacity(0.2),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF59E0B).withOpacity(0.15),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(LucideIcons.sparkles, color: Color(0xFFF59E0B), size: 18),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'My Insight',
+                  style: GoogleFonts.urbanist(fontSize: 13, fontWeight: FontWeight.w900, color: textColor),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  'Pengeluaran menurun 12%! Hemat Rp1.450.000 pada pos non-primer dibanding minggu lalu.',
+                  style: TextStyle(fontSize: 11, color: textMuted),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // =========================================================================
+  // RECENT TRANSACTIONS
+  // =========================================================================
+  Widget _buildRecentTransactionsSection(
+    List recentTransactions,
+    Color textColor,
+    Color textMuted,
+    Color cardBg,
+    Color borderColor,
+    bool isDark,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Riwayat Transaksi',
+              style: GoogleFonts.urbanist(fontSize: 15, fontWeight: FontWeight.w800, color: textColor),
+            ),
+            if (widget.onNavigateToAnalisis != null)
+              InkWell(
+                onTap: widget.onNavigateToAnalisis,
+                child: const Text(
+                  'Lihat Semua >',
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.brandPrimary),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Container(
+          decoration: BoxDecoration(
+            color: cardBg,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: borderColor),
+          ),
+          child: recentTransactions.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Center(
+                    child: Text('Belum ada transaksi dicatat.', style: TextStyle(color: textMuted, fontSize: 12)),
+                  ),
+                )
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: recentTransactions.length,
+                  separatorBuilder: (context, index) => Divider(color: borderColor, height: 1),
+                  itemBuilder: (context, index) {
+                    final item = recentTransactions[index];
+                    final isPemasukan = item['jenis'] == 'pemasukan';
+                    final formattedNominal = _formatCurrency(item['nominal']);
+
+                    return ListTile(
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: ((item['iconBg'] as Color?) ?? AppTheme.brandPrimary).withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          (item['icon'] as IconData?) ?? LucideIcons.receipt,
+                          color: (item['iconBg'] as Color?) ?? AppTheme.brandPrimary,
+                          size: 18,
+                        ),
+                      ),
+                      title: Text(
+                        item['judul'] ?? 'Transaksi',
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: textColor),
+                      ),
+                      subtitle: Text(
+                        '${item['tanggal'] ?? 'Hari ini'} • ${item['kategori'] ?? 'Umum'}',
+                        style: TextStyle(fontSize: 11, color: textMuted),
+                      ),
+                      trailing: Text(
+                        '${isPemasukan ? '+' : '-'}$formattedNominal',
+                        style: GoogleFonts.urbanist(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: isPemasukan ? const Color(0xFF10B981) : textColor,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+        ),
+      ],
+    );
+  }
+
+  // =========================================================================
+  // SUB PAGE: SEMUA KANTONG
+  // =========================================================================
+  Widget _buildSemuaKantongSubPage(
+    Color textColor,
+    Color textMuted,
+    Color cardBg,
+    Color borderColor,
+    Color surfaceColor,
+    bool isDark,
+  ) {
+    return Container(
+      key: const ValueKey('SemuaKantongSubPage'),
+      color: surfaceColor,
+      child: Column(
+        children: [
+          Container(
+            color: const Color(0xFF0052FF),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: _handleBackPress,
+                  icon: const Icon(LucideIcons.arrowLeft, color: Colors.white, size: 20),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Semua Kantong Keuangan',
+                  style: GoogleFonts.urbanist(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                _buildSubPageWalletTile('BSI Debit Hasanah', 'BSI', const Color(0xFF00A39D), 'Rp186.750.000', cardBg, borderColor, textColor, textMuted),
+                _buildSubPageWalletTile('Taplus Muda Mandiri', 'MANDIRI', const Color(0xFFF59E0B), 'Rp12.400.000', cardBg, borderColor, textColor, textMuted),
+                _buildSubPageWalletTile('GoPay Wallet', 'GOPAY', const Color(0xFF00AED6), 'Rp5.000.000', cardBg, borderColor, textColor, textMuted),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    onPressed: () => _openTambahAkunModal(context),
+                    icon: const Icon(LucideIcons.plus, size: 16, color: AppTheme.brandPrimary),
+                    label: const Text(
+                      'Tambah Kantong Baru',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.brandPrimary),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: AppTheme.brandPrimary),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubPageWalletTile(
+    String title,
+    String badge,
+    Color badgeBg,
+    String amount,
+    Color cardBg,
+    Color borderColor,
+    Color textColor,
+    Color textMuted,
+  ) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(8)),
+            child: Text(
+              badge,
+              style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w900),
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: TextStyle(fontSize: 12, color: textMuted)),
+                const SizedBox(height: 2),
+                Text(
+                  _isSaldoVisible ? amount : '••••••••',
+                  style: GoogleFonts.urbanist(fontSize: 15, fontWeight: FontWeight.w900, color: textColor),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () => _openPengaturanKantongBottomSheet(context, title),
+            icon: Icon(LucideIcons.moreVertical, size: 18, color: textMuted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// =============================================================================
+// FORM KONTEN TAMBAH AKUN / KANTONG (MODAL / DIALOG)
+// =============================================================================
+class TambahAkunFormContent extends StatefulWidget {
+  const TambahAkunFormContent({super.key});
+
+  @override
+  State<TambahAkunFormContent> createState() => _TambahAkunFormContentState();
+}
+
+class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
+  String _jenisKantong = 'Bank';
+  final TextEditingController _namaCtrl = TextEditingController();
+  final TextEditingController _saldoCtrl = TextEditingController();
+
+  @override
+  void dispose() {
+    _namaCtrl.dispose();
+    _saldoCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final bgColor = isDark ? AppTheme.cardDark : AppTheme.cardLight;
+    final textColor = isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight;
+    final fillColor = isDark ? const Color(0xFF1E222D) : const Color(0xFFF1F5F9);
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: 38,
+              height: 4,
+              decoration: BoxDecoration(
+                color: isDark ? AppTheme.borderDark : const Color(0xFFCBD5E1),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Tambah Kantong Keuangan',
+                style: GoogleFonts.urbanist(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: textColor,
+                ),
+              ),
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(LucideIcons.x, size: 18, color: textColor),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<String>(
+            value: _jenisKantong,
+            decoration: InputDecoration(
+              labelText: 'Jenis Kantong',
+              filled: true,
+              fillColor: fillColor,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            items: ['Bank', 'E-Wallet', 'Tunai', 'Investasi']
+                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                .toList(),
+            onChanged: (val) {
+              if (val != null) setState(() => _jenisKantong = val);
+            },
+          ),
+          const SizedBox(height: 14),
+          TextFormField(
+            controller: _namaCtrl,
+            decoration: InputDecoration(
+              labelText: 'Nama Kantong / Akun',
+              hintText: 'Contoh: Mandiri Utama / GoPay',
+              filled: true,
+              fillColor: fillColor,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+          TextFormField(
+            controller: _saldoCtrl,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: 'Saldo Awal (Rp)',
+              hintText: 'Contoh: 1000000',
+              filled: true,
+              fillColor: fillColor,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+          const SizedBox(height: 22),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('✅ Kantong berhasil ditambahkan!'),
+                    backgroundColor: Color(0xFF10B981),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.brandPrimary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              child: const Text(
+                'Simpan Kantong',
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// =============================================================================
+// OVO STYLE TOP APP BAR DELEGATE
+// =============================================================================
+class _OvoStyleTopBarDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  double get minExtent => 52.0;
+
+  @override
+  double get maxExtent => 52.0;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: const Color(0xFF0052FF),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(LucideIcons.user, color: Colors.white, size: 16),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                'MyKas',
+                style: GoogleFonts.urbanist(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  letterSpacing: -0.5,
+                ),
+              ),
+            ),
+          ),
+          Stack(
+            children: [
+              const Icon(LucideIcons.bell, color: Colors.white, size: 20),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  width: 7,
+                  height: 7,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFEF4444),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => false;
+}
