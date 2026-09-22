@@ -11,7 +11,6 @@ permissions:
   pages: write
   id-token: write
 
-# TAMBAHKAN BLOK INI UNTUK MENCEGAH BENTROK DEPLOY
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -36,20 +35,14 @@ jobs:
           flutter-version: '3.24.3'
           channel: 'stable'
 
-      - name: Generate Project Android & Web
-        run: flutter create --project-name mykas --platforms=android,web .
-
-      - name: Inject Internet Permission (Android)
-        run: sed -i '/<manifest/a \    <uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>' android/app/src/main/AndroidManifest.xml
-
       - name: Install Dependencies
         run: flutter pub get
 
       # 1. BUILD APK NATIVE
       - name: Build APK Native (Release)
-        run: flutter build apk --release
+        run: flutter build apk --release --no-tree-shake-icons
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: MyKas-Native-APK
@@ -57,7 +50,7 @@ jobs:
 
       # 2. BUILD FLUTTER WEB FOR GITHUB PAGES
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --no-tree-shake-icons
 
       - name: Upload Web Artifact
         uses: actions/upload-pages-artifact@v3
