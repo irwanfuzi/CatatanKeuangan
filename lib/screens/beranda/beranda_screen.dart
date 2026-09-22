@@ -344,7 +344,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW (COLLAPSING TOP BAR KANONIK ALA BANK JAGO - NO OVERPULL)
+  // MAIN BERANDA VIEW (DYNAMIC SCROLL HEADER DENGAN BENTUK KANVAS DILOCK)
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -365,12 +365,12 @@ class _BerandaScreenState extends State<BerandaScreen> {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
             child: CustomScrollView(
-              // CLAMPING SCROLL PHYSICS: MENGHILANGKAN EFFECT PULL / ELASTIC OVERSCROLL
+              // CLAMPING SCROLL PHYSICS: MENGHILANGKAN FITUR TARIK/OVERPULL BANTINGAN
               physics: const ClampingScrollPhysics(),
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _BankJagoStyleHeaderDelegate(
+                  delegate: _LockedShapeCollapsingHeaderDelegate(
                     rawSaldo: rawSaldo,
                     isSaldoVisible: _isSaldoVisible,
                     onToggleSaldoVisibility: () {
@@ -378,8 +378,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         _isSaldoVisible = !_isSaldoVisible;
                       });
                     },
-                    minHeight: 52.0,  // TINGGI SAAT MEMENGIKUTI SCROLL (COLLAPSED TOP BAR)
-                    maxHeight: 160.0, // TINGGI FULL UTUH SAAT DI TOP
+                    minHeight: 56.0,  // COLLAPSED BAR STAY AT TOP
+                    maxHeight: 160.0, // EXPANDED CANVAS HEIGHT
                     isDark: isDark,
                   ),
                 ),
@@ -1580,8 +1580,8 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// HEADER DELEGATE BANK JAGO STYLE - MENGECIL SAAT LAYAR DISCROLL TANPA BISA DITARIK (NO OVERPULL)
-class _BankJagoStyleHeaderDelegate extends SliverPersistentHeaderDelegate {
+// HEADER DELEGATE DENGAN BENTUK KANVAS BIRU TERKUNCI (LOCKED SHAPE COLLAPSING)
+class _LockedShapeCollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String rawSaldo;
   final bool isSaldoVisible;
   final VoidCallback onToggleSaldoVisibility;
@@ -1589,7 +1589,7 @@ class _BankJagoStyleHeaderDelegate extends SliverPersistentHeaderDelegate {
   final double maxHeight;
   final bool isDark;
 
-  _BankJagoStyleHeaderDelegate({
+  _LockedShapeCollapsingHeaderDelegate({
     required this.rawSaldo,
     required this.isSaldoVisible,
     required this.onToggleSaldoVisibility,
@@ -1609,17 +1609,16 @@ class _BankJagoStyleHeaderDelegate extends SliverPersistentHeaderDelegate {
     final rawProgress = (shrinkOffset / (maxExtent - minExtent)).clamp(0.0, 1.0);
     final progress = Curves.easeInOutCubic.transform(rawProgress);
 
-    // KETIKA SCROLL BERJALAN, SALDO FADE OUT MULUS
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
     final topPosition = (1.0 - progress) * 10.0 + 2.0;
 
-    // WARNA HEADER DILOCK ROYAL BLUE MAUPUN DI LIGHT/DARK MODE
+    // WARNA KANVAS HEADER DILOCK DI LIGHT & DARK MODE
     const BoxDecoration headerDecoration = BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF0052FF), // Royal Blue Khas MyKas
+          Color(0xFF0052FF), // Royal Blue Primary
           Color(0xFF0038FF), // Deep Sapphire Blue
         ],
       ),
@@ -1811,7 +1810,7 @@ class _BankJagoStyleHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant _BankJagoStyleHeaderDelegate oldDelegate) {
+  bool shouldRebuild(covariant _LockedShapeCollapsingHeaderDelegate oldDelegate) {
     return oldDelegate.rawSaldo != rawSaldo ||
         oldDelegate.isSaldoVisible != isSaldoVisible ||
         oldDelegate.minHeight != minHeight ||
