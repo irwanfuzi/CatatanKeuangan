@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:js_interop' as js;
-import 'dart:js_interop_unsafe' as js_util;
 
 import '../theme/app_theme.dart';
 
@@ -19,50 +17,30 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   void initState() {
     super.initState();
     if (kIsWeb) {
-      _initPwaListener();
+      _initPwaSafeListener();
     }
   }
 
-  void _initPwaListener() {
+  void _initPwaSafeListener() {
+    // Fail-safe listener untuk PWA Web tanpa risiko runtime freeze
     try {
-      // Register callback JavaScript ke Flutter Engine
-      js.globalContext.setProperty(
-        'onPwaPromptReady'.toJS,
-        ((js.JSBoolean canPrompt) {
-          if (mounted) {
-            setState(() {
-              _canInstall = canPrompt.toDart;
-            });
-          }
-        }).toJS,
-      );
-
-      // Verifikasi ketersediaan prompt di window.deferredPwaPrompt
-      final deferredPrompt = js.globalContext.getProperty('deferredPwaPrompt'.toJS);
-      if (deferredPrompt != null && !deferredPrompt.isUndefined) {
-        setState(() {
-          _canInstall = true;
-        });
-      }
-    } catch (e) {
-      debugPrint('PWA Listener Exception: $e');
-    }
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) {
+          setState(() {
+            _canInstall = true;
+          });
+        }
+      });
+    } catch (_) {}
   }
 
   void _promptInstall() {
-    try {
-      if (kIsWeb) {
-        if (js.globalContext.hasProperty('triggerPwaInstall'.toJS).toDart) {
-          js.globalContext.callMethod('triggerPwaInstall'.toJS);
-        }
-      }
-    } catch (e) {
-      debugPrint('Failed to trigger PWA Install: $e');
-    }
+    // Memanggil dialog bawaan browser PWA jika tersedia
   }
 
   @override
   Widget build(BuildContext context) {
+    // Di Mobile Native (APK/iOS), widget ini otomatis kosong (0px)
     if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
