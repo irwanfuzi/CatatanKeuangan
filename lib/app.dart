@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-// Import Screen & Services bawaan projekmu
 import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/riwayat/riwayat_screen.dart';
@@ -61,7 +60,7 @@ class _AppState extends State<App> {
   }
 
   void _onAddTapped() {
-    // Dipanggil dari widgets/mk_bottom_nav_bar.dart
+    // Memanggil fungsi dari widgets/mk_bottom_nav_bar.dart
     showCtaBottomSheet(context);
   }
 
@@ -100,7 +99,7 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight, // PERBAIKAN SINTAKS
+          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
           extendBody: true,
           body: Row(
             children: [
