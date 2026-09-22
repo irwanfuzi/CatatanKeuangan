@@ -303,7 +303,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: surfaceColor,
+        // BACKGROUND DISESUAIKAN TERHADAP BACKGROUND BIRU HEADER
+        backgroundColor: const Color(0xFF0052FF),
         body: SafeArea(
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -344,7 +345,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW (DYNAMIC SCROLL HEADER DENGAN BENTUK KANVAS DILOCK)
+  // MAIN BERANDA VIEW: KANVAS SHEET MELENGKUNG DENGAN BANNER HEADER BIRU
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -365,12 +366,13 @@ class _BerandaScreenState extends State<BerandaScreen> {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: isDesktop ? 1200 : 540),
             child: CustomScrollView(
-              // CLAMPING SCROLL PHYSICS: MENGHILANGKAN FITUR TARIK/OVERPULL BANTINGAN
+              // CLAMPING SCROLL PHYSICS: MENGHILANGKAN EFFECT PULL / ELASTIC OVERPULL
               physics: const ClampingScrollPhysics(),
               slivers: [
+                // 1. HEADER BIRU TOTAL SALDO
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _LockedShapeCollapsingHeaderDelegate(
+                  delegate: _CurvedHeaderDelegate(
                     rawSaldo: rawSaldo,
                     isSaldoVisible: _isSaldoVisible,
                     onToggleSaldoVisibility: () {
@@ -378,28 +380,39 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         _isSaldoVisible = !_isSaldoVisible;
                       });
                     },
-                    minHeight: 56.0,  // COLLAPSED BAR STAY AT TOP
-                    maxHeight: 160.0, // EXPANDED CANVAS HEIGHT
+                    minHeight: 56.0,  // COLLAPSED TOP BAR (BANK JAGO EFEK)
+                    maxHeight: 180.0, // EXPANDED FULL TOP BAR
                     isDark: isDark,
                   ),
                 ),
+
+                // 2. KANVAS SHEET HITAM / GELAP MELENGKUNG DI BAGIAN BAWAH
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: surfaceColor,
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                      // SANGAT PRESISI: LENGKUNGAN KANVAS BAGIAN ATAS PERSIS GAMBAR
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          blurRadius: 16,
+                          offset: const Offset(0, -4),
+                        ),
+                      ],
                     ),
                     padding: EdgeInsets.all(isDesktop ? 32.0 : 20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // INDIKATOR HANDLE BAR DALAM KANVAS MELENGKUNG
                         Center(
                           child: Container(
                             width: 38,
                             height: 4,
                             decoration: BoxDecoration(
-                              color: isDark ? AppTheme.borderDark : AppTheme.borderLight,
+                              color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -1580,8 +1593,8 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// HEADER DELEGATE DENGAN BENTUK KANVAS BIRU TERKUNCI (LOCKED SHAPE COLLAPSING)
-class _LockedShapeCollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
+// HEADER DELEGATE DENGAN BACKGROUND BIRU TERANG (ROYAL BLUE KONSISTEN)
+class _CurvedHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String rawSaldo;
   final bool isSaldoVisible;
   final VoidCallback onToggleSaldoVisibility;
@@ -1589,7 +1602,7 @@ class _LockedShapeCollapsingHeaderDelegate extends SliverPersistentHeaderDelegat
   final double maxHeight;
   final bool isDark;
 
-  _LockedShapeCollapsingHeaderDelegate({
+  _CurvedHeaderDelegate({
     required this.rawSaldo,
     required this.isSaldoVisible,
     required this.onToggleSaldoVisibility,
@@ -1612,30 +1625,19 @@ class _LockedShapeCollapsingHeaderDelegate extends SliverPersistentHeaderDelegat
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
     final topPosition = (1.0 - progress) * 10.0 + 2.0;
 
-    // WARNA KANVAS HEADER DILOCK DI LIGHT & DARK MODE
     const BoxDecoration headerDecoration = BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF0052FF), // Royal Blue Primary
+          Color(0xFF0052FF), // Royal Blue Khas MyKas
           Color(0xFF0038FF), // Deep Sapphire Blue
         ],
       ),
     );
 
     return Container(
-      decoration: headerDecoration.copyWith(
-        boxShadow: shrinkOffset > 20
-            ? [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.18),
-                  blurRadius: 8,
-                  offset: const Offset(0, 3),
-                ),
-              ]
-            : [],
-      ),
+      decoration: headerDecoration,
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -1738,7 +1740,7 @@ class _LockedShapeCollapsingHeaderDelegate extends SliverPersistentHeaderDelegat
           ),
           if (saldoOpacity > 0.0)
             Positioned(
-              bottom: 12,
+              bottom: 28, // PADDING DINAMIS AGAR TOTAL SALDO TIDAK TERTUTUP LENGKUNGAN SHEET
               left: 24,
               right: 24,
               child: Opacity(
@@ -1810,7 +1812,7 @@ class _LockedShapeCollapsingHeaderDelegate extends SliverPersistentHeaderDelegat
   }
 
   @override
-  bool shouldRebuild(covariant _LockedShapeCollapsingHeaderDelegate oldDelegate) {
+  bool shouldRebuild(covariant _CurvedHeaderDelegate oldDelegate) {
     return oldDelegate.rawSaldo != rawSaldo ||
         oldDelegate.isSaldoVisible != isSaldoVisible ||
         oldDelegate.minHeight != minHeight ||
