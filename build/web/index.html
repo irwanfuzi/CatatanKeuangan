@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="MyKas - Own Your Money">
+
+  <!-- Meta Tag Wajib PWA & iOS Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MyKas">
+  <meta name="theme-color" content="#0D47A1">
+
+  <!-- Favicon ICO Browser dari folder web/[span_9](start_span)[span_9](end_span) -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Apple Touch Icons PWA[span_10](start_span)[span_10](end_span) -->
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
+
+  <title>MyKas - Own Your Money</title>
+  <link rel="manifest" href="manifest.json">
+
+  <script src="flutter.js" defer></script>
+</head>
+<body style="background-color: #0F1117;">
+  <script>
+    window.addEventListener('load', function(ev) {
+      // API FlutterLoader v2 Terbaru (Bebas Deprecation Warning)[span_11](start_span)[span_11](end_span)
+      _flutter.loader.load({
+        serviceWorkerSettings: {
+          serviceWorkerVersion: null,
+        },
+      });
+    });
+  </script>
+</body>
+</html>
