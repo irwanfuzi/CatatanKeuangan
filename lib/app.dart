@@ -3,12 +3,12 @@ import 'package:lucide_icons/lucide_icons.dart';
 
 import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
+import 'screens/riwayat/riwayat_screen.dart';
 import 'screens/profil/profil_screen.dart';
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
 class App extends StatefulWidget {
-  // 1. Tambahkan parameter callback ini
   final Function(bool isDark)? onThemeChanged;
 
   const App({
@@ -23,6 +23,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   int _currentIndex = 0;
 
+  // Fallback Data Kas Utama
   Map<String, dynamic> _summaryData = {
     'saldo': 'Rp 11.250.000',
     'pemasukan': 'Rp 5.250.000',
@@ -48,7 +49,9 @@ class _AppState extends State<App> {
           _summaryData = data;
         });
       }
-    } catch (_) {}
+    } catch (_) {
+      // Menggunakan fallback data jika server API sedang bermasalah
+    }
   }
 
   @override
@@ -59,24 +62,23 @@ class _AppState extends State<App> {
     final surfaceColor = isDark ? AppTheme.bgDark : AppTheme.bgLight;
     final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
     final textColor = isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight;
-    final subTextColor = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
+        // DAFTAR HALAMAN UTAMA (BEBAS PLACEHOLDER)
         final List<Widget> pages = [
           BerandaScreen(
             summaryData: _summaryData,
             onNavigateToAnalisis: () {
               setState(() {
-                _currentIndex = 1;
+                _currentIndex = 1; // Pindah langsung ke Tab Analisis
               });
             },
           ),
           AnalisisScreen(summaryData: _summaryData),
-          _buildDompetPlaceholderPage(isDark, textColor, subTextColor),
-          // 2. Teruskan widget.onThemeChanged ke ProfilScreen
+          RiwayatTransaksiScreen(summaryData: _summaryData), // HALAMAN RIWAYAT REAL
           ProfilScreen(
             onThemeChanged: widget.onThemeChanged,
             onLogout: () {
@@ -91,6 +93,7 @@ class _AppState extends State<App> {
           backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
           body: Row(
             children: [
+              // 1. WEB DESKTOP PERSISTENT SIDEBAR NAVIGATION
               if (isDesktop)
                 Container(
                   width: 260,
@@ -106,15 +109,15 @@ class _AppState extends State<App> {
                         child: Row(
                           children: [
                             Container(
-                              width: 32,
-                              height: 32,
+                              width: 36,
+                              height: 36,
                               decoration: BoxDecoration(
                                 color: AppTheme.brandPrimary,
-                                borderRadius: BorderRadius.circular(9),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(LucideIcons.wallet, color: Colors.white, size: 18),
+                              child: const Icon(LucideIcons.wallet, color: Colors.white, size: 20),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 12),
                             Text(
                               'MyKas',
                               style: TextStyle(
@@ -127,14 +130,16 @@ class _AppState extends State<App> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       _buildDesktopNavItem(0, LucideIcons.layoutGrid, 'Beranda'),
                       _buildDesktopNavItem(1, LucideIcons.barChart3, 'Analisis'),
-                      _buildDesktopNavItem(2, LucideIcons.wallet, 'Dompet & Aset'),
+                      _buildDesktopNavItem(2, LucideIcons.history, 'Riwayat Kas'),
                       _buildDesktopNavItem(3, LucideIcons.user, 'Profil'),
                     ],
                   ),
                 ),
+
+              // 2. MAIN VIEWPORT DENGAN INDEXED STACK (Preserves State Across Tab Switches)
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -143,6 +148,8 @@ class _AppState extends State<App> {
               ),
             ],
           ),
+
+          // 3. MOBILE NATIVE & PWA BOTTOM NAVIGATION BAR
           bottomNavigationBar: isDesktop
               ? null
               : Container(
@@ -176,9 +183,9 @@ class _AppState extends State<App> {
                         label: 'Analisis',
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(LucideIcons.wallet),
-                        activeIcon: Icon(LucideIcons.wallet, color: AppTheme.brandPrimary),
-                        label: 'Dompet',
+                        icon: Icon(LucideIcons.history),
+                        activeIcon: Icon(LucideIcons.history, color: AppTheme.brandPrimary),
+                        label: 'Riwayat',
                       ),
                       BottomNavigationBarItem(
                         icon: Icon(LucideIcons.user),
@@ -193,6 +200,7 @@ class _AppState extends State<App> {
     );
   }
 
+  // WIDGET ITEM NAVIGASI SIDEBAR DESKTOP
   Widget _buildDesktopNavItem(int index, IconData icon, String label) {
     final isSelected = _currentIndex == index;
     return Padding(
@@ -225,30 +233,4 @@ class _AppState extends State<App> {
       ),
     );
   }
-
-  Widget _buildDompetPlaceholderPage(bool isDark, Color textColor, Color subTextColor) {
-    return Scaffold(
-      backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: AppTheme.brandPrimary.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(LucideIcons.wallet, color: AppTheme.brandPrimary, size: 36),
-            ),
-            const SizedBox(height: 14),
-            Text('Dompet & Rekening', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: textColor)),
-            const SizedBox(height: 4),
-            Text('Fitur pengelolaan aset dalam sinkronisasi', style: TextStyle(fontSize: 12, color: subTextColor)),
-          ],
-        ),
-      ),
-    );
-  }
 }
- 
