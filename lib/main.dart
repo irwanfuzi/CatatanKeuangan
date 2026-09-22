@@ -15,10 +15,10 @@ class MyKasApp extends StatefulWidget {
 }
 
 class _MyKasAppState extends State<MyKasApp> {
-  // 1. Variabel penampung state tema global
-  ThemeMode _themeMode = ThemeMode.dark; // Default Dark Mode
+  // 1. Variabel pengendali tema global
+  ThemeMode _themeMode = ThemeMode.dark; 
 
-  // 2. Fungsi pengubah tema yang akan dipanggil dari ProfilScreen
+  // 2. Fungsi callback pengubah tema
   void _toggleTheme(bool isDark) {
     setState(() {
       _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -32,9 +32,9 @@ class _MyKasAppState extends State<MyKasApp> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: _themeMode, // 3. Mengontrol tema aplikasi
+      themeMode: _themeMode, // Mengontrol tema global seluruh aplikasi
       home: App(
-        onThemeChanged: _toggleTheme, // 4. Kirim fungsi ke App
+        onThemeChanged: _toggleTheme, // Kirim fungsi ke App
       ),
     );
   }
