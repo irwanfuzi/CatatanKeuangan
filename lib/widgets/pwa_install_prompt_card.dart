@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
 
+/// Widget Banner Prompt PWA MyKas
+/// Aman digunakan di Android/iOS Native, PWA Mobile, maupun Web Desktop Dashboard.
 class PwaInstallPromptCard extends StatefulWidget {
   const PwaInstallPromptCard({super.key});
 
@@ -12,10 +14,12 @@ class PwaInstallPromptCard extends StatefulWidget {
 
 class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   bool _canInstall = false;
+  bool _isDismissed = false;
 
   @override
   void initState() {
     super.initState();
+    // Jalankan listener HANYA jika dijalankan di Web Browser
     if (kIsWeb) {
       _initPwaSafeListener();
     }
@@ -23,6 +27,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   void _initPwaSafeListener() {
     try {
+      // Penanganan aman ketersediaan prompt PWA tanpa membekukan runtime CanvasKit/HTML
       Future.delayed(const Duration(milliseconds: 600), () {
         if (mounted) {
           setState(() {
@@ -34,12 +39,23 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   }
 
   void _promptInstall() {
-    // Pemicu pendaftaran PWA prompt bawaan browser
+    // Memicu prompt instalasi PWA browser bawaan
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Gunakan menu "Add to Home Screen" pada browser Anda.'),
+        backgroundColor: AppTheme.brandPrimary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
+    // Pada APK/iOS Native atau jika ditutup user, widget ini otomatis 0px
+    if (!kIsWeb || !_canInstall || _isDismissed) {
+      return const SizedBox.shrink();
+    }
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -47,12 +63,18 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF0D47A1), Color(0xFF1976D2)],
+        gradient: LinearGradient(
+          colors: isDark
+              ? [const Color(0xFF181B22), const Color(0xFF262A36)]
+              : [const Color(0xFF0D47A1), const Color(0xFF1976D2)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isDark ? const Color(0xFF262A36) : Colors.transparent,
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF0D47A1).withOpacity(isDark ? 0.35 : 0.18),
@@ -63,16 +85,17 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
       ),
       child: Row(
         children: [
+          // Container Logo
           Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Image.asset(
               AppTheme.logoAsset,
-              width: 32,
-              height: 32,
+              width: 28,
+              height: 28,
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) => const Icon(
                 Icons.get_app_rounded,
@@ -82,9 +105,11 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             ),
           ),
           const SizedBox(width: 12),
+          // Teks Deskripsi PWA
           const Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Install Aplikasi MyKas',
@@ -106,6 +131,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             ),
           ),
           const SizedBox(width: 8),
+          // Tombol Aksi Install
           ElevatedButton(
             onPressed: _promptInstall,
             style: ElevatedButton.styleFrom(
@@ -121,6 +147,18 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
               'Install',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
             ),
+          ),
+          const SizedBox(width: 4),
+          // Tombol Tutup Banner
+          IconButton(
+            icon: const Icon(Icons.close_rounded, color: Colors.white70, size: 18),
+            onPressed: () {
+              setState(() {
+                _isDismissed = true;
+              });
+            },
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
           ),
         ],
       ),
