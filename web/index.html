@@ -5,34 +5,59 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="MyKas - Catatan Keuangan Modern">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="MyKas - Own Your Money">
 
-  <!-- Meta Tag Wajib PWA & iOS Safari -->
+  <!-- Meta Tag Wajib iOS Safari PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
   <meta name="theme-color" content="#0052FF">
 
-  <!-- Link Icon untuk iOS -->
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <!-- Favicon ICO untuk Browser Tab & Desktop -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <title>MyKas</title>
+  <!-- Touch Icons untuk iOS Safari PWA -->
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
+
+  <title>MyKas - Own Your Money</title>
   <link rel="manifest" href="manifest.json">
 
+  <!-- PWA Install Prompt Bridge JS -->
   <script>
-    // Inisialisasi Flutter Web Engine
-    const serviceWorkerVersion = null;
+    let deferredPwaPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPwaPrompt = e;
+      if (window.onPwaPromptReady) {
+        window.onPwaPromptReady(true);
+      }
+    });
+
+    window.triggerPwaInstall = function() {
+      if (deferredPwaPrompt) {
+        deferredPwaPrompt.prompt();
+        deferredPwaPrompt.userChoice.then((choiceResult) => {
+          deferredPwaPrompt = null;
+          if (window.onPwaPromptReady) {
+            window.onPwaPromptReady(false);
+          }
+        });
+      }
+    };
   </script>
+
   <script src="flutter.js" defer></script>
 </head>
 <body style="background-color: #0B0F17;">
   <script>
     window.addEventListener('load', function(ev) {
-      // Load Flutter Engine & Register Service Worker
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
+          serviceWorkerVersion: null,
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
