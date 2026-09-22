@@ -25,7 +25,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   void _initPwaListener() {
     try {
-      // 1. Hubungkan callback JavaScript ke Flutter
+      // Register callback JavaScript ke Flutter Engine
       js.globalContext.setProperty(
         'onPwaPromptReady'.toJS,
         ((js.JSBoolean canPrompt) {
@@ -37,7 +37,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
         }).toJS,
       );
 
-      // 2. Cek apakah prompt PWA sudah tersedia di window.deferredPwaPrompt
+      // Verifikasi ketersediaan prompt di window.deferredPwaPrompt
       final deferredPrompt = js.globalContext.getProperty('deferredPwaPrompt'.toJS);
       if (deferredPrompt != null && !deferredPrompt.isUndefined) {
         setState(() {
@@ -52,7 +52,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
   void _promptInstall() {
     try {
       if (kIsWeb) {
-        // Panggil fungsi JS triggerPwaInstall() yang terdaftar di index.html
         if (js.globalContext.hasProperty('triggerPwaInstall'.toJS).toDart) {
           js.globalContext.callMethod('triggerPwaInstall'.toJS);
         }
@@ -64,8 +63,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
 
   @override
   Widget build(BuildContext context) {
-    // Apabila berjalan di Mobile Native (Android/iOS) atau browser tidak mendukung PWA prompt,
-    // widget ini otomatis tersembunyi (SizedBox.shrink)
     if (!kIsWeb || !_canInstall) return const SizedBox.shrink();
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -75,14 +72,14 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF0052FF), Color(0xFF0038FF)],
+          colors: [Color(0xFF0D47A1), Color(0xFF1976D2)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0052FF).withOpacity(isDark ? 0.35 : 0.18),
+            color: const Color(0xFF0D47A1).withOpacity(isDark ? 0.35 : 0.18),
             blurRadius: 14,
             offset: const Offset(0, 4),
           ),
@@ -90,7 +87,6 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
       ),
       child: Row(
         children: [
-          // Logo MyKas Resmi
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
@@ -138,7 +134,7 @@ class _PwaInstallPromptCardState extends State<PwaInstallPromptCard> {
             onPressed: _promptInstall,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: const Color(0xFF0052FF),
+              foregroundColor: const Color(0xFF0D47A1),
               elevation: 0,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               shape: RoundedRectangleBorder(
