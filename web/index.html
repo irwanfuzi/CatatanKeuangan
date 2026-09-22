@@ -14,48 +14,22 @@
   <meta name="apple-mobile-web-app-title" content="MyKas">
   <meta name="theme-color" content="#0D47A1">
 
-  <!-- Favicon ICO Browser -->
+  <!-- Favicon ICO dari folder web/[span_9](start_span)[span_9](end_span) -->
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <!-- Apple Touch Icons PWA -->
+  <!-- Apple Touch Icons dari folder web/icons/[span_10](start_span)[span_10](end_span) -->
   <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
 
   <title>MyKas - Own Your Money</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Bridge JS Interop untuk Prompt PWA -->
-  <script>
-    let deferredPwaPrompt = null;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPwaPrompt = e;
-      if (window.onPwaPromptReady) {
-        window.onPwaPromptReady(true);
-      }
-    });
-
-    window.triggerPwaInstall = function() {
-      if (deferredPwaPrompt) {
-        deferredPwaPrompt.prompt();
-        deferredPwaPrompt.userChoice.then((choiceResult) => {
-          deferredPwaPrompt = null;
-          if (window.onPwaPromptReady) {
-            window.onPwaPromptReady(false);
-          }
-        });
-      }
-    };
-  </script>
-
   <script src="flutter.js" defer></script>
 </head>
 <body style="background-color: #0F1117;">
   <script>
     window.addEventListener('load', function(ev) {
-      // Inisialisasi Flutter Engine Loader v2 (Bebas Deprecation Warning)
       _flutter.loader.load({
         serviceWorkerSettings: {
           serviceWorkerVersion: null,
