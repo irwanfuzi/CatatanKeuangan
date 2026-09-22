@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../services/api_service.dart';
 
-/// Top-Level Public Function agar dapat dipanggil langsung dari lib/app.dart
+/// Top-Level Public Function untuk membuka Modal Catat Transaksi
 void showCtaBottomSheet(BuildContext context) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -29,7 +29,7 @@ void showCtaBottomSheet(BuildContext context) {
   );
 }
 
-/// Floating Curved Bottom Navigation Bar (5 Tombol)
+/// DOCKED BOTTOM NAVIGATION BAR (5 TOMBOL WITH PILL LINE TOP INDICATOR)
 class MKBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
@@ -46,38 +46,56 @@ class MKBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
+    final navBg = isDark ? const Color(0xFF131C33) : Colors.white;
+    final borderColor = isDark ? const Color(0xFF1E293B) : const Color(0xFFE2E8F0);
+    final pillColor = isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1);
+
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: isDark
-            ? const Color(0xFF131C33).withAlpha(240)
-            : Colors.white.withAlpha(245),
-        borderRadius: BorderRadius.circular(32),
-        border: Border.all(
-          color: isDark ? Colors.white10 : Colors.grey.shade200,
+        color: navBg,
+        border: Border(
+          top: BorderSide(color: borderColor, width: 1.0),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(isDark ? 80 : 25),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: Colors.black.withOpacity(isDark ? 0.35 : 0.08),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
           ),
         ],
       ),
       child: SafeArea(
-        child: SizedBox(
-          height: 56,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(0, FontAwesomeIcons.house, 'Beranda'),
-              _buildNavItem(1, FontAwesomeIcons.chartPie, 'Analisis'),
-              _buildAddButton(),
-              _buildNavItem(2, FontAwesomeIcons.folderOpen, 'Dompet'),
-              _buildNavItem(3, FontAwesomeIcons.user, 'Profil'),
-            ],
-          ),
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // 1. PILL LINE TOP INDICATOR (KHAS PWA / MOBILE NATIVE)
+            Container(
+              margin: const EdgeInsets.only(top: 8, bottom: 4),
+              width: 38,
+              height: 3.5,
+              decoration: BoxDecoration(
+                color: pillColor,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+
+            // 2. 5 TOMBOL NAVIGASI DOCKED
+            SizedBox(
+              height: 58,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavItem(0, FontAwesomeIcons.house, 'Beranda'),
+                  _buildNavItem(1, FontAwesomeIcons.chartPie, 'Analisis'),
+                  _buildDockedAddButton(),
+                  _buildNavItem(2, FontAwesomeIcons.folderOpen, 'Dompet'),
+                  _buildNavItem(3, FontAwesomeIcons.user, 'Profil'),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -85,60 +103,66 @@ class MKBottomNavBar extends StatelessWidget {
 
   Widget _buildNavItem(int index, IconData icon, String label) {
     final isSelected = currentIndex == index;
-    return GestureDetector(
-      onTap: () => onTap(index),
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            size: 19,
-            color: isSelected ? const Color(0xFF0052FF) : Colors.grey,
-          ),
-          const SizedBox(height: 3),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: isSelected ? const Color(0xFF0052FF) : Colors.grey,
+    const activeColor = Color(0xFF0052FF);
+    const inactiveColor = Colors.grey;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onTap(index),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 19,
+              color: isSelected ? activeColor : inactiveColor,
             ),
-          ),
-        ],
+            const SizedBox(height: 3),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+                color: isSelected ? activeColor : inactiveColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildAddButton() {
-    return GestureDetector(
-      onTap: onAddTap,
-      child: Container(
-        height: 50,
-        width: 50,
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF0052FF), Color(0xFF0038FF)],
-          ),
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white, width: 3.5),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF0052FF).withAlpha(100),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+  Widget _buildDockedAddButton() {
+    return Expanded(
+      child: Center(
+        child: GestureDetector(
+          onTap: onAddTap,
+          child: Container(
+            height: 46,
+            width: 46,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF0052FF), Color(0xFF0038FF)],
+              ),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF0052FF).withOpacity(0.35),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
             ),
-          ],
+            child: const Icon(FontAwesomeIcons.plus, color: Colors.white, size: 18),
+          ),
         ),
-        child: const Icon(FontAwesomeIcons.plus, color: Colors.white, size: 18),
       ),
     );
   }
 }
 
-/// Form Modal Tambah Transaksi (Lengkap dengan Pill Line Indicator)
+/// FORM MODAL TAMBAH TRANSAKSI
 class FormTambahTransaksi extends StatefulWidget {
   const FormTambahTransaksi({super.key});
 
@@ -212,7 +236,7 @@ class _FormTambahTransaksiState extends State<FormTambahTransaksi> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // PILL LINE DRAG INDICATOR
+          // PILL LINE DRAG INDICATOR PADA MODAL
           Center(
             child: Container(
               width: 42,
