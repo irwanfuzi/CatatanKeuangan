@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+// Import Screen & Services bawaan projekmu
 import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/riwayat/riwayat_screen.dart';
 import 'screens/profil/profil_screen.dart';
+import 'widgets/mk_bottom_nav_bar.dart'; // Menghubungkan MKBottomNavBar 5-Tombol & Modal CTA
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 
@@ -51,6 +54,17 @@ class _AppState extends State<App> {
     } catch (_) {}
   }
 
+  void _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void _onAddTapped() {
+    // Membuka modal bottom sheet tambah transaksi cepat
+    showCtaBottomSheet(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -64,6 +78,7 @@ class _AppState extends State<App> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
+        // 4 Halaman Utama
         final List<Widget> pages = [
           BerandaScreen(
             summaryData: _summaryData,
@@ -86,9 +101,12 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
+          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight;
+          // extendBody: true membuat floating navbar melayang halus di atas konten
+          extendBody: true,
           body: Row(
             children: [
+              // DESKTOP NAVIGATION RAIL
               if (isDesktop)
                 Container(
                   width: 260,
@@ -130,9 +148,32 @@ class _AppState extends State<App> {
                       _buildDesktopNavItem(1, LucideIcons.barChart3, 'Analisis'),
                       _buildDesktopNavItem(2, LucideIcons.history, 'Riwayat Kas'),
                       _buildDesktopNavItem(3, LucideIcons.user, 'Profil'),
+                      const Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 48,
+                          child: ElevatedButton.icon(
+                            onPressed: _onAddTapped,
+                            icon: const Icon(FontAwesomeIcons.plus, size: 16, color: Colors.white),
+                            label: const Text(
+                              'Catat Transaksi',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.brandPrimary,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              elevation: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
+              // CONTENT BODY
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -141,50 +182,13 @@ class _AppState extends State<App> {
               ),
             ],
           ),
+          // MOBILE FLOATING CURVED NAVBAR 5 TOMBOL
           bottomNavigationBar: isDesktop
               ? null
-              : Container(
-                  decoration: BoxDecoration(
-                    color: isDark ? AppTheme.cardDark : Colors.white,
-                    border: Border(top: BorderSide(color: borderColor, width: 1)),
-                  ),
-                  child: BottomNavigationBar(
-                    currentIndex: _currentIndex,
-                    onTap: (index) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
-                    },
-                    backgroundColor: isDark ? AppTheme.cardDark : Colors.white,
-                    selectedItemColor: AppTheme.brandPrimary,
-                    unselectedItemColor: isDark ? const Color(0xFF64748B) : const Color(0xFF94A3B8),
-                    selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-                    unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
-                    type: BottomNavigationBarType.fixed,
-                    elevation: 0,
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(LucideIcons.layoutGrid),
-                        activeIcon: Icon(LucideIcons.layoutGrid, color: AppTheme.brandPrimary),
-                        label: 'Beranda',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(LucideIcons.barChart3),
-                        activeIcon: Icon(LucideIcons.barChart3, color: AppTheme.brandPrimary),
-                        label: 'Analisis',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(LucideIcons.history),
-                        activeIcon: Icon(LucideIcons.history, color: AppTheme.brandPrimary),
-                        label: 'Riwayat',
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(LucideIcons.user),
-                        activeIcon: Icon(LucideIcons.user, color: AppTheme.brandPrimary),
-                        label: 'Profil',
-                      ),
-                    ],
-                  ),
+              : MKBottomNavBar(
+                  currentIndex: _currentIndex,
+                  onTap: _onTabTapped,
+                  onAddTap: _onAddTapped,
                 ),
         );
       },
