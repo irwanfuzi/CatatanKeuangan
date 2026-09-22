@@ -344,7 +344,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 
   // =========================================================================
-  // MAIN BERANDA VIEW (TANPA FADE OUT PADA SALDO)
+  // MAIN BERANDA VIEW (TOTAL SALDO BISA DI-SCROLL KE ATAS)
   // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
@@ -367,21 +367,84 @@ class _BerandaScreenState extends State<BerandaScreen> {
             child: CustomScrollView(
               physics: const ClampingScrollPhysics(),
               slivers: [
+                // 1. PINNED TOP BAR (HANYA APPAR UTAMA DI ATAS)
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _NoFadeHeaderDelegate(
-                    rawSaldo: rawSaldo,
-                    isSaldoVisible: _isSaldoVisible,
-                    onToggleSaldoVisibility: () {
-                      setState(() {
-                        _isSaldoVisible = !_isSaldoVisible;
-                      });
-                    },
-                    minHeight: 52.0,  // TINGGI KANVAS TOP BAR DI ATAS
-                    maxHeight: 165.0, // TINGGI EXPANDED KANVAS UTAMA
-                    isDark: isDark,
+                  delegate: _OvoStyleTopBarDelegate(),
+                ),
+
+                // 2. TOTAL SALDO SECTION (TER-SCROLL SECARA ALAMI DI BAWAH TOP BAR)
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: const Color(0xFF0052FF),
+                    padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Total Saldo',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white70,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _isSaldoVisible = !_isSaldoVisible;
+                                });
+                              },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Icon(
+                                  _isSaldoVisible ? LucideIcons.eye : LucideIcons.eyeOff,
+                                  color: Colors.white70,
+                                  size: 15,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 220),
+                          transitionBuilder: (Widget child, Animation<double> animation) {
+                            return FadeTransition(opacity: animation, child: child);
+                          },
+                          child: Text(
+                            _isSaldoVisible ? rawSaldo : '••••••••••••',
+                            key: ValueKey<bool>(_isSaldoVisible),
+                            style: GoogleFonts.urbanist(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        const Row(
+                          children: [
+                            Icon(LucideIcons.clock, color: Colors.white60, size: 11),
+                            SizedBox(width: 4),
+                            Text(
+                              'Updated 2m ago',
+                              style: TextStyle(fontSize: 10, color: Colors.white60, fontWeight: FontWeight.w500),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+
+                // 3. CANVAS SHEET KONTEN LENGKUNG DI BAWAH SALDO
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.infinity,
@@ -390,7 +453,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withOpacity(0.18),
                           blurRadius: 16,
                           offset: const Offset(0, -4),
                         ),
@@ -1584,213 +1647,110 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// =========================================================================
-// DELEGATE HEADER TANPA EFALKAN FADE OUT SAMA SEKALIKAN (SOLID OPACITY)
-// =========================================================================
-class _NoFadeHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final String rawSaldo;
-  final bool isSaldoVisible;
-  final VoidCallback onToggleSaldoVisibility;
-  final double minHeight;
-  final double maxHeight;
-  final bool isDark;
-
-  _NoFadeHeaderDelegate({
-    required this.rawSaldo,
-    required this.isSaldoVisible,
-    required this.onToggleSaldoVisibility,
-    required this.minHeight,
-    required this.maxHeight,
-    required this.isDark,
-  });
+// 1. PINNED TOP BAR (HANYA APP BAR BIRU DI PALING ATAS)
+class _OvoStyleTopBarDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  double get minExtent => 52.0;
 
   @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => maxHeight;
+  double get maxExtent => 52.0;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    const BoxDecoration headerDecoration = BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          Color(0xFF0052FF), // Royal Blue Khas MyKas
-          Color(0xFF0038FF), // Deep Sapphire Blue
-        ],
-      ),
-    );
-
     return Container(
-      decoration: headerDecoration,
+      color: const Color(0xFF0052FF),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Stack(
-        fit: StackFit.expand,
         children: [
           CustomPaint(
             painter: TopographicContourPainter(),
           ),
-          // TOP BAR KONSISTEN (STAYS AT TOP ALWAYS)
-          Positioned(
-            top: 10,
-            left: 20,
-            right: 20,
-            height: 36,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // AVATAR PROFIL
-                Container(
-                  width: 34,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.25),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white.withOpacity(0.4), width: 1.2),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // AVATAR PROFIL
+              Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.25),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white.withOpacity(0.4), width: 1.2),
+                ),
+                child: const Center(
+                  child: Icon(
+                    LucideIcons.user,
+                    color: Colors.white,
+                    size: 16,
                   ),
-                  child: const Center(
-                    child: Icon(
-                      LucideIcons.user,
+                ),
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'MyKas',
+                    style: GoogleFonts.urbanist(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
                       color: Colors.white,
-                      size: 18,
+                      letterSpacing: -0.4,
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'MyKas',
-                      style: GoogleFonts.urbanist(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                        letterSpacing: -0.4,
-                        height: 1.0,
-                      ),
-                    ),
-                  ),
-                ),
-                // LONCENG NOTIFIKASI
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {},
-                    borderRadius: BorderRadius.circular(18),
-                    child: SizedBox(
-                      width: 36,
-                      height: 36,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          const Icon(
-                            LucideIcons.bell,
-                            color: Colors.white,
-                            size: 21,
-                          ),
-                          Positioned(
-                            top: 2,
-                            right: 2,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFF9F00),
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: AppTheme.brandPrimary,
-                                  width: 1.5,
-                                ),
+              ),
+              // LONCENG NOTIFIKASI
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(18),
+                  child: SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Icon(
+                          LucideIcons.bell,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        Positioned(
+                          top: 1,
+                          right: 1,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFF9F00),
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: AppTheme.brandPrimary,
+                                width: 1.5,
                               ),
-                              constraints: const BoxConstraints(
-                                minWidth: 14,
-                                minHeight: 14,
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  '3',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w900,
-                                    height: 1.0,
-                                  ),
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 13,
+                              minHeight: 13,
+                            ),
+                            child: const Center(
+                              child: Text(
+                                '3',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.0,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
-          // SALDO KONSISTEN DENGAN OPASITAS SOLID 1.0 (TANPA FADE OUT SAMA SEKALI)
-          Positioned(
-            top: 56,
-            left: 24,
-            right: 24,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      'Total Saldo',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white70,
-                      ),
-                    ),
-                    const SizedBox(width: 6),
-                    InkWell(
-                      onTap: onToggleSaldoVisibility,
-                      borderRadius: BorderRadius.circular(12),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Icon(
-                          isSaldoVisible ? LucideIcons.eye : LucideIcons.eyeOff,
-                          color: Colors.white70,
-                          size: 15,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 220),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
-                  child: Text(
-                    isSaldoVisible ? rawSaldo : '••••••••••••',
-                    key: ValueKey<bool>(isSaldoVisible),
-                    style: GoogleFonts.urbanist(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      letterSpacing: -0.5,
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 2),
-                const Row(
-                  children: [
-                    Icon(LucideIcons.clock, color: Colors.white60, size: 11),
-                    SizedBox(width: 4),
-                    Text(
-                      'Updated 2m ago',
-                      style: TextStyle(fontSize: 10, color: Colors.white60, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
@@ -1798,13 +1758,7 @@ class _NoFadeHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant _NoFadeHeaderDelegate oldDelegate) {
-    return oldDelegate.rawSaldo != rawSaldo ||
-        oldDelegate.isSaldoVisible != isSaldoVisible ||
-        oldDelegate.minHeight != minHeight ||
-        oldDelegate.maxHeight != maxHeight ||
-        oldDelegate.isDark != isDark;
-  }
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => false;
 }
 
 // PAINTER KONTUR TOPOGRAFI
