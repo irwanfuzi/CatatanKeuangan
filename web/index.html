@@ -12,13 +12,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
-  <meta name="theme-color" content="#0052FF">
+  <meta name="theme-color" content="#0D47A1">
 
-  <!-- Favicon ICO dari folder web/[cite: 1] -->
+  <!-- Favicon ICO Browser -->
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <!-- Apple Touch Icons dari folder web/icons/[cite: 1] -->
+  <!-- Apple Touch Icons PWA -->
   <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
 
@@ -52,18 +52,14 @@
 
   <script src="flutter.js" defer></script>
 </head>
-<body style="background-color: #0B0F17;">
+<body style="background-color: #0F1117;">
   <script>
     window.addEventListener('load', function(ev) {
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
+      // Inisialisasi Flutter Engine Loader v2 (Bebas Deprecation Warning)
+      _flutter.loader.load({
+        serviceWorkerSettings: {
           serviceWorkerVersion: null,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
       });
     });
   </script>
