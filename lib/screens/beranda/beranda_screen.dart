@@ -303,8 +303,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
         }
       },
       child: Scaffold(
-        // WARNA DASAR HEADER BIRU ROYAL KONSISTEN
-        backgroundColor: AppTheme.brandPrimary,
+        // WARNA DASAR KONSISTEN BERSAMA SHEET: LIGHT = ROYAL BLUE, DARK = DEEP CHARCOAL
+        backgroundColor: isDark ? const Color(0xFF0A192F) : AppTheme.brandPrimary,
         body: SafeArea(
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
@@ -378,8 +378,8 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         _isSaldoVisible = !_isSaldoVisible;
                       });
                     },
-                    minHeight: 42.0,
-                    maxHeight: 170.0,
+                    minHeight: 48.0,
+                    maxHeight: 118.0, // TIGHT-FIT PRECISION (MENGHILANGKAN CELAH SPASI KOSONG BIRU)
                     isDark: isDark,
                   ),
                 ),
@@ -1167,7 +1167,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           onTap: () => _openTambahAkunModal(context),
           borderRadius: BorderRadius.circular(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // DIPERBAIKI: Menggunakan Enum MainAxisAlignment.center
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
@@ -1580,7 +1580,7 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// HEADER DELEGATE BERANDA - WARNA BIRU KONSISTEN ALA GOPAY (LOCKED ROYAL SAPPHIRE BLUE)
+// HEADER DELEGATE BERANDA - WARNA BIRU LOCKED DI SEMUA MODE (PERSIS GOPAY)
 class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String rawSaldo;
   final bool isSaldoVisible;
@@ -1610,15 +1610,15 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
     final progress = Curves.easeInOutCubic.transform(rawProgress);
 
     final saldoOpacity = (1.0 - (progress * 2.2)).clamp(0.0, 1.0);
-    final topPosition = (1.0 - progress) * 12.0 + 2.0;
+    final topPosition = (1.0 - progress) * 10.0 + 2.0;
 
-    // WARNA HEADER KONSISTEN ROYAL BLUE KANONIK (LOCKED DI LIGHT & DARK MODE)
+    // WARNA HEADER DILOCK PADA ROYAL SAPPHIRE BLUE KHAS MYKAS (LOCKED DI MODE LIGHT MAUPUN DARK)
     const BoxDecoration headerDecoration = BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [
-          Color(0xFF0052FF), // Royal Blue Khas MyKas
+          Color(0xFF0052FF), // Royal Blue Primary
           Color(0xFF0038FF), // Deep Sapphire Blue
         ],
       ),
@@ -1738,7 +1738,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
           if (saldoOpacity > 0.0)
             Positioned(
-              bottom: 14,
+              bottom: 4, // TIGHT-FIT: POSISI PAS MENEMPEL DI ATAS KANVAS MELENGKUNG
               left: 24,
               right: 24,
               child: Opacity(
@@ -1772,7 +1772,7 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 220),
                       transitionBuilder: (Widget child, Animation<double> animation) {
@@ -1782,14 +1782,14 @@ class _CollapsingHeaderDelegate extends SliverPersistentHeaderDelegate {
                         isSaldoVisible ? rawSaldo : '••••••••••••',
                         key: ValueKey<bool>(isSaldoVisible),
                         style: GoogleFonts.urbanist(
-                          fontSize: 28,
+                          fontSize: 26,
                           fontWeight: FontWeight.w900,
                           color: Colors.white,
                           letterSpacing: -0.5,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 2),
                     const Row(
                       children: [
                         Icon(LucideIcons.clock, color: Colors.white60, size: 11),
