@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'screens/analisis/analisis_screen.dart';
 import 'screens/beranda/beranda_screen.dart';
 import 'screens/profil/profil_screen.dart';
-import 'screens/riwayat/riwayat_transaksi_screen.dart';
+import 'screens/riwayat/riwayat_screen.dart';
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
 import 'utils/app_icons.dart';
@@ -61,7 +61,7 @@ class _AppState extends State<App> {
   void _onAddTapped() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Fitur Catat Transaksi Cepat Aktif!'),
+        content: Text('Catat Transaksi Cepat'),
         backgroundColor: AppTheme.brandPrimary,
       ),
     );
@@ -90,7 +90,7 @@ class _AppState extends State<App> {
             },
           ),
           AnalisisScreen(summaryData: _summaryData),
-          RiwayatTransaksiScreen(summaryData: _summaryData),
+          RiwayatScreen(summaryData: _summaryData),
           ProfilScreen(
             onThemeChanged: widget.onThemeChanged,
             onLogout: () {
@@ -102,8 +102,7 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight;
-          extendBody: false, // DOCKED DESIGN: Konten beranda rapat di atas docked navbar
+          backgroundColor: surfaceColor,
           body: Row(
             children: [
               if (isDesktop)
@@ -127,7 +126,7 @@ class _AppState extends State<App> {
                                 color: AppTheme.brandPrimary,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: const Icon(LucideIcons.wallet, color: Colors.white, size: 20),
+                              child: const Icon(AppIcons.wallet, color: Colors.white, size: 20),
                             ),
                             const SizedBox(width: 12),
                             Text(
@@ -143,10 +142,10 @@ class _AppState extends State<App> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      _buildDesktopNavItem(0, LucideIcons.layoutGrid, 'Beranda'),
-                      _buildDesktopNavItem(1, LucideIcons.barChart3, 'Analisis'),
-                      _buildDesktopNavItem(2, LucideIcons.history, 'Riwayat Kas'),
-                      _buildDesktopNavItem(3, LucideIcons.user, 'Profil'),
+                      _buildDesktopNavItem(0, AppIcons.layoutGrid, 'Beranda'),
+                      _buildDesktopNavItem(1, AppIcons.barChart, 'Analisis'),
+                      _buildDesktopNavItem(2, AppIcons.history, 'Riwayat Kas'),
+                      _buildDesktopNavItem(3, AppIcons.user, 'Profil'),
                       const Spacer(),
                       Padding(
                         padding: const EdgeInsets.all(20),
@@ -155,7 +154,7 @@ class _AppState extends State<App> {
                           height: 48,
                           child: ElevatedButton.icon(
                             onPressed: _onAddTapped,
-                            icon: const Icon(FontAwesomeIcons.plus, size: 16, color: Colors.white),
+                            icon: const Icon(AppIcons.plus, size: 16, color: Colors.white),
                             label: const Text(
                               'Catat Transaksi',
                               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
