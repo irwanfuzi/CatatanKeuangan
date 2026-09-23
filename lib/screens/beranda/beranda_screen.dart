@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../models/quick_action_item.dart';
 import '../../theme/app_theme.dart';
@@ -117,7 +116,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     children: [
                       Text(
                         'Pengaturan Kantong',
-                        style: GoogleFonts.urbanist(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
                           color: textColor,
@@ -409,7 +408,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           child: Text(
                             _isSaldoVisible ? rawSaldo : '••••••••••••',
                             key: ValueKey<bool>(_isSaldoVisible),
-                            style: GoogleFonts.urbanist(
+                            style: const TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.w900,
                               color: Colors.white,
@@ -462,13 +461,11 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         ),
                         const SizedBox(height: 18),
 
-                        // Layout Adaptif untuk Desktop Web vs Mobile PWA
+                        // Multi-Platform Adaptive Layout (Desktop Dual-Column vs Mobile Single-Column)
                         if (isDesktop) ...[
-                          // Desktop Web Dual-Column Grid Layout (Visual Density High)
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Kolom Kiri: Kantong Keuangan & Quick Actions
                               Expanded(
                                 flex: 6,
                                 child: Column(
@@ -482,7 +479,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                                 ),
                               ),
                               const SizedBox(width: 24),
-                              // Kolom Kanan: Overview Keuangan & Riwayat Transaksi
                               Expanded(
                                 flex: 6,
                                 child: Column(
@@ -496,7 +492,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             ],
                           ),
                         ] else ...[
-                          // Mobile PWA Single-Column Flow Layout
                           _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, false),
                           const SizedBox(height: 24),
                           _buildQuickActionsSection(textColor, isDark, false),
@@ -540,7 +535,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           children: [
             Text(
               'Overview Keuangan',
-              style: GoogleFonts.urbanist(
+              style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
                 color: textColor,
@@ -590,7 +585,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     const SizedBox(height: 10),
                     Text(
                       _isSaldoVisible ? rawPemasukan : '••••••••',
-                      style: GoogleFonts.urbanist(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         color: textColor,
@@ -629,7 +624,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     const SizedBox(height: 10),
                     Text(
                       _isSaldoVisible ? rawPengeluaran : '••••••••',
-                      style: GoogleFonts.urbanist(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w900,
                         color: textColor,
@@ -663,7 +658,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               children: [
                 Text(
                   'Kantong Keuangan',
-                  style: GoogleFonts.urbanist(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     color: textColor,
@@ -780,7 +775,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               const SizedBox(height: 2),
               Text(
                 _isSaldoVisible ? amount : '••••••••',
-                style: GoogleFonts.urbanist(fontSize: 14, fontWeight: FontWeight.w900, color: textColor),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: textColor),
               ),
             ],
           ),
@@ -825,7 +820,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  /// Seksi Quick Actions Ter-kustomisasi (Terhubung ke CustomizeQuickActionsSheet)
   Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
     final activeActions = _userQuickActions.where((item) => item.isEnabled).toList();
 
@@ -837,7 +831,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           children: [
             Text(
               'Quick Actions',
-              style: GoogleFonts.urbanist(
+              style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w800,
                 color: textColor,
@@ -845,7 +839,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
             ),
             InkWell(
               onTap: () {
-                // Modal Dialog (Desktop) / BottomSheet (Mobile) Kustomisasi
                 CustomizeQuickActionsSheet.show(
                   context,
                   currentItems: _userQuickActions,
@@ -890,9 +883,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     return Column(
                       children: [
                         InkWell(
-                          onTap: () {
-                            // Action click handler
-                          },
+                          onTap: () {},
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
                             width: 48,
@@ -958,7 +949,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               children: [
                 Text(
                   'My Insight',
-                  style: GoogleFonts.urbanist(fontSize: 13, fontWeight: FontWeight.w900, color: textColor),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: textColor),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -989,7 +980,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           children: [
             Text(
               'Riwayat Transaksi',
-              style: GoogleFonts.urbanist(fontSize: 15, fontWeight: FontWeight.w800, color: textColor),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: textColor),
             ),
             if (widget.onNavigateToAnalisis != null)
               InkWell(
@@ -1049,7 +1040,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       ),
                       trailing: Text(
                         '${isPemasukan ? '+' : '-'}$formattedNominal',
-                        style: GoogleFonts.urbanist(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                           color: isPemasukan ? const Color(0xFF10B981) : textColor,
@@ -1086,9 +1077,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   icon: const Icon(AppIcons.arrowLeft, color: Colors.white, size: 20),
                 ),
                 const SizedBox(width: 8),
-                Text(
+                const Text(
                   'Semua Kantong Keuangan',
-                  style: GoogleFonts.urbanist(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                     color: Colors.white,
@@ -1166,7 +1157,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 const SizedBox(height: 2),
                 Text(
                   _isSaldoVisible ? amount : '••••••••',
-                  style: GoogleFonts.urbanist(fontSize: 15, fontWeight: FontWeight.w900, color: textColor),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: textColor),
                 ),
               ],
             ),
@@ -1233,7 +1224,7 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
             children: [
               Text(
                 'Tambah Kantong Keuangan',
-                style: GoogleFonts.urbanist(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: textColor,
@@ -1349,11 +1340,11 @@ class _OvoStyleTopBarDelegate extends SliverPersistentHeaderDelegate {
             ),
             child: const Icon(AppIcons.user, color: Colors.white, size: 16),
           ),
-          Expanded(
+          const Expanded(
             child: Center(
               child: Text(
                 'MyKas',
-                style: GoogleFonts.urbanist(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
