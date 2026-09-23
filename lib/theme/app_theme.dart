@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// AppTheme MyKas - Definisi Sistem Desain Multi-Platform (Light & Dark Mode)
-///
-/// Kompatibel dengan Mobile Native (Android/iOS), PWA Mobile, dan Web Desktop Dashboard.
+/// Kompatibel dengan Flutter 3.24.3 (Android/iOS, PWA, Web Desktop)
 class AppTheme {
   // --------------------------------------------------------------------------
   // ASSET TOKENS
   // --------------------------------------------------------------------------
-  /// Path gambar logo resmi MyKas untuk widget UI Flutter
   static const String logoAsset = 'assets/images/logo_mykas.png';
 
   // --------------------------------------------------------------------------
@@ -74,8 +72,8 @@ class AppTheme {
         actionsIconTheme: IconThemeData(color: textPrimaryLight),
       ),
 
-      // PERBAIKAN TIPE CARD THEME UNTUK FLUTTER WEB
-      cardTheme: CardThemeData(
+      // FIX UNTUK FLUTTER 3.24.3: Gunakan CardTheme (Bukan CardThemeData)
+      cardTheme: CardTheme(
         color: cardLight,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -101,7 +99,6 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
 
-      // DESKTOP NAVIGATION RAIL CONFIGURATION
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: cardLight,
         selectedIconTheme: const IconThemeData(color: brandPrimary),
@@ -180,8 +177,8 @@ class AppTheme {
         actionsIconTheme: IconThemeData(color: textPrimaryDark),
       ),
 
-      // PERBAIKAN TIPE CARD THEME UNTUK FLUTTER WEB
-      cardTheme: CardThemeData(
+      // FIX UNTUK FLUTTER 3.24.3: Gunakan CardTheme (Bukan CardThemeData)
+      cardTheme: CardTheme(
         color: cardDark,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -207,7 +204,6 @@ class AppTheme {
         type: BottomNavigationBarType.fixed,
       ),
 
-      // DESKTOP NAVIGATION RAIL CONFIGURATION
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: cardDark,
         selectedIconTheme: const IconThemeData(color: brandAccent),
