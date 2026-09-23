@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Tarik Code Repository
         uses: actions/checkout@v4
 
       - name: Setup Java JDK
@@ -38,13 +38,11 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
+      # 1. BUILD WEB DENGAN RENDERER HTML & CANVASKIT AUTO-FALLBACK
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/MyKas/" --no-tree-shake-icons
 
-      - name: Fix Base Href for GitHub Pages
-        run: |
-          sed -i 's/<base href="\/">/<base href="\/MyKas\/">/g' build/web/index.html || true
-
+      # 2. UPLOAD WEB ARTIFACT UNTUK GITHUB PAGES
       - name: Upload Web Artifact
         uses: actions/upload-pages-artifact@v3
         with:
