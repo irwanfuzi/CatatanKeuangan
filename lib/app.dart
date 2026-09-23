@@ -207,7 +207,11 @@ class _AppState extends State<App> {
           ),
           child: Row(
             children: [
-              Icon(icon, size: 20, color: isSelected ? AppTheme.brandPrimary : const Color(0xFF64748B)),
+              Icon(
+                icon,
+                size: 20,
+                color: isSelected ? AppTheme.brandPrimary : const Color(0xFF64748B),
+              ),
               const SizedBox(width: 14),
               Text(
                 label,
