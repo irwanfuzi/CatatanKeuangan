@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+/// Single Source of Truth Adaptor Ikon MyKas.
+/// Mencegah breaking changes & issue "Couldn't resolve package" pada Web/Mobile.
 class AppIcons {
   // Navigation & Primary Layout
   static const IconData wallet = LucideIcons.wallet;
