@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -38,11 +38,9 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # 1. BUILD WEB DENGAN RENDERER HTML & CANVASKIT AUTO-FALLBACK
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/MyKas/" --no-tree-shake-icons
 
-      # 2. UPLOAD WEB ARTIFACT UNTUK GITHUB PAGES
       - name: Upload Web Artifact
         uses: actions/upload-pages-artifact@v3
         with:
