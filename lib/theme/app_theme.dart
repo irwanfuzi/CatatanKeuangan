@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
+/// AppTheme MyKas - Clean, High-Contrast System Font Palette (Anti-Blank & Anti-Crash)
 class AppTheme {
-  // Warna Identitas Resmi MyKas (Sesuai Logo)
-  static const Color brandPrimary = Color(0xFF0052FF);    // Vibrant Electric Blue (Dompet Utama)
-  static const Color brandSecondary = Color(0xFFF59E0B);  // Amber Gold (Aksen Dompet & Kancing)
-  static const Color brandAccent = Color(0xFF00D1FF);     // Cyan Highlight
+  // Brand Colors
+  static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
+  static const Color brandSecondary = Color(0xFFF59E0B); // Amber Gold
 
-  // Background Light Mode
+  // Light Theme Colors
   static const Color bgLight = Color(0xFFF8FAFC);
   static const Color cardLight = Colors.white;
   static const Color borderLight = Color(0xFFE2E8F0);
   static const Color textPrimaryLight = Color(0xFF0F172A);
   static const Color textSecondaryLight = Color(0xFF64748B);
 
-  // Background Dark Mode
+  // Dark Theme Colors
   static const Color bgDark = Color(0xFF0F172A);
   static const Color cardDark = Color(0xFF1E293B);
   static const Color borderDark = Color(0xFF334155);
@@ -30,6 +30,16 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardLight,
+        background: bgLight,
+      ),
+      fontFamily: 'sans-serif', // Menggunakan System Font Native
+      cardTheme: CardTheme(
+        color: cardLight,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: borderLight, width: 1),
+        ),
       ),
     );
   }
@@ -44,6 +54,16 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardDark,
+        background: bgDark,
+      ),
+      fontFamily: 'sans-serif', // Menggunakan System Font Native
+      cardTheme: CardTheme(
+        color: cardDark,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: borderDark, width: 1),
+        ),
       ),
     );
   }
