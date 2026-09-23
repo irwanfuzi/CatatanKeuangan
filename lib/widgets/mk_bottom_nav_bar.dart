@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../utils/app_icons.dart';
 
-/// Bottom Navigation Bar Mobile & PWA MyKas
+/// Navigation Bar Mobile & PWA MyKas (Fixed Column Syntax Error)
 class MKBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -27,8 +27,9 @@ class MKBottomNavBar extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         child: Column(
+          // KOREKSI DARI 'main:' MENJADI 'mainAxisAlignment:'
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
-          main: MainAxisAlignment.center,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
@@ -77,7 +78,7 @@ class MKBottomNavBar extends StatelessWidget {
         children: [
           _buildNavItem(0, LucideIcons.house, 'Beranda'),
           _buildNavItem(1, LucideIcons.barChart3, 'Analisis'),
-          const SizedBox(width: 48), // Ruang khusus Floating Action Button
+          const SizedBox(width: 48), // Ruang Floating Action Button
           _buildNavItem(2, LucideIcons.folderOpen, 'Dompet'),
           _buildNavItem(3, LucideIcons.user, 'Profil'),
         ],
