@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
-import 'package:mykas/theme/app_theme.dart';
-import 'package:mykas/widgets/pwa_install_prompt_card.dart';
+import '../../theme/app_theme.dart';
+import '../../utils/app_icons.dart';
+import '../../widgets/pwa_install_prompt_card.dart';
 
 class BerandaScreen extends StatefulWidget {
   final Map<String, dynamic>? summaryData;
@@ -344,9 +343,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // MAIN BERANDA VIEW
-  // =========================================================================
   Widget _buildMainBerandaView(
     String rawSaldo,
     List recentTransactions,
@@ -372,7 +368,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   pinned: true,
                   delegate: _OvoStyleTopBarDelegate(),
                 ),
-
                 SliverToBoxAdapter(
                   child: Container(
                     color: const Color(0xFF0052FF),
@@ -442,7 +437,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                     ),
                   ),
                 ),
-
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.infinity,
@@ -472,21 +466,15 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           ),
                         ),
                         const SizedBox(height: 18),
-
                         const PwaInstallPromptCard(),
-
                         _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, isDesktop),
                         const SizedBox(height: 24),
-
                         _buildQuickActionsSection(textColor, isDark, isDesktop),
                         const SizedBox(height: 20),
-
                         _buildMyInsightCard(textColor, textMuted, isDark),
                         const SizedBox(height: 20),
-
                         _buildOverviewKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, isDesktop),
                         const SizedBox(height: 24),
-
                         _buildRecentTransactionsSection(recentTransactions, textColor, textMuted, cardBg, borderColor, isDark),
                         const SizedBox(height: 40),
                       ],
@@ -501,9 +489,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // OVERVIEW KEUANGAN
-  // =========================================================================
   Widget _buildOverviewKeuanganSection(
     Color textColor,
     Color textMuted,
@@ -628,9 +613,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // KANTONG KEUANGAN
-  // =========================================================================
   Widget _buildKantongKeuanganSection(
     Color textColor,
     Color textMuted,
@@ -811,9 +793,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // QUICK ACTIONS
-  // =========================================================================
   Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
     final actions = [
       {'label': 'Scan Struk', 'icon': LucideIcons.qrCode, 'color': const Color(0xFFF59E0B)},
@@ -874,9 +853,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // MY INSIGHT
-  // =========================================================================
   Widget _buildMyInsightCard(Color textColor, Color textMuted, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -920,9 +896,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // RECENT TRANSACTIONS
-  // =========================================================================
   Widget _buildRecentTransactionsSection(
     List recentTransactions,
     Color textColor,
@@ -1013,9 +986,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  // =========================================================================
-  // SUB PAGE: SEMUA KANTONG
-  // =========================================================================
   Widget _buildSemuaKantongSubPage(
     Color textColor,
     Color textMuted,
@@ -1134,9 +1104,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
   }
 }
 
-// =============================================================================
-// FORM KONTEN TAMBAH AKUN / KANTONG (MODAL / DIALOG)
-// =============================================================================
 class TambahAkunFormContent extends StatefulWidget {
   const TambahAkunFormContent({super.key});
 
@@ -1281,9 +1248,6 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
   }
 }
 
-// =============================================================================
-// OVO STYLE TOP APP BAR DELEGATE
-// =============================================================================
 class _OvoStyleTopBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   double get minExtent => 52.0;
