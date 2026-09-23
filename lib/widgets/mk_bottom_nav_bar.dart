@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../utils/app_icons.dart';
 
+/// Modern Floating Bottom Navigation Bar MyKas.
+/// Disesuaikan dengan Identitas Warna Logo Resmi (Electric Blue & Amber Gold).
 class MKBottomNavBar extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onTap;
+  final ValueChanged<int> onTap;
   final VoidCallback onAddPressed;
 
   const MKBottomNavBar({
@@ -17,58 +19,220 @@ class MKBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppTheme.cardDark : AppTheme.cardLight;
+
+    final navBgColor = isDark ? AppTheme.cardDark : Colors.white;
     final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
 
     return Container(
-      decoration: BoxDecoration(
-        color: bgColor,
-        border: Border(top: BorderSide(color: borderColor, width: 1)),
-      ),
-      height: 64,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildNavItem(0, AppIcons.layoutGrid, 'Beranda'),
-          _buildNavItem(1, AppIcons.barChart, 'Analisis'),
-          InkWell(
-            onTap: onAddPressed,
-            borderRadius: BorderRadius.circular(30),
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(
-                color: AppTheme.brandPrimary,
-                shape: BoxShape.circle,
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      color: Colors.transparent,
+      child: SafeArea(
+        top: false,
+        child: Stack(
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+          children: [
+            // 1. Container Utama Navigasi Melayang
+            Container(
+              height: 68,
+              decoration: BoxDecoration(
+                color: navBgColor,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: borderColor, width: 1),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.35 : 0.08),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              child: const Icon(AppIcons.plus, color: Colors.white, size: 22),
+              child: Row(
+                children: [
+                  // Tab 1: Beranda
+                  Expanded(
+                    child: _NavBarItem(
+                      icon: AppIcons.layoutGrid,
+                      label: 'Beranda',
+                      isSelected: currentIndex == 0,
+                      onTap: () => onTap(0),
+                    ),
+                  ),
+                  // Tab 2: Analisis
+                  Expanded(
+                    child: _NavBarItem(
+                      icon: AppIcons.barChart,
+                      label: 'Analisis',
+                      isSelected: currentIndex == 1,
+                      onTap: () => onTap(1),
+                    ),
+                  ),
+
+                  // Space Presisi untuk Center FAB (+)
+                  const SizedBox(width: 60),
+
+                  // Tab 3: Riwayat
+                  Expanded(
+                    child: _NavBarItem(
+                      icon: AppIcons.history,
+                      label: 'Riwayat',
+                      isSelected: currentIndex == 2,
+                      onTap: () => onTap(2),
+                    ),
+                  ),
+                  // Tab 4: Profil
+                  Expanded(
+                    child: _NavBarItem(
+                      icon: AppIcons.user,
+                      label: 'Profil',
+                      isSelected: currentIndex == 3,
+                      onTap: () => onTap(3),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          _buildNavItem(2, AppIcons.history, 'Riwayat'),
-          _buildNavItem(3, AppIcons.user, 'Profil'),
-        ],
+
+            // 2. Floating Action Button (+) dengan Sentuhan Amber Gold Logo MyKas
+            Positioned(
+              top: -14,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: onAddPressed,
+                  child: Container(
+                    width: 54,
+                    height: 54,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [AppTheme.brandPrimary, Color(0xFF0040C8)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: isDark ? AppTheme.bgDark : Colors.white,
+                        width: 3.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.brandPrimary.withOpacity(0.40),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Icon(
+                          AppIcons.plus,
+                          color: Colors.white,
+                          size: 26,
+                        ),
+                        // Small Amber Gold Accent Dot (Merepresentasikan Kancing Dompet Logo MyKas)
+                        Positioned(
+                          right: 12,
+                          top: 12,
+                          child: Container(
+                            width: 6,
+                            height: 6,
+                            decoration: const BoxDecoration(
+                              color: AppTheme.brandSecondary,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  Widget _buildNavItem(int index, IconData icon, String label) {
-    final isSelected = currentIndex == index;
+class _NavBarItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _NavBarItem({
+    required this.icon,
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    const activeColor = AppTheme.brandPrimary;
+    final inactiveColor = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
+
     return InkWell(
-      onTap: () => onTap(index),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      onTap: onTap,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: Stack(
+        alignment: Alignment.topCenter,
         children: [
-          Icon(
-            icon,
-            size: 20,
-            color: isSelected ? AppTheme.brandPrimary : const Color(0xFF94A3B8),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-              color: isSelected ? AppTheme.brandPrimary : const Color(0xFF94A3B8),
+          // Indikator Garis Biru Atas & Gradient Glow
+          if (isSelected) ...[
+            Container(
+              width: double.infinity,
+              height: 48,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    activeColor.withOpacity(0.14),
+                    activeColor.withOpacity(0.0),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: 32,
+              height: 3,
+              decoration: const BoxDecoration(
+                color: activeColor,
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(2),
+                ),
+              ),
+            ),
+          ],
+
+          // Content Icon & Label
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 4),
+                Icon(
+                  icon,
+                  color: isSelected ? activeColor : inactiveColor,
+                  size: 20,
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
+                    color: isSelected ? activeColor : inactiveColor,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
