@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Tarik Code Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Java JDK
@@ -29,7 +29,7 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Flutter (Lock Version 3.24.3)
+      - name: Setup Flutter (3.24.3)
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.24.3'
@@ -38,20 +38,13 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # 1. KOMPILASI FLUTTER WEB DENGAN BASE-HREF PERBAIKAN UNTUK GITHUB PAGES
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/MyKas/" --no-tree-shake-icons
 
-      # 2. AUTOMATIC COMMIT & PUSH BUNDLE BUILD/WEB KE MAIN BRANCH UNTUK VERCEL
-      - name: Commit & Push build/web ke Main Branch
+      - name: Fix Base Href for GitHub Pages
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add build/web -f
-          git commit -m "chore: auto-update web build artifacts for vercel & gh-pages" || echo "No changes to commit"
-          git push origin main || echo "No changes to push"
+          sed -i 's/<base href="\/">/<base href="\/MyKas\/">/g' build/web/index.html || true
 
-      # 3. UPLOAD WEB ARTIFACT UNTUK GITHUB PAGES
       - name: Upload Web Artifact
         uses: actions/upload-pages-artifact@v3
         with:
