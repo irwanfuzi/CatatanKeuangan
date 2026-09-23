@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 
-/// AppTheme MyKas - Clean, High-Contrast System Font Palette
-/// Compatible with Flutter 3.24.3+ (Fixes CardThemeData Method Not Found Issue)
 class AppTheme {
-  // Brand Colors
-  static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
-  static const Color brandSecondary = Color(0xFFF59E0B); // Amber Gold
+  static const Color brandPrimary = Color(0xFF0052FF);
+  static const Color brandSecondary = Color(0xFFF59E0B);
 
-  // Light Theme Colors
   static const Color bgLight = Color(0xFFF8FAFC);
   static const Color cardLight = Colors.white;
   static const Color borderLight = Color(0xFFE2E8F0);
   static const Color textPrimaryLight = Color(0xFF0F172A);
   static const Color textSecondaryLight = Color(0xFF64748B);
 
-  // Dark Theme Colors
   static const Color bgDark = Color(0xFF0F172A);
   static const Color cardDark = Color(0xFF1E293B);
   static const Color borderDark = Color(0xFF334155);
@@ -33,7 +28,6 @@ class AppTheme {
         surface: cardLight,
       ),
       fontFamily: 'sans-serif',
-      // Menggunakan CardTheme yang valid di Flutter 3.24.3
       cardTheme: CardTheme(
         color: cardLight,
         elevation: 0,
@@ -57,7 +51,6 @@ class AppTheme {
         surface: cardDark,
       ),
       fontFamily: 'sans-serif',
-      // Menggunakan CardTheme yang valid di Flutter 3.24.3
       cardTheme: CardTheme(
         color: cardDark,
         elevation: 0,
