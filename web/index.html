@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="$FLUTTER_BASE_HREF">
+  <script>
+    // Dynamic Base Href: Otomatis menyesuaikan path Vercel Proxy (/) dan GitHub Pages (/MyKas/)
+    (function() {
+      var path = window.location.pathname;
+      var baseHref = '/';
+      if (path.indexOf('/MyKas') === 0) {
+        baseHref = '/MyKas/';
+      }
+      var base = document.createElement('base');
+      base.href = baseHref;
+      document.head.appendChild(base);
+    })();
+  </script>
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="MyKas - Own Your Money">
 
-  <!-- Hancurkan Cache Browser & PWA -->
+  <!-- Anti-Cache Directives -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <!-- Meta Tag PWA & iOS Safari -->
+  <!-- PWA & iOS Safari Meta -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
@@ -72,7 +84,7 @@
   </div>
 
   <script>
-    // Force Unregister Seluruh Service Worker Lama yang Nyangkut
+    // Menghapus Service Worker lama yang berpotensi menyimpan cache rusak
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
@@ -81,7 +93,7 @@
       });
     }
 
-    function hideLoader() {
+    function removeLoader() {
       var el = document.getElementById('app-loading');
       if (el) {
         el.style.opacity = '0';
@@ -96,11 +108,11 @@
     window.addEventListener('load', function(ev) {
       _flutter.loader.load({
         serviceWorkerSettings: {
-          serviceWorkerVersion: null, // Matikan Cache SW
+          serviceWorkerVersion: null,
         },
         onEntrypointLoaded: async function(engineInitializer) {
           const appRunner = await engineInitializer.initializeEngine();
-          hideLoader();
+          removeLoader();
           await appRunner.runApp();
         }
       });
