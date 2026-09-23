@@ -1,19 +1,19 @@
 name: catatan_keuangan
-description: "Aplikasi Catatan Keuangan PWA & Multi-Platform"
+description: "Aplikasi Catatan Keuangan MyKas - Multi-Platform PWA"
 publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
-  # Hapus / matikan package icon yang memicu "IconData final class error"
-  # font_awesome_flutter: ^10.7.0
-  # lucide_icons: ^0.257.0
+  # Gunakan versi package yang mendukung Flutter 3.24+ / Dart 3
+  font_awesome_flutter: ^10.7.0
+  lucide_icons: ^0.257.0
 
 dev_dependencies:
   flutter_test:
