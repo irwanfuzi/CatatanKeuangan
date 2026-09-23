@@ -1,5 +1,5 @@
-name: catatan_keuangan
-description: "Aplikasi Catatan Keuangan MyKas - Multi-Platform PWA"
+name: mykas
+description: "MyKas - Financial Management PWA & Multi-Platform App"
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -11,9 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
-  # Gunakan versi package yang mendukung Flutter 3.24+ / Dart 3
-  font_awesome_flutter: ^10.7.0
-  lucide_icons: ^0.257.0
 
 dev_dependencies:
   flutter_test:
