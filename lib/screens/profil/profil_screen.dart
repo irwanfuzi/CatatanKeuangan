@@ -41,19 +41,22 @@ class _ProfilScreenState extends State<ProfilScreen> {
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: isDesktop ? 800 : 540),
                 child: ListView(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(isDesktop ? 32.0 : 20.0),
                   children: [
                     Text(
                       'Profil & Pengaturan',
                       style: GoogleFonts.urbanist(
-                        fontSize: 22,
+                        fontSize: isDesktop ? 26 : 22,
                         fontWeight: FontWeight.w900,
                         color: textColor,
+                        letterSpacing: -0.5,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
+
+                    // User Info Card
                     Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: cardBg,
                         borderRadius: BorderRadius.circular(20),
@@ -62,11 +65,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       child: Row(
                         children: [
                           CircleAvatar(
-                            radius: 28,
+                            radius: 30,
                             backgroundColor: AppTheme.brandPrimary.withOpacity(0.15),
-                            child: const Icon(AppIcons.user, color: AppTheme.brandPrimary, size: 28),
+                            child: const Icon(
+                              AppIcons.user,
+                              color: AppTheme.brandPrimary,
+                              size: 30,
+                            ),
                           ),
-                          const SizedBox(width: 14),
+                          const SizedBox(width: 16),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +89,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                                 const SizedBox(height: 2),
                                 Text(
                                   'user@mykas.app',
-                                  style: TextStyle(fontSize: 12, color: textMuted),
+                                  style: TextStyle(fontSize: 13, color: textMuted),
                                 ),
                               ],
                             ),
@@ -90,7 +97,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
+
+                    // Dark Mode Toggle
                     Container(
                       decoration: BoxDecoration(
                         color: cardBg,
@@ -101,11 +110,15 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         value: isDark,
                         title: Text(
                           'Mode Gelap',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: textColor),
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
                         ),
                         subtitle: Text(
                           'Gunakan tema gelap untuk kenyamanan mata',
-                          style: TextStyle(fontSize: 11, color: textMuted),
+                          style: TextStyle(fontSize: 12, color: textMuted),
                         ),
                         activeColor: AppTheme.brandPrimary,
                         onChanged: (val) {
@@ -115,10 +128,12 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 24),
+
+                    // Logout Button
                     SizedBox(
                       width: double.infinity,
-                      height: 48,
+                      height: 50,
                       child: OutlinedButton.icon(
                         onPressed: widget.onLogout,
                         icon: const Icon(AppIcons.close, size: 18, color: Color(0xFFEF4444)),
