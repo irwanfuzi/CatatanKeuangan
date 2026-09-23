@@ -1,48 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'app.dart';
-import 'theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyKasApp());
 }
 
-class MyKasApp extends StatefulWidget {
+class MyKasApp extends StatelessWidget {
   const MyKasApp({super.key});
-
-  @override
-  State<MyKasApp> createState() => _MyKasAppState();
-}
-
-class _MyKasAppState extends State<MyKasApp> {
-  bool _isDark = false;
-
-  void _toggleTheme(bool isDark) {
-    setState(() {
-      _isDark = isDark;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'MyKas',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme.copyWith(
-        textTheme: GoogleFonts.plusJakartaSansTextTheme(
-          AppTheme.lightTheme.textTheme,
-        ),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: const Color(0xFF0052FF),
       ),
-      darkTheme: AppTheme.darkTheme.copyWith(
-        textTheme: GoogleFonts.plusJakartaSansTextTheme(
-          AppTheme.darkTheme.textTheme,
+      home: const Scaffold(
+        body: Center(
+          child: Text(
+            'MyKas App Ready',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
-      ),
-      themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
-      home: App(
-        onThemeChanged: _toggleTheme,
       ),
     );
   }
