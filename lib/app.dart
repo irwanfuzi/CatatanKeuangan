@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import '../../utils/app_icons.dart';
-import '../../theme/app_theme.dart';
 
-import 'screens/beranda/beranda_screen.dart';
 import 'screens/analisis/analisis_screen.dart';
-import 'screens/riwayat/riwayat_screen.dart';
+import 'screens/beranda/beranda_screen.dart';
 import 'screens/profil/profil_screen.dart';
-import 'widgets/mk_bottom_nav_bar.dart';
+import 'screens/riwayat/riwayat_transaksi_screen.dart';
 import 'services/api_service.dart';
 import 'theme/app_theme.dart';
+import 'utils/app_icons.dart';
+import 'widgets/mk_bottom_nav_bar.dart';
 
 class App extends StatefulWidget {
   final Function(bool isDark)? onThemeChanged;
@@ -62,7 +59,12 @@ class _AppState extends State<App> {
   }
 
   void _onAddTapped() {
-    showCtaBottomSheet(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Fitur Catat Transaksi Cepat Aktif!'),
+        backgroundColor: AppTheme.brandPrimary,
+      ),
+    );
   }
 
   @override
@@ -100,7 +102,7 @@ class _AppState extends State<App> {
         ];
 
         return Scaffold(
-          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight,
+          backgroundColor: isDark ? AppTheme.bgDark : AppTheme.bgLight;
           extendBody: false, // DOCKED DESIGN: Konten beranda rapat di atas docked navbar
           body: Row(
             children: [
@@ -183,7 +185,7 @@ class _AppState extends State<App> {
               : MKBottomNavBar(
                   currentIndex: _currentIndex,
                   onTap: _onTabTapped,
-                  onAddTap: _onAddTapped,
+                  onAddPressed: _onAddTapped,
                 ),
         );
       },
