@@ -8,8 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="MyKas - Own Your Money">
 
-  <!-- Hindari Cache Versi Lama -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <!-- Hancurkan Cache Browser & PWA -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
@@ -21,7 +21,6 @@
 
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="manifest" href="manifest.json">
 
   <title>MyKas - Own Your Money</title>
 
@@ -43,11 +42,11 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.3s ease;
     }
     .spinner {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border: 3px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       border-top-color: #0052FF;
@@ -73,30 +72,35 @@
   </div>
 
   <script>
-    function removeLoader() {
-      var loadingEl = document.getElementById('app-loading');
-      if (loadingEl) {
-        loadingEl.style.opacity = '0';
+    // Force Unregister Seluruh Service Worker Lama yang Nyangkut
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+
+    function hideLoader() {
+      var el = document.getElementById('app-loading');
+      if (el) {
+        el.style.opacity = '0';
         setTimeout(function() {
-          if (loadingEl && loadingEl.parentNode) {
-            loadingEl.parentNode.removeChild(loadingEl);
+          if (el && el.parentNode) {
+            el.parentNode.removeChild(el);
           }
-        }, 400);
+        }, 300);
       }
     }
 
     window.addEventListener('load', function(ev) {
-      // Fail-safe Timeout: Lepas spinner setelah 5 detik jika script terlambat
-      var fallbackTimer = setTimeout(removeLoader, 5000);
-
       _flutter.loader.load({
         serviceWorkerSettings: {
-          serviceWorkerVersion: null,
+          serviceWorkerVersion: null, // Matikan Cache SW
         },
         onEntrypointLoaded: async function(engineInitializer) {
-          clearTimeout(fallbackTimer);
           const appRunner = await engineInitializer.initializeEngine();
-          removeLoader();
+          hideLoader();
           await appRunner.runApp();
         }
       });
