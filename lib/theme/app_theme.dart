@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// AppTheme MyKas - Clean, High-Contrast System Font Palette
-/// Compatible with Flutter 3.24+ & 3.27+ (CardThemeData fix)
+/// Compatible with Flutter 3.24.3+ (Fixes CardThemeData Method Not Found Issue)
 class AppTheme {
   // Brand Colors
   static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
@@ -31,11 +31,10 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardLight,
-        background: bgLight,
       ),
       fontFamily: 'sans-serif',
-      // Menggunakan CardThemeData untuk kompatibilitas Flutter SDK terbaru
-      cardTheme: CardThemeData(
+      // Menggunakan CardTheme yang valid di Flutter 3.24.3
+      cardTheme: CardTheme(
         color: cardLight,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -56,11 +55,10 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardDark,
-        background: bgDark,
       ),
       fontFamily: 'sans-serif',
-      // Menggunakan CardThemeData untuk kompatibilitas Flutter SDK terbaru
-      cardTheme: CardThemeData(
+      // Menggunakan CardTheme yang valid di Flutter 3.24.3
+      cardTheme: CardTheme(
         color: cardDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
