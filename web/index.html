@@ -8,7 +8,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="MyKas - Own Your Money">
 
-  <!-- Meta Tag Wajib PWA & iOS Safari -->
+  <!-- Meta Tag No-Cache Agar PWA Selalu Mengambil Versi Terbaru -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- Meta Tag PWA & iOS Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
@@ -18,14 +23,9 @@
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-  <!-- Apple Touch Icons PWA -->
-  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
-
   <title>MyKas - Own Your Money</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Pre-load Container Animation -->
   <style>
     body {
       background-color: #0F172A;
@@ -74,10 +74,9 @@
 
   <script>
     window.addEventListener('load', function(ev) {
-      // Menggunakan _flutter.loader.load Terbaru (Bebas Deprecation Warning)
       _flutter.loader.load({
         serviceWorkerSettings: {
-          serviceWorkerVersion: null,
+          serviceWorkerVersion: null, // Disable SW Cache untuk menghindari versi nyangkut
         },
         onEntrypointLoaded: async function(engineInitializer) {
           const appRunner = await engineInitializer.initializeEngine();
