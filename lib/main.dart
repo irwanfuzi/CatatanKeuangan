@@ -2,18 +2,15 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../utils/app_icons.dart';
-import '../../theme/app_theme.dart';
 
-// Import Theme & App Shell Utama
-import 'theme/app_theme.dart';
 import 'app.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Kunci orientasi ke Portrait khusus di perangkat Smartphone Native / PWA
-  if (!kIsWeb) {
+  // Kunci orientasi ke Portrait khusus di perangkat Smartphone Native
+  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -31,10 +28,10 @@ class MyKasApp extends StatefulWidget {
 }
 
 class _MyKasAppState extends State<MyKasApp> {
-  // 1. Variabel pengendali tema global
+  // Pengendali tema global (Default: Dark Theme)
   ThemeMode _themeMode = ThemeMode.dark;
 
-  // 2. Fungsi callback pengubah tema yang dipanggil dari Profil / Settings
+  /// Callback pengubah tema dari Profil / Pengaturan
   void _toggleTheme(bool isDark) {
     setState(() {
       _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -42,8 +39,10 @@ class _MyKasAppState extends State<MyKasApp> {
     _updateSystemOverlayUI(isDark);
   }
 
-  // Sinkronisasi warna status bar & navigation bar sistem HP Android / iOS
+  /// Sinkronisasi warna status bar & navigation bar sistem Android / iOS
   void _updateSystemOverlayUI(bool isDark) {
+    if (kIsWeb) return; // Skip di Web Desktop untuk efisiensi render
+    
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -51,6 +50,7 @@ class _MyKasAppState extends State<MyKasApp> {
         statusBarBrightness: Brightness.dark,
         systemNavigationBarColor: isDark ? const Color(0xFF0B0F17) : Colors.white,
         systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+        systemNavigationBarContrastEnforced: false,
       ),
     );
   }
@@ -67,15 +67,15 @@ class _MyKasAppState extends State<MyKasApp> {
       title: 'MyKas - Catatan Keuangan Modern',
       debugShowCheckedModeBanner: false,
       
-      // Tema Aplikasi dari AppTheme
+      // Sistem Tema Aplikasi
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
 
-      // Custom Scroll Behavior untuk Dukungan Touch, Mouse Drag, & Trackpad Desktop
+      // Dukungan Scroll Multi-Platform (Touch, Mouse Drag, Trackpad, Stylus)
       scrollBehavior: const AppCustomScrollBehavior(),
 
-      // Home memanggil Shell Navigasi Utama di app.dart
+      // Shell Navigasi Utama Aplikasi
       home: App(
         onThemeChanged: _toggleTheme,
       ),
