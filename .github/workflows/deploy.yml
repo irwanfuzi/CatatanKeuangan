@@ -38,9 +38,9 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      # 1. KOMPILASI FLUTTER WEB DI GITHUB ACTIONS RUNNER
+      # 1. KOMPILASI FLUTTER WEB DENGAN BASE-HREF PERBAIKAN UNTUK GITHUB PAGES
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/" --no-tree-shake-icons
+        run: flutter build web --release --base-href "/MyKas/" --no-tree-shake-icons
 
       # 2. AUTOMATIC COMMIT & PUSH BUNDLE BUILD/WEB KE MAIN BRANCH UNTUK VERCEL
       - name: Commit & Push build/web ke Main Branch
