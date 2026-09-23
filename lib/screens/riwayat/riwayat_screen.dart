@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+
 import '../../services/api_service.dart';
 import '../../theme/app_theme.dart';
+import '../../utils/app_icons.dart';
 
 class RiwayatTransaksiScreen extends StatefulWidget {
   final Map<String, dynamic>? summaryData;
@@ -27,7 +28,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     super.dispose();
   }
 
-  // ANTI-FALLBACK "TRANSAKSI": BACA MULTI-KEY TERMASUK 'KETERANGAN' DARI GOOGLE SHEETS
   String _getItemTitle(Map<String, dynamic> item) {
     final title = item['Keterangan'] ?? 
                   item['keterangan'] ?? 
@@ -37,25 +37,21 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                   item['title'];
     
     if (title != null && title.toString().trim().isNotEmpty) {
-      // Clean string jika ada karakter spasi berlebih
       return title.toString().trim();
     }
     return 'Transaksi Kas';
   }
 
-  // AMBIL KATEGORI DAN BERSIHKAN DARI EMOJI BILA ADA (Contoh: "🍔 Makanan" -> "Makanan")
   String _getItemCategory(Map<String, dynamic> item) {
     final cat = item['Kategori'] ?? item['kategori'] ?? 'Lainnya';
     return cat.toString().replaceAll(RegExp(r'[\u{1F300}-\u{1F9FF}]', unicode: true), '').trim();
   }
 
-  // AMBIL SUMBER / KANTONG (Contoh: "Rekening Bank", "Kantong Tunai")
   String _getItemSource(Map<String, dynamic> item) {
     final source = item['Sumber'] ?? item['sumber'] ?? item['Kantong'] ?? item['kantong'] ?? item['F'] ?? 'Kas Utama';
     return source.toString().replaceAll(RegExp(r'[\u{1F300}-\u{1F9FF}]', unicode: true), '').trim();
   }
 
-  // FORMAT NOMINAL RUPIAH
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp0';
     String strVal = rawNominal.toString().replaceAll(RegExp(r'[^0-9]'), '');
@@ -74,7 +70,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
     return 'Rp$buffer';
   }
 
-  // IKON DINAMIS SESUAI KATEGORI KAS GOOGLE SHEETS
   IconData _getCategoryIcon(String kategori) {
     final katLower = kategori.toLowerCase();
     if (katLower.contains('makan') || katLower.contains('kuliner') || katLower.contains('food')) {
@@ -446,7 +441,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
             padding: const EdgeInsets.all(14.0),
             child: Row(
               children: [
-                // ICON KATEGORI DINAMIS
                 Container(
                   width: 44,
                   height: 44,
@@ -463,8 +457,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                   ),
                 ),
                 const SizedBox(width: 14),
-
-                // JUDUL DARI KOLOM KETERANGAN GOOGLE SHEETS
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -484,13 +476,11 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                         children: [
                           if (tanggal.isNotEmpty) ...[
                             Text(
-                              tanggal.split(' ')[0], // Ambil bagian tanggal
+                              tanggal.split(' ')[0],
                               style: TextStyle(fontSize: 10, color: textMuted, fontWeight: FontWeight.w500),
                             ),
                             Text(' • ', style: TextStyle(fontSize: 10, color: textMuted)),
                           ],
-                          Icon(LucideIcons.tag, size: 10, color: textMuted),
-                          const SizedBox(width: 3),
                           Text(
                             kategori,
                             style: TextStyle(fontSize: 10, color: textMuted, fontWeight: FontWeight.w500),
@@ -500,8 +490,6 @@ class _RiwayatTransaksiScreenState extends State<RiwayatTransaksiScreen> {
                     ],
                   ),
                 ),
-
-                // NOMINAL TRANSAKSI
                 Text(
                   isPemasukan ? '+$formattedNominal' : '-$formattedNominal',
                   style: GoogleFonts.urbanist(
