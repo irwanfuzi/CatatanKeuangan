@@ -1,15 +1,9 @@
 {
   "version": 2,
-  "framework": null,
-  "buildCommand": "bash build_vercel.sh",
-  "outputDirectory": "build/web",
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/.*",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "https://irwanfuzi.github.io/MyKas/$1"
     }
   ]
 }
