@@ -8,22 +8,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="MyKas - Own Your Money">
 
-  <!-- iOS & PWA Meta Tags -->
+  <!-- Meta Tag Wajib PWA & iOS Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
   <meta name="theme-color" content="#0052FF">
 
-  <!-- Favicon & Icons -->
+  <!-- Favicon Browser -->
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Apple Touch Icons PWA -->
   <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
 
   <title>MyKas - Own Your Money</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Pre-load Loading Indicator agar Tidak Hitam Polos Saat Bootstrap -->
+  <!-- Pre-load Container Animation -->
   <style>
     body {
       background-color: #0F172A;
@@ -72,20 +74,18 @@
 
   <script>
     window.addEventListener('load', function(ev) {
-      // Inisialisasi Flutter Engine secara robust
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: null, // Mencegah PWA Cache Stale di GitHub Pages
+      // Menggunakan _flutter.loader.load Terbaru (Bebas Deprecation Warning)
+      _flutter.loader.load({
+        serviceWorkerSettings: {
+          serviceWorkerVersion: null,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            // Hapus Loading Spinner begitu Flutter Engine siap
-            var loadingEl = document.getElementById('app-loading');
-            if (loadingEl) {
-              loadingEl.remove();
-            }
-            appRunner.runApp();
-          });
+        onEntrypointLoaded: async function(engineInitializer) {
+          const appRunner = await engineInitializer.initializeEngine();
+          var loadingEl = document.getElementById('app-loading');
+          if (loadingEl) {
+            loadingEl.remove();
+          }
+          await appRunner.runApp();
         }
       });
     });
