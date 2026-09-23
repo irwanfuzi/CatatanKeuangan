@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
-/// AppIcons Adapter - Murni Material Icons Bawaan Flutter (Zero External Dependency)
+/// Single Source of Truth Icon Adapter MyKas
+/// Bebas ketergantungan paket luar, 100% kompatibel dengan Flutter 3.24+ & Dart 3.
 class LucideIcons {
-  static const IconData wallet = Icons.account_balance_wallet_rounded;
+  static const IconData house = Icons.home_rounded;
   static const IconData layoutGrid = Icons.grid_view_rounded;
   static const IconData barChart3 = Icons.bar_chart_rounded;
+  static const IconData folderOpen = Icons.folder_open_rounded;
+  static const IconData wallet = Icons.account_balance_wallet_rounded;
   static const IconData history = Icons.history_rounded;
   static const IconData user = Icons.person_rounded;
   static const IconData x = Icons.close_rounded;
