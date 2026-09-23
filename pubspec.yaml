@@ -1,6 +1,7 @@
-name: mykas
-description: Premium Financial Tracker App.
+name: catatan_keuangan
+description: "Aplikasi Catatan Keuangan PWA & Multi-Platform"
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
@@ -10,19 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
-  font_awesome_flutter: 10.7.0
-  fl_chart: ^0.65.0
-  flutter_svg: ^2.0.9
-  http: ^1.2.2
-  lucide_icons: ^0.257.0
+  # Hapus / matikan package icon yang memicu "IconData final class error"
+  # font_awesome_flutter: ^10.7.0
+  # lucide_icons: ^0.257.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
-assets:
+  assets:
     - assets/images/logo_mykas.png
-
