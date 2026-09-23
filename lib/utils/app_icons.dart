@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Single Source of Truth Icon Adapter MyKas
-/// Bebas ketergantungan paket luar, 100% kompatibel dengan Flutter 3.24+ & Dart 3.
+/// Menggunakan Material Icons Bawaan Flutter (Zero External Dependency & Dart 3 Safe)
 class LucideIcons {
   static const IconData house = Icons.home_rounded;
   static const IconData layoutGrid = Icons.grid_view_rounded;
