@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_theme.dart';
 import '../../utils/app_icons.dart';
-import '../../widgets/pwa_install_prompt_card.dart';
 
 class BerandaScreen extends StatefulWidget {
   final Map<String, dynamic>? summaryData;
@@ -466,7 +465,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           ),
                         ),
                         const SizedBox(height: 18),
-                        const PwaInstallPromptCard(),
                         _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, isDesktop),
                         const SizedBox(height: 24),
                         _buildQuickActionsSection(textColor, isDark, isDesktop),
