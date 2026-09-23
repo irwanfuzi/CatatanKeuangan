@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// AppIcons Mapping - Fail-Safe Icon Adapter untuk Flutter Web
+/// AppIcons Adapter - Murni Material Icons Bawaan Flutter (Zero External Dependency)
 class LucideIcons {
   static const IconData wallet = Icons.account_balance_wallet_rounded;
   static const IconData layoutGrid = Icons.grid_view_rounded;
