@@ -1,42 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'app.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyKasApp());
 }
 
-class MyKasApp extends StatelessWidget {
+class MyKasApp extends StatefulWidget {
   const MyKasApp({super.key});
+
+  @override
+  State<MyKasApp> createState() => _MyKasAppState();
+}
+
+class _MyKasAppState extends State<MyKasApp> {
+  bool _isDark = false;
+
+  void _toggleTheme(bool isDark) {
+    setState(() {
+      _isDark = isDark;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyKas',
+      title: 'MyKas - Financial Engine',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF0052FF),
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF0052FF),
-        brightness: Brightness.dark,
-      ),
-      home: const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.account_balance_wallet_rounded, size: 48, color: Color(0xFF0052FF)),
-              SizedBox(height: 12),
-              Text(
-                'MyKas App Ready',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+      theme: AppTheme.lightTheme.copyWith(
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(
+          AppTheme.lightTheme.textTheme,
         ),
+      ),
+      darkTheme: AppTheme.darkTheme.copyWith(
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(
+          AppTheme.darkTheme.textTheme,
+        ),
+      ),
+      themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+      home: App(
+        onThemeChanged: _toggleTheme,
       ),
     );
   }
