@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../utils/app_icons.dart';
 
-/// Modern Floating Bottom Navigation Bar MyKas.
-/// Disesuaikan dengan Identitas Warna Logo Resmi (Electric Blue & Amber Gold).
+/// Solid Docked Bottom Navigation Bar khas MyKas.
+/// Menempel rapi di bawah layar dengan Flat Center FAB (+) & Label "Catat".
 class MKBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -24,30 +24,22 @@ class MKBottomNavBar extends StatelessWidget {
     final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      color: Colors.transparent,
+      decoration: BoxDecoration(
+        color: navBgColor,
+        border: Border(
+          top: BorderSide(color: borderColor, width: 1.0),
+        ),
+      ),
       child: SafeArea(
         top: false,
-        child: Stack(
-          alignment: Alignment.center,
-          clipBehavior: Clip.none,
-          children: [
-            // 1. Container Utama Navigasi Melayang
-            Container(
-              height: 68,
-              decoration: BoxDecoration(
-                color: navBgColor,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: borderColor, width: 1),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(isDark ? 0.35 : 0.08),
-                    blurRadius: 20,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Row(
+        child: SizedBox(
+          height: 66,
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              // Row Tab Navigasi Utama
+              Row(
                 children: [
                   // Tab 1: Beranda
                   Expanded(
@@ -68,7 +60,7 @@ class MKBottomNavBar extends StatelessWidget {
                     ),
                   ),
 
-                  // Space Presisi untuk Center FAB (+)
+                  // Space Presisi untuk Center FAB (+) "Catat"
                   const SizedBox(width: 60),
 
                   // Tab 3: Riwayat
@@ -91,56 +83,65 @@ class MKBottomNavBar extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
 
-            // 2. Floating Action Button (+) dengan Sentuhan Amber Gold Logo MyKas
-            Positioned(
-              top: -14,
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  onTap: onAddPressed,
-                  child: Container(
-                    width: 54,
-                    height: 54,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [AppTheme.brandPrimary, Color(0xFF0040C8)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isDark ? AppTheme.bgDark : Colors.white,
-                        width: 3.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.brandPrimary.withOpacity(0.40),
-                          blurRadius: 16,
-                          offset: const Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
+              // Tombol Flat Center FAB (+) dengan Label "Catat" (Tanpa Bayangan)
+              Positioned(
+                top: -16,
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: onAddPressed,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
-                          AppIcons.plus,
-                          color: Colors.white,
-                          size: 26,
-                        ),
-                        // Small Amber Gold Accent Dot (Merepresentasikan Kancing Dompet Logo MyKas)
-                        Positioned(
-                          right: 12,
-                          top: 12,
-                          child: Container(
-                            width: 6,
-                            height: 6,
-                            decoration: const BoxDecoration(
-                              color: AppTheme.brandSecondary,
-                              shape: BoxShape.circle,
+                        Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [AppTheme.brandPrimary, Color(0xFF0040C8)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: navBgColor,
+                              width: 3.0,
+                            ),
+                            // BoxShadow Dihapus Total (No Shadow)
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const Icon(
+                                AppIcons.plus,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                              // Kancing Aksen Emas (Logo MyKas)
+                              Positioned(
+                                right: 10,
+                                top: 10,
+                                child: Container(
+                                  width: 5,
+                                  height: 5,
+                                  decoration: const BoxDecoration(
+                                    color: AppTheme.brandSecondary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        const Text(
+                          'Catat',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                            color: AppTheme.brandPrimary,
+                            letterSpacing: -0.2,
                           ),
                         ),
                       ],
@@ -148,8 +149,8 @@ class MKBottomNavBar extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -183,24 +184,24 @@ class _NavBarItem extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // Indikator Garis Biru Atas & Gradient Glow
+          // Indikator Garis Atas & Soft Glow Gradient saat Aktif
           if (isSelected) ...[
             Container(
               width: double.infinity,
-              height: 48,
+              height: 44,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    activeColor.withOpacity(0.14),
+                    activeColor.withOpacity(0.12),
                     activeColor.withOpacity(0.0),
                   ],
                 ),
               ),
             ),
             Container(
-              width: 32,
+              width: 28,
               height: 3,
               decoration: const BoxDecoration(
                 color: activeColor,
@@ -211,12 +212,12 @@ class _NavBarItem extends StatelessWidget {
             ),
           ],
 
-          // Content Icon & Label
+          // Ikon dan Teks Label
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Icon(
                   icon,
                   color: isSelected ? activeColor : inactiveColor,
