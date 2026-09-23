@@ -127,13 +127,13 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(LucideIcons.x, size: 18, color: textColor),
+                    icon: Icon(AppIcons.x, size: 18, color: textColor),
                   ),
                 ],
               ),
               const SizedBox(height: 16),
               _buildSettingTileItem(
-                icon: LucideIcons.pencil,
+                icon: AppIcons.pencil,
                 title: 'Ubah Nama & Kategori',
                 subtitle: 'Ganti nama, jenis, atau ikon kantong',
                 tileBg: tileBg,
@@ -143,7 +143,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 onTap: () => Navigator.pop(context),
               ),
               _buildSettingTileItem(
-                icon: LucideIcons.sliders,
+                icon: AppIcons.sliders,
                 title: 'Atur Limit Pengeluaran',
                 subtitle: 'Pasang batas budget bulanan kantong ini',
                 tileBg: tileBg,
@@ -153,7 +153,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 onTap: () => Navigator.pop(context),
               ),
               _buildSettingTileItem(
-                icon: LucideIcons.checkCircle2,
+                icon: AppIcons.checkCircle2,
                 title: 'Jadikan Kantong Utama',
                 subtitle: 'Gunakan sebagai sumber dana default',
                 tileBg: tileBg,
@@ -163,7 +163,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 onTap: () => Navigator.pop(context),
               ),
               _buildSettingTileItem(
-                icon: LucideIcons.trash2,
+                icon: AppIcons.trash2,
                 title: 'Hapus Kantong',
                 subtitle: 'Keluarkan kantong ini dari daftar MyKas',
                 tileBg: tileBg,
@@ -217,7 +217,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           subtitle,
           style: TextStyle(fontSize: 10, color: subtitleColor),
         ),
-        trailing: Icon(LucideIcons.chevronRight, size: 16, color: subtitleColor),
+        trailing: Icon(AppIcons.chevronRight, size: 16, color: subtitleColor),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -246,7 +246,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'tanggal': 'Hari Ini, 12:45',
         'nominal': '45000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.utensils,
+        'icon': AppIcons.utensils,
         'iconBg': const Color(0xFFF97316),
       },
       {
@@ -255,7 +255,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'tanggal': '25 Agu 2026',
         'nominal': '8500000',
         'jenis': 'pemasukan',
-        'icon': LucideIcons.wallet,
+        'icon': AppIcons.wallet,
         'iconBg': const Color(0xFF10B981),
       },
       {
@@ -264,7 +264,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'tanggal': '24 Agu 2026',
         'nominal': '68000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.shoppingBag,
+        'icon': AppIcons.shoppingBag,
         'iconBg': const Color(0xFF00AED6),
       },
       {
@@ -273,7 +273,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'tanggal': '22 Agu 2026',
         'nominal': '235000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.shoppingCart,
+        'icon': AppIcons.shoppingCart,
         'iconBg': const Color(0xFF8B5CF6),
       },
       {
@@ -282,7 +282,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
         'tanggal': '20 Agu 2026',
         'nominal': '500000',
         'jenis': 'pengeluaran',
-        'icon': LucideIcons.arrowUpRight,
+        'icon': AppIcons.arrowUpRight,
         'iconBg': const Color(0xFF00A39D),
       },
     ];
@@ -397,7 +397,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Icon(
-                                  _isSaldoVisible ? LucideIcons.eye : LucideIcons.eyeOff,
+                                  _isSaldoVisible ? AppIcons.eye : AppIcons.eyeOff,
                                   color: Colors.white70,
                                   size: 15,
                                 ),
@@ -425,7 +425,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         const SizedBox(height: 2),
                         const Row(
                           children: [
-                            Icon(LucideIcons.clock, color: Colors.white60, size: 11),
+                            Icon(AppIcons.clock, color: Colors.white60, size: 11),
                             SizedBox(width: 4),
                             Text(
                               'Updated 2m ago',
@@ -549,7 +549,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             color: const Color(0xFF10B981).withOpacity(0.12),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Icon(LucideIcons.arrowDownLeft, size: 14, color: Color(0xFF10B981)),
+                          child: const Icon(AppIcons.arrowDownLeft, size: 14, color: Color(0xFF10B981)),
                         ),
                         const SizedBox(width: 8),
                         Text('Pemasukan', style: TextStyle(fontSize: 11, color: textMuted)),
@@ -588,7 +588,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                             color: const Color(0xFFEF4444).withOpacity(0.12),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Icon(LucideIcons.arrowUpRight, size: 14, color: Color(0xFFEF4444)),
+                          child: const Icon(AppIcons.arrowUpRight, size: 14, color: Color(0xFFEF4444)),
                         ),
                         const SizedBox(width: 8),
                         Text('Pengeluaran', style: TextStyle(fontSize: 11, color: textMuted)),
@@ -732,7 +732,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                 borderRadius: BorderRadius.circular(12),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
-                  child: Icon(LucideIcons.chevronRight, size: 14, color: textMuted),
+                  child: Icon(AppIcons.chevronRight, size: 14, color: textMuted),
                 ),
               ),
             ],
@@ -779,7 +779,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   color: AppTheme.brandPrimary.withOpacity(0.12),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(LucideIcons.plus, color: AppTheme.brandPrimary, size: 18),
+                child: const Icon(AppIcons.plus, color: AppTheme.brandPrimary, size: 18),
               ),
               const SizedBox(height: 6),
               Text(
@@ -795,10 +795,10 @@ class _BerandaScreenState extends State<BerandaScreen> {
 
   Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
     final actions = [
-      {'label': 'Scan Struk', 'icon': LucideIcons.qrCode, 'color': const Color(0xFFF59E0B)},
-      {'label': 'Transfer', 'icon': LucideIcons.arrowLeftRight, 'color': AppTheme.brandPrimary},
-      {'label': 'Berulang', 'icon': LucideIcons.repeat, 'color': const Color(0xFF10B981)},
-      {'label': 'Tujuan', 'icon': LucideIcons.target, 'color': const Color(0xFF8B5CF6)},
+      {'label': 'Scan Struk', 'icon': AppIcons.qrCode, 'color': const Color(0xFFF59E0B)},
+      {'label': 'Transfer', 'icon': AppIcons.transfer, 'color': AppTheme.brandPrimary},
+      {'label': 'Berulang', 'icon': AppIcons.repeat, 'color': const Color(0xFF10B981)},
+      {'label': 'Tujuan', 'icon': AppIcons.target, 'color': const Color(0xFF8B5CF6)},
     ];
 
     return Column(
@@ -872,7 +872,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               color: const Color(0xFFF59E0B).withOpacity(0.15),
               shape: BoxShape.circle,
             ),
-            child: const Icon(LucideIcons.sparkles, color: Color(0xFFF59E0B), size: 18),
+            child: const Icon(AppIcons.sparkles, color: Color(0xFFF59E0B), size: 18),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -957,7 +957,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Icon(
-                          (item['icon'] as IconData?) ?? LucideIcons.receipt,
+                          (item['icon'] as IconData?) ?? AppIcons.receipt,
                           color: (item['iconBg'] as Color?) ?? AppTheme.brandPrimary,
                           size: 18,
                         ),
@@ -1006,7 +1006,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
               children: [
                 IconButton(
                   onPressed: _handleBackPress,
-                  icon: const Icon(LucideIcons.arrowLeft, color: Colors.white, size: 20),
+                  icon: const Icon(AppIcons.arrowLeft, color: Colors.white, size: 20),
                 ),
                 const SizedBox(width: 8),
                 Text(
@@ -1033,7 +1033,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                   height: 48,
                   child: OutlinedButton.icon(
                     onPressed: () => _openTambahAkunModal(context),
-                    icon: const Icon(LucideIcons.plus, size: 16, color: AppTheme.brandPrimary),
+                    icon: const Icon(AppIcons.plus, size: 16, color: AppTheme.brandPrimary),
                     label: const Text(
                       'Tambah Kantong Baru',
                       style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.brandPrimary),
@@ -1096,7 +1096,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
           ),
           IconButton(
             onPressed: () => _openPengaturanKantongBottomSheet(context, title),
-            icon: Icon(LucideIcons.moreVertical, size: 18, color: textMuted),
+            icon: Icon(AppIcons.moreVertical, size: 18, color: textMuted),
           ),
         ],
       ),
@@ -1164,7 +1164,7 @@ class _TambahAkunFormContentState extends State<TambahAkunFormContent> {
               ),
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: Icon(LucideIcons.x, size: 18, color: textColor),
+                icon: Icon(AppIcons.x, size: 18, color: textColor),
               ),
             ],
           ),
@@ -1270,7 +1270,7 @@ class _OvoStyleTopBarDelegate extends SliverPersistentHeaderDelegate {
               color: Colors.white.withOpacity(0.2),
               shape: BoxShape.circle,
             ),
-            child: const Icon(LucideIcons.user, color: Colors.white, size: 16),
+            child: const Icon(AppIcons.user, color: Colors.white, size: 16),
           ),
           Expanded(
             child: Center(
@@ -1287,7 +1287,7 @@ class _OvoStyleTopBarDelegate extends SliverPersistentHeaderDelegate {
           ),
           Stack(
             children: [
-              const Icon(LucideIcons.bell, color: Colors.white, size: 20),
+              const Icon(AppIcons.bell, color: Colors.white, size: 20),
               Positioned(
                 right: 0,
                 top: 0,
