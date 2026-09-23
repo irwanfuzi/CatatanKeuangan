@@ -24,7 +24,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
   bool _showAllKantongSubPage = false;
   bool _isSaldoVisible = true;
 
-  // State Lokal Quick Actions (Defaul 13 Fitur Terintegrasi)
+  // State Lokal Quick Actions (13 Fitur Terintegrasi)
   List<QuickActionItem> _userQuickActions = QuickActionItem.defaultList;
 
   String _formatCurrency(dynamic rawNominal) {
@@ -461,16 +461,53 @@ class _BerandaScreenState extends State<BerandaScreen> {
                           ),
                         ),
                         const SizedBox(height: 18),
-                        _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, isDesktop),
-                        const SizedBox(height: 24),
-                        // 🚀 Quick Actions Section Terintegrasi dengan Sheet Kustomisasi
-                        _buildQuickActionsSection(textColor, isDark, isDesktop),
-                        const SizedBox(height: 20),
-                        _buildMyInsightCard(textColor, textMuted, isDark),
-                        const SizedBox(height: 20),
-                        _buildOverviewKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, isDesktop),
-                        const SizedBox(height: 24),
-                        _buildRecentTransactionsSection(recentTransactions, textColor, textMuted, cardBg, borderColor, isDark),
+
+                        // Layout Adaptif untuk Desktop Web vs Mobile PWA
+                        if (isDesktop) ...[
+                          // Desktop Web Dual-Column Grid Layout (Visual Density High)
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Kolom Kiri: Kantong Keuangan & Quick Actions
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  children: [
+                                    _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, true),
+                                    const SizedBox(height: 24),
+                                    _buildQuickActionsSection(textColor, isDark, true),
+                                    const SizedBox(height: 24),
+                                    _buildMyInsightCard(textColor, textMuted, isDark),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                              // Kolom Kanan: Overview Keuangan & Riwayat Transaksi
+                              Expanded(
+                                flex: 6,
+                                child: Column(
+                                  children: [
+                                    _buildOverviewKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, true),
+                                    const SizedBox(height: 24),
+                                    _buildRecentTransactionsSection(recentTransactions, textColor, textMuted, cardBg, borderColor, isDark),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ] else ...[
+                          // Mobile PWA Single-Column Flow Layout
+                          _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, false),
+                          const SizedBox(height: 24),
+                          _buildQuickActionsSection(textColor, isDark, false),
+                          const SizedBox(height: 20),
+                          _buildMyInsightCard(textColor, textMuted, isDark),
+                          const SizedBox(height: 20),
+                          _buildOverviewKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, false),
+                          const SizedBox(height: 24),
+                          _buildRecentTransactionsSection(recentTransactions, textColor, textMuted, cardBg, borderColor, isDark),
+                        ],
+
                         const SizedBox(height: 40),
                       ],
                     ),
@@ -675,10 +712,10 @@ class _BerandaScreenState extends State<BerandaScreen> {
         GridView.count(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isDesktop ? 4 : 2,
+          crossAxisCount: isDesktop ? 2 : 2,
           mainAxisSpacing: 12,
           crossAxisSpacing: 12,
-          childAspectRatio: isDesktop ? 1.6 : 1.35,
+          childAspectRatio: isDesktop ? 1.8 : 1.35,
           children: [
             _buildWalletCard('BSI', const Color(0xFF00A39D), 'BSI Hasanah', 'Rp 4.250.000', cardBg, borderColor, textColor, textMuted),
             _buildWalletCard('MANDIRI', const Color(0xFFF59E0B), 'Mandiri Utama', 'Rp 6.000.000', cardBg, borderColor, textColor, textMuted),
@@ -788,7 +825,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
-  /// 🚀 SEKSI QUICK ACTIONS DINAMIS & DI-KUSTOMISASI
+  /// Seksi Quick Actions Ter-kustomisasi (Terhubung ke CustomizeQuickActionsSheet)
   Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
     final activeActions = _userQuickActions.where((item) => item.isEnabled).toList();
 
@@ -808,7 +845,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
             ),
             InkWell(
               onTap: () {
-                // Buka Modal Kustomisasi 13 Fitur
+                // Modal Dialog (Desktop) / BottomSheet (Mobile) Kustomisasi
                 CustomizeQuickActionsSheet.show(
                   context,
                   currentItems: _userQuickActions,
@@ -854,7 +891,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            // Handler untuk masing-masing fitur yang diklik
+                            // Action click handler
                           },
                           borderRadius: BorderRadius.circular(30),
                           child: Container(
