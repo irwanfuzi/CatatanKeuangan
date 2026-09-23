@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/quick_action_item.dart';
 import '../../theme/app_theme.dart';
 import '../../utils/app_icons.dart';
+import '../../widgets/customize_quick_actions_sheet.dart';
 
 class BerandaScreen extends StatefulWidget {
   final Map<String, dynamic>? summaryData;
@@ -21,6 +23,9 @@ class BerandaScreen extends StatefulWidget {
 class _BerandaScreenState extends State<BerandaScreen> {
   bool _showAllKantongSubPage = false;
   bool _isSaldoVisible = true;
+
+  // State Lokal Quick Actions (Defaul 13 Fitur Terintegrasi)
+  List<QuickActionItem> _userQuickActions = QuickActionItem.defaultList;
 
   String _formatCurrency(dynamic rawNominal) {
     if (rawNominal == null) return 'Rp0';
@@ -458,6 +463,7 @@ class _BerandaScreenState extends State<BerandaScreen> {
                         const SizedBox(height: 18),
                         _buildKantongKeuanganSection(textColor, textMuted, cardBg, borderColor, isDark, isDesktop),
                         const SizedBox(height: 24),
+                        // 🚀 Quick Actions Section Terintegrasi dengan Sheet Kustomisasi
                         _buildQuickActionsSection(textColor, isDark, isDesktop),
                         const SizedBox(height: 20),
                         _buildMyInsightCard(textColor, textMuted, isDark),
@@ -782,13 +788,9 @@ class _BerandaScreenState extends State<BerandaScreen> {
     );
   }
 
+  /// 🚀 SEKSI QUICK ACTIONS DINAMIS & DI-KUSTOMISASI
   Widget _buildQuickActionsSection(Color textColor, bool isDark, bool isDesktop) {
-    final actions = [
-      {'label': 'Scan Struk', 'icon': AppIcons.qrCode, 'color': const Color(0xFFF59E0B)},
-      {'label': 'Transfer', 'icon': AppIcons.transfer, 'color': AppTheme.brandPrimary},
-      {'label': 'Berulang', 'icon': AppIcons.repeat, 'color': const Color(0xFF10B981)},
-      {'label': 'Tujuan', 'icon': AppIcons.target, 'color': const Color(0xFF8B5CF6)},
-    ];
+    final activeActions = _userQuickActions.where((item) => item.isEnabled).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -798,45 +800,94 @@ class _BerandaScreenState extends State<BerandaScreen> {
           children: [
             Text(
               'Quick Actions',
-              style: GoogleFonts.urbanist(fontSize: 15, fontWeight: FontWeight.w800, color: textColor),
+              style: GoogleFonts.urbanist(
+                fontSize: 15,
+                fontWeight: FontWeight.w800,
+                color: textColor,
+              ),
             ),
             InkWell(
-              onTap: () {},
-              child: const Text(
-                'Edit',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.brandPrimary),
+              onTap: () {
+                // Buka Modal Kustomisasi 13 Fitur
+                CustomizeQuickActionsSheet.show(
+                  context,
+                  currentItems: _userQuickActions,
+                  onSave: (updatedList) {
+                    setState(() {
+                      _userQuickActions = updatedList;
+                    });
+                  },
+                );
+              },
+              borderRadius: BorderRadius.circular(6),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                child: Text(
+                  'Edit',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.brandPrimary,
+                  ),
+                ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 14),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: actions.map((act) {
-            final color = act['color'] as Color;
-            return Column(
-              children: [
-                InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(30),
-                  child: Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: isDark ? color.withOpacity(0.18) : color.withOpacity(0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(act['icon'] as IconData, color: color, size: 20),
+        SizedBox(
+          height: 78,
+          child: activeActions.isEmpty
+              ? Center(
+                  child: Text(
+                    'Belum ada aksi cepat dipilih. Klik Edit untuk menambah.',
+                    style: TextStyle(fontSize: 11, color: textColor.withOpacity(0.6)),
                   ),
+                )
+              : ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: activeActions.length,
+                  separatorBuilder: (ctx, i) => const SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    final act = activeActions[index];
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // Handler untuk masing-masing fitur yang diklik
+                          },
+                          borderRadius: BorderRadius.circular(30),
+                          child: Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: isDark
+                                  ? AppTheme.brandPrimary.withOpacity(0.2)
+                                  : AppTheme.brandPrimary.withOpacity(0.12),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(act.icon, color: AppTheme.brandPrimary, size: 20),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        SizedBox(
+                          width: 64,
+                          child: Text(
+                            act.title,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: textColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  act['label'] as String,
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: textColor),
-                ),
-              ],
-            );
-          }).toList(),
         ),
       ],
     );
