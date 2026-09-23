@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// AppTheme MyKas - Sistem Desain Selaras (Light & Dark Mode)
+/// AppTheme MyKas - Definisi Sistem Desain Multi-Platform (Light & Dark Mode)
 class AppTheme {
   static const String logoAsset = 'assets/images/logo_mykas.png';
 
-  // BRAND COLOR PALETTE
-  static const Color brandPrimary = Color(0xFF0D47A1);   
-  static const Color brandLightBlue = Color(0xFF1976D2); 
-  static const Color brandAccent = Color(0xFF42A5F5);    
-  static const Color brandAmber = Color(0xFFFF9F00);     
+  // BRAND COLOR PALETTE MYKAS
+  static const Color brandPrimary = Color(0xFF0D47A1);   // Royal Blue Utama
+  static const Color brandLightBlue = Color(0xFF1976D2); // Royal Blue Medium
+  static const Color brandAccent = Color(0xFF42A5F5);    // Soft Accent Blue
+  static const Color brandAmber = Color(0xFFFF9F00);     // Warm Amber Accent
 
   // LIGHT THEME PALETTE
   static const Color bgLight = Color(0xFFF8FAFC);
@@ -18,7 +18,7 @@ class AppTheme {
   static const Color textPrimaryLight = Color(0xFF0F172A);
   static const Color textSecondaryLight = Color(0xFF64748B);
 
-  // DARK THEME PALETTE
+  // DARK THEME PALETTE (Deep Charcoal Matte)
   static const Color bgDark = Color(0xFF0F1117);          
   static const Color cardDark = Color(0xFF181B22);        
   static const Color borderDark = Color(0xFF262A36);      
