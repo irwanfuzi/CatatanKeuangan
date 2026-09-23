@@ -1,49 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'app.dart';
+import 'package:flutter/services.dart';
+import 'screens/beranda/beranda_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() {
+  // Wajib untuk memastikan binding Flutter Web & Native siap
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Kunci orientasi portrait untuk mobile PWA (opsional)
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  // Tangkap error tak terduga agar tidak memblokir render UI
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToAppConsole(details);
+  };
+
   runApp(const MyKasApp());
 }
 
-class MyKasApp extends StatefulWidget {
+class MyKasApp extends StatelessWidget {
   const MyKasApp({super.key});
-
-  @override
-  State<MyKasApp> createState() => _MyKasAppState();
-}
-
-class _MyKasAppState extends State<MyKasApp> {
-  bool _isDark = false;
-
-  void _toggleTheme(bool isDark) {
-    setState(() {
-      _isDark = isDark;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyKas - Financial Engine',
+      title: 'MyKas - Own Your Money',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme.copyWith(
-        textTheme: GoogleFonts.plusJakartaSansTextTheme(
-          AppTheme.lightTheme.textTheme,
-        ),
-      ),
-      darkTheme: AppTheme.darkTheme.copyWith(
-        textTheme: GoogleFonts.plusJakartaSansTextTheme(
-          AppTheme.darkTheme.textTheme,
-        ),
-      ),
-      themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
-      home: App(
-        onThemeChanged: _toggleTheme,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system, // Menyesuaikan pengaturan HP/Desktop
+      home: const BerandaScreen(),
     );
   }
 }
