@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- Placehoder WAJIB untuk Flutter Build Tool -->
+  <base href="$FLUTTER_BASE_HREF">
+
   <script>
-    // Dynamic Base Href: Otomatis menyesuaikan path Vercel Proxy (/) dan GitHub Pages (/MyKas/)
+    // Dynamic Base Href Runtime Fixer
+    // Mengubah nilai base.href secara dinamis untuk Vercel Proxy (/) vs GitHub Pages (/MyKas/)
     (function() {
       var path = window.location.pathname;
       var baseHref = '/';
       if (path.indexOf('/MyKas') === 0) {
         baseHref = '/MyKas/';
       }
-      var base = document.createElement('base');
-      base.href = baseHref;
-      document.head.appendChild(base);
+      var baseEl = document.querySelector('base');
+      if (baseEl) {
+        baseEl.href = baseHref;
+      }
     })();
   </script>
 
