@@ -2,6 +2,10 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/MyKas/(.*)",
+      "destination": "https://irwanfuzi.github.io/MyKas/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "https://irwanfuzi.github.io/MyKas/$1"
     }
