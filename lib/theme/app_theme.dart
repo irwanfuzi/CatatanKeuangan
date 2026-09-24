@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 /// AppTheme MyKas - Clean, High-Contrast System Font Palette
+/// Compatible with Flutter 3.24.3+
 class AppTheme {
   // Brand Colors
   static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
-  static const Color brandSecondary = Color(0xFFF59E0B); // Amber Gold
+  static const Color brandSecondary = Color(0xFFFFB800); // Amber Gold Accent Dot
 
   // Light Theme Colors
   static const Color bgLight = Color(0xFFF8FAFC);
