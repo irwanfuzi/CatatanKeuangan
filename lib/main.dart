@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'theme/app_theme.dart';
+import 'utils/app_icons.dart';
 import 'widgets/mk_bottom_nav_bar.dart';
 
 void main() {
@@ -124,7 +126,8 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
                   selectedIndex: _currentIndex,
                   backgroundColor: AppTheme.bgDark,
                   selectedIconTheme: const IconThemeData(color: AppTheme.brandPrimary),
-                  unselectedItemColor: AppTheme.textSecondary,
+                  // PERBAIKAN 1: Diganti dari unselectedItemColor ke unselectedIconTheme
+                  unselectedIconTheme: const IconThemeData(color: AppTheme.textSecondary),
                   onDestinationSelected: _onTabTapped,
                   labelType: NavigationRailLabelType.all,
                   destinations: const [
@@ -200,7 +203,8 @@ class HomeScreenDashboardView extends StatelessWidget {
                       ),
                       const Text(
                         'MyKas',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.black, color: Colors.white),
+                        // PERBAIKAN 2: FontWeight.black diganti dengan FontWeight.w900
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white),
                       ),
                       IconButton(
                         icon: const Icon(Icons.notifications_none_rounded, color: Colors.white),
@@ -547,8 +551,9 @@ class HomeScreenDashboardView extends StatelessWidget {
           ),
           Text(
             amount,
+            // PERBAIKAN 3: FontWeight.extrabold diganti dengan FontWeight.w800
             style: TextStyle(
-              fontWeight: FontWeight.extrabold,
+              fontWeight: FontWeight.w800,
               fontSize: 14,
               color: isExpense ? Colors.white : const Color(0xFF10B981),
             ),
