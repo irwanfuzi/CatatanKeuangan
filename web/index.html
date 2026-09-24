@@ -5,7 +5,7 @@
   <base href="$FLUTTER_BASE_HREF">
 
   <script>
-    // Dynamic Base Href Runtime Fixer
+    // Dynamic Base Href Runtime Fixer untuk Vercel Proxy (/) vs GitHub Pages (/MyKas/)
     (function() {
       var path = window.location.pathname;
       var baseHref = '/';
@@ -88,7 +88,7 @@
   </div>
 
   <script>
-    // Force Unregister Seluruh Service Worker Lama yang Nyangkut
+    // Force Unregister Service Worker Lama yang Nyangkut
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
@@ -111,11 +111,14 @@
 
     window.addEventListener('load', function(ev) {
       _flutter.loader.load({
+        renderer: "html", // Paksa Renderer HTML murni
         serviceWorkerSettings: {
           serviceWorkerVersion: null,
         },
         onEntrypointLoaded: async function(engineInitializer) {
-          const appRunner = await engineInitializer.initializeEngine();
+          const appRunner = await engineInitializer.initializeEngine({
+            renderer: "html"
+          });
           removeLoader();
           await appRunner.runApp();
         }
