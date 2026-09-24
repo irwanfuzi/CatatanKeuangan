@@ -23,7 +23,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
   bool _showAllKantongSubPage = false;
   bool _isSaldoVisible = true;
 
-  // State Lokal Quick Actions (13 Fitur Terintegrasi)
   List<QuickActionItem> _userQuickActions = QuickActionItem.defaultList;
 
   String _formatCurrency(dynamic rawNominal) {
