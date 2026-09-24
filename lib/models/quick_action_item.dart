@@ -16,7 +16,7 @@ class QuickActionItem {
     this.isEnabled = false,
   });
 
-  /// 13 Fitur Lengkap Kustomisasi Quick Actions MyKas (Aman & Bebas Crash)
+  /// 13 Fitur Lengkap Kustomisasi Quick Actions MyKas
   static List<QuickActionItem> get defaultList => [
         QuickActionItem(
           id: 'scan_struk',
@@ -85,7 +85,7 @@ class QuickActionItem {
           id: 'import_data',
           title: 'Import Data',
           description: 'Masukkan mutasi bank / CSV',
-          icon: AppIcons.receipt, // FIXED: Menggantikan AppIcons.fileText yang tidak ada
+          icon: AppIcons.receipt,
           isEnabled: false,
         ),
         QuickActionItem(
