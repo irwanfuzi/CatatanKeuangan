@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'theme/app_theme.dart';
 import 'utils/app_icons.dart';
-// Disembunyikan AppTheme & AppIcons dari file ini agar tidak bentrok
 import 'widgets/mk_bottom_nav_bar.dart' hide AppTheme, AppIcons;
+
+// Konstanta warna fallback jika tidak ada di AppTheme
+const Color _textSecondary = Color(0x99FFFFFF); // Colors.white60 / Muted Text
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,9 +72,9 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'Pilih jenis kas yang ingin Anda perbarui pencatatannya.',
-              style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+              style: TextStyle(color: _textSecondary, fontSize: 13),
             ),
             const SizedBox(height: 20),
             Row(
@@ -126,7 +128,7 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
                   selectedIndex: _currentIndex,
                   backgroundColor: AppTheme.bgDark,
                   selectedIconTheme: IconThemeData(color: AppTheme.brandPrimary),
-                  unselectedIconTheme: IconThemeData(color: AppTheme.textSecondary),
+                  unselectedIconTheme: const IconThemeData(color: _textSecondary),
                   onDestinationSelected: _onTabTapped,
                   labelType: NavigationRailLabelType.all,
                   destinations: const [
@@ -284,7 +286,7 @@ class HomeScreenDashboardView extends StatelessWidget {
                           children: [
                             Icon(Icons.add_rounded, color: AppTheme.brandPrimary, size: 24),
                             const SizedBox(height: 4),
-                            Text('+ Tambah Akun', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
+                            const Text('+ Tambah Akun', style: TextStyle(color: _textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
                           ],
                         ),
                       ),
@@ -334,12 +336,12 @@ class HomeScreenDashboardView extends StatelessWidget {
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('My Insight', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                              const SizedBox(height: 2),
+                            children: const [
+                              Text('My Insight', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                              SizedBox(height: 2),
                               Text(
                                 'Pengeluaran menurun 12%! Hemat Rp1.450.000 pada pos non-primer dibanding minggu lalu.',
-                                style: TextStyle(color: AppTheme.textSecondary, fontSize: 11, height: 1.3),
+                                style: TextStyle(color: _textSecondary, fontSize: 11, height: 1.3),
                               ),
                             ],
                           ),
@@ -457,13 +459,13 @@ class HomeScreenDashboardView extends StatelessWidget {
                 decoration: BoxDecoration(color: tagBg, borderRadius: BorderRadius.circular(6)),
                 child: Text(tag, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
-              Icon(Icons.chevron_right_rounded, color: AppTheme.textSecondary, size: 16),
+              const Icon(Icons.chevron_right_rounded, color: _textSecondary, size: 16),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name, style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+              Text(name, style: const TextStyle(color: _textSecondary, fontSize: 11)),
               const SizedBox(height: 2),
               Text(balance, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
             ],
@@ -492,7 +494,7 @@ class HomeScreenDashboardView extends StatelessWidget {
                 child: Icon(icon, color: iconColor, size: 14),
               ),
               const SizedBox(width: 8),
-              Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+              const Text(label, style: TextStyle(color: _textSecondary, fontSize: 12)),
             ],
           ),
           const SizedBox(height: 12),
@@ -530,7 +532,7 @@ class HomeScreenDashboardView extends StatelessWidget {
               children: [
                 Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
                 const SizedBox(height: 2),
-                Text(subtitle, style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                const Text(subtitle, style: TextStyle(color: _textSecondary, fontSize: 11)),
               ],
             ),
           ),
@@ -568,7 +570,7 @@ class _QuickActionButton extends StatelessWidget {
           child: Icon(icon, color: AppTheme.brandPrimary, size: 22),
         ),
         const SizedBox(height: 8),
-        Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+        Text(label, style: const TextStyle(color: _textSecondary, fontSize: 11)),
       ],
     );
   }
@@ -581,7 +583,7 @@ class _PlaceholderTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(title, style: TextStyle(color: AppTheme.textSecondary, fontSize: 16)),
+      child: Text(title, style: const TextStyle(color: _textSecondary, fontSize: 16)),
     );
   }
 }
