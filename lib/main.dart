@@ -5,9 +5,9 @@ void main() {
   runApp(const MyKasApp());
 }
 
-// =============================================================================
-// TEMA & WARNA UNTUK MYKAS DESIGN SYSTEM
-// =============================================================================
+// -----------------------------------------------------------------------------
+// DESIGN SYSTEM & THEME CONFIGURATION (Obsidian Luxe Theme)
+// -----------------------------------------------------------------------------
 class AppTheme {
   static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
   static const Color brandSecondary = Color(0xFFFFB800); // Gold Accent
@@ -19,7 +19,6 @@ class AppTheme {
   static const Color bgDark = Color(0xFF0F172A); // Slate 900
 }
 
-// Mock Ikon Bawaan (Pengganti AppIcons agar Swakandung)
 class AppIcons {
   static const IconData layoutGrid = Icons.grid_view_rounded;
   static const IconData barChart = Icons.bar_chart_rounded;
@@ -28,9 +27,6 @@ class AppIcons {
   static const IconData plus = Icons.add_rounded;
 }
 
-// =============================================================================
-// MAIN APP WRAPPER
-// =============================================================================
 class MyKasApp extends StatelessWidget {
   const MyKasApp({super.key});
 
@@ -56,9 +52,9 @@ class MyKasApp extends StatelessWidget {
   }
 }
 
-// =============================================================================
-// ROOT LAYOUT WITH ADAPTIVE RESPONSIVENESS
-// =============================================================================
+// -----------------------------------------------------------------------------
+// MAIN LAYOUT (ADAPTIVE DESKTOP & PWA MOBILE)
+// -----------------------------------------------------------------------------
 class MainLayoutScreen extends StatefulWidget {
   const MainLayoutScreen({super.key});
 
@@ -84,7 +80,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
       ),
       builder: (context) => Container(
         padding: const EdgeInsets.all(24),
-        height: 240,
+        height: 220,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -92,9 +88,9 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
               'Catat Transaksi Baru',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             const Text(
-              'Pilih jenis transaksi kas untuk memperbarui laporan Anda.',
+              'Pilih jenis kas yang ingin diperbarui dalam pencatatan Anda.',
               style: TextStyle(color: AppTheme.textSecondaryDark, fontSize: 13),
             ),
             const SizedBox(height: 20),
@@ -104,25 +100,27 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.brandPrimary,
+                      foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_downward_rounded, color: Colors.white),
-                    label: const Text('Pemasukan', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                    icon: const Icon(Icons.arrow_downward_rounded, size: 18),
+                    label: const Text('Pemasukan', style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
                       side: const BorderSide(color: AppTheme.borderDark),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_upward_rounded, color: Colors.white),
-                    label: const Text('Pengeluaran', style: TextStyle(color: Colors.white)),
+                    icon: const Icon(Icons.arrow_upward_rounded, size: 18),
+                    label: const Text('Pengeluaran'),
                   ),
                 ),
               ],
@@ -140,7 +138,6 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
         final isDesktop = constraints.maxWidth >= 1024;
 
         return Scaffold(
-          // Top Header Bar
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: Container(
@@ -166,12 +163,9 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
               ),
             ),
           ),
-
-          // Body Content
           body: Row(
             children: [
-              // Sidebar Navigation untuk Desktop Screen
-              if (isDesktop)
+              if (isDesktop) ...[
                 NavigationRail(
                   selectedIndex: _currentIndex,
                   backgroundColor: AppTheme.bgDark,
@@ -186,24 +180,21 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
                     NavigationRailDestination(icon: Icon(AppIcons.user), label: Text('Profil')),
                   ],
                 ),
-              if (isDesktop) const VerticalDivider(width: 1, color: AppTheme.borderDark),
-
-              // Main Active View Page
+                const VerticalDivider(width: 1, color: AppTheme.borderDark),
+              ],
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
                   children: const [
-                    _DemoPage(title: 'Halaman Beranda'),
-                    _DemoPage(title: 'Halaman Analisis'),
-                    _DemoPage(title: 'Halaman Riwayat'),
-                    _DemoPage(title: 'Halaman Profil'),
+                    _DashboardOverview(),
+                    _PlaceholderPage(title: 'Modul Analisis Finansial'),
+                    _PlaceholderPage(title: 'Riwayat Transaksi Kas'),
+                    _PlaceholderPage(title: 'Pengaturan Profil'),
                   ],
                 ),
               ),
             ],
           ),
-
-          // BOTTOM NAVBAR: Hanya ditampilkan di layar Mobile & Tablet (PWA Viewport)
           bottomNavigationBar: isDesktop
               ? null
               : MKBottomNavBar(
@@ -217,33 +208,68 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
   }
 }
 
-// Dummy View Page
-class _DemoPage extends StatelessWidget {
-  final String title;
-  const _DemoPage({required this.title});
+// -----------------------------------------------------------------------------
+// DASHBOARD OVERVIEW VIEW
+// -----------------------------------------------------------------------------
+class _DashboardOverview extends StatelessWidget {
+  const _DashboardOverview();
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: AppTheme.cardDark,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppTheme.borderDark),
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: AppTheme.cardDark,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppTheme.borderDark),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Total Kas Aktif', style: TextStyle(color: AppTheme.textSecondaryDark, fontSize: 13)),
+              const SizedBox(height: 6),
+              const Text(
+                'Rp 142.850.000',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.black, letterSpacing: -0.5),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF10B981).withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  '+14.2% dibanding bulan lalu',
+                  style: TextStyle(color: Color(0xFF10B981), fontSize: 12, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-        ),
-      ),
+      ],
     );
   }
 }
 
-// =============================================================================
-// REFACTORED COMPONENT: MKBottomNavBar (PRODUCTION GRADE & SAFE CLIP)
-// =============================================================================
+class _PlaceholderPage extends StatelessWidget {
+  final String title;
+  const _PlaceholderPage({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(title, style: const TextStyle(color: AppTheme.textSecondaryDark, fontSize: 16)),
+    );
+  }
+}
+
+// -----------------------------------------------------------------------------
+// DOCKED BOTTOM NAV BAR WITH CENTER FAB
+// -----------------------------------------------------------------------------
 class MKBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -275,9 +301,8 @@ class MKBottomNavBar extends StatelessWidget {
           height: 68,
           child: Stack(
             alignment: Alignment.center,
-            clipBehavior: Clip.none, // Memastikan FAB "Catat" mencuat tanpa terpotong
+            clipBehavior: Clip.none,
             children: [
-              // Row Tab Navigasi Utama
               Row(
                 children: [
                   Expanded(
@@ -296,10 +321,7 @@ class MKBottomNavBar extends StatelessWidget {
                       onTap: () => onTap(1),
                     ),
                   ),
-
-                  // Space Presisi untuk Center FAB
                   const SizedBox(width: 64),
-
                   Expanded(
                     child: _NavBarItem(
                       icon: AppIcons.history,
@@ -318,8 +340,6 @@ class MKBottomNavBar extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Tombol Flat Center FAB (+) dengan Label "Catat"
               Positioned(
                 top: -14,
                 child: MouseRegion(
