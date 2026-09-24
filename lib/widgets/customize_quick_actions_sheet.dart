@@ -63,7 +63,6 @@ class _CustomizeQuickActionsSheetState
   @override
   void initState() {
     super.initState();
-    // Copy item list agar tidak mutasi state utama sebelum tombol Simpan diklik
     _tempItems = widget.currentItems
         .map((e) => QuickActionItem(
               id: e.id,
