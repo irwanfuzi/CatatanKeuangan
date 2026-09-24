@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// AppTheme MyKas - Clean, High-Contrast System Font Palette
-/// Compatible with Flutter 3.24.3+
 class AppTheme {
   // Brand Colors
   static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
