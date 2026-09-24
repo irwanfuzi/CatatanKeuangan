@@ -4,8 +4,7 @@ import 'theme/app_theme.dart';
 import 'utils/app_icons.dart';
 import 'widgets/mk_bottom_nav_bar.dart' hide AppTheme, AppIcons;
 
-// Konstanta warna fallback jika tidak ada di AppTheme
-const Color _textSecondary = Color(0x99FFFFFF); // Colors.white60 / Muted Text
+const Color _textSecondary = Color(0x99FFFFFF);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -494,7 +493,8 @@ class HomeScreenDashboardView extends StatelessWidget {
                 child: Icon(icon, color: iconColor, size: 14),
               ),
               const SizedBox(width: 8),
-              const Text(label, style: TextStyle(color: _textSecondary, fontSize: 12)),
+              // FIX 1: Hapus const di sini karena label variabel
+              Text(label, style: const TextStyle(color: _textSecondary, fontSize: 12)),
             ],
           ),
           const SizedBox(height: 12),
@@ -532,7 +532,8 @@ class HomeScreenDashboardView extends StatelessWidget {
               children: [
                 Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
                 const SizedBox(height: 2),
-                const Text(subtitle, style: TextStyle(color: _textSecondary, fontSize: 11)),
+                // FIX 2: Hapus const di sini karena subtitle variabel
+                Text(subtitle, style: const TextStyle(color: _textSecondary, fontSize: 11)),
               ],
             ),
           ),
