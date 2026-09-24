@@ -310,9 +310,10 @@ class _BerandaScreenState extends State<BerandaScreen> {
           _handleBackPress();
         }
       },
-      child: Scaffold(
-        backgroundColor: const Color(0xFF0052FF),
-        body: SafeArea(
+      child: Container(
+        color: const Color(0xFF0052FF),
+        child: SafeArea(
+          bottom: false, // Membiarkan BottomNavigationBar dari MainScreen muncul dengan pas
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: AnimatedSwitcher(
