@@ -310,7 +310,6 @@ class _BerandaScreenState extends State<BerandaScreen> {
           _handleBackPress();
         }
       },
-      // Menggunakan Container alih-alih Scaffold agar tidak menutupi BottomNavigationBar dari MainScreen
       child: Container(
         color: const Color(0xFF0052FF),
         child: SafeArea(
