@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
-import '../utils/app_icons.dart';
+
+/// Design Tokens & Colors untuk MyKas
+class AppTheme {
+  static const Color brandPrimary = Color(0xFF0052FF); // Vivid Blue
+  static const Color brandSecondary = Color(0xFFFFB800); // Gold Accent Dot
+  static const Color bgDark = Color(0xFF0B0E14);
+  static const Color cardDark = Color(0xFF161B22);
+  static const Color borderDark = Color(0xFF21262D);
+  static const Color borderLight = Color(0xFFE2E8F0);
+  static const Color textSecondary = Color(0xFF8B949E);
+  static const Color textSecondaryLight = Color(0xFF64748B);
+}
+
+class AppIcons {
+  static const IconData layoutGrid = Icons.grid_view_rounded;
+  static const IconData barChart = Icons.bar_chart_rounded;
+  static const IconData history = Icons.history_rounded;
+  static const IconData user = Icons.person_outline_rounded;
+  static const IconData plus = Icons.add_rounded;
+}
 
 /// Solid Docked Bottom Navigation Bar khas MyKas.
 /// Menempel rapi di bawah layar dengan Flat Center FAB (+) & Label "Catat".
@@ -19,7 +37,6 @@ class MKBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
     final navBgColor = isDark ? AppTheme.cardDark : Colors.white;
     final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
 
@@ -33,10 +50,10 @@ class MKBottomNavBar extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: 66,
+          height: 68,
           child: Stack(
             alignment: Alignment.center,
-            clipBehavior: Clip.none,
+            clipBehavior: Clip.none, // WAJIB: Mencegah FAB terpotong di atas border
             children: [
               // Row Tab Navigasi Utama
               Row(
@@ -61,7 +78,7 @@ class MKBottomNavBar extends StatelessWidget {
                   ),
 
                   // Space Presisi untuk Center FAB (+) "Catat"
-                  const SizedBox(width: 60),
+                  const SizedBox(width: 64),
 
                   // Tab 3: Riwayat
                   Expanded(
@@ -84,9 +101,9 @@ class MKBottomNavBar extends StatelessWidget {
                 ],
               ),
 
-              // Tombol Flat Center FAB (+) dengan Label "Catat" (Tanpa Bayangan)
+              // Tombol Flat Center FAB (+) dengan Label "Catat"
               Positioned(
-                top: -16,
+                top: -14,
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
@@ -108,7 +125,6 @@ class MKBottomNavBar extends StatelessWidget {
                               color: navBgColor,
                               width: 3.0,
                             ),
-                            // BoxShadow Dihapus Total (No Shadow)
                           ),
                           child: Stack(
                             alignment: Alignment.center,
@@ -118,7 +134,7 @@ class MKBottomNavBar extends StatelessWidget {
                                 color: Colors.white,
                                 size: 24,
                               ),
-                              // Kancing Aksen Emas (Logo MyKas)
+                              // Kancing Aksen Emas (Logo Detail MyKas)
                               Positioned(
                                 right: 10,
                                 top: 10,
@@ -173,9 +189,8 @@ class _NavBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-
     const activeColor = AppTheme.brandPrimary;
-    final inactiveColor = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
+    final inactiveColor = isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight;
 
     return InkWell(
       onTap: onTap,
