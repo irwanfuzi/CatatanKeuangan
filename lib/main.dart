@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'theme/app_theme.dart';
 import 'utils/app_icons.dart';
-import 'widgets/mk_bottom_nav_bar.dart';
+// Disembunyikan AppTheme & AppIcons dari file ini agar tidak bentrok
+import 'widgets/mk_bottom_nav_bar.dart' hide AppTheme, AppIcons;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +23,7 @@ class MyKasApp extends StatelessWidget {
         useMaterial3: true,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: AppTheme.bgDark,
-        colorScheme: const ColorScheme.dark(
+        colorScheme: ColorScheme.dark(
           surface: AppTheme.cardDark,
           primary: AppTheme.brandPrimary,
           secondary: AppTheme.brandSecondary,
@@ -68,7 +70,7 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Pilih jenis kas yang ingin Anda perbarui pencatatannya.',
               style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
             ),
@@ -93,7 +95,7 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
                   child: OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      side: const BorderSide(color: AppTheme.borderDark),
+                      side: BorderSide(color: AppTheme.borderDark),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
@@ -116,18 +118,15 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
-        // SCAFFOLD INDUK TUNGGAL (MASTER FRAME)
         return Scaffold(
           body: Row(
             children: [
-              // Sidebar Navigation untuk Mode Desktop Web
               if (isDesktop) ...[
                 NavigationRail(
                   selectedIndex: _currentIndex,
                   backgroundColor: AppTheme.bgDark,
-                  selectedIconTheme: const IconThemeData(color: AppTheme.brandPrimary),
-                  // PERBAIKAN 1: Diganti dari unselectedItemColor ke unselectedIconTheme
-                  unselectedIconTheme: const IconThemeData(color: AppTheme.textSecondary),
+                  selectedIconTheme: IconThemeData(color: AppTheme.brandPrimary),
+                  unselectedIconTheme: IconThemeData(color: AppTheme.textSecondary),
                   onDestinationSelected: _onTabTapped,
                   labelType: NavigationRailLabelType.all,
                   destinations: const [
@@ -137,10 +136,9 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
                     NavigationRailDestination(icon: Icon(AppIcons.user), label: Text('Profil')),
                   ],
                 ),
-                const VerticalDivider(width: 1, color: AppTheme.borderDark),
+                VerticalDivider(width: 1, color: AppTheme.borderDark),
               ],
 
-              // Viewport Halaman Aktif
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
@@ -155,7 +153,6 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
             ],
           ),
 
-          // MKBottomNavBar DIPASANG DI LEVEL SCAFFOLD TERLUAR
           bottomNavigationBar: isDesktop
               ? null
               : MKBottomNavBar(
@@ -169,9 +166,6 @@ class _MainShellNavigationState extends State<MainShellNavigation> {
   }
 }
 
-// -----------------------------------------------------------------------------
-// DASHBOARD CONTENT VIEW (PERSISIS SESUAI DENGAN GAMBAR PROYEK ANDA)
-// -----------------------------------------------------------------------------
 class HomeScreenDashboardView extends StatelessWidget {
   const HomeScreenDashboardView({super.key});
 
@@ -183,7 +177,6 @@ class HomeScreenDashboardView extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            // Header Saldo Biru Atas
             Container(
               padding: const EdgeInsets.fromLTRB(20, 48, 20, 24),
               decoration: const BoxDecoration(
@@ -203,7 +196,6 @@ class HomeScreenDashboardView extends StatelessWidget {
                       ),
                       const Text(
                         'MyKas',
-                        // PERBAIKAN 2: FontWeight.black diganti dengan FontWeight.w900
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white),
                       ),
                       IconButton(
@@ -237,13 +229,11 @@ class HomeScreenDashboardView extends StatelessWidget {
               ),
             ),
 
-            // Konten Kartu Gelap
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Section: Kantong Keuangan
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -260,13 +250,13 @@ class HomeScreenDashboardView extends StatelessWidget {
                               color: AppTheme.brandPrimary.withOpacity(0.2),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Text('3 Terhubung', style: TextStyle(fontSize: 10, color: AppTheme.brandPrimary, fontWeight: FontWeight.bold)),
+                            child: Text('3 Terhubung', style: TextStyle(fontSize: 10, color: AppTheme.brandPrimary, fontWeight: FontWeight.bold)),
                           ),
                         ],
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: const Text('Lihat Semua >', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
+                        child: Text('Lihat Semua >', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
                       ),
                     ],
                   ),
@@ -289,11 +279,11 @@ class HomeScreenDashboardView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(color: AppTheme.borderDark),
                         ),
-                        child: const Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.add_rounded, color: AppTheme.brandPrimary, size: 24),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Text('+ Tambah Akun', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12, fontWeight: FontWeight.w600)),
                           ],
                         ),
@@ -303,11 +293,10 @@ class HomeScreenDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Section: Quick Actions
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                    children: [
+                      const Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                       Text('Edit', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
                     ],
                   ),
@@ -324,7 +313,6 @@ class HomeScreenDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Section: My Insight
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -340,15 +328,15 @@ class HomeScreenDashboardView extends StatelessWidget {
                             color: AppTheme.brandSecondary.withOpacity(0.15),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.auto_awesome_rounded, color: AppTheme.brandSecondary, size: 20),
+                          child: Icon(Icons.auto_awesome_rounded, color: AppTheme.brandSecondary, size: 20),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text('My Insight', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                              SizedBox(height: 2),
+                            children: [
+                              const Text('My Insight', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                              const SizedBox(height: 2),
                               Text(
                                 'Pengeluaran menurun 12%! Hemat Rp1.450.000 pada pos non-primer dibanding minggu lalu.',
                                 style: TextStyle(color: AppTheme.textSecondary, fontSize: 11, height: 1.3),
@@ -362,14 +350,13 @@ class HomeScreenDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Section: Overview Keuangan
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Overview Keuangan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                       TextButton(
                         onPressed: () {},
-                        child: const Text('Lihat Detail >', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
+                        child: Text('Lihat Detail >', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
                       ),
                     ],
                   ),
@@ -384,7 +371,6 @@ class HomeScreenDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Section: Riwayat Transaksi (Persis dengan Screenshot Anda)
                   const Text(
                     'Riwayat Transaksi',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
@@ -407,7 +393,7 @@ class HomeScreenDashboardView extends StatelessWidget {
                           amount: '-Rp45.000',
                           isExpense: true,
                         ),
-                        const Divider(height: 1, color: AppTheme.borderDark),
+                        Divider(height: 1, color: AppTheme.borderDark),
                         _buildTransactionTile(
                           icon: Icons.account_balance_wallet_rounded,
                           iconBg: const Color(0xFF10B981).withOpacity(0.2),
@@ -417,7 +403,7 @@ class HomeScreenDashboardView extends StatelessWidget {
                           amount: '+Rp8.500.000',
                           isExpense: false,
                         ),
-                        const Divider(height: 1, color: AppTheme.borderDark),
+                        Divider(height: 1, color: AppTheme.borderDark),
                         _buildTransactionTile(
                           icon: Icons.shopping_bag_rounded,
                           iconBg: const Color(0xFF0284C7).withOpacity(0.2),
@@ -427,7 +413,7 @@ class HomeScreenDashboardView extends StatelessWidget {
                           amount: '-Rp68.000',
                           isExpense: true,
                         ),
-                        const Divider(height: 1, color: AppTheme.borderDark),
+                        Divider(height: 1, color: AppTheme.borderDark),
                         _buildTransactionTile(
                           icon: Icons.shopping_cart_rounded,
                           iconBg: const Color(0xFF7C3AED).withOpacity(0.2),
@@ -441,7 +427,6 @@ class HomeScreenDashboardView extends StatelessWidget {
                     ),
                   ),
 
-                  // Bottom Spacing agar transaksi paling bawah tidak tertutup Bottom Bar
                   const SizedBox(height: 32),
                 ],
               ),
@@ -472,13 +457,13 @@ class HomeScreenDashboardView extends StatelessWidget {
                 decoration: BoxDecoration(color: tagBg, borderRadius: BorderRadius.circular(6)),
                 child: Text(tag, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white)),
               ),
-              const Icon(Icons.chevron_right_rounded, color: AppTheme.textSecondary, size: 16),
+              Icon(Icons.chevron_right_rounded, color: AppTheme.textSecondary, size: 16),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+              Text(name, style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
               const SizedBox(height: 2),
               Text(balance, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
             ],
@@ -507,7 +492,7 @@ class HomeScreenDashboardView extends StatelessWidget {
                 child: Icon(icon, color: iconColor, size: 14),
               ),
               const SizedBox(width: 8),
-              Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
+              Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 12)),
             ],
           ),
           const SizedBox(height: 12),
@@ -545,13 +530,12 @@ class HomeScreenDashboardView extends StatelessWidget {
               children: [
                 Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
                 const SizedBox(height: 2),
-                Text(subtitle, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+                Text(subtitle, style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
               ],
             ),
           ),
           Text(
             amount,
-            // PERBAIKAN 3: FontWeight.extrabold diganti dengan FontWeight.w800
             style: TextStyle(
               fontWeight: FontWeight.w800,
               fontSize: 14,
@@ -584,7 +568,7 @@ class _QuickActionButton extends StatelessWidget {
           child: Icon(icon, color: AppTheme.brandPrimary, size: 22),
         ),
         const SizedBox(height: 8),
-        Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+        Text(label, style: TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
       ],
     );
   }
@@ -597,7 +581,7 @@ class _PlaceholderTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(title, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 16)),
+      child: Text(title, style: TextStyle(color: AppTheme.textSecondary, fontSize: 16)),
     );
   }
 }
