@@ -111,14 +111,11 @@
 
     window.addEventListener('load', function(ev) {
       _flutter.loader.load({
-        renderer: "html", // Paksa Renderer HTML murni
         serviceWorkerSettings: {
           serviceWorkerVersion: null,
         },
         onEntrypointLoaded: async function(engineInitializer) {
-          const appRunner = await engineInitializer.initializeEngine({
-            renderer: "html"
-          });
+          const appRunner = await engineInitializer.initializeEngine();
           removeLoader();
           await appRunner.runApp();
         }
