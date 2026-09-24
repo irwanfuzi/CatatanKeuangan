@@ -161,7 +161,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Header
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -198,8 +197,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                         ],
                       ),
                       const SizedBox(height: 18),
-
-                      // Input Pencarian
                       Container(
                         decoration: BoxDecoration(
                           color: cardBg,
@@ -235,8 +232,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                         ),
                       ),
                       const SizedBox(height: 14),
-
-                      // Filter Chips
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -270,8 +265,6 @@ class _RiwayatScreenState extends State<RiwayatScreen> {
                         ),
                       ),
                       const SizedBox(height: 18),
-
-                      // Daftar Transaksi
                       Expanded(
                         child: filteredList.isEmpty
                             ? _buildEmptyState(textMuted)
