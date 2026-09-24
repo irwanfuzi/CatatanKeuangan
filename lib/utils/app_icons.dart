@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// Centralized Material 3 Icon Adapter untuk MyKas.
-/// Menjamin 100% ketersediaan ikon & mencegah crash pada kompilasi dart2js Web.
 class AppIcons {
   static const IconData layoutGrid = Icons.grid_view_rounded;
   static const IconData barChart = Icons.bar_chart_rounded;
@@ -33,8 +32,6 @@ class AppIcons {
   static const IconData utensils = Icons.restaurant_rounded;
   static const IconData shoppingBag = Icons.shopping_bag_outlined;
   static const IconData shoppingCart = Icons.shopping_cart_outlined;
-
-  // Ikon Tambahan untuk Analisis, Profil & Riwayat Screen
   static const IconData zap = Icons.bolt_rounded;
   static const IconData close = Icons.close_rounded;
   static const IconData filter = Icons.filter_list_rounded;
