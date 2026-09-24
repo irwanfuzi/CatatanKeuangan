@@ -55,8 +55,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-                    // User Header Card
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -104,8 +102,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // Pengaturan Sesi & Tampilan
                     Text(
                       'PREFERENSI APLIKASI',
                       style: TextStyle(
@@ -116,7 +112,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-
                     Container(
                       decoration: BoxDecoration(
                         color: cardBg,
@@ -172,8 +167,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // Keluar Sesi Button
                     SizedBox(
                       width: double.infinity,
                       height: 50,
