@@ -1,27 +1,8 @@
 import 'package:flutter/material.dart';
-
-/// Design Tokens & Colors untuk MyKas
-class AppTheme {
-  static const Color brandPrimary = Color(0xFF0052FF); // Vivid Blue
-  static const Color brandSecondary = Color(0xFFFFB800); // Gold Accent Dot
-  static const Color bgDark = Color(0xFF0B0E14);
-  static const Color cardDark = Color(0xFF161B22);
-  static const Color borderDark = Color(0xFF21262D);
-  static const Color borderLight = Color(0xFFE2E8F0);
-  static const Color textSecondary = Color(0xFF8B949E);
-  static const Color textSecondaryLight = Color(0xFF64748B);
-}
-
-class AppIcons {
-  static const IconData layoutGrid = Icons.grid_view_rounded;
-  static const IconData barChart = Icons.bar_chart_rounded;
-  static const IconData history = Icons.history_rounded;
-  static const IconData user = Icons.person_outline_rounded;
-  static const IconData plus = Icons.add_rounded;
-}
+import '../theme/app_theme.dart';
+import '../utils/app_icons.dart';
 
 /// Solid Docked Bottom Navigation Bar khas MyKas.
-/// Menempel rapi di bawah layar dengan Flat Center FAB (+) & Label "Catat".
 class MKBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -53,12 +34,10 @@ class MKBottomNavBar extends StatelessWidget {
           height: 68,
           child: Stack(
             alignment: Alignment.center,
-            clipBehavior: Clip.none, // WAJIB: Mencegah FAB terpotong di atas border
+            clipBehavior: Clip.none,
             children: [
-              // Row Tab Navigasi Utama
               Row(
                 children: [
-                  // Tab 1: Beranda
                   Expanded(
                     child: _NavBarItem(
                       icon: AppIcons.layoutGrid,
@@ -67,7 +46,6 @@ class MKBottomNavBar extends StatelessWidget {
                       onTap: () => onTap(0),
                     ),
                   ),
-                  // Tab 2: Analisis
                   Expanded(
                     child: _NavBarItem(
                       icon: AppIcons.barChart,
@@ -76,11 +54,7 @@ class MKBottomNavBar extends StatelessWidget {
                       onTap: () => onTap(1),
                     ),
                   ),
-
-                  // Space Presisi untuk Center FAB (+) "Catat"
                   const SizedBox(width: 64),
-
-                  // Tab 3: Riwayat
                   Expanded(
                     child: _NavBarItem(
                       icon: AppIcons.history,
@@ -89,7 +63,6 @@ class MKBottomNavBar extends StatelessWidget {
                       onTap: () => onTap(2),
                     ),
                   ),
-                  // Tab 4: Profil
                   Expanded(
                     child: _NavBarItem(
                       icon: AppIcons.user,
@@ -100,8 +73,6 @@ class MKBottomNavBar extends StatelessWidget {
                   ),
                 ],
               ),
-
-              // Tombol Flat Center FAB (+) dengan Label "Catat"
               Positioned(
                 top: -14,
                 child: MouseRegion(
@@ -134,7 +105,6 @@ class MKBottomNavBar extends StatelessWidget {
                                 color: Colors.white,
                                 size: 24,
                               ),
-                              // Kancing Aksen Emas (Logo Detail MyKas)
                               Positioned(
                                 right: 10,
                                 top: 10,
@@ -190,7 +160,7 @@ class _NavBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     const activeColor = AppTheme.brandPrimary;
-    final inactiveColor = isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight;
+    final inactiveColor = isDark ? AppTheme.textSecondaryDark : AppTheme.textSecondaryLight;
 
     return InkWell(
       onTap: onTap,
@@ -199,7 +169,6 @@ class _NavBarItem extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          // Indikator Garis Atas & Soft Glow Gradient saat Aktif
           if (isSelected) ...[
             Container(
               width: double.infinity,
@@ -226,8 +195,6 @@ class _NavBarItem extends StatelessWidget {
               ),
             ),
           ],
-
-          // Ikon dan Teks Label
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
