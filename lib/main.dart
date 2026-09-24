@@ -1,29 +1,9 @@
 import 'package:flutter/material.dart';
+import 'widgets/mk_bottom_nav_bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyKasApp());
-}
-
-// -----------------------------------------------------------------------------
-// DESIGN SYSTEM & THEME (MATCHING YOUR SCREENSHOT)
-// -----------------------------------------------------------------------------
-class AppTheme {
-  static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue Top
-  static const Color brandSecondary = Color(0xFFFFB800); // Gold Accent
-  static const Color bgDark = Color(0xFF0B0E14); // Dark Background Body
-  static const Color cardDark = Color(0xFF161B22); // Dark Card Surface
-  static const Color borderDark = Color(0xFF21262D); // Subtle Border
-  static const Color textSecondary = Color(0xFF8B949E);
-  static const Color textPrimary = Color(0xFFF0F6FC);
-}
-
-class AppIcons {
-  static const IconData layoutGrid = Icons.grid_view_rounded;
-  static const IconData barChart = Icons.bar_chart_rounded;
-  static const IconData history = Icons.history_rounded;
-  static const IconData user = Icons.person_outline_rounded;
-  static const IconData plus = Icons.add_rounded;
 }
 
 class MyKasApp extends StatelessWidget {
@@ -32,7 +12,7 @@ class MyKasApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyKas',
+      title: 'MyKas - Own Your Money',
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData(
@@ -43,26 +23,23 @@ class MyKasApp extends StatelessWidget {
           surface: AppTheme.cardDark,
           primary: AppTheme.brandPrimary,
           secondary: AppTheme.brandSecondary,
-          onSurface: AppTheme.textPrimary,
+          onSurface: Colors.white,
         ),
         fontFamily: 'Roboto',
       ),
-      home: const RootHomeScreen(),
+      home: const MainShellNavigation(),
     );
   }
 }
 
-// -----------------------------------------------------------------------------
-// ROOT SCREEN (SCAFFOLD DENGAN BOTTOM NAV BAR UTAMA)
-// -----------------------------------------------------------------------------
-class RootHomeScreen extends StatefulWidget {
-  const RootHomeScreen({super.key});
+class MainShellNavigation extends StatefulWidget {
+  const MainShellNavigation({super.key});
 
   @override
-  State<RootHomeScreen> createState() => _RootHomeScreenState();
+  State<MainShellNavigation> createState() => _MainShellNavigationState();
 }
 
-class _RootHomeScreenState extends State<RootHomeScreen> {
+class _MainShellNavigationState extends State<MainShellNavigation> {
   int _currentIndex = 0;
 
   void _onTabTapped(int index) {
@@ -86,11 +63,11 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
           children: [
             const Text(
               'Catat Transaksi Baru',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textPrimary),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             const SizedBox(height: 8),
             const Text(
-              'Pilih jenis kas yang ingin Anda perbarui.',
+              'Pilih jenis kas yang ingin Anda perbarui pencatatannya.',
               style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
             ),
             const SizedBox(height: 20),
@@ -113,7 +90,7 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
                 Expanded(
                   child: OutlinedButton.icon(
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppTheme.textPrimary,
+                      foregroundColor: Colors.white,
                       side: const BorderSide(color: AppTheme.borderDark),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -137,8 +114,8 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
       builder: (context, constraints) {
         final isDesktop = constraints.maxWidth >= 1024;
 
+        // SCAFFOLD INDUK TUNGGAL (MASTER FRAME)
         return Scaffold(
-          // BODY UTAMA DENGAN INDEXED STACK
           body: Row(
             children: [
               // Sidebar Navigation untuk Mode Desktop Web
@@ -160,22 +137,22 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
                 const VerticalDivider(width: 1, color: AppTheme.borderDark),
               ],
 
-              // Konten Beranda / Tab
+              // Viewport Halaman Aktif
               Expanded(
                 child: IndexedStack(
                   index: _currentIndex,
                   children: const [
-                    MyKasDashboardView(),
-                    _PlaceholderTab(title: 'Modul Analisis'),
-                    _PlaceholderTab(title: 'Riwayat Transaksi'),
-                    _PlaceholderTab(title: 'Profil Pengguna'),
+                    HomeScreenDashboardView(),
+                    _PlaceholderTab(title: 'Modul Analisis Finansial'),
+                    _PlaceholderTab(title: 'Riwayat Seluruh Transaksi'),
+                    _PlaceholderTab(title: 'Pengaturan Profil'),
                   ],
                 ),
               ),
             ],
           ),
 
-          // BOTTOM NAV BAR (SANGAT PENTING: DITAMPILKAN DI SCAFFOLD TERLUAR UNTUK MOBILE)
+          // MKBottomNavBar DIPASANG DI LEVEL SCAFFOLD TERLUAR
           bottomNavigationBar: isDesktop
               ? null
               : MKBottomNavBar(
@@ -190,19 +167,20 @@ class _RootHomeScreenState extends State<RootHomeScreen> {
 }
 
 // -----------------------------------------------------------------------------
-// DASHBOARD VIEW (MATCHING TANGKAPAN LAYAR ANDA)
+// DASHBOARD CONTENT VIEW (PERSISIS SESUAI DENGAN GAMBAR PROYEK ANDA)
 // -----------------------------------------------------------------------------
-class MyKasDashboardView extends StatelessWidget {
-  const MyKasDashboardView({super.key});
+class HomeScreenDashboardView extends StatelessWidget {
+  const HomeScreenDashboardView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.bgDark,
       child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            // Header Biru Atas (Total Saldo)
+            // Header Saldo Biru Atas
             Container(
               padding: const EdgeInsets.fromLTRB(20, 48, 20, 24),
               decoration: const BoxDecoration(
@@ -255,13 +233,13 @@ class MyKasDashboardView extends StatelessWidget {
               ),
             ),
 
-            // Main Dark Content Body
+            // Konten Kartu Gelap
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Kantong Keuangan Header
+                  // Section: Kantong Keuangan
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -269,7 +247,7 @@ class MyKasDashboardView extends StatelessWidget {
                         children: [
                           const Text(
                             'Kantong Keuangan',
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary),
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                           const SizedBox(width: 8),
                           Container(
@@ -290,7 +268,6 @@ class MyKasDashboardView extends StatelessWidget {
                   ),
                   const SizedBox(height: 12),
 
-                  // Grid 2x2 Kantong Keuangan
                   GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -306,7 +283,7 @@ class MyKasDashboardView extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppTheme.cardDark,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppTheme.borderDark, style: BorderStyle.solid),
+                          border: Border.all(color: AppTheme.borderDark),
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -322,11 +299,11 @@ class MyKasDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Quick Actions
+                  // Section: Quick Actions
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                      Text('Quick Actions', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                       Text('Edit', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
                     ],
                   ),
@@ -343,7 +320,7 @@ class MyKasDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // My Insight Card
+                  // Section: My Insight
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -366,7 +343,7 @@ class MyKasDashboardView extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
-                              Text('My Insight', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                              Text('My Insight', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
                               SizedBox(height: 2),
                               Text(
                                 'Pengeluaran menurun 12%! Hemat Rp1.450.000 pada pos non-primer dibanding minggu lalu.',
@@ -381,11 +358,11 @@ class MyKasDashboardView extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Overview Keuangan
+                  // Section: Overview Keuangan
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Overview Keuangan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                      const Text('Overview Keuangan', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                       TextButton(
                         onPressed: () {},
                         child: const Text('Lihat Detail >', style: TextStyle(color: AppTheme.brandPrimary, fontSize: 12)),
@@ -400,6 +377,68 @@ class MyKasDashboardView extends StatelessWidget {
                       Expanded(child: _buildOverviewTile('Pengeluaran', 'Rp 2.804.178', Icons.arrow_upward_rounded, const Color(0xFFEF4444))),
                     ],
                   ),
+
+                  const SizedBox(height: 24),
+
+                  // Section: Riwayat Transaksi (Persis dengan Screenshot Anda)
+                  const Text(
+                    'Riwayat Transaksi',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: AppTheme.cardDark,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppTheme.borderDark),
+                    ),
+                    child: Column(
+                      children: [
+                        _buildTransactionTile(
+                          icon: Icons.restaurant_rounded,
+                          iconBg: const Color(0xFFD97706).withOpacity(0.2),
+                          iconColor: const Color(0xFFF59E0B),
+                          title: 'Gudeg Bu Dani Solo',
+                          subtitle: 'Hari Ini, 12:45 • Kuliner & Makanan',
+                          amount: '-Rp45.000',
+                          isExpense: true,
+                        ),
+                        const Divider(height: 1, color: AppTheme.borderDark),
+                        _buildTransactionTile(
+                          icon: Icons.account_balance_wallet_rounded,
+                          iconBg: const Color(0xFF10B981).withOpacity(0.2),
+                          iconColor: const Color(0xFF10B981),
+                          title: 'Gaji Bulanan Utama',
+                          subtitle: '25 Agu 2026 • Payroll Inflow',
+                          amount: '+Rp8.500.000',
+                          isExpense: false,
+                        ),
+                        const Divider(height: 1, color: AppTheme.borderDark),
+                        _buildTransactionTile(
+                          icon: Icons.shopping_bag_rounded,
+                          iconBg: const Color(0xFF0284C7).withOpacity(0.2),
+                          iconColor: const Color(0xFF38BDF8),
+                          title: 'GoFood Indonesia',
+                          subtitle: '24 Agu 2026 • Layanan Antar',
+                          amount: '-Rp68.000',
+                          isExpense: true,
+                        ),
+                        const Divider(height: 1, color: AppTheme.borderDark),
+                        _buildTransactionTile(
+                          icon: Icons.shopping_cart_rounded,
+                          iconBg: const Color(0xFF7C3AED).withOpacity(0.2),
+                          iconColor: const Color(0xFFA78BFA),
+                          title: 'Supermarket Transmart',
+                          subtitle: '22 Agu 2026 • Kebutuhan Harian',
+                          amount: '-Rp235.000',
+                          isExpense: true,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Bottom Spacing agar transaksi paling bawah tidak tertutup Bottom Bar
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
@@ -437,7 +476,7 @@ class MyKasDashboardView extends StatelessWidget {
             children: [
               Text(name, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
               const SizedBox(height: 2),
-              Text(balance, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+              Text(balance, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
             ],
           )
         ],
@@ -468,7 +507,52 @@ class MyKasDashboardView extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Text(amount, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+          Text(amount, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionTile({
+    required IconData icon,
+    required Color iconBg,
+    required Color iconColor,
+    required String title,
+    required String subtitle,
+    required String amount,
+    required bool isExpense,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: iconBg,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.white)),
+                const SizedBox(height: 2),
+                Text(subtitle, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11)),
+              ],
+            ),
+          ),
+          Text(
+            amount,
+            style: TextStyle(
+              fontWeight: FontWeight.extrabold,
+              fontSize: 14,
+              color: isExpense ? Colors.white : const Color(0xFF10B981),
+            ),
+          ),
         ],
       ),
     );
@@ -509,228 +593,6 @@ class _PlaceholderTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(title, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 16)),
-    );
-  }
-}
-
-// -----------------------------------------------------------------------------
-// SOLID DOCKED BOTTOM NAVIGATION BAR (MKBottomNavBar)
-// -----------------------------------------------------------------------------
-class MKBottomNavBar extends StatelessWidget {
-  final int currentIndex;
-  final ValueChanged<int> onTap;
-  final VoidCallback onAddPressed;
-
-  const MKBottomNavBar({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-    required this.onAddPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const navBgColor = AppTheme.cardDark;
-    const borderColor = AppTheme.borderDark;
-
-    return Container(
-      decoration: const BoxDecoration(
-        color: navBgColor,
-        border: Border(
-          top: BorderSide(color: borderColor, width: 1.0),
-        ),
-      ),
-      child: SafeArea(
-        top: false,
-        child: SizedBox(
-          height: 68,
-          child: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: _NavBarItem(
-                      icon: AppIcons.layoutGrid,
-                      label: 'Beranda',
-                      isSelected: currentIndex == 0,
-                      onTap: () => onTap(0),
-                    ),
-                  ),
-                  Expanded(
-                    child: _NavBarItem(
-                      icon: AppIcons.barChart,
-                      label: 'Analisis',
-                      isSelected: currentIndex == 1,
-                      onTap: () => onTap(1),
-                    ),
-                  ),
-                  const SizedBox(width: 64),
-                  Expanded(
-                    child: _NavBarItem(
-                      icon: AppIcons.history,
-                      label: 'Riwayat',
-                      isSelected: currentIndex == 2,
-                      onTap: () => onTap(2),
-                    ),
-                  ),
-                  Expanded(
-                    child: _NavBarItem(
-                      icon: AppIcons.user,
-                      label: 'Profil',
-                      isSelected: currentIndex == 3,
-                      onTap: () => onTap(3),
-                    ),
-                  ),
-                ],
-              ),
-              Positioned(
-                top: -14,
-                child: MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: onAddPressed,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [AppTheme.brandPrimary, Color(0xFF0040C8)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: navBgColor,
-                              width: 3.0,
-                            ),
-                          ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              const Icon(
-                                AppIcons.plus,
-                                color: Colors.white,
-                                size: 24,
-                              ),
-                              Positioned(
-                                right: 10,
-                                top: 10,
-                                child: Container(
-                                  width: 5,
-                                  height: 5,
-                                  decoration: const BoxDecoration(
-                                    color: AppTheme.brandSecondary,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        const Text(
-                          'Catat',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w800,
-                            color: AppTheme.brandPrimary,
-                            letterSpacing: -0.2,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _NavBarItem extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _NavBarItem({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const activeColor = AppTheme.brandPrimary;
-    const inactiveColor = AppTheme.textSecondary;
-
-    return InkWell(
-      onTap: onTap,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          if (isSelected) ...[
-            Container(
-              width: double.infinity,
-              height: 44,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    activeColor.withOpacity(0.12),
-                    activeColor.withOpacity(0.0),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: 28,
-              height: 3,
-              decoration: const BoxDecoration(
-                color: activeColor,
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(2),
-                ),
-              ),
-            ),
-          ],
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 2),
-                Icon(
-                  icon,
-                  color: isSelected ? activeColor : inactiveColor,
-                  size: 20,
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
-                    color: isSelected ? activeColor : inactiveColor,
-                    letterSpacing: -0.2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
