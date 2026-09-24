@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Placeholder Wajib untuk Flutter Build Tool -->
   <base href="$FLUTTER_BASE_HREF">
 
   <script>
-    // Dynamic Base Href Runtime Fixer untuk Vercel Proxy (/) vs GitHub Pages (/MyKas/)
     (function() {
       var path = window.location.pathname;
       var baseHref = '/';
@@ -24,12 +22,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="MyKas - Own Your Money">
 
-  <!-- Anti-Cache Directives -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
-  <!-- PWA & iOS Safari Meta -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="MyKas">
@@ -79,7 +75,6 @@
     }
   </style>
 
-  <!-- PENTING: Gunakan flutter_bootstrap.js bawaan Flutter versi baru -->
   <script src="flutter_bootstrap.js" async></script>
 </head>
 <body>
@@ -89,7 +84,6 @@
   </div>
 
   <script>
-    // Force Unregister Service Worker Lama yang Nyangkut
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(function(registrations) {
         for (let registration of registrations) {
@@ -98,7 +92,6 @@
       });
     }
 
-    // Sembunyikan elemen loading saat frame pertama aplikasi Flutter selesai dirender
     window.addEventListener('flutter-first-frame', function () {
       var el = document.getElementById('app-loading');
       if (el) {
