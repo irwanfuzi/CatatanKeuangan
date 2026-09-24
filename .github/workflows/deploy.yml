@@ -38,7 +38,7 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - - name: Build Flutter Web
+      - name: Build Flutter Web
         run: flutter build web --release --base-href "/MyKas/" --no-tree-shake-icons
 
       - name: Upload Web Artifact
