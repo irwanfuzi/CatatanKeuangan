@@ -79,7 +79,8 @@
     }
   </style>
 
-  <script src="flutter.js" defer></script>
+  <!-- PENTING: Gunakan flutter_bootstrap.js bawaan Flutter versi baru -->
+  <script src="flutter_bootstrap.js" async></script>
 </head>
 <body>
   <div class="loading-container" id="app-loading">
@@ -97,7 +98,8 @@
       });
     }
 
-    function removeLoader() {
+    // Sembunyikan elemen loading saat frame pertama aplikasi Flutter selesai dirender
+    window.addEventListener('flutter-first-frame', function () {
       var el = document.getElementById('app-loading');
       if (el) {
         el.style.opacity = '0';
@@ -107,19 +109,6 @@
           }
         }, 300);
       }
-    }
-
-    window.addEventListener('load', function(ev) {
-      _flutter.loader.load({
-        serviceWorkerSettings: {
-          serviceWorkerVersion: null,
-        },
-        onEntrypointLoaded: async function(engineInitializer) {
-          const appRunner = await engineInitializer.initializeEngine();
-          removeLoader();
-          await appRunner.runApp();
-        }
-      });
     });
   </script>
 </body>
