@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package0:flutter/material.dart';
 
 import '../../models/quick_action_item.dart';
 import '../../theme/app_theme.dart';
@@ -310,10 +310,11 @@ class _BerandaScreenState extends State<BerandaScreen> {
           _handleBackPress();
         }
       },
+      // Menggunakan Container alih-alih Scaffold agar tidak menutupi BottomNavigationBar dari MainScreen
       child: Container(
         color: const Color(0xFF0052FF),
         child: SafeArea(
-          bottom: false, // Membiarkan BottomNavigationBar dari MainScreen muncul dengan pas
+          bottom: false,
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
             child: AnimatedSwitcher(
