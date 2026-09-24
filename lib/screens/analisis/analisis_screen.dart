@@ -43,7 +43,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                 child: ListView(
                   padding: EdgeInsets.all(isDesktop ? 28.0 : 16.0),
                   children: [
-                    // Header Analisis
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -69,7 +68,7 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                         DropdownButton<String>(
                           value: _selectedRentang,
                           dropdownColor: cardBg,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: AppTheme.brandPrimary,
@@ -90,8 +89,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                       ],
                     ),
                     const SizedBox(height: 20),
-
-                    // Progress Budget
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -142,8 +139,6 @@ class _AnalisisScreenState extends State<AnalisisScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-
-                    // Breakdown Kategori Pengeluaran
                     Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
