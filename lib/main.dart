@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
+import 'screens/auth/lock_screen.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyKasApp());
+  final prefs = await SharedPreferences.getInstance();
+  final savedPin = prefs.getString('user_pin') ?? '';
+  final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
+
+  runApp(MyKasApp(
+    initialSavedPin: savedPin,
+    initialIsPinLocked: isPinEnabled && savedPin.isNotEmpty,
+  ));
 }
 
 class MyKasApp extends StatefulWidget {
-  const MyKasApp({super.key});
+  final String initialSavedPin;
+  final bool initialIsPinLocked;
+
+  const MyKasApp({
+    super.key,
+    required this.initialSavedPin,
+    required this.initialIsPinLocked,
+  });
 
   @override
   State<MyKasApp> createState() => _MyKasAppState();
@@ -17,6 +33,13 @@ class MyKasApp extends StatefulWidget {
 
 class _MyKasAppState extends State<MyKasApp> {
   ThemeMode _themeMode = ThemeMode.dark;
+  late bool _isLocked;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLocked = widget.initialIsPinLocked;
+  }
 
   void _updateThemeMode(ThemeMode newMode) {
     setState(() {
@@ -38,12 +61,20 @@ class _MyKasAppState extends State<MyKasApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
-      home: App(
-        onThemeChanged: _handleThemeChange,
-        currentThemeMode: _themeMode,
-        onThemeModeChanged: _updateThemeMode,
-      ),
+      home: _isLocked
+          ? LockScreen(
+              savedPin: widget.initialSavedPin,
+              onUnlocked: () {
+                setState(() {
+                  _isLocked = false;
+                });
+              },
+            )
+          : App(
+              onThemeChanged: _handleThemeChange,
+              currentThemeMode: _themeMode,
+              onThemeModeChanged: _updateThemeMode,
+            ),
     );
   }
 }
- 
