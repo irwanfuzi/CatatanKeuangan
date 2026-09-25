@@ -5,7 +5,6 @@ import 'screens/beranda/beranda_screen.dart';
 import 'screens/profil/profil_screen.dart';
 import 'screens/riwayat/riwayat_screen.dart';
 import 'services/api_service.dart';
-import 'theme/app_theme.dart';
 import 'utils/app_icons.dart';
 import 'widgets/mk_bottom_nav_bar.dart';
 
@@ -109,9 +108,9 @@ class _AppState extends State<App> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    final surfaceColor = isDark ? AppTheme.bgDark : AppTheme.bgLight;
-    final borderColor = isDark ? AppTheme.borderDark : AppTheme.borderLight;
-    final textColor = isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight;
+    final surfaceColor = isDark ? const Color(0xFF0F172A) : const Color(0xFFF8FAFC);
+    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFE2E8F0);
+    final textColor = isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -161,7 +160,7 @@ class _AppState extends State<App> {
                               width: 36,
                               height: 36,
                               decoration: BoxDecoration(
-                                color: AppTheme.brandPrimary,
+                                color: const Color(0xFF0052FF),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: const Icon(AppIcons.wallet, color: Colors.white, size: 20),
@@ -198,7 +197,7 @@ class _AppState extends State<App> {
                               style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.brandPrimary,
+                              backgroundColor: const Color(0xFF0052FF),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                               elevation: 0,
                             ),
@@ -240,7 +239,7 @@ class _AppState extends State<App> {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? AppTheme.brandPrimary.withOpacity(0.12) : Colors.transparent,
+            color: isSelected ? const Color(0xFF0052FF).withOpacity(0.12) : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -248,13 +247,13 @@ class _AppState extends State<App> {
               Icon(
                 icon,
                 size: 20,
-                color: isSelected ? AppTheme.brandPrimary : const Color(0xFF64748B),
+                color: isSelected ? const Color(0xFF0052FF) : const Color(0xFF64748B),
               ),
               const SizedBox(width: 14),
               Text(
                 label,
                 style: TextStyle(
-                  color: isSelected ? AppTheme.brandPrimary : const Color(0xFF64748B),
+                  color: isSelected ? const Color(0xFF0052FF) : const Color(0xFF64748B),
                   fontWeight: isSelected ? FontWeight.w800 : FontWeight.w500,
                   fontSize: 14,
                 ),
@@ -280,8 +279,8 @@ class _ModalTambahTransaksiSheetState extends State<ModalTambahTransaksiSheet> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bgColor = isDark ? AppTheme.cardDark : AppTheme.cardLight;
-    final textColor = isDark ? AppTheme.textPrimaryDark : AppTheme.textPrimaryLight;
+    final bgColor = isDark ? const Color(0xFF1E293B) : Colors.white;
+    final textColor = isDark ? const Color(0xFFF8FAFC) : const Color(0xFF0F172A);
 
     return Container(
       padding: EdgeInsets.only(
@@ -303,7 +302,7 @@ class _ModalTambahTransaksiSheetState extends State<ModalTambahTransaksiSheet> {
               width: 38,
               height: 4,
               decoration: BoxDecoration(
-                color: isDark ? AppTheme.borderDark : const Color(0xFFCBD5E1),
+                color: isDark ? const Color(0xFF334155) : const Color(0xFFCBD5E1),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -393,7 +392,7 @@ class _ModalTambahTransaksiSheetState extends State<ModalTambahTransaksiSheet> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.brandPrimary,
+                backgroundColor: const Color(0xFF0052FF),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
