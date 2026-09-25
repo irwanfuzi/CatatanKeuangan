@@ -118,7 +118,7 @@ class _LockScreenState extends State<LockScreen> {
 
             // Keypad Num
             Container(
-              constraints: const BoxConstraints(maxWidth: 320), // Perbaikan: menggunakan BoxConstraints
+              constraints: const BoxConstraints(maxWidth: 320),
               padding: const EdgeInsets.only(bottom: 24),
               child: Column(
                 children: [
