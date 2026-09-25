@@ -83,7 +83,10 @@ class _LockScreenState extends State<LockScreen> {
             const SizedBox(height: 8),
             Text(
               'Aplikasi dikunci untuk keamanan data Anda',
-              style: TextStyle(fontSize: 13, color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B)),
+              style: TextStyle(
+                fontSize: 13,
+                color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
+              ),
             ),
             const SizedBox(height: 32),
 
@@ -115,7 +118,7 @@ class _LockScreenState extends State<LockScreen> {
 
             // Keypad Num
             Container(
-              maxWidth: 320,
+              constraints: const BoxConstraints(maxWidth: 320), // PERBAIKAN DI SINI
               padding: const EdgeInsets.only(bottom: 24),
               child: Column(
                 children: [
