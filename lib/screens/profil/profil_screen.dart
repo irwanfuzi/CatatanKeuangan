@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../theme/app_theme.dart';
 
@@ -26,7 +25,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   String _userEmail = 'irwan.fuzi@mykas.app';
   String _userPhone = '+62 812-3456-7890';
 
-  // State Keamanan & PIN Persisten
+  // State Keamanan & PIN
   bool _pinLockEnabled = false;
   String _savedPin = '';
   bool _fingerprintEnabled = false;
@@ -36,46 +35,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
   bool _isGoogleConnected = true;
   bool _isAppleConnected = false;
   bool _isFacebookConnected = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPinState();
-  }
-
-  /// Membaca data PIN yang tersimpan di memori perangkat saat layar dibuka
-  Future<void> _loadPinState() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _pinLockEnabled = prefs.getBool('pin_enabled') ?? false;
-      _savedPin = prefs.getString('user_pin') ?? '';
-      _fingerprintEnabled = prefs.getBool('fingerprint_enabled') ?? false;
-    });
-  }
-
-  /// Menyimpan PIN baru secara permanen ke SharedPreferences
-  Future<void> _savePinToLocal(String pin) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('pin_enabled', true);
-    await prefs.setString('user_pin', pin);
-    setState(() {
-      _savedPin = pin;
-      _pinLockEnabled = true;
-    });
-  }
-
-  /// Menghapus data PIN dari memori lokal saat penguncian dimatikan
-  Future<void> _removePinFromLocal() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('pin_enabled', false);
-    await prefs.remove('user_pin');
-    await prefs.setBool('fingerprint_enabled', false);
-    setState(() {
-      _pinLockEnabled = false;
-      _fingerprintEnabled = false;
-      _savedPin = '';
-    });
-  }
 
   void _showSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -154,7 +113,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
                     const SizedBox(height: 28),
 
-                    // 3. KEAMANAN & AKSES (PERSISTEN MEMORY)
+                    // 3. KEAMANAN & AKSES
                     _buildSectionTitle('KEAMANAN & AKSES', textMuted),
                     const SizedBox(height: 10),
                     _buildCardGroup(cardBg, borderColor, [
@@ -163,7 +122,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         iconColor: const Color(0xFFA78BFA),
                         title: 'Kunci PIN Aplikasi',
                         subtitle: _pinLockEnabled
-                            ? 'PIN 6-digit aktif & tersimpan'
+                            ? 'PIN 6-digit aktif'
                             : 'Minta PIN 6-digit saat aplikasi dibuka',
                         value: _pinLockEnabled,
                         textColor: textColor,
@@ -186,9 +145,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         textColor: textColor,
                         textMuted: textMuted,
                         onChanged: _pinLockEnabled
-                            ? (val) async {
-                                final prefs = await SharedPreferences.getInstance();
-                                await prefs.setBool('fingerprint_enabled', val);
+                            ? (val) {
                                 setState(() => _fingerprintEnabled = val);
                                 _showSnackBar(val ? 'Biometrik diaktifkan' : 'Biometrik dinonaktifkan');
                               }
@@ -325,7 +282,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
     );
   }
 
-  // HELPER BUILDERS & UI COMPONENTS
   Widget _buildSectionTitle(String title, Color textColor) {
     return Text(
       title,
@@ -494,7 +450,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
     }
   }
 
-  // DIALOG MEMBUAT, MERUBAH, DAN MEMATIKAN PIN
   void _showBuatPinDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
     final pinCtrl = TextEditingController();
     final confirmCtrl = TextEditingController();
@@ -544,7 +499,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
           TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
-            onPressed: () async {
+            onPressed: () {
               if (pinCtrl.text.length != 6) {
                 _showSnackBar('PIN harus terdiri dari 6 angka digit', isError: true);
                 return;
@@ -553,11 +508,12 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 _showSnackBar('Konfirmasi PIN tidak cocok!', isError: true);
                 return;
               }
-              await _savePinToLocal(pinCtrl.text);
-              if (mounted) {
-                Navigator.pop(context);
-                _showSnackBar('Kunci PIN 6-digit berhasil diaktifkan & tersimpan!');
-              }
+              setState(() {
+                _savedPin = pinCtrl.text;
+                _pinLockEnabled = true;
+              });
+              Navigator.pop(context);
+              _showSnackBar('Kunci PIN 6-digit berhasil diaktifkan!');
             },
             child: const Text('Simpan & Aktifkan'),
           ),
@@ -599,16 +555,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
           TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.expenseRed, foregroundColor: Colors.white),
-            onPressed: () async {
+            onPressed: () {
               if (pinCtrl.text != _savedPin) {
                 _showSnackBar('PIN yang Anda masukkan salah!', isError: true);
                 return;
               }
-              await _removePinFromLocal();
-              if (mounted) {
-                Navigator.pop(context);
-                _showSnackBar('Kunci PIN aplikasi telah dinonaktifkan.');
-              }
+              setState(() {
+                _pinLockEnabled = false;
+                _fingerprintEnabled = false;
+                _savedPin = '';
+              });
+              Navigator.pop(context);
+              _showSnackBar('Kunci PIN aplikasi telah dinonaktifkan.');
             },
             child: const Text('Matikan PIN'),
           ),
@@ -661,7 +619,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
           TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
-            onPressed: () async {
+            onPressed: () {
               if (oldPinCtrl.text != _savedPin) {
                 _showSnackBar('PIN Lama tidak sesuai!', isError: true);
                 return;
@@ -670,11 +628,11 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 _showSnackBar('PIN Baru harus 6 digit angka', isError: true);
                 return;
               }
-              await _savePinToLocal(newPinCtrl.text);
-              if (mounted) {
-                Navigator.pop(context);
-                _showSnackBar('PIN Kas Anda berhasil diperbarui!');
-              }
+              setState(() {
+                _savedPin = newPinCtrl.text;
+              });
+              Navigator.pop(context);
+              _showSnackBar('PIN Kas Anda berhasil diperbarui!');
             },
             child: const Text('Simpan PIN Baru'),
           ),
@@ -683,7 +641,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
     );
   }
 
-  // OTHER DIALOGS
   void _showThemeModeBottomSheet(
     BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted,
   ) {
