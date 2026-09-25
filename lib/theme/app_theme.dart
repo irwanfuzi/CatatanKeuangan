@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 /// AppTheme MyKas - Clean, High-Contrast System Font Palette
-/// Compatible with Flutter 3.24.3+ Web & Native
 class AppTheme {
   // Brand Colors
   static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
-  static const Color brandSecondary = Color(0xFFFFB800); // Amber Gold Accent
+  static const Color brandSecondary = Color(0xFFF59E0B); // Amber Gold
 
   // Light Theme Colors
   static const Color bgLight = Color(0xFFF8FAFC);
@@ -21,10 +20,6 @@ class AppTheme {
   static const Color textPrimaryDark = Color(0xFFF8FAFC);
   static const Color textSecondaryDark = Color(0xFF94A3B8);
 
-  // Status Colors
-  static const Color expenseRed = Color(0xFFEF4444);
-  static const Color successGreen = Color(0xFF10B981);
-
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -35,12 +30,8 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardLight,
-        onSurface: textPrimaryLight,
-        onSurfaceVariant: textSecondaryLight,
-        outline: borderLight,
-        error: expenseRed,
       ),
-      dividerColor: borderLight,
+      fontFamily: 'sans-serif',
       cardTheme: CardTheme(
         color: cardLight,
         elevation: 0,
@@ -62,12 +53,8 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardDark,
-        onSurface: textPrimaryDark,
-        onSurfaceVariant: textSecondaryDark,
-        outline: borderDark,
-        error: expenseRed,
       ),
-      dividerColor: borderDark,
+      fontFamily: 'sans-serif',
       cardTheme: CardTheme(
         color: cardDark,
         elevation: 0,
