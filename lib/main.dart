@@ -50,7 +50,7 @@ class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // Deteksi ketika aplikasi dibuka kembali dari background/close
+  // Deteksi ketika aplikasi dibuka kembali dari background/diminimalkan
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
