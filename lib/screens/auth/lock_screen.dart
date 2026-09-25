@@ -118,7 +118,7 @@ class _LockScreenState extends State<LockScreen> {
 
             // Keypad Num
             Container(
-              constraints: const BoxConstraints(maxWidth: 320),
+              constraints: const BoxConstraints(maxWidth: 320), // SUDAH DIPERBAIKI (Gunakan BoxConstraints)
               padding: const EdgeInsets.only(bottom: 24),
               child: Column(
                 children: [
