@@ -6,6 +6,10 @@ class AppTheme {
   static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
   static const Color brandSecondary = Color(0xFFF59E0B); // Amber Gold
 
+  // Semantic Status Colors
+  static const Color expenseRed = Color(0xFFEF4444);
+  static const Color successGreen = Color(0xFF10B981);
+
   // Light Theme Colors
   static const Color bgLight = Color(0xFFF8FAFC);
   static const Color cardLight = Colors.white;
@@ -30,6 +34,9 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardLight,
+        outline: borderLight,
+        onSurface: textPrimaryLight,
+        onSurfaceVariant: textSecondaryLight,
       ),
       fontFamily: 'sans-serif',
       cardTheme: CardTheme(
@@ -53,6 +60,9 @@ class AppTheme {
         primary: brandPrimary,
         secondary: brandSecondary,
         surface: cardDark,
+        outline: borderDark,
+        onSurface: textPrimaryDark,
+        onSurfaceVariant: textSecondaryDark,
       ),
       fontFamily: 'sans-serif',
       cardTheme: CardTheme(
