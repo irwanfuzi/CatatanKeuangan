@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
 // Brand Colors
 static const Color brandPrimary = Color(0xFF0052FF); // Electric Blue
-static const Color brandSecondary = Color(0xFFFFB800); // Amber Gold Accent Dot
+static const Color brandSecondary = Color(0xFFFFB800); // Amber Gold Accent
 
 // Light Theme Colors
 static const Color bgLight = Color(0xFFF8FAFC);
