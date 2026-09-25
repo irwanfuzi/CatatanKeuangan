@@ -1,22 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
+import 'screens/auth/lock_screen.dart';
 import 'theme/app_theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyKasApp());
+  final prefs = await SharedPreferences.getInstance();
+  final savedPin = prefs.getString('user_pin') ?? '';
+  final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
+
+  runApp(MyKasApp(
+    initialSavedPin: savedPin,
+    initialIsPinLocked: isPinEnabled && savedPin.isNotEmpty,
+  ));
 }
 
 class MyKasApp extends StatefulWidget {
-  const MyKasApp({super.key});
+  final String initialSavedPin;
+  final bool initialIsPinLocked;
+
+  const MyKasApp({
+    super.key,
+    required this.initialSavedPin,
+    required this.initialIsPinLocked,
+  });
 
   @override
   State<MyKasApp> createState() => _MyKasAppState();
 }
 
-class _MyKasAppState extends State<MyKasApp> {
+class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
   ThemeMode _themeMode = ThemeMode.dark;
+  late bool _isLocked;
+  String _currentSavedPin = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _isLocked = widget.initialIsPinLocked;
+    _currentSavedPin = widget.initialSavedPin;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  // Deteksi ketika aplikasi dibuka kembali dari background/close
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkPinStatusOnResume();
+    }
+  }
+
+  Future<void> _checkPinStatusOnResume() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedPin = prefs.getString('user_pin') ?? '';
+    final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
+
+    if (isPinEnabled && savedPin.isNotEmpty) {
+      setState(() {
+        _currentSavedPin = savedPin;
+        _isLocked = true;
+      });
+    }
+  }
 
   void _updateThemeMode(ThemeMode newMode) {
     setState(() {
@@ -38,11 +91,20 @@ class _MyKasAppState extends State<MyKasApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
-      home: App(
-        onThemeChanged: _handleThemeChange,
-        currentThemeMode: _themeMode,
-        onThemeModeChanged: _updateThemeMode,
-      ),
+      home: _isLocked
+          ? LockScreen(
+              savedPin: _currentSavedPin,
+              onUnlocked: () {
+                setState(() {
+                  _isLocked = false;
+                });
+              },
+            )
+          : App(
+              onThemeChanged: _handleThemeChange,
+              currentThemeMode: _themeMode,
+              onThemeModeChanged: _updateThemeMode,
+            ),
     );
   }
 }
