@@ -18,6 +18,12 @@ class MyKasApp extends StatefulWidget {
 class _MyKasAppState extends State<MyKasApp> {
   ThemeMode _themeMode = ThemeMode.dark;
 
+  void _updateThemeMode(ThemeMode newMode) {
+    setState(() {
+      _themeMode = newMode;
+    });
+  }
+
   void _handleThemeChange(bool isDark) {
     setState(() {
       _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -32,7 +38,11 @@ class _MyKasAppState extends State<MyKasApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
-      home: App(onThemeChanged: _handleThemeChange),
+      home: App(
+        onThemeChanged: _handleThemeChange,
+        currentThemeMode: _themeMode,
+        onThemeModeChanged: _updateThemeMode,
+      ),
     );
   }
 }
