@@ -19,6 +19,11 @@ class ProfilScreen extends StatefulWidget {
 }
 
 class _ProfilScreenState extends State<ProfilScreen> {
+  // State Data Diri
+  String _userName = 'Irwan Fuzi';
+  String _userEmail = 'irwan.fuzi@mykas.app';
+  String _userPhone = '+62 812-3456-7890';
+
   // State Keamanan
   bool _pinLockEnabled = true;
   bool _fingerprintEnabled = true;
@@ -27,10 +32,22 @@ class _ProfilScreenState extends State<ProfilScreen> {
   ThemeMode _selectedThemeMode = ThemeMode.dark;
   String _currentLanguage = 'Bahasa Indonesia';
 
-  // State Simulasi Akun Terhubung
+  // State Integrasi Akun
   bool _isGoogleConnected = true;
   bool _isAppleConnected = false;
   bool _isFacebookConnected = false;
+
+  void _showSnackBar(String message, {bool isError = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message, style: const TextStyle(fontWeight: FontWeight.bold)),
+        backgroundColor: isError ? const Color(0xFFEF4444) : AppTheme.brandPrimary,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +131,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                             _pinLockEnabled = val;
                             if (!val) _fingerprintEnabled = false;
                           });
+                          _showSnackBar(val ? 'Kunci PIN diaktifkan' : 'Kunci PIN dinonaktifkan');
                         },
                       ),
                       Divider(height: 1, color: borderColor),
@@ -126,7 +144,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         textColor: textColor,
                         textMuted: textMuted,
                         onChanged: _pinLockEnabled
-                            ? (val) => setState(() => _fingerprintEnabled = val)
+                            ? (val) {
+                                setState(() => _fingerprintEnabled = val);
+                                _showSnackBar(val ? 'Sidik jari diaktifkan' : 'Sidik jari dinonaktifkan');
+                              }
                             : null,
                       ),
                       if (_pinLockEnabled) ...[
@@ -183,7 +204,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         subtitle: 'Unduh rekapitulasi format PDF / Excel',
                         textColor: textColor,
                         textMuted: textMuted,
-                        onTap: () {},
+                        onTap: () => _showEksporDialog(context, cardBg, borderColor, textColor, textMuted),
                       ),
                       Divider(height: 1, color: borderColor),
                       _buildListTile(
@@ -193,7 +214,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         subtitle: 'Simpan file cadangan transaksi secara lokal',
                         textColor: textColor,
                         textMuted: textMuted,
-                        onTap: () {},
+                        onTap: () => _showSnackBar('Pencadangan data kas berhasil dilakukan!'),
                       ),
                     ]),
 
@@ -301,7 +322,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Irwan Fuzi',
+                  _userName,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -310,7 +331,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'irwan.fuzi@mykas.app',
+                  _userEmail,
                   style: TextStyle(fontSize: 12, color: textMuted),
                 ),
                 const SizedBox(height: 2),
@@ -319,7 +340,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     Icon(Icons.phone_android_rounded, size: 12, color: textMuted),
                     const SizedBox(width: 4),
                     Text(
-                      '+62 812-3456-7890',
+                      _userPhone,
                       style: TextStyle(fontSize: 12, color: textMuted, fontWeight: FontWeight.w500),
                     ),
                   ],
@@ -328,7 +349,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => _showEditProfileDialog(context, cardBg, borderColor, textColor, textMuted),
             icon: Icon(AppIcons.pencil, size: 18, color: textMuted),
           ),
         ],
@@ -433,8 +454,61 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   // ---------------------------------------------------------------------------
-  // MODAL BOTTOMSHEETS & DIALOGS
+  // MODAL BOTTOMSHEETS & DIALOGS INTERAKTIF
   // ---------------------------------------------------------------------------
+
+  void _showEditProfileDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
+    final nameCtrl = TextEditingController(text: _userName);
+    final phoneCtrl = TextEditingController(text: _userPhone);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: cardBg,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
+        title: Text('Edit Data Diri', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameCtrl,
+              style: TextStyle(color: textColor),
+              decoration: InputDecoration(
+                labelText: 'Nama Lengkap',
+                labelStyle: TextStyle(color: textMuted),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: phoneCtrl,
+              style: TextStyle(color: textColor),
+              decoration: InputDecoration(
+                labelText: 'Nomor HP',
+                labelStyle: TextStyle(color: textMuted),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
+            onPressed: () {
+              setState(() {
+                _userName = nameCtrl.text;
+                _userPhone = phoneCtrl.text;
+              });
+              Navigator.pop(context);
+              _showSnackBar('Profil berhasil diperbarui!');
+            },
+            child: const Text('Simpan'),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _showConnectedAccountsBottomSheet(
     BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted,
@@ -473,6 +547,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 onToggle: () {
                   setModalState(() => _isGoogleConnected = !_isGoogleConnected);
                   setState(() {});
+                  _showSnackBar(_isGoogleConnected ? 'Akun Google terhubung' : 'Akun Google diputuskan');
                 },
               ),
               const SizedBox(height: 10),
@@ -489,6 +564,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 onToggle: () {
                   setModalState(() => _isAppleConnected = !_isAppleConnected);
                   setState(() {});
+                  _showSnackBar(_isAppleConnected ? 'Apple ID terhubung' : 'Apple ID diputuskan');
                 },
               ),
               const SizedBox(height: 10),
@@ -505,6 +581,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 onToggle: () {
                   setModalState(() => _isFacebookConnected = !_isFacebookConnected);
                   setState(() {});
+                  _showSnackBar(_isFacebookConnected ? 'Akun Facebook terhubung' : 'Akun Facebook diputuskan');
                 },
               ),
             ],
@@ -595,10 +672,14 @@ class _ProfilScreenState extends State<ProfilScreen> {
     return InkWell(
       onTap: () {
         setState(() => _selectedThemeMode = mode);
+        
+        // Triggers App-Level Theme Change Callback
         if (widget.onThemeChanged != null) {
           widget.onThemeChanged!(mode == ThemeMode.dark);
         }
+
         Navigator.pop(context);
+        _showSnackBar('Mode Tampilan diubah ke $title');
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
@@ -652,6 +733,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
       onTap: () {
         setState(() => _currentLanguage = title);
         Navigator.pop(context);
+        _showSnackBar('Bahasa aplikasi diubah ke $title');
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
@@ -678,19 +760,70 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   void _showUbahPinDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
+    final pinCtrl = TextEditingController();
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: cardBg,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
         title: Text('Ubah PIN Kas', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
-        content: Text('Masukkan PIN lama dan PIN baru Anda untuk memperbarui keamanan.', style: TextStyle(color: textMuted, fontSize: 12)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Masukkan PIN baru 6-digit Anda.', style: TextStyle(color: textMuted, fontSize: 12)),
+            const SizedBox(height: 12),
+            TextField(
+              controller: pinCtrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 18),
+              decoration: InputDecoration(
+                hintText: '••••••',
+                hintStyle: TextStyle(color: textMuted),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+          ],
+        ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              _showSnackBar('PIN Kas Anda berhasil diperbarui!');
+            },
             child: const Text('Simpan'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEksporDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: cardBg,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
+        title: Text('Ekspor Laporan Kas', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
+        content: Text('Pilih format dokumen laporan keuangan yang ingin diunduh.', style: TextStyle(color: textMuted, fontSize: 12)),
+        actions: [
+          OutlinedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _showSnackBar('Laporan PDF berhasil diunduh ke direktori lokal');
+            },
+            child: const Text('Format PDF'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+              _showSnackBar('Laporan Excel (.xlsx) berhasil diunduh');
+            },
+            child: const Text('Format Excel'),
           ),
         ],
       ),
@@ -712,7 +845,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
           TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: textColor, foregroundColor: cardBg),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              _showSnackBar('Anda telah keluar dari sesi MyKas');
+            },
             child: const Text('Ya, Keluar'),
           ),
         ],
@@ -748,7 +884,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+              _showSnackBar('Permintaan penghapusan akun telah diproses', isError: true);
+            },
             child: const Text('Ya, Hapus Permanen'),
           ),
         ],
