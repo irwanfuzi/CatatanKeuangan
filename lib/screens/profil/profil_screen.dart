@@ -25,9 +25,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
   String _userEmail = 'irwan.fuzi@mykas.app';
   String _userPhone = '+62 812-3456-7890';
 
-  // State Keamanan
-  bool _pinLockEnabled = true;
-  bool _fingerprintEnabled = true;
+  // State Keamanan & PIN
+  bool _pinLockEnabled = false;
+  String _savedPin = ''; // Menyimpan PIN 6-digit terenkripsi/lokal
+  bool _fingerprintEnabled = false;
 
   // State Preferensi & Integrasi
   String _currentLanguage = 'Bahasa Indonesia';
@@ -112,7 +113,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
                     const SizedBox(height: 28),
 
-                    // 3. KEAMANAN & AKSES
+                    // 3. KEAMANAN & AKSES (INTERAKTIF)
                     _buildSectionTitle('KEAMANAN & AKSES', textMuted),
                     const SizedBox(height: 10),
                     _buildCardGroup(cardBg, borderColor, [
@@ -120,16 +121,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         icon: Icons.lock_outline_rounded,
                         iconColor: const Color(0xFFA78BFA),
                         title: 'Kunci PIN Aplikasi',
-                        subtitle: 'Minta PIN 6-digit saat aplikasi dibuka',
+                        subtitle: _pinLockEnabled
+                            ? 'PIN 6-digit aktif'
+                            : 'Minta PIN 6-digit saat aplikasi dibuka',
                         value: _pinLockEnabled,
                         textColor: textColor,
                         textMuted: textMuted,
                         onChanged: (val) {
-                          setState(() {
-                            _pinLockEnabled = val;
-                            if (!val) _fingerprintEnabled = false;
-                          });
-                          _showSnackBar(val ? 'Kunci PIN diaktifkan' : 'Kunci PIN dinonaktifkan');
+                          if (val) {
+                            _showBuatPinDialog(context, cardBg, borderColor, textColor, textMuted);
+                          } else {
+                            _showVerifikasiPinNonaktifkanDialog(context, cardBg, borderColor, textColor, textMuted);
+                          }
                         },
                       ),
                       Divider(height: 1, color: borderColor),
@@ -137,14 +140,14 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         icon: Icons.fingerprint_rounded,
                         iconColor: AppTheme.successGreen,
                         title: 'Autentikasi Sidik Jari',
-                        subtitle: 'Gunakan sidik jari untuk akses cepat',
+                        subtitle: 'Gunakan biometrik untuk akses cepat',
                         value: _fingerprintEnabled,
                         textColor: textColor,
                         textMuted: textMuted,
                         onChanged: _pinLockEnabled
                             ? (val) {
                                 setState(() => _fingerprintEnabled = val);
-                                _showSnackBar(val ? 'Sidik jari diaktifkan' : 'Sidik jari dinonaktifkan');
+                                _showSnackBar(val ? 'Biometrik diaktifkan' : 'Biometrik dinonaktifkan');
                               }
                             : null,
                       ),
@@ -278,6 +281,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
       ),
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // HELPER BUILDERS & UI COMPONENTS
+  // ---------------------------------------------------------------------------
 
   Widget _buildSectionTitle(String title, Color textColor) {
     return Text(
@@ -446,6 +453,205 @@ class _ProfilScreenState extends State<ProfilScreen> {
         return 'Mengikuti Sistem OS';
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // DIALOG KELOLA PIN APLIKASI
+  // ---------------------------------------------------------------------------
+
+  void _showBuatPinDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
+    final pinCtrl = TextEditingController();
+    final confirmCtrl = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: cardBg,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
+        title: Text('Aktivasi Kunci PIN', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Buat PIN 6-digit untuk mengamankan data transaksi Anda.', style: TextStyle(color: textMuted, fontSize: 12)),
+            const SizedBox(height: 16),
+            TextField(
+              controller: pinCtrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 18),
+              decoration: InputDecoration(
+                labelText: 'PIN Baru',
+                labelStyle: TextStyle(color: textMuted, letterSpacing: 0),
+                hintText: '••••••',
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: confirmCtrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 18),
+              decoration: InputDecoration(
+                labelText: 'Konfirmasi PIN',
+                labelStyle: TextStyle(color: textMuted, letterSpacing: 0),
+                hintText: '••••••',
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
+            onPressed: () {
+              if (pinCtrl.text.length != 6) {
+                _showSnackBar('PIN harus terdiri dari 6 angka digit', isError: true);
+                return;
+              }
+              if (pinCtrl.text != confirmCtrl.text) {
+                _showSnackBar('Konfirmasi PIN tidak cocok!', isError: true);
+                return;
+              }
+              setState(() {
+                _savedPin = pinCtrl.text;
+                _pinLockEnabled = true;
+              });
+              Navigator.pop(context);
+              _showSnackBar('Kunci PIN 6-digit berhasil diaktifkan!');
+            },
+            child: const Text('Simpan & Aktifkan'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showVerifikasiPinNonaktifkanDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
+    final pinCtrl = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: cardBg,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
+        title: Text('Matikan Kunci PIN', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Masukkan PIN 6-digit saat ini untuk mematikan penguncian.', style: TextStyle(color: textMuted, fontSize: 12)),
+            const SizedBox(height: 16),
+            TextField(
+              controller: pinCtrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 18),
+              decoration: InputDecoration(
+                hintText: '••••••',
+                hintStyle: TextStyle(color: textMuted),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.expenseRed, foregroundColor: Colors.white),
+            onPressed: () {
+              if (pinCtrl.text != _savedPin) {
+                _showSnackBar('PIN yang Anda masukkan salah!', isError: true);
+                return;
+              }
+              setState(() {
+                _pinLockEnabled = false;
+                _fingerprintEnabled = false;
+                _savedPin = '';
+              });
+              Navigator.pop(context);
+              _showSnackBar('Kunci PIN aplikasi telah dinonaktifkan.');
+            },
+            child: const Text('Matikan PIN'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showUbahPinDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
+    final oldPinCtrl = TextEditingController();
+    final newPinCtrl = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: cardBg,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
+        title: Text('Ubah PIN Kas', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: oldPinCtrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 16),
+              decoration: InputDecoration(
+                labelText: 'PIN Lama',
+                labelStyle: TextStyle(color: textMuted, letterSpacing: 0),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: newPinCtrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
+              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 16),
+              decoration: InputDecoration(
+                labelText: 'PIN Baru (6 Digit)',
+                labelStyle: TextStyle(color: textMuted, letterSpacing: 0),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
+            onPressed: () {
+              if (oldPinCtrl.text != _savedPin) {
+                _showSnackBar('PIN Lama tidak sesuai!', isError: true);
+                return;
+              }
+              if (newPinCtrl.text.length != 6) {
+                _showSnackBar('PIN Baru harus 6 digit angka', isError: true);
+                return;
+              }
+              setState(() {
+                _savedPin = newPinCtrl.text;
+              });
+              Navigator.pop(context);
+              _showSnackBar('PIN Kas Anda berhasil diperbarui!');
+            },
+            child: const Text('Simpan PIN Baru'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ---------------------------------------------------------------------------
+  // OTHER MODALS & DIALOGS
+  // ---------------------------------------------------------------------------
 
   void _showThemeModeBottomSheet(
     BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted,
@@ -739,48 +945,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
             if (isSelected) const Icon(Icons.check_circle_rounded, color: AppTheme.brandPrimary, size: 20),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showUbahPinDialog(BuildContext context, Color cardBg, Color borderColor, Color textColor, Color textMuted) {
-    final pinCtrl = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: cardBg,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16), side: BorderSide(color: borderColor)),
-        title: Text('Ubah PIN Kas', style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 16)),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Masukkan PIN baru 6-digit Anda.', style: TextStyle(color: textMuted, fontSize: 12)),
-            const SizedBox(height: 12),
-            TextField(
-              controller: pinCtrl,
-              obscureText: true,
-              keyboardType: TextInputType.number,
-              maxLength: 6,
-              style: TextStyle(color: textColor, letterSpacing: 8, fontSize: 18),
-              decoration: InputDecoration(
-                hintText: '••••••',
-                hintStyle: TextStyle(color: textMuted),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: borderColor)),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text('Batal', style: TextStyle(color: textMuted))),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.brandPrimary, foregroundColor: Colors.white),
-            onPressed: () {
-              Navigator.pop(context);
-              _showSnackBar('PIN Kas Anda berhasil diperbarui!');
-            },
-            child: const Text('Simpan'),
-          ),
-        ],
       ),
     );
   }
