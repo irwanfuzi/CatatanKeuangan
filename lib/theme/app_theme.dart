@@ -40,9 +40,8 @@ onSurfaceVariant: textSecondaryLight,
 outline: borderLight,
 error: expenseRed,
 ),
-fontFamily: 'sans-serif',
 dividerColor: borderLight,
-cardTheme: CardTheme(
+cardTheme: CardThemeData(
 color: cardLight,
 elevation: 0,
 shape: RoundedRectangleBorder(
@@ -68,9 +67,8 @@ onSurfaceVariant: textSecondaryDark,
 outline: borderDark,
 error: expenseRed,
 ),
-fontFamily: 'sans-serif',
 dividerColor: borderDark,
-cardTheme: CardTheme(
+cardTheme: CardThemeData(
 color: cardDark,
 elevation: 0,
 shape: RoundedRectangleBorder(
