@@ -11,10 +11,14 @@ import 'widgets/mk_bottom_nav_bar.dart';
 
 class App extends StatefulWidget {
   final Function(bool isDark)? onThemeChanged;
+  final ThemeMode? currentThemeMode;
+  final ValueChanged<ThemeMode>? onThemeModeChanged;
 
   const App({
     super.key,
     this.onThemeChanged,
+    this.currentThemeMode,
+    this.onThemeModeChanged,
   });
 
   @override
@@ -125,7 +129,8 @@ class _AppState extends State<App> {
           AnalisisScreen(summaryData: _summaryData),
           RiwayatScreen(summaryData: _summaryData),
           ProfilScreen(
-            onThemeChanged: widget.onThemeChanged,
+            currentThemeMode: widget.currentThemeMode ?? (isDark ? ThemeMode.dark : ThemeMode.light),
+            onThemeModeChanged: widget.onThemeModeChanged ?? (_) {},
             onLogout: () {
               setState(() {
                 _currentIndex = 0;
