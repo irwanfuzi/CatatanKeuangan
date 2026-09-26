@@ -90,7 +90,6 @@ class _LockScreenState extends State<LockScreen> {
             ),
             const SizedBox(height: 32),
 
-            // PIN Dots Indicator
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(6, (index) {
@@ -116,9 +115,8 @@ class _LockScreenState extends State<LockScreen> {
             ),
             const Spacer(),
 
-            // Keypad Num
             Container(
-              constraints: const BoxConstraints(maxWidth: 320), // SUDAH DIPERBAIKI (Gunakan BoxConstraints)
+              constraints: const BoxConstraints(maxWidth: 320),
               padding: const EdgeInsets.only(bottom: 24),
               child: Column(
                 children: [
