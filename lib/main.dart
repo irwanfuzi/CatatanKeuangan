@@ -7,6 +7,7 @@ import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   final prefs = await SharedPreferences.getInstance();
   final savedPin = prefs.getString('user_pin') ?? '';
   final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
@@ -50,16 +51,19 @@ class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  // Mendeteksi perpindahan aplikasi ke background/foreground (Aplikasi ditutup/diminimalkan)
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
-      _syncPinStatus();
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden) {
+      _lockAppIfEnabled();
     } else if (state == AppLifecycleState.resumed) {
-      _syncPinStatus();
+      _lockAppIfEnabled();
     }
   }
 
-  Future<void> _syncPinStatus() async {
+  Future<void> _lockAppIfEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     final savedPin = prefs.getString('user_pin') ?? '';
     final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
@@ -68,10 +72,6 @@ class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
       setState(() {
         _currentSavedPin = savedPin;
         _isLocked = true;
-      });
-    } else {
-      setState(() {
-        _isLocked = false;
       });
     }
   }
