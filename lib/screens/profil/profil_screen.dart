@@ -48,11 +48,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
   Future<void> _loadPinState() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _pinLockEnabled = prefs.getBool('pin_enabled') ?? false;
-      _savedPin = prefs.getString('user_pin') ?? '';
-      _fingerprintEnabled = prefs.getBool('fingerprint_enabled') ?? false;
-    });
+    final isPinActive = prefs.getBool('pin_enabled') ?? false;
+    final savedPinCode = prefs.getString('user_pin') ?? '';
+    final isFingerprintActive = prefs.getBool('fingerprint_enabled') ?? false;
+
+    if (mounted) {
+      setState(() {
+        _pinLockEnabled = isPinActive;
+        _savedPin = savedPinCode;
+        // Hanya aktif jika PIN juga aktif
+        _fingerprintEnabled = isPinActive && isFingerprintActive;
+      });
+    }
   }
 
   Future<void> _savePinToLocal(String pin) async {
@@ -191,32 +198,39 @@ class _ProfilScreenState extends State<ProfilScreen> {
                             ? (val) async {
                                 final localAuth = LocalAuthentication();
                                 try {
-                                  final canCheck = await localAuth.canCheckBiometrics;
-                                  final isSupported = await localAuth.isDeviceSupported();
-
-                                  if (!canCheck || !isSupported) {
-                                    _showSnackBar('Perangkat Anda tidak mendukung pemindai biometrik', isError: true);
-                                    return;
-                                  }
+                                  final prefs = await SharedPreferences.getInstance();
 
                                   if (val) {
+                                    final canCheck = await localAuth.canCheckBiometrics;
+                                    final isSupported = await localAuth.isDeviceSupported();
+
+                                    if (!canCheck && !isSupported) {
+                                      _showSnackBar('Perangkat Anda tidak mendukung pemindai biometrik', isError: true);
+                                      return;
+                                    }
+
                                     final authenticated = await localAuth.authenticate(
                                       localizedReason: 'Konfirmasi sidik jari Anda untuk mengaktifkan fitur ini',
-                                      options: const AuthenticationOptions(biometricOnly: true),
+                                      options: const AuthenticationOptions(
+                                        stickyAuth: true,
+                                        biometricOnly: true,
+                                      ),
                                     );
 
                                     if (!authenticated) {
-                                      _showSnackBar('Verifikasi sidik jari gagal', isError: true);
+                                      _showSnackBar('Verifikasi sidik jari dibatalkan/gagal', isError: true);
                                       return;
                                     }
                                   }
 
-                                  final prefs = await SharedPreferences.getInstance();
+                                  // Simpan permanen status fingerprint
                                   await prefs.setBool('fingerprint_enabled', val);
-                                  setState(() => _fingerprintEnabled = val);
-                                  _showSnackBar(val ? 'Autentikasi Sidik Jari diaktifkan' : 'Autentikasi Sidik Jari dinonaktifkan');
+                                  if (mounted) {
+                                    setState(() => _fingerprintEnabled = val);
+                                    _showSnackBar(val ? 'Autentikasi Sidik Jari diaktifkan' : 'Autentikasi Sidik Jari dinonaktifkan');
+                                  }
                                 } catch (e) {
-                                  _showSnackBar('Gagal mengonfigurasi biometrik', isError: true);
+                                  _showSnackBar('Gagal mengonfigurasi biometrik: $e', isError: true);
                                 }
                               }
                             : null,
