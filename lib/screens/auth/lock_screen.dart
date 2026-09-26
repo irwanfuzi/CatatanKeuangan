@@ -20,35 +20,46 @@ class _LockScreenState extends State<LockScreen> {
   final LocalAuthentication _localAuth = LocalAuthentication();
   String _enteredPin = '';
   bool _isError = false;
-  bool _isBiometricAvailable = false;
+  bool _isBiometricEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    _checkBiometricAndAuthenticate();
+    _checkAndPromptBiometrics();
   }
 
-  Future<void> _checkBiometricAndAuthenticate() async {
+  Future<void> _checkAndPromptBiometrics() async {
     final prefs = await SharedPreferences.getInstance();
-    final isBiometricEnabled = prefs.getBool('fingerprint_enabled') ?? false;
+    final isEnabled = prefs.getBool('fingerprint_enabled') ?? false;
 
-    if (!isBiometricEnabled) return;
+    if (mounted) {
+      setState(() {
+        _isBiometricEnabled = isEnabled;
+      });
+    }
 
-    try {
-      final canCheck = await _localAuth.canCheckBiometrics;
-      final isSupported = await _localAuth.isDeviceSupported();
-
-      if (canCheck && isSupported) {
-        setState(() {
-          _isBiometricAvailable = true;
-        });
-        _authenticateWithBiometrics();
-      }
-    } catch (_) {}
+    if (isEnabled) {
+      _authenticateWithBiometrics();
+    }
   }
 
   Future<void> _authenticateWithBiometrics() async {
     try {
+      final canCheck = await _localAuth.canCheckBiometrics;
+      final isSupported = await _localAuth.isDeviceSupported();
+
+      if (!canCheck && !isSupported) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Sensor biometrik/sidik jari tidak terdeteksi di perangkat ini.'),
+              backgroundColor: Color(0xFFEF4444),
+            ),
+          );
+        }
+        return;
+      }
+
       final authenticated = await _localAuth.authenticate(
         localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
         options: const AuthenticationOptions(
@@ -57,16 +68,19 @@ class _LockScreenState extends State<LockScreen> {
         ),
       );
 
-      if (authenticated) {
+      if (authenticated && mounted) {
         widget.onUnlocked();
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Gagal verifikasi biometrik: $e'),
-          backgroundColor: const Color(0xFFEF4444),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Verifikasi biometrik tidak dapat diproses: $e'),
+            backgroundColor: const Color(0xFFEF4444),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
@@ -189,15 +203,21 @@ class _LockScreenState extends State<LockScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        // Tombol Sidik Jari (Selalu Tampil)
                         SizedBox(
                           width: 64,
                           height: 64,
-                          child: _isBiometricAvailable
-                              ? IconButton(
-                                  onPressed: _authenticateWithBiometrics,
-                                  icon: const Icon(Icons.fingerprint_rounded, size: 32, color: Color(0xFF0052FF)),
-                                )
-                              : const SizedBox.shrink(),
+                          child: IconButton(
+                            onPressed: _authenticateWithBiometrics,
+                            icon: Icon(
+                              Icons.fingerprint_rounded,
+                              size: 32,
+                              color: _isBiometricEnabled
+                                  ? const Color(0xFF0052FF)
+                                  : textColor.withOpacity(0.3),
+                            ),
+                            tooltip: 'Buka dengan Sidik Jari',
+                          ),
                         ),
                         _buildKeypadBtn('0', textColor),
                         SizedBox(
