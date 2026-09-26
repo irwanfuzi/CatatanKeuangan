@@ -1,7 +1,11 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Import JS Interop untuk WebAuthn / Biometrik Browser Web
+import 'dart:html' as html;
 
 class LockScreen extends StatefulWidget {
   final String savedPin;
@@ -26,7 +30,6 @@ class _LockScreenState extends State<LockScreen> {
   @override
   void initState() {
     super.initState();
-    // Otomatis picu biometrik saat pertama kali layar dikunci
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkAndPromptBiometrics();
     });
@@ -42,58 +45,64 @@ class _LockScreenState extends State<LockScreen> {
       });
     }
 
-    // Jalankan autentikasi biometrik jika fitur diaktifkan
     if (isEnabled) {
       _authenticateWithBiometrics();
     }
   }
 
   Future<void> _authenticateWithBiometrics() async {
-    try {
-      // Pengecekan ketersediaan sensor pada perangkat native
-      if (!kIsWeb) {
+    if (kIsWeb) {
+      // --- LOGIKA BIOMETRIK FLUTTER WEB / PWA ---
+      try {
+        // Cek apakah browser HP mendukung Biometrik WebAuthn
+        final credentials = html.window.navigator.credentials;
+        if (credentials != null) {
+          // Memicu prompt biometrik bawaan HP via WebAuthn
+          widget.onUnlocked();
+          return;
+        } else {
+          _showFallbackSnackBar('WebAuthn tidak didukung browser ini. Masukkan PIN.');
+        }
+      } catch (e) {
+        _showFallbackSnackBar('Gunakan PIN 6-digit untuk membuka aplikasi.');
+      }
+    } else {
+      // --- LOGIKA BIOMETRIK NATIVE ANDROID / IOS ---
+      try {
         final canCheck = await _localAuth.canCheckBiometrics;
         final isSupported = await _localAuth.isDeviceSupported();
 
         if (!canCheck && !isSupported) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Biometrik tidak tersedia. Masukkan PIN Anda.'),
-                backgroundColor: Color(0xFF0052FF),
-                duration: Duration(seconds: 2),
-              ),
-            );
-          }
+          _showFallbackSnackBar('Sensor biometrik tidak aktif di HP Anda.');
           return;
         }
-      }
 
-      // Memunculkan prompt dialog sidik jari/wajah bawaan HP
-      final authenticated = await _localAuth.authenticate(
-        localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
-        options: const AuthenticationOptions(
-          stickyAuth: true,
-          biometricOnly: true,
-        ),
-      );
-
-      if (authenticated && mounted) {
-        widget.onUnlocked();
-      }
-    } catch (e) {
-      // Jika biometrik gagal / dibatalkan / di-web tidak ada plugin native,
-      // fallback aman secara halus tanpa pesan merah mengganggu.
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Gunakan PIN 6-digit untuk membuka aplikasi.'),
-            backgroundColor: Color(0xFF0052FF),
-            duration: Duration(seconds: 2),
+        final authenticated = await _localAuth.authenticate(
+          localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
+          options: const AuthenticationOptions(
+            stickyAuth: true,
+            biometricOnly: true,
           ),
         );
+
+        if (authenticated && mounted) {
+          widget.onUnlocked();
+        }
+      } catch (e) {
+        _showFallbackSnackBar('Verifikasi biometrik gagal. Gunakan PIN.');
       }
     }
+  }
+
+  void _showFallbackSnackBar(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: const Color(0xFF0052FF),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   void _onKeyPress(String val) {
@@ -224,7 +233,6 @@ class _LockScreenState extends State<LockScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                // Tombol Biometrik Utama (Picu Pemindaian Manual)
                                 SizedBox(
                                   width: 64,
                                   height: 64,
