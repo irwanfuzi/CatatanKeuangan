@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Import JS Interop untuk WebAuthn / Biometrik Browser Web
+// Import untuk WebAuthn (PWA Biometrics)
 import 'dart:html' as html;
 
 class LockScreen extends StatefulWidget {
@@ -30,9 +30,8 @@ class _LockScreenState extends State<LockScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkAndPromptBiometrics();
-    });
+    // Gunakan delay microtask agar konteks UI siap sebelum memanggil biometrik
+    Future.microtask(() => _checkAndPromptBiometrics());
   }
 
   Future<void> _checkAndPromptBiometrics() async {
@@ -52,57 +51,45 @@ class _LockScreenState extends State<LockScreen> {
 
   Future<void> _authenticateWithBiometrics() async {
     if (kIsWeb) {
-      // --- LOGIKA BIOMETRIK FLUTTER WEB / PWA ---
       try {
-        // Cek apakah browser HP mendukung Biometrik WebAuthn
         final credentials = html.window.navigator.credentials;
         if (credentials != null) {
-          // Memicu prompt biometrik bawaan HP via WebAuthn
           widget.onUnlocked();
           return;
-        } else {
-          _showFallbackSnackBar('WebAuthn tidak didukung browser ini. Masukkan PIN.');
         }
-      } catch (e) {
-        _showFallbackSnackBar('Gunakan PIN 6-digit untuk membuka aplikasi.');
-      }
+      } catch (_) {}
     } else {
-      // --- LOGIKA BIOMETRIK NATIVE ANDROID / IOS ---
       try {
         final canCheck = await _localAuth.canCheckBiometrics;
         final isSupported = await _localAuth.isDeviceSupported();
 
-        if (!canCheck && !isSupported) {
-          _showFallbackSnackBar('Sensor biometrik tidak aktif di HP Anda.');
-          return;
-        }
+        if (canCheck || isSupported) {
+          final authenticated = await _localAuth.authenticate(
+            localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
+            options: const AuthenticationOptions(
+              stickyAuth: true,
+              biometricOnly: true,
+            ),
+          );
 
-        final authenticated = await _localAuth.authenticate(
-          localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
-          options: const AuthenticationOptions(
-            stickyAuth: true,
-            biometricOnly: true,
-          ),
-        );
-
-        if (authenticated && mounted) {
-          widget.onUnlocked();
+          if (authenticated && mounted) {
+            widget.onUnlocked();
+            return;
+          }
         }
-      } catch (e) {
-        _showFallbackSnackBar('Verifikasi biometrik gagal. Gunakan PIN.');
-      }
+      } catch (_) {}
     }
-  }
 
-  void _showFallbackSnackBar(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: const Color(0xFF0052FF),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+    // Fallback jika biometrik dibatalkan/gagal
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Gunakan PIN 6-digit untuk membuka aplikasi.'),
+          backgroundColor: Color(0xFF0052FF),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
 
   void _onKeyPress(String val) {
@@ -184,7 +171,7 @@ class _LockScreenState extends State<LockScreen> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Indikator Titik PIN 6 Digit
+                    // Indikator PIN
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(6, (index) {
