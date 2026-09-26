@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LockScreen extends StatefulWidget {
   final String savedPin;
@@ -15,8 +17,58 @@ class LockScreen extends StatefulWidget {
 }
 
 class _LockScreenState extends State<LockScreen> {
+  final LocalAuthentication _localAuth = LocalAuthentication();
   String _enteredPin = '';
   bool _isError = false;
+  bool _isBiometricAvailable = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkBiometricAndAuthenticate();
+  }
+
+  Future<void> _checkBiometricAndAuthenticate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isBiometricEnabled = prefs.getBool('fingerprint_enabled') ?? false;
+
+    if (!isBiometricEnabled) return;
+
+    try {
+      final canCheck = await _localAuth.canCheckBiometrics;
+      final isSupported = await _localAuth.isDeviceSupported();
+
+      if (canCheck && isSupported) {
+        setState(() {
+          _isBiometricAvailable = true;
+        });
+        _authenticateWithBiometrics();
+      }
+    } catch (_) {}
+  }
+
+  Future<void> _authenticateWithBiometrics() async {
+    try {
+      final authenticated = await _localAuth.authenticate(
+        localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
+        options: const AuthenticationOptions(
+          stickyAuth: true,
+          biometricOnly: true,
+        ),
+      );
+
+      if (authenticated) {
+        widget.onUnlocked();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal verifikasi biometrik: $e'),
+          backgroundColor: const Color(0xFFEF4444),
+        ),
+      );
+    }
+  }
 
   void _onKeyPress(String val) {
     if (_enteredPin.length < 6) {
@@ -137,7 +189,16 @@ class _LockScreenState extends State<LockScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        const SizedBox(width: 64, height: 64),
+                        SizedBox(
+                          width: 64,
+                          height: 64,
+                          child: _isBiometricAvailable
+                              ? IconButton(
+                                  onPressed: _authenticateWithBiometrics,
+                                  icon: const Icon(Icons.fingerprint_rounded, size: 32, color: Color(0xFF0052FF)),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
                         _buildKeypadBtn('0', textColor),
                         SizedBox(
                           width: 64,
