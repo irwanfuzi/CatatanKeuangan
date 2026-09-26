@@ -1,115 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app.dart';
 import 'screens/auth/lock_screen.dart';
+import 'screens/profil/profil_screen.dart';
 import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  final prefs = await SharedPreferences.getInstance();
-  final savedPin = prefs.getString('user_pin') ?? '';
-  final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
-
-  runApp(MyKasApp(
-    initialSavedPin: savedPin,
-    initialIsPinLocked: isPinEnabled && savedPin.isNotEmpty,
-  ));
+  runApp(const MyKasApp());
 }
 
 class MyKasApp extends StatefulWidget {
-  final String initialSavedPin;
-  final bool initialIsPinLocked;
-
-  const MyKasApp({
-    super.key,
-    required this.initialSavedPin,
-    required this.initialIsPinLocked,
-  });
+  const MyKasApp({super.key});
 
   @override
   State<MyKasApp> createState() => _MyKasAppState();
 }
 
-class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
-  ThemeMode _themeMode = ThemeMode.dark;
-  late bool _isLocked;
-  String _currentSavedPin = '';
+class _MyKasAppState extends State<MyKasApp> {
+  ThemeMode _themeMode = ThemeMode.system;
+  bool _isLocked = true;
+  bool _hasPinSet = false;
+  String _savedPin = '';
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _isLocked = widget.initialIsPinLocked;
-    _currentSavedPin = widget.initialSavedPin;
+    _checkLockStatus();
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  // Mendeteksi perpindahan aplikasi ke background/foreground (Aplikasi ditutup/diminimalkan)
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.hidden) {
-      _lockAppIfEnabled();
-    } else if (state == AppLifecycleState.resumed) {
-      _lockAppIfEnabled();
-    }
-  }
-
-  Future<void> _lockAppIfEnabled() async {
+  Future<void> _checkLockStatus() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedPin = prefs.getString('user_pin') ?? '';
-    final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
+    final pinEnabled = prefs.getBool('pin_enabled') ?? false;
+    final userPin = prefs.getString('user_pin') ?? '';
 
-    if (isPinEnabled && savedPin.isNotEmpty) {
-      setState(() {
-        _currentSavedPin = savedPin;
-        _isLocked = true;
-      });
-    }
-  }
-
-  void _updateThemeMode(ThemeMode newMode) {
     setState(() {
-      _themeMode = newMode;
+      _hasPinSet = pinEnabled && userPin.isNotEmpty;
+      _savedPin = userPin;
+      _isLocked = _hasPinSet; // Kunci jika PIN aktif
     });
   }
 
-  void _handleThemeChange(bool isDark) {
+  void _unlockApp() {
     setState(() {
-      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+      _isLocked = false;
+    });
+  }
+
+  void _updatePinState(bool enabled, String newPin) {
+    setState(() {
+      _hasPinSet = enabled;
+      _savedPin = newPin;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'MyKas - Own Your Money',
+      title: 'MyKas',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
-      home: _isLocked
+      home: _isLocked && _hasPinSet
           ? LockScreen(
-              savedPin: _currentSavedPin,
-              onUnlocked: () {
-                setState(() {
-                  _isLocked = false;
-                });
-              },
+              savedPin: _savedPin,
+              onUnlocked: _unlockApp,
             )
-          : App(
-              onThemeChanged: _handleThemeChange,
+          : MainNavigationWrapper(
               currentThemeMode: _themeMode,
-              onThemeModeChanged: _updateThemeMode,
+              onThemeModeChanged: (mode) => setState(() => _themeMode = mode),
+              onPinStateChanged: _updatePinState,
             ),
+    );
+  }
+}
+
+class MainNavigationWrapper extends StatefulWidget {
+  final ThemeMode currentThemeMode;
+  final ValueChanged<ThemeMode> onThemeModeChanged;
+  final Function(bool enabled, String newPin) onPinStateChanged;
+
+  const MainNavigationWrapper({
+    super.key,
+    required this.currentThemeMode,
+    required this.onThemeModeChanged,
+    required this.onPinStateChanged,
+  });
+
+  @override
+  State<MainNavigationWrapper> createState() => _MainNavigationWrapperState();
+}
+
+class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
+  int _currentIndex = 4; // Default ke tab Profil
+
+  @override
+  Widget build(BuildContext context) {
+    final screens = [
+      const Center(child: Text('Beranda')),
+      const Center(child: Text('Analisis')),
+      const Center(child: Text('Catat')),
+      const Center(child: Text('Riwayat')),
+      ProfilScreen(
+        currentThemeMode: widget.currentThemeMode,
+        onThemeModeChanged: widget.onThemeModeChanged,
+        onPinStateChanged: widget.onPinStateChanged,
+      ),
+    ];
+
+    return Scaffold(
+      body: IndexedStack(
+        index: _currentIndex,
+        children: screens,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.grid_view_rounded), label: 'Beranda'),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart_rounded), label: 'Analisis'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline_rounded), label: 'Catat'),
+          BottomNavigationBarItem(icon: Icon(Icons.history_rounded), label: 'Riwayat'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline_rounded), label: 'Profil'),
+        ],
+      ),
     );
   }
 }
