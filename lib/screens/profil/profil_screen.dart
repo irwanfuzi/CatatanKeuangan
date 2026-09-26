@@ -8,12 +8,14 @@ class ProfilScreen extends StatefulWidget {
   final ThemeMode currentThemeMode;
   final ValueChanged<ThemeMode> onThemeModeChanged;
   final VoidCallback? onLogout;
+  final Function(bool enabled, String newPin)? onPinStateChanged;
 
   const ProfilScreen({
     super.key,
     required this.currentThemeMode,
     required this.onThemeModeChanged,
     this.onLogout,
+    this.onPinStateChanged,
   });
 
   @override
@@ -56,10 +58,13 @@ class _ProfilScreenState extends State<ProfilScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('user_pin', pin);
     await prefs.setBool('pin_enabled', true);
-    setState(() {
-      _savedPin = pin;
-      _pinLockEnabled = true;
-    });
+    if (mounted) {
+      setState(() {
+        _savedPin = pin;
+        _pinLockEnabled = true;
+      });
+      widget.onPinStateChanged?.call(true, pin);
+    }
   }
 
   Future<void> _removePinFromLocal() async {
@@ -67,11 +72,14 @@ class _ProfilScreenState extends State<ProfilScreen> {
     await prefs.setBool('pin_enabled', false);
     await prefs.remove('user_pin');
     await prefs.setBool('fingerprint_enabled', false);
-    setState(() {
-      _pinLockEnabled = false;
-      _fingerprintEnabled = false;
-      _savedPin = '';
-    });
+    if (mounted) {
+      setState(() {
+        _pinLockEnabled = false;
+        _fingerprintEnabled = false;
+        _savedPin = '';
+      });
+      widget.onPinStateChanged?.call(false, '');
+    }
   }
 
   void _showSnackBar(String message, {bool isError = false}) {
