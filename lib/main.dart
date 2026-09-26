@@ -50,15 +50,16 @@ class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // Deteksi ketika aplikasi dibuka kembali dari background/diminimalkan
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _checkPinStatusOnResume();
+    if (state == AppLifecycleState.paused || state == AppLifecycleState.inactive) {
+      _syncPinStatus();
+    } else if (state == AppLifecycleState.resumed) {
+      _syncPinStatus();
     }
   }
 
-  Future<void> _checkPinStatusOnResume() async {
+  Future<void> _syncPinStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final savedPin = prefs.getString('user_pin') ?? '';
     final isPinEnabled = prefs.getBool('pin_enabled') ?? false;
@@ -67,6 +68,10 @@ class _MyKasAppState extends State<MyKasApp> with WidgetsBindingObserver {
       setState(() {
         _currentSavedPin = savedPin;
         _isLocked = true;
+      });
+    } else {
+      setState(() {
+        _isLocked = false;
       });
     }
   }
