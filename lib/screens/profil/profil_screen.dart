@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../theme/app_theme.dart';
@@ -188,10 +189,35 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         textMuted: textMuted,
                         onChanged: _pinLockEnabled
                             ? (val) async {
-                                final prefs = await SharedPreferences.getInstance();
-                                await prefs.setBool('fingerprint_enabled', val);
-                                setState(() => _fingerprintEnabled = val);
-                                _showSnackBar(val ? 'Biometrik diaktifkan' : 'Biometrik dinonaktifkan');
+                                final localAuth = LocalAuthentication();
+                                try {
+                                  final canCheck = await localAuth.canCheckBiometrics;
+                                  final isSupported = await localAuth.isDeviceSupported();
+
+                                  if (!canCheck || !isSupported) {
+                                    _showSnackBar('Perangkat Anda tidak mendukung pemindai biometrik', isError: true);
+                                    return;
+                                  }
+
+                                  if (val) {
+                                    final authenticated = await localAuth.authenticate(
+                                      localizedReason: 'Konfirmasi sidik jari Anda untuk mengaktifkan fitur ini',
+                                      options: const AuthenticationOptions(biometricOnly: true),
+                                    );
+
+                                    if (!authenticated) {
+                                      _showSnackBar('Verifikasi sidik jari gagal', isError: true);
+                                      return;
+                                    }
+                                  }
+
+                                  final prefs = await SharedPreferences.getInstance();
+                                  await prefs.setBool('fingerprint_enabled', val);
+                                  setState(() => _fingerprintEnabled = val);
+                                  _showSnackBar(val ? 'Autentikasi Sidik Jari diaktifkan' : 'Autentikasi Sidik Jari dinonaktifkan');
+                                } catch (e) {
+                                  _showSnackBar('Gagal mengonfigurasi biometrik', isError: true);
+                                }
                               }
                             : null,
                       ),
