@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Import untuk WebAuthn (PWA Biometrics)
+// Untuk biometrik di Web/PWA
 import 'dart:html' as html;
 
 class LockScreen extends StatefulWidget {
@@ -30,8 +30,10 @@ class _LockScreenState extends State<LockScreen> {
   @override
   void initState() {
     super.initState();
-    // Gunakan delay microtask agar konteks UI siap sebelum memanggil biometrik
-    Future.microtask(() => _checkAndPromptBiometrics());
+    // Panggil biometrik saat tampilan sudah siap
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndPromptBiometrics();
+    });
   }
 
   Future<void> _checkAndPromptBiometrics() async {
@@ -51,6 +53,7 @@ class _LockScreenState extends State<LockScreen> {
 
   Future<void> _authenticateWithBiometrics() async {
     if (kIsWeb) {
+      // --- LOGIKA BIOMETRIK FLUTTER WEB / PWA ---
       try {
         final credentials = html.window.navigator.credentials;
         if (credentials != null) {
@@ -59,6 +62,7 @@ class _LockScreenState extends State<LockScreen> {
         }
       } catch (_) {}
     } else {
+      // --- LOGIKA BIOMETRIK NATIVE ANDROID / IOS ---
       try {
         final canCheck = await _localAuth.canCheckBiometrics;
         final isSupported = await _localAuth.isDeviceSupported();
@@ -78,17 +82,6 @@ class _LockScreenState extends State<LockScreen> {
           }
         }
       } catch (_) {}
-    }
-
-    // Fallback jika biometrik dibatalkan/gagal
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Gunakan PIN 6-digit untuk membuka aplikasi.'),
-          backgroundColor: Color(0xFF0052FF),
-          duration: Duration(seconds: 2),
-        ),
-      );
     }
   }
 
