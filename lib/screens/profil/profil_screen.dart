@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:local_auth/local_auth.dart';
@@ -56,7 +57,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
       setState(() {
         _pinLockEnabled = isPinActive;
         _savedPin = savedPinCode;
-        // Hanya aktif jika PIN juga aktif
         _fingerprintEnabled = isPinActive && isFingerprintActive;
       });
     }
@@ -185,56 +185,73 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           }
                         },
                       ),
-                      Divider(height: 1, color: borderColor),
-                      _buildSwitchTile(
-                        icon: Icons.fingerprint_rounded,
-                        iconColor: AppTheme.successGreen,
-                        title: 'Autentikasi Sidik Jari',
-                        subtitle: 'Gunakan biometrik untuk akses cepat',
-                        value: _fingerprintEnabled,
-                        textColor: textColor,
-                        textMuted: textMuted,
-                        onChanged: _pinLockEnabled
-                            ? (val) async {
-                                final localAuth = LocalAuthentication();
-                                try {
+                      
+                      // Biometrik disembunyikan/disesuaikan jika diakses dari Desktop Web Dashboard
+                      if (!isDesktop) ...[
+                        Divider(height: 1, color: borderColor),
+                        _buildSwitchTile(
+                          icon: Icons.fingerprint_rounded,
+                          iconColor: AppTheme.successGreen,
+                          title: 'Autentikasi Sidik Jari',
+                          subtitle: kIsWeb
+                              ? 'Fitur khusus aplikasi HP Native / PWA Mobile'
+                              : 'Gunakan biometrik untuk akses cepat',
+                          value: _fingerprintEnabled,
+                          textColor: textColor,
+                          textMuted: textMuted,
+                          onChanged: _pinLockEnabled
+                              ? (val) async {
                                   final prefs = await SharedPreferences.getInstance();
 
-                                  if (val) {
-                                    final canCheck = await localAuth.canCheckBiometrics;
-                                    final isSupported = await localAuth.isDeviceSupported();
-
-                                    if (!canCheck && !isSupported) {
-                                      _showSnackBar('Perangkat Anda tidak mendukung pemindai biometrik', isError: true);
-                                      return;
-                                    }
-
-                                    final authenticated = await localAuth.authenticate(
-                                      localizedReason: 'Konfirmasi sidik jari Anda untuk mengaktifkan fitur ini',
-                                      options: const AuthenticationOptions(
-                                        stickyAuth: true,
-                                        biometricOnly: true,
-                                      ),
-                                    );
-
-                                    if (!authenticated) {
-                                      _showSnackBar('Verifikasi sidik jari dibatalkan/gagal', isError: true);
-                                      return;
-                                    }
-                                  }
-
-                                  // Simpan permanen status fingerprint
-                                  await prefs.setBool('fingerprint_enabled', val);
-                                  if (mounted) {
+                                  if (kIsWeb) {
+                                    // PWA Mobile Mode
+                                    await prefs.setBool('fingerprint_enabled', val);
                                     setState(() => _fingerprintEnabled = val);
-                                    _showSnackBar(val ? 'Autentikasi Sidik Jari diaktifkan' : 'Autentikasi Sidik Jari dinonaktifkan');
+                                    _showSnackBar(val
+                                        ? 'Biometrik diaktifkan untuk perangkat mobile Anda'
+                                        : 'Biometrik dinonaktifkan');
+                                    return;
                                   }
-                                } catch (e) {
-                                  _showSnackBar('Gagal mengonfigurasi biometrik: $e', isError: true);
+
+                                  // Native Mobile App Mode
+                                  final localAuth = LocalAuthentication();
+                                  try {
+                                    if (val) {
+                                      final canCheck = await localAuth.canCheckBiometrics;
+                                      final isSupported = await localAuth.isDeviceSupported();
+
+                                      if (!canCheck && !isSupported) {
+                                        _showSnackBar('Perangkat Anda tidak mendukung pemindai biometrik', isError: true);
+                                        return;
+                                      }
+
+                                      final authenticated = await localAuth.authenticate(
+                                        localizedReason: 'Konfirmasi sidik jari Anda untuk mengaktifkan fitur ini',
+                                        options: const AuthenticationOptions(
+                                          stickyAuth: true,
+                                          biometricOnly: true,
+                                        ),
+                                      );
+
+                                      if (!authenticated) {
+                                        _showSnackBar('Verifikasi sidik jari dibatalkan/gagal', isError: true);
+                                        return;
+                                      }
+                                    }
+
+                                    await prefs.setBool('fingerprint_enabled', val);
+                                    if (mounted) {
+                                      setState(() => _fingerprintEnabled = val);
+                                      _showSnackBar(val ? 'Autentikasi Sidik Jari diaktifkan' : 'Autentikasi Sidik Jari dinonaktifkan');
+                                    }
+                                  } catch (e) {
+                                    _showSnackBar('Gagal mengonfigurasi biometrik native', isError: true);
+                                  }
                                 }
-                              }
-                            : null,
-                      ),
+                              : null,
+                        ),
+                      ],
+
                       if (_pinLockEnabled) ...[
                         Divider(height: 1, color: borderColor),
                         _buildListTile(
