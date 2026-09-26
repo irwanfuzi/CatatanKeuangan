@@ -26,7 +26,10 @@ class _LockScreenState extends State<LockScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAndPromptBiometrics();
+    // Otomatis picu biometrik saat pertama kali layar dikunci
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndPromptBiometrics();
+    });
   }
 
   Future<void> _checkAndPromptBiometrics() async {
@@ -39,44 +42,34 @@ class _LockScreenState extends State<LockScreen> {
       });
     }
 
-    // Jalankan pemindaian otomatis HANYA di Flutter Native Mobile (Bukan Web Desktop / PWA Web)
-    if (isEnabled && !kIsWeb) {
+    // Jalankan autentikasi biometrik jika fitur diaktifkan
+    if (isEnabled) {
       _authenticateWithBiometrics();
     }
   }
 
   Future<void> _authenticateWithBiometrics() async {
-    // Jika diakses dari Web (PWA Mobile atau Desktop Dashboard Web)
-    if (kIsWeb) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Sesi Web diakses. Silakan gunakan PIN 6-digit untuk membuka.'),
-            backgroundColor: Color(0xFF0052FF),
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
-      return;
-    }
-
-    // Logika khusus Flutter Native Mobile (Android / iOS App Build)
     try {
-      final canCheck = await _localAuth.canCheckBiometrics;
-      final isSupported = await _localAuth.isDeviceSupported();
+      // Pengecekan ketersediaan sensor pada perangkat native
+      if (!kIsWeb) {
+        final canCheck = await _localAuth.canCheckBiometrics;
+        final isSupported = await _localAuth.isDeviceSupported();
 
-      if (!canCheck && !isSupported) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Sensor biometrik tidak tersedia pada perangkat ini.'),
-              backgroundColor: Color(0xFFEF4444),
-            ),
-          );
+        if (!canCheck && !isSupported) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Biometrik tidak tersedia. Masukkan PIN Anda.'),
+                backgroundColor: Color(0xFF0052FF),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+          return;
         }
-        return;
       }
 
+      // Memunculkan prompt dialog sidik jari/wajah bawaan HP
       final authenticated = await _localAuth.authenticate(
         localizedReason: 'Pindai sidik jari Anda untuk membuka MyKas',
         options: const AuthenticationOptions(
@@ -89,11 +82,13 @@ class _LockScreenState extends State<LockScreen> {
         widget.onUnlocked();
       }
     } catch (e) {
+      // Jika biometrik gagal / dibatalkan / di-web tidak ada plugin native,
+      // fallback aman secara halus tanpa pesan merah mengganggu.
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Verifikasi biometrik tidak dapat diproses. Gunakan PIN.'),
-            backgroundColor: Color(0xFFEF4444),
+            content: Text('Gunakan PIN 6-digit untuk membuka aplikasi.'),
+            backgroundColor: Color(0xFF0052FF),
             duration: Duration(seconds: 2),
           ),
         );
@@ -152,7 +147,6 @@ class _LockScreenState extends State<LockScreen> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Cek apakah tampilan dibuka dari Web Desktop Dashboard (Lebar > 768px)
             final isDesktopWeb = constraints.maxWidth > 768;
 
             return Center(
@@ -173,9 +167,7 @@ class _LockScreenState extends State<LockScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      isDesktopWeb
-                          ? 'Dashboard Web dikunci untuk keamanan data Anda'
-                          : 'Aplikasi dikunci untuk keamanan data Anda',
+                      'Aplikasi dikunci untuk keamanan data Anda',
                       style: TextStyle(
                         fontSize: 13,
                         color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF64748B),
@@ -183,7 +175,7 @@ class _LockScreenState extends State<LockScreen> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Indikator 6 Digit PIN
+                    // Indikator Titik PIN 6 Digit
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(6, (index) {
@@ -232,23 +224,21 @@ class _LockScreenState extends State<LockScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                // Tombol Sidik Jari HANYA Tampil jika BUKAN Web Desktop Dashboard
+                                // Tombol Biometrik Utama (Picu Pemindaian Manual)
                                 SizedBox(
                                   width: 64,
                                   height: 64,
-                                  child: !isDesktopWeb
-                                      ? IconButton(
-                                          onPressed: _authenticateWithBiometrics,
-                                          icon: Icon(
-                                            Icons.fingerprint_rounded,
-                                            size: 32,
-                                            color: _isBiometricEnabled
-                                                ? const Color(0xFF0052FF)
-                                                : textColor.withOpacity(0.3),
-                                          ),
-                                          tooltip: 'Buka dengan Sidik Jari',
-                                        )
-                                      : const SizedBox.shrink(),
+                                  child: IconButton(
+                                    onPressed: _authenticateWithBiometrics,
+                                    icon: Icon(
+                                      Icons.fingerprint_rounded,
+                                      size: 32,
+                                      color: _isBiometricEnabled
+                                          ? const Color(0xFF0052FF)
+                                          : textColor.withOpacity(0.3),
+                                    ),
+                                    tooltip: 'Buka dengan Biometrik',
+                                  ),
                                 ),
                                 _buildKeypadBtn('0', textColor),
                                 SizedBox(
